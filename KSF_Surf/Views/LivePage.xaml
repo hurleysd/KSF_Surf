@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.LivePage"
+             Title="Live"
+             x:Name="LiveTab"
+             Style="{StaticResource ContentPageStyle}">
+
+    <ScrollView BackgroundColor="{DynamicResource ThemeBackGroundColor}">
+        <StackLayout Padding="10">
+            <Label Text="KSFClan Servers"
+               FontSize="26"
+               VerticalOptions="Start"
+               HorizontalOptions="Start"/>
+
+            <CarouselView x:Name="ServersCarousel"
+                      CurrentItemChanged="ServersCarousel_CurrentItemChanged"
+                      BackgroundColor="LightGray"
+                          HeightRequest="195">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding .}"
+                                   FontSize="20" 
+                                   TextColor="Black"/>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <StackLayout Grid.Row="1" Orientation="Horizontal" Spacing="3" HorizontalOptions="Center">
+                <Label x:Name="CSSServersLabel" 
+                       Text="CS:S"
+                       FontSize="22"
+                       TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CSSLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label x:Name="CSGOServersLabel" 
+                       Text="CS:GO"
+                       FontSize="22"
+                       TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CSGOLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <Label Text="Twitch Streams"               
+                   FontSize="26"
+                   HorizontalOptions="Start"/>
+
+            <StackLayout>
+                <Grid>
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
