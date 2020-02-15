@@ -53,10 +53,19 @@
                    FontSize="26"
                    HorizontalOptions="Start"/>
 
-            <StackLayout>
-                <Grid>
-                </Grid>
-            </StackLayout>
+            <ListView x:Name ="StreamsList" 
+                      BackgroundColor="LightGray"
+                      ItemsSource="{Binding Streams}"
+                      RowHeight="45">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ImageCell Text="{Binding user_name}" 
+                                   ImageSource="{Binding thumbnail_url}"
+                                   Detail="{Binding title}"
+                                   TextColor="Black"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </StackLayout>
     </ScrollView>
