@@ -16,20 +16,35 @@
                VerticalOptions="Start"
                HorizontalOptions="Start"/>
 
-            <CarouselView x:Name="ServersCarousel"
+            <Frame HasShadow="False" 
+                   CornerRadius="10" 
+                   Padding="5" 
+                   BackgroundColor="LightGray">
+                <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      BackgroundColor="LightGray"
-                          HeightRequest="195">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding .}"
-                                   FontSize="20" 
-                                   TextColor="Black"/>
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
-
-            <StackLayout Grid.Row="1" Orientation="Horizontal" Spacing="3" HorizontalOptions="Center">
+                      HeightRequest="195">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" 
+                                         Grid.Row="1" >
+                                <Label Text="{Binding server_names}" 
+                                       TextColor ="Black" FontSize ="20" 
+                                       HorizontalOptions="Start" 
+                                       WidthRequest="120"/>
+                                <Label Text="{Binding maps}" 
+                                       TextColor ="Black" 
+                                       FontSize ="20" 
+                                       HorizontalOptions="EndAndExpand"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </Frame>
+            
+            <StackLayout Grid.Row="1" 
+                         Orientation="Horizontal" 
+                         Spacing="3" 
+                         HorizontalOptions="Center">
                 <Label x:Name="CSSServersLabel" 
                        Text="CS:S"
                        FontSize="22"
@@ -53,10 +68,10 @@
                    FontSize="26"
                    HorizontalOptions="Start"/>
 
-            <ListView x:Name ="StreamsList" 
-                      BackgroundColor="LightGray"
+            <ListView x:Name ="StreamsList"
                       ItemsSource="{Binding Streams}"
-                      RowHeight="45">
+                      RowHeight="45"
+                      BackgroundColor="LightGray">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ImageCell Text="{Binding user_name}" 

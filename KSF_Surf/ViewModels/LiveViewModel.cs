@@ -5,18 +5,71 @@ using Xamarin.Forms;
 using RestSharp;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using KSF_Surf.Models;
+
 
 namespace KSF_Surf.ViewModels
 {
     public class LiveViewModel : BaseViewModel
     {
 
-        internal RootObject streams;
+        internal TwitchRootObject streams;
+        internal KSFRootObject css_servers;
+        internal KSFRootObject css100t_servers;
+        internal KSFRootObject csgo_servers;
 
         public LiveViewModel()
         {
             Title = "Live";
-            twitchConnect();
+            ksfConnect();
+            twitchConnect();       
+        }
+
+        private void ksfConnect()
+        {
+            var client = new RestClient();
+
+            // CSS server list ---------------------------------------------------------------------
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css/servers/list");
+
+            var request = new RestRequest();
+            request.Method = Method.GET;
+            request.RequestFormat = DataFormat.Json;
+
+            IRestResponse response = client.Execute(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                css_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+            }
+
+            // CSS100T server list ------------------------------------------------------------------
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css100t/servers/list");
+
+            request = new RestRequest();
+            request.Method = Method.GET;
+            request.RequestFormat = DataFormat.Json;
+
+            response = client.Execute(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                css100t_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+            }
+
+            // CSGO server list ------------------------------------------------------------------
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/csgo/servers/list");
+
+            request = new RestRequest();
+            request.Method = Method.GET;
+            request.RequestFormat = DataFormat.Json;
+
+            response = client.Execute(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                csgo_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+            }
         }
 
         private void twitchConnect()
@@ -35,35 +88,8 @@ namespace KSF_Surf.ViewModels
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                streams = JsonConvert.DeserializeObject<RootObject>(response.Content);
+                streams = JsonConvert.DeserializeObject<TwitchRootObject>(response.Content);
             } 
-        }
-
-        // Classes for Twitch API response JSON deserialization
-        public class Datum
-        {
-            public string id { get; set; }
-            public string user_id { get; set; }
-            public string user_name { get; set; }
-            public string game_id { get; set; }
-            public string type { get; set; }
-            public string title { get; set; }
-            public int viewer_count { get; set; }
-            public DateTime started_at { get; set; }
-            public string language { get; set; }
-            public string thumbnail_url { get; set; }
-            public List<string> tag_ids { get; set; }
-        }
-
-        public class Pagination
-        {
-            public string cursor { get; set; }
-        }
-
-        public class RootObject
-        {
-            public List<Datum> data { get; set; }
-            public Pagination pagination { get; set; }
         }
     }
 }

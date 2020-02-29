@@ -25,18 +25,12 @@ namespace KSF_Surf.Views
             liveModel = new LiveViewModel();
 
             InitializeComponent();
-            LayoutDesign();
+            LayoutDesign(); 
         }
 
         private void LayoutDesign()
         {
-            string cssServers = " Surf\t\t\t\t\t\t" + "map1" + "\n Europe\t\t\t\t\t" + "map2" + "\n Australia\t\t\t\t\t" + "map3" + "\n EUTop500\t\t\t\t" + "map4"
-                                + "\n Expert\t\t\t\t\t" + "map5" + "\n Veteran\t\t\t\t\t" + "map6" + "\n 100T US\t\t\t\t\t" + "map7" + "\n 100T EU\t\t\t\t\t" + "map8";
-
-            string csgoServers = " EasySurf\t\t\t\t\t" + "map1" + "\n AllSurf\t\t\t\t\t" + "map2" + "\n ExpertSurf\t\t\t\t" + "map3" + "\n Europe\t\t\t\t\t" + "map4";
-
-            var servers = new List<string> { cssServers, csgoServers };
-
+            List<ServersList> servers = LoadServers();
             ServersCarousel.ItemsSource = servers;
 
             LoadStreams();
@@ -66,28 +60,119 @@ namespace KSF_Surf.Views
             ServersCarousel.Position = 1;
         }
 
-        ObservableCollection<LiveViewModel.Datum> streamData;
-        private ObservableCollection<LiveViewModel.Datum> Streams { get { return streamData; } }
+
+        // Loading KSF Server List ---------------------------------------------------------------------------------------------------------------------
+
+        ObservableCollection<KSFDatum> css_serverData;
+        ObservableCollection<KSFDatum> css100t_serverData;
+        ObservableCollection<KSFDatum> csgo_serverData;
+        private ObservableCollection<KSFDatum> CSS_Servers { get { return css_serverData; } }
+        private ObservableCollection<KSFDatum> CSS100T_Servers { get { return css100t_serverData; } }
+        private ObservableCollection<KSFDatum> CSGO_Servers { get { return csgo_serverData; } }
+
+        private List<ServersList> LoadServers()
+        {
+            List<ServersList> servers= new List<ServersList>();
+            try
+            {
+                css_serverData = new ObservableCollection<KSFDatum>(liveModel.css_servers.data);
+                css100t_serverData = new ObservableCollection<KSFDatum>(liveModel.css100t_servers.data);
+                csgo_serverData = new ObservableCollection<KSFDatum>(liveModel.csgo_servers.data);
+            }
+            catch (NullReferenceException nullref)
+            {
+                // no handling (query failed)
+                Console.Error.WriteLine("KSF Server Request returned null");
+            }
+            finally
+            {
+
+                string cssServerString = "";
+                string cssMapString = "";
+                foreach (KSFDatum datum in css_serverData) // Adding CSS servers to list of Strings
+                {
+                    if (datum.surftimer_servername.Contains("test")) continue;
+                    cssServerString += datum.surftimer_servername + "\n";
+
+                    string map = datum.currentmap;
+                    if (map.Length > 25)
+                    {
+                        map = map.Substring(0, 22) + "...";
+                    }
+                    cssMapString += map + "\n";
+                }
+                
+                foreach (KSFDatum datum in css100t_serverData) // Adding CSS100T servers to list of Strings
+                {
+                    if (datum.surftimer_servername.Contains("TEST")) continue;
+                    cssServerString += datum.surftimer_servername + "\n";
+
+                    string map = datum.currentmap;
+                    if (map.Length > 25)
+                    {
+                        map = map.Substring(0, 22) + "...";
+                    }
+                    cssMapString += map + "\n";
+                }
+                ServersList cssServersList = new ServersList { game = "css" };
+                cssServersList.server_names = cssServerString;
+                cssServersList.maps = cssMapString;
+
+                string csgoServerString = "";
+                string csgoMapString = "";
+                foreach (KSFDatum datum in csgo_serverData) // Adding CSGO servers to list of Strings
+                {
+                    if (datum.surftimer_servername.Contains("TEST")) continue;
+                    if (datum.surftimer_servername.Contains("Europe")) // "EasySurf Europe" is too long
+                    {
+                        csgoServerString += "Europe\n";
+                    }
+                    else
+                    {
+                        csgoServerString += datum.surftimer_servername + "\n";
+                    }
+
+                    string map = datum.currentmap;
+                    if (map.Length > 25)
+                    {
+                        map = map.Substring(0, 22) + "...";
+                    }
+                    csgoMapString += map + "\n";
+                }
+                ServersList csgoServersList = new ServersList { game = "csgo" };
+                csgoServersList.server_names = csgoServerString;
+                csgoServersList.maps = csgoMapString;
+
+                servers.Add(cssServersList);
+                servers.Add(csgoServersList);
+            }
+            return servers;
+        }
+
+        // Loading Twitch Streams ----------------------------------------------------------------------------------------------------------------------
+
+        ObservableCollection<TwitchDatum> streamData;
+        private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
 
         private void LoadStreams()
         {
             try
             {
-                streamData = new ObservableCollection<LiveViewModel.Datum>(liveModel.streams.data);
+                streamData = new ObservableCollection<TwitchDatum>(liveModel.streams.data);
             }
             catch (NullReferenceException nullref)
             {
                 // no handling (no streams online or Twitch query failed)
-                streamData = new ObservableCollection<LiveViewModel.Datum>() { new LiveViewModel.Datum { user_name = "(No streams online)" } };
+                streamData = new ObservableCollection<TwitchDatum>() { new TwitchDatum { user_name = "(No streams online)" } };
             }
             finally
             {
-                foreach (LiveViewModel.Datum datum in streamData) // applying image heights to stream thumbnails
+                foreach (TwitchDatum datum in streamData) // applying image heights to stream thumbnails
                 {
                     if (datum.thumbnail_url != null)
                     {
                         datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "75");
-                        datum.thumbnail_url = datum.thumbnail_url.Replace("{width}", "75");
+                        datum.thumbnail_url = datum.thumbnail_url.Replace("{width}", "125");
                     }
                 }
                 StreamsList.ItemsSource = streamData;
