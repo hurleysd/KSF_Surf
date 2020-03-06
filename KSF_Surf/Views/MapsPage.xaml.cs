@@ -66,15 +66,7 @@ namespace KSF_Surf.Views
                 Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
                 maps_list.Add("No maps found (error in KSF request)");
             }
-            finally
-            {
-            }
             return maps_list;
-        }
-
-        private void MapsSearchBar_Focused(object sender, FocusEventArgs e)
-        {
-
         }
     }
 }
