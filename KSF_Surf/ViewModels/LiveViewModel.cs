@@ -74,7 +74,7 @@ namespace KSF_Surf.ViewModels
 
         private void twitchConnect()
         {
-            string clientID = "iz4y3mwgjedffv1t2oifwuvn5n6iyr"; // HIDE!!!!
+            string clientID = ""; // HIDE!!!!
 
             var client = new RestClient();
             client.BaseUrl = new Uri("https://api.twitch.tv/helix/streams?first=6"); // TODO: change to actual surf streams (probably though a following list?)
