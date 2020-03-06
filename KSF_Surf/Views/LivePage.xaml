@@ -16,30 +16,30 @@
                VerticalOptions="Start"
                HorizontalOptions="Start"/>
 
-            <Frame HasShadow="False" 
-                   CornerRadius="10" 
-                   Padding="5" 
-                   BackgroundColor="LightGray">
-                <CarouselView x:Name="ServersCarousel"
+            <!-- Servers Carousel -->
+            <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      HeightRequest="195">
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Horizontal" 
+                      HeightRequest="200"
+                      BackgroundColor="LightGray">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" 
                                          Grid.Row="1" >
-                                <Label Text="{Binding server_names}" 
+                            <Label Text="{Binding server_names}" 
                                        TextColor ="Black" FontSize ="20" 
                                        HorizontalOptions="Start" 
-                                       WidthRequest="120"/>
-                                <Label Text="{Binding maps}" 
+                                       WidthRequest="130"/>
+                            <BoxView VerticalOptions="Center"
+                                     HeightRequest="180"
+                                     WidthRequest="1"
+                                     Color="White"/>
+                            <Label Text="{Binding maps}" 
                                        TextColor ="Black" 
-                                       FontSize ="20" 
-                                       HorizontalOptions="EndAndExpand"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
-            </Frame>
+                                       FontSize ="20"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
             
             <StackLayout Grid.Row="1" 
                          Orientation="Horizontal" 
@@ -64,6 +64,7 @@
                 </Label>
             </StackLayout>
 
+            <!-- Twitch Streams -->
             <Label Text="Twitch Streams"               
                    FontSize="26"
                    HorizontalOptions="Start"/>

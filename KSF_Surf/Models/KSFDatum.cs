@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace KSF_Surf.Models
 {
     // Classes for KSF API response JSON deserialization-----------------------------------
-    public class KSFDatum
+    public class KSFServerDatum
     {
         public string hostname { get; set; }
         public string surftimer_servername { get; set; }
@@ -20,9 +20,15 @@ namespace KSF_Surf.Models
         public List<object> players { get; set; }
     }
 
-    public class KSFRootObject
+    public class KSFServerRootObject
     {
         public string status { get; set; }
-        public List<KSFDatum> data { get; set; }
+        public List<KSFServerDatum> data { get; set; }
+    }
+
+    public class KSFMapsRootObject
+    {
+        public string status { get; set; }
+        public List<string> data { get; set; }
     }
 }

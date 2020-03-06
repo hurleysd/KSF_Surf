@@ -14,9 +14,9 @@ namespace KSF_Surf.ViewModels
     {
 
         internal TwitchRootObject streams;
-        internal KSFRootObject css_servers;
-        internal KSFRootObject css100t_servers;
-        internal KSFRootObject csgo_servers;
+        internal KSFServerRootObject css_servers;
+        internal KSFServerRootObject css100t_servers;
+        internal KSFServerRootObject csgo_servers;
 
         public LiveViewModel()
         {
@@ -40,7 +40,7 @@ namespace KSF_Surf.ViewModels
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                css_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+                css_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
 
             // CSS100T server list ------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace KSF_Surf.ViewModels
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                css100t_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+                css100t_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
 
             // CSGO server list ------------------------------------------------------------------
@@ -68,13 +68,13 @@ namespace KSF_Surf.ViewModels
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                csgo_servers = JsonConvert.DeserializeObject<KSFRootObject>(response.Content);
+                csgo_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
         }
 
         private void twitchConnect()
         {
-            string clientID = ""; // HIDE!!!!
+            string clientID = "iz4y3mwgjedffv1t2oifwuvn5n6iyr"; // HIDE!!!!
 
             var client = new RestClient();
             client.BaseUrl = new Uri("https://api.twitch.tv/helix/streams?first=6"); // TODO: change to actual surf streams (probably though a following list?)

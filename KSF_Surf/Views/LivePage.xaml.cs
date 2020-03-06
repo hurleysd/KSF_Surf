@@ -18,11 +18,11 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class LivePage : ContentPage
     {
-        private LiveViewModel liveModel;
+        private LiveViewModel liveViewModel;
 
         public LivePage()
         {
-            liveModel = new LiveViewModel();
+            liveViewModel = new LiveViewModel();
 
             InitializeComponent();
             LayoutDesign(); 
@@ -35,6 +35,8 @@ namespace KSF_Surf.Views
 
             LoadStreams();
         }
+
+        // Event Handlers --------------------------------------------------------------------------------------------------------------------------
 
         private void ServersCarousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
         {
@@ -63,54 +65,53 @@ namespace KSF_Surf.Views
 
         // Loading KSF Server List ---------------------------------------------------------------------------------------------------------------------
 
-        ObservableCollection<KSFDatum> css_serverData;
-        ObservableCollection<KSFDatum> css100t_serverData;
-        ObservableCollection<KSFDatum> csgo_serverData;
-        private ObservableCollection<KSFDatum> CSS_Servers { get { return css_serverData; } }
-        private ObservableCollection<KSFDatum> CSS100T_Servers { get { return css100t_serverData; } }
-        private ObservableCollection<KSFDatum> CSGO_Servers { get { return csgo_serverData; } }
+        ObservableCollection<KSFServerDatum> css_serverData;
+        ObservableCollection<KSFServerDatum> css100t_serverData;
+        ObservableCollection<KSFServerDatum> csgo_serverData;
+        private ObservableCollection<KSFServerDatum> CSS_Servers { get { return css_serverData; } }
+        private ObservableCollection<KSFServerDatum> CSS100T_Servers { get { return css100t_serverData; } }
+        private ObservableCollection<KSFServerDatum> CSGO_Servers { get { return csgo_serverData; } }
 
         private List<ServersList> LoadServers()
         {
             List<ServersList> servers= new List<ServersList>();
             try
             {
-                css_serverData = new ObservableCollection<KSFDatum>(liveModel.css_servers.data);
-                css100t_serverData = new ObservableCollection<KSFDatum>(liveModel.css100t_servers.data);
-                csgo_serverData = new ObservableCollection<KSFDatum>(liveModel.csgo_servers.data);
+                css_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.css_servers.data);
+                css100t_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.css100t_servers.data);
+                csgo_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.csgo_servers.data);
             }
             catch (NullReferenceException nullref)
             {
                 // no handling (query failed)
-                Console.Error.WriteLine("KSF Server Request returned null");
+                Console.WriteLine("KSF Server Request returned NULL (LivePage)");
             }
             finally
             {
-
                 string cssServerString = "";
                 string cssMapString = "";
-                foreach (KSFDatum datum in css_serverData) // Adding CSS servers to list of Strings
+                foreach (KSFServerDatum datum in css_serverData) // Adding CSS servers to list of Strings
                 {
                     if (datum.surftimer_servername.Contains("test")) continue;
-                    cssServerString += datum.surftimer_servername + "\n";
+                    cssServerString += " " + datum.surftimer_servername + "\n";
 
                     string map = datum.currentmap;
-                    if (map.Length > 25)
+                    if (map.Length > 20)
                     {
-                        map = map.Substring(0, 22) + "...";
+                        map = map.Substring(0, 17) + "...";
                     }
                     cssMapString += map + "\n";
                 }
                 
-                foreach (KSFDatum datum in css100t_serverData) // Adding CSS100T servers to list of Strings
+                foreach (KSFServerDatum datum in css100t_serverData) // Adding CSS100T servers to list of Strings
                 {
                     if (datum.surftimer_servername.Contains("TEST")) continue;
-                    cssServerString += datum.surftimer_servername + "\n";
+                    cssServerString += " " + datum.surftimer_servername + "\n";
 
                     string map = datum.currentmap;
-                    if (map.Length > 25)
+                    if (map.Length > 20)
                     {
-                        map = map.Substring(0, 22) + "...";
+                        map = map.Substring(0, 17) + "...";
                     }
                     cssMapString += map + "\n";
                 }
@@ -120,22 +121,22 @@ namespace KSF_Surf.Views
 
                 string csgoServerString = "";
                 string csgoMapString = "";
-                foreach (KSFDatum datum in csgo_serverData) // Adding CSGO servers to list of Strings
+                foreach (KSFServerDatum datum in csgo_serverData) // Adding CSGO servers to list of Strings
                 {
                     if (datum.surftimer_servername.Contains("TEST")) continue;
                     if (datum.surftimer_servername.Contains("Europe")) // "EasySurf Europe" is too long
                     {
-                        csgoServerString += "Europe\n";
+                        csgoServerString += " Europe\n";
                     }
                     else
                     {
-                        csgoServerString += datum.surftimer_servername + "\n";
+                        csgoServerString += " " + datum.surftimer_servername + "\n";
                     }
 
                     string map = datum.currentmap;
-                    if (map.Length > 25)
+                    if (map.Length > 20)
                     {
-                        map = map.Substring(0, 22) + "...";
+                        map = map.Substring(0, 17) + "...";
                     }
                     csgoMapString += map + "\n";
                 }
@@ -158,11 +159,12 @@ namespace KSF_Surf.Views
         {
             try
             {
-                streamData = new ObservableCollection<TwitchDatum>(liveModel.streams.data);
+                streamData = new ObservableCollection<TwitchDatum>(liveViewModel.streams.data);
             }
             catch (NullReferenceException nullref)
             {
                 // no handling (no streams online or Twitch query failed)
+                Console.WriteLine("Twitch Request returned NULL (LivePage)");
                 streamData = new ObservableCollection<TwitchDatum>() { new TwitchDatum { user_name = "(No streams online)" } };
             }
             finally

@@ -10,11 +10,23 @@
              Style="{StaticResource ContentPageStyle}">
 
     <StackLayout Orientation="Vertical">
-        <SearchBar Placeholder="Search maps..."
+        <SearchBar x:Name="MapsSearchBar"
+                   Placeholder="Search maps..."
                    HorizontalTextAlignment="Start"
                    FontSize="20"
                    TextColor="Black"
-                   BackgroundColor="White"/>
-        <ListView BackgroundColor="White"/>
+                   BackgroundColor="White"
+                   TextChanged="SearchTextChanged"/>
+
+        <ListView x:Name="MapsListView"
+                  BackgroundColor="White">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding .}"
+                              TextColor="Black"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </StackLayout>
 </ContentPage>
