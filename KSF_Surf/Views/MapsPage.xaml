@@ -8,6 +8,11 @@
              Title="Maps"
              x:Name="MapsTab"
              Style="{StaticResource ContentPageStyle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Filter" 
+                     Text="⋮"
+                     Clicked="FilterPressed"/>
+    </ContentPage.ToolbarItems>
 
     <StackLayout Orientation="Vertical">
         <SearchBar x:Name="MapsSearchBar"
@@ -16,7 +21,9 @@
                    FontSize="20"
                    TextColor="Black"
                    BackgroundColor="White"
-                   TextChanged="SearchTextChanged"/>
+                   TextChanged="SearchTextChanged"
+                   Focused="SearchBarFocused"
+                   Unfocused="SearchBarUnfocused"/>
 
         <ListView x:Name="MapsListView"
                   BackgroundColor="White">

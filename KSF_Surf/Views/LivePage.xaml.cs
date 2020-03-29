@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 using KSF_Surf.Models;
 using KSF_Surf.Views;
@@ -31,6 +32,7 @@ namespace KSF_Surf.Views
         private void LayoutDesign()
         {
             List<ServersList> servers = LoadServers();
+            //ServersCarousel.Position = 0;
             ServersCarousel.ItemsSource = servers;
 
             LoadStreams();
@@ -54,14 +56,27 @@ namespace KSF_Surf.Views
 
         private void CSSLabel_Tapped(object sender, EventArgs e)
         {
-            ServersCarousel.Position = 0;
+            ServersCarousel.ScrollTo(0);
         }
 
         private void CSGOLabel_Tapped(object sender, EventArgs e)
         {
-            ServersCarousel.Position = 1;
+            ServersCarousel.ScrollTo(1);
         }
 
+        private async void Stream_Tapped(object sender, EventArgs e)
+        {
+            TwitchDatum datum = (TwitchDatum)StreamsList.SelectedItem;
+            Uri link = new Uri("https://www.twitch.tv/" + datum.user_name);
+            if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
+        }
+
+        private void Streams_Refresh(object sender, EventArgs e)
+        {
+            liveViewModel.twitchRefresh();
+            LoadStreams();
+            StreamsList.EndRefresh();
+        }
 
         // Loading KSF Server List ---------------------------------------------------------------------------------------------------------------------
 
@@ -181,8 +196,5 @@ namespace KSF_Surf.Views
                 StreamsList.HeightRequest = (StreamsList.RowHeight * streamData.Count) + 1; // adding 1 disables scrolling within this ListView
             }
         }
-
-        
     }
-
 }

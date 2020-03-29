@@ -7,82 +7,86 @@
              x:Class="KSF_Surf.Views.LivePage"
              Title="Live"
              x:Name="LiveTab"
-             Style="{StaticResource ContentPageStyle}">
+             Style="{StaticResource ContentPageStyle}"
+             BackgroundColor="{DynamicResource ThemeBackGroundColor}">
 
-    <ScrollView BackgroundColor="{DynamicResource ThemeBackGroundColor}">
-        <StackLayout Padding="10">
-            <Label Text="KSFClan Servers"
+
+    <StackLayout Padding="10">
+        <Label Text="KSFClan Servers"
                FontSize="26"
                VerticalOptions="Start"
                HorizontalOptions="Start"/>
 
-            <!-- Servers Carousel -->
-            <CarouselView x:Name="ServersCarousel"
+        <!-- Servers Carousel -->
+        <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      HeightRequest="200"
+                      HeightRequest="250"
                       BackgroundColor="LightGray">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Orientation="Horizontal" 
-                                         Grid.Row="1" >
-                            <Label Text="{Binding server_names}" 
-                                       TextColor ="Black" FontSize ="20" 
-                                       HorizontalOptions="Start" 
-                                       WidthRequest="130"/>
-                            <BoxView VerticalOptions="Center"
-                                     HeightRequest="180"
-                                     WidthRequest="1"
-                                     Color="White"/>
-                            <Label Text="{Binding maps}" 
-                                       TextColor ="Black" 
-                                       FontSize ="20"/>
-                        </StackLayout>
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
-            
-            <StackLayout Grid.Row="1" 
-                         Orientation="Horizontal" 
-                         Spacing="3" 
-                         HorizontalOptions="Center">
-                <Label x:Name="CSSServersLabel" 
-                       Text="CS:S"
-                       FontSize="22"
-                       TextColor="Black">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CSSLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" 
+                                 Grid.Row="1" >
+                        <Label Text="{Binding server_names}" 
+                                TextColor ="Black" FontSize ="20" 
+                                HorizontalOptions="Start" 
+                                WidthRequest="130"/>
+                        <BoxView VerticalOptions="Center"
+                                 HeightRequest="180"
+                                 WidthRequest="1"
+                                 Color="White"/>
+                        <Label Text="{Binding maps}" 
+                               TextColor ="Black" 
+                               FontSize ="20"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
 
-                <Label x:Name="CSGOServersLabel" 
-                       Text="CS:GO"
-                       FontSize="22"
-                       TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CSGOLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+        <StackLayout Grid.Row="1" 
+                     Orientation="Horizontal" 
+                     Spacing="3" 
+                     HorizontalOptions="Center">
+            <Label x:Name="CSSServersLabel" 
+                   Text="CS:S"
+                   FontSize="22"
+                   TextColor="Black">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CSSLabel_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
 
-            <!-- Twitch Streams -->
-            <Label Text="Twitch Streams"               
+            <Label x:Name="CSGOServersLabel" 
+                   Text="CS:GO"
+                   FontSize="22"
+                   TextColor="Gray">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CSGOLabel_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+
+        <!-- Twitch Streams -->
+        <Label Text="Surf Streams"               
                    FontSize="26"
                    HorizontalOptions="Start"/>
+        <ListView x:Name ="StreamsList"
+                  ItemsSource="{Binding Streams}"
+                  RowHeight="45"
+                  BackgroundColor="LightGray"
+                  
+                  ItemTapped="Stream_Tapped"
+                  IsPullToRefreshEnabled="True"
+                  Refreshing="Streams_Refresh"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell Text="{Binding user_name}" 
+                               ImageSource="{Binding thumbnail_url}"
+                               Detail="{Binding title}"
+                               TextColor="Black"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-            <ListView x:Name ="StreamsList"
-                      ItemsSource="{Binding Streams}"
-                      RowHeight="45"
-                      BackgroundColor="LightGray">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ImageCell Text="{Binding user_name}" 
-                                   ImageSource="{Binding thumbnail_url}"
-                                   Detail="{Binding title}"
-                                   TextColor="Black"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-        </StackLayout>
-    </ScrollView>
+    </StackLayout>
 </ContentPage>

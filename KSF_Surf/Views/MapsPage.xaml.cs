@@ -19,7 +19,7 @@ namespace KSF_Surf.Views
     {
         private MapsViewModel mapsViewModel;
         List<string> maps_list = new List<string>();
-        private string[] games = { "css", "csgo" }; // used by filter to change game
+        private string[] games = { "CS:S", "CS:GO" }; // used by filter to change game
         private string filteredGame;
         
         public MapsPage()
@@ -32,17 +32,28 @@ namespace KSF_Surf.Views
 
         private void LayoutDesign()
         {
-            maps_list = LoadMaps();
+            maps_list = LoadMaps("CS:S");
             MapsListView.ItemsSource = maps_list;
         }
 
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
 
+        private async void FilterPressed(object sender, EventArgs e)
+        {
+            // NOTE: DisplayActionSheet method causes unsatisfiable layout constraints -- this is a Xamarin issue
+            string game = await DisplayActionSheet("Game", "Cancel", null, games);
+            if (game != "cancel") MapsListView.ItemsSource = LoadMaps(game);
+        }
+
         private void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (e.NewTextValue == null) // cancel button pressed on iOS
+            if (e.NewTextValue == null) // "cancel" button pressed on iOS
             {
                 MapsListView.ItemsSource = maps_list;
+            }
+            else if (e.NewTextValue == "")
+            {
+                MapsListView.ItemsSource = new List<string>();
             }
             else
             {
@@ -52,13 +63,27 @@ namespace KSF_Surf.Views
             }
         }
 
+        public void SearchBarFocused(object sender, EventArgs e)
+        {
+            if (MapsSearchBar.Text == null) MapsListView.ItemsSource = new List<string>(); // display no if search is empty
+        }
+
+        public void SearchBarUnfocused(object sender, EventArgs e)
+        {
+            MapsListView.ItemsSource = maps_list;
+        }
+
         // Loading KSF map list ---------------------------------------------------------------------------------------------------------------------
 
-        private List<string> LoadMaps()
+        private List<string> LoadMaps(string game)
         {
             try
             {
-                maps_list = mapsViewModel.css_maps.data;
+                switch (game)
+                {
+                    case "CS:S": maps_list = mapsViewModel.css_maps.data; break;
+                    case "CS:GO": maps_list = mapsViewModel.csgo_maps.data; break;
+                }
             }
             catch (NullReferenceException nullref)
             {
