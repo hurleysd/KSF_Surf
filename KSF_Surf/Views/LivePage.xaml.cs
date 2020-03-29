@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -12,7 +14,7 @@ using Xamarin.Essentials;
 using KSF_Surf.Models;
 using KSF_Surf.Views;
 using KSF_Surf.ViewModels;
-using System.Collections.ObjectModel;
+
 
 namespace KSF_Surf.Views
 {

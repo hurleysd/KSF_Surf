@@ -73,7 +73,6 @@
                   ItemsSource="{Binding Streams}"
                   RowHeight="45"
                   BackgroundColor="LightGray"
-                  
                   ItemTapped="Stream_Tapped"
                   IsPullToRefreshEnabled="True"
                   Refreshing="Streams_Refresh"

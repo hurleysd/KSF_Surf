@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+
 using System;
 using System.Windows.Input;
+
 using Xamarin.Essentials;
 using Xamarin.Forms;
+
 using KSF_Surf.Models;
 
 namespace KSF_Surf.ViewModels
