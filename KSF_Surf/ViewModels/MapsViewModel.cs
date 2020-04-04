@@ -13,21 +13,38 @@ namespace KSF_Surf.ViewModels
 {
     public class MapsViewModel : BaseViewModel
     {
-        internal KSFMapsRootObject css_maps;
-        internal KSFMapsRootObject csgo_maps;
 
         public MapsViewModel()
         {
             Title = "Maps";
-            ksfConnect();
         }
 
-        private void ksfConnect()
+        internal static KSFDetailedMapsRootObject getDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
         {
+            string gameString = "";
+            string sortString = "";
+
+            switch (game)
+            {
+                case EFilter_Game.css: gameString = "css"; break;
+                case EFilter_Game.css100t: gameString = "css100t"; break;
+                case EFilter_Game.csgo: gameString = "csgo"; break;
+                default: break;
+            }
+            switch (sort)
+            {
+                case EFilter_Sort.name: sortString = "name"; break;
+                case EFilter_Sort.created: sortString = "created"; break;
+                case EFilter_Sort.lastplayed: sortString = "lastplayed"; break;
+                case EFilter_Sort.playtime: sortString = "playtime"; break;
+                case EFilter_Sort.popularity: sortString = "popularity"; break;
+                default: break;
+            }
+
+
             var client = new RestClient();
 
-            // CSS Maps List ------------------------------------------------------------------
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css/maplist/list");
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/maplist/detailedlist/" + sortString + "/1,999");
 
             var request = new RestRequest();
             request.Method = Method.GET;
@@ -37,21 +54,11 @@ namespace KSF_Surf.ViewModels
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                css_maps = JsonConvert.DeserializeObject<KSFMapsRootObject>(response.Content);
+                return JsonConvert.DeserializeObject<KSFDetailedMapsRootObject>(response.Content);
             }
-
-            // CSGO Maps List ------------------------------------------------------------------
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/csgo/maplist/list");
-
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
-
-            response = client.Execute(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            else
             {
-                csgo_maps = JsonConvert.DeserializeObject<KSFMapsRootObject>(response.Content);
+                return null;
             }
         }
 

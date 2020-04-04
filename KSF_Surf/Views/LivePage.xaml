@@ -7,9 +7,7 @@
              x:Class="KSF_Surf.Views.LivePage"
              Title="Live"
              x:Name="LiveTab"
-             Style="{StaticResource ContentPageStyle}"
-             BackgroundColor="{DynamicResource ThemeBackGroundColor}">
-
+             Style="{StaticResource ContentPageStyle}">
 
     <StackLayout Padding="10">
         <Label Text="KSFClan Servers"
@@ -20,16 +18,17 @@
         <!-- Servers Carousel -->
         <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      HeightRequest="250"
+                      HeightRequest="200"
                       BackgroundColor="LightGray">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" 
                                  Grid.Row="1" >
                         <Label Text="{Binding server_names}" 
-                                TextColor ="Black" FontSize ="20" 
-                                HorizontalOptions="Start" 
-                                WidthRequest="130"/>
+                               TextColor ="Black" 
+                               FontSize ="20" 
+                               HorizontalOptions="Start" 
+                               WidthRequest="130"/>
                         <BoxView VerticalOptions="Center"
                                  HeightRequest="180"
                                  WidthRequest="1"
@@ -49,7 +48,7 @@
             <Label x:Name="CSSServersLabel" 
                    Text="CS:S"
                    FontSize="22"
-                   TextColor="Black">
+                   TextColor="#147efb">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CSSLabel_Tapped"/>
                 </Label.GestureRecognizers>

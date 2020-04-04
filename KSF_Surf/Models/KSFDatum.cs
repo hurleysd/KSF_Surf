@@ -26,9 +26,40 @@ namespace KSF_Surf.Models
         public List<KSFServerDatum> data { get; set; }
     }
 
-    public class KSFMapsRootObject
+    public class KSFDetailedMapDatum
+    {
+        public string name { get; set; }
+        public string created { get; set; }
+        public string lastplayed { get; set; }
+        public string playtime { get; set; }
+        public string totalplaytimes { get; set; }
+        public string maptype { get; set; }
+        public string tier { get; set; }
+        public string cp_count { get; set; }
+        public string b_count { get; set; }
+        public string maxvelocity { get; set; }
+        public string cheats { get; set; }
+        public string popularity { get; set; }
+    }
+
+    public class KSFDetailedMapsRootObject
     {
         public string status { get; set; }
-        public List<string> data { get; set; }
+        public List<KSFDetailedMapDatum> data { get; set; }
+    }
+
+    public enum EFilter_Game
+    {
+        none, css, css100t, csgo
+    }
+
+    public enum EFilter_Sort
+    {
+        none, name, created, lastplayed, playtime, popularity
+    }
+
+    public enum EFilter_MapType
+    {
+        none = -1, any = 0, linear = 1, staged = 2 
     }
 }

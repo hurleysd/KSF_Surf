@@ -34,7 +34,6 @@ namespace KSF_Surf.Views
         private void LayoutDesign()
         {
             List<ServersList> servers = LoadServers();
-            //ServersCarousel.Position = 0;
             ServersCarousel.ItemsSource = servers;
 
             LoadStreams();
@@ -46,13 +45,13 @@ namespace KSF_Surf.Views
         {
             if (ServersCarousel.Position == 0)
             {
-                CSSServersLabel.TextColor = Xamarin.Forms.Color.Black;
+                CSSServersLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
                 CSGOServersLabel.TextColor = Xamarin.Forms.Color.Gray;
             }
             else
             {
                 CSSServersLabel.TextColor = Xamarin.Forms.Color.Gray;
-                CSGOServersLabel.TextColor = Xamarin.Forms.Color.Black;
+                CSGOServersLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
             }
         }
 
@@ -82,9 +81,10 @@ namespace KSF_Surf.Views
 
         // Loading KSF Server List ---------------------------------------------------------------------------------------------------------------------
 
-        ObservableCollection<KSFServerDatum> css_serverData;
-        ObservableCollection<KSFServerDatum> css100t_serverData;
-        ObservableCollection<KSFServerDatum> csgo_serverData;
+        private ObservableCollection<KSFServerDatum> css_serverData;
+        private ObservableCollection<KSFServerDatum> css100t_serverData;
+        private ObservableCollection<KSFServerDatum> csgo_serverData;
+
         private ObservableCollection<KSFServerDatum> CSS_Servers { get { return css_serverData; } }
         private ObservableCollection<KSFServerDatum> CSS100T_Servers { get { return css100t_serverData; } }
         private ObservableCollection<KSFServerDatum> CSGO_Servers { get { return csgo_serverData; } }
@@ -98,7 +98,7 @@ namespace KSF_Surf.Views
                 css100t_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.css100t_servers.data);
                 csgo_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.csgo_servers.data);
             }
-            catch (NullReferenceException nullref)
+            catch (NullReferenceException)
             {
                 // no handling (query failed)
                 Console.WriteLine("KSF Server Request returned NULL (LivePage)");
@@ -113,9 +113,9 @@ namespace KSF_Surf.Views
                     cssServerString += " " + datum.surftimer_servername + "\n";
 
                     string map = datum.currentmap;
-                    if (map.Length > 20)
+                    if (map.Length > 22)
                     {
-                        map = map.Substring(0, 17) + "...";
+                        map = map.Substring(0, 19) + "...";
                     }
                     cssMapString += map + "\n";
                 }
@@ -126,9 +126,9 @@ namespace KSF_Surf.Views
                     cssServerString += " " + datum.surftimer_servername + "\n";
 
                     string map = datum.currentmap;
-                    if (map.Length > 20)
+                    if (map.Length > 22)
                     {
-                        map = map.Substring(0, 17) + "...";
+                        map = map.Substring(0, 19) + "...";
                     }
                     cssMapString += map + "\n";
                 }
@@ -151,9 +151,9 @@ namespace KSF_Surf.Views
                     }
 
                     string map = datum.currentmap;
-                    if (map.Length > 20)
+                    if (map.Length > 22)
                     {
-                        map = map.Substring(0, 17) + "...";
+                        map = map.Substring(0, 19) + "...";
                     }
                     csgoMapString += map + "\n";
                 }
@@ -178,7 +178,7 @@ namespace KSF_Surf.Views
             {
                 streamData = new ObservableCollection<TwitchDatum>(liveViewModel.streams.data);
             }
-            catch (NullReferenceException nullref)
+            catch (NullReferenceException)
             {
                 // no handling (no streams online or Twitch query failed)
                 Console.WriteLine("Twitch Request returned NULL (LivePage)");

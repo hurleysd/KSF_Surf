@@ -15,13 +15,15 @@ namespace KSF_Surf.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
 
+            Forms.SetFlags("CollectionView_Experimental"); //needed for CarouselView(LivePage.xaml) and CollectionView(MapsPage.xaml)
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Forms.SetFlags("CollectionView_Experimental"); //needed for CarouselView
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }

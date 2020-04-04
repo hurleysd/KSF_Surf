@@ -11,7 +11,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="Filter" 
                      Text="⋮"
-                     Clicked="FilterPressed"/>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <StackLayout Orientation="Vertical">
@@ -25,15 +25,25 @@
                    Focused="SearchBarFocused"
                    Unfocused="SearchBarUnfocused"/>
 
-        <ListView x:Name="MapsListView"
-                  BackgroundColor="White">
-            <ListView.ItemTemplate>
+        <CollectionView x:Name="MapsCollectionView"
+                        BackgroundColor="WhiteSmoke">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding .}"
-                              TextColor="Black"/>
+                    <StackLayout Orientation="Vertical" 
+                                 Padding="10, 4, 0, 4">
+                        <Label Text="{Binding .}"
+                               TextColor="Black"
+                               FontSize ="20"/>
+                        <BoxView HorizontalOptions="FillAndExpand"
+                                 HeightRequest="1"
+                                 Color="LightGray"/>
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+        </CollectionView>
 
     </StackLayout>
 </ContentPage>

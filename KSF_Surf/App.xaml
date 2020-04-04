@@ -13,10 +13,9 @@
             <Style x:Key ="TabbedPageStyle" TargetType="TabbedPage">
                 <Setter Property="BarBackgroundColor" Value="{DynamicResource ThemeBackGroundColor}"/>
                 <Setter Property="BarTextColor" Value="Gray"/>
-                <Setter Property="BackgroundColor" Value ="White"/>
             </Style>
             <Style x:Key ="ContentPageStyle" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value ="White"/>
+                <Setter Property="BackgroundColor" Value ="WhiteSmoke"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

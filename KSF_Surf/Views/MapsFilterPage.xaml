@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.MapsFilterPage"
+             Title="Filters"
+             x:Name="MapsFilter"
+             Style="{StaticResource ContentPageStyle}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Apply" 
+                     Text="Apply"
+                     Clicked="Apply_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10">
+        <Label Text="Game"
+               FontSize="26"
+               TextColor="Black"
+               VerticalOptions="Start"
+               HorizontalOptions="Start"/>
+
+        <StackLayout Orientation="Horizontal">
+            
+            <BoxView Color="Gray"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+            <StackLayout Orientation="Vertical">
+                <Label x:Name="GameCSSLabel"
+                   Text="CS:S"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="CSSGameFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="GameCSS100TLabel"
+                   Text="CS:S 100T"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="CSS100TGameFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="GameCSGOLabel"
+                   Text="CS:GO"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="CSGOGameFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+
+
+
+        <Label Text="Sort by"
+               FontSize="26"
+               TextColor="Black"
+               VerticalOptions="Start"
+               HorizontalOptions="Start"/>
+
+        <StackLayout Orientation="Horizontal">
+            
+            <BoxView Color="Gray"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+            
+            <StackLayout Orientation="Vertical">
+                
+                <Label x:Name="SortNameLabel"
+                   Text="Name"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="NameSortFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="SortCreateLabel"
+                   Text="Creation date"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="CreateSortFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="SortLastLabel"
+                   Text="Last played"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="LastSortFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="SortPlayLabel"
+                   Text="Play time"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="PlaySortFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="SortPopLabel"
+                   Text="Popularity"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="PopSortFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+
+
+
+        <Label Text="Map Type"
+               FontSize="26"
+               TextColor="Black"
+               HorizontalOptions="Start"/>
+
+        <StackLayout Orientation="Horizontal">
+            <BoxView Color="Gray"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+            <StackLayout Orientation="Vertical">
+                
+                <Label x:Name="TypeAnyLabel"
+                   Text="Any"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="AnyMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="TypeLinearLabel"
+                   Text="Linear"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="LinearMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="TypeStagedLabel"
+                   Text="Staged"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="StagedMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+
+
+
+        <Label Text="Map Tier(s)"
+               FontSize="26"
+               TextColor="Black"
+               HorizontalOptions="Start"/>
+
+        
+
+
+    </StackLayout>
+</ContentPage>

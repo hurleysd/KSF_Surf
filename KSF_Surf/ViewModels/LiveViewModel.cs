@@ -77,10 +77,18 @@ namespace KSF_Surf.ViewModels
 
         private void twitchConnect()
         {
-            string clientID = ""; // HIDE!!!!
+            string clientID = "iz4y3mwgjedffv1t2oifwuvn5n6iyr"; // HIDE!!!!
+            string query = "https://api.twitch.tv/helix/streams?";
+
+            foreach (string username in streamers)
+            {
+                query += "user_login=" + username + "&";
+            }
+            query = query.Substring(0, query.Length - 1);
+            Console.WriteLine(query);
 
             var client = new RestClient();
-            client.BaseUrl = new Uri("https://api.twitch.tv/helix/streams?first=6"); // TODO: change to actual surf streams (probably though a following list?)
+            client.BaseUrl = new Uri(query);
 
             var request = new RestRequest();
             request.Method = Method.GET;
@@ -99,5 +107,58 @@ namespace KSF_Surf.ViewModels
         {
             twitchConnect();
         }
+
+        public readonly string[] streamers =
+        {
+            "truktruk",
+            "gocnak",
+            "troflecopter",
+            "mariowned",
+            "beetle179",
+            "silverthingtg",
+            "caffrey",
+            "sneak_it",
+            "rickzter",
+            "aimer_b",
+            "draaph",
+            "olivernb",
+            "ignis_au",
+            "wayne3288",
+            "systm_",
+            "exuwew_",
+            "rredccolour",
+            "redvenomsurf",
+            "crashfort",
+            "robinsurf",
+            "hardex",
+            "rulldar",
+            "redsurfs",
+            "xtra_festive",
+            "im_president_sloth",
+            "jooshua",
+            "pretzl",
+            "chrissybear",
+            "haywire404",
+            "fluxxi",
+            "surfleague",
+            "mako__o",
+            "itsasteral",
+            "theshoxter",
+            "recoilsurf",
+            "sensemcsweggense",
+            "illxjoey",
+            "lordsyfo",
+            "ret_rded",
+            "pignucss",
+            "thegaranimal",
+            "surfking",
+            "moostercow",
+            "wildddd",
+            "spy_complex",
+            "blueraven",
+            "ghostfacee",
+            "muta44",
+            "gorange_ninja"
+        };
     }
 }

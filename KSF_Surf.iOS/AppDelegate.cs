@@ -12,6 +12,7 @@ namespace KSF_Surf.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
+
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //
@@ -23,8 +24,9 @@ namespace KSF_Surf.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Forms.SetFlags("CollectionView_Experimental"); // needed for CarouselView
+            Forms.SetFlags("CollectionView_Experimental"); // needed for CarouselView (LivePage.xaml) and CollectionView (MapsPage.xaml)
             global::Xamarin.Forms.Forms.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
