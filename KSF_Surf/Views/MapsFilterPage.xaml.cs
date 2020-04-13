@@ -1,5 +1,4 @@
 ﻿using KSF_Surf.Models;
-using KSF_Surf.ViewModels;
 
 using System;
 using System.ComponentModel;
@@ -14,8 +13,8 @@ namespace KSF_Surf.Views
     {
         private EFilter_Game game = EFilter_Game.none;
         private EFilter_Sort sort = EFilter_Sort.none;
-        private int minTier = 1;
-        private int maxTier = 8;
+        private int minTier = -1;
+        private int maxTier = -1;
         private EFilter_MapType mapType = EFilter_MapType.none;
         private Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
 
@@ -25,16 +24,19 @@ namespace KSF_Surf.Views
             this.FilterApplier = FilterApplier;
 
             InitializeComponent();
+
             ChangeGameFilter(currentGame);
             ChangeSortFilter(currentSort);
             ChangeMapTypeFilter(currentMapType);
 
-            game = currentGame;
-            sort = currentSort;
             minTier = currentMinTier;
             maxTier = currentMaxTier;
-            mapType = currentMapType;
+            MaxTierSlider.Value = maxTier;
+            MinTierSlider.Value = minTier;
+            
+            MaxTierSlider.MinimumTrackColor = MinTierSlider.MaximumTrackColor;
         }
+
         private void ChangeGameFilter(EFilter_Game newGame)
         {
             if (game == newGame) return;
@@ -127,6 +129,29 @@ namespace KSF_Surf.Views
         private void LinearMapTypeFilter_Tapped(object sender, EventArgs e) => ChangeMapTypeFilter(EFilter_MapType.linear);
         private void StagedMapTypeFilter_Tapped(object sender, EventArgs e) => ChangeMapTypeFilter(EFilter_MapType.staged);
 
+        private void MinTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            int newValue = (int)Math.Round(e.NewValue);
+            MinTierSlider.Value = newValue;
+            MinTierLabel.Text = newValue.ToString();
+            if (newValue > MaxTierSlider.Value)
+            {
+                MaxTierSlider.Value = newValue;
+            }
+            minTier = newValue;
+        }
+
+        private void MaxTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            int newValue = (int)Math.Round(e.NewValue);
+            MaxTierSlider.Value = newValue;
+            MaxTierLabel.Text = newValue.ToString();
+            if (newValue < MinTierSlider.Value)
+            {
+                MinTierSlider.Value = newValue;
+            }
+            maxTier = newValue;
+        }
     }
     
 }

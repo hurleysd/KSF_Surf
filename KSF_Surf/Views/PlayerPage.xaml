@@ -4,18 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="KSF_Surf.Views.PlayersPage"
-             Title="Players"
-             x:Name="PlayersTab"  
+             x:Class="KSF_Surf.Views.PlayerPage"
+             Title="Player"
+             x:Name="PlayerTab"  
              Style="{StaticResource ContentPageStyle}">
 
     <StackLayout Orientation="Vertical">
-        <SearchBar Placeholder="Search players..."
-                   HorizontalTextAlignment="Start"
-                   FontSize="20"
-                   TextColor="Black"
-                   BackgroundColor="White"/>
-        <ListView BackgroundColor="White"/>
+        
     </StackLayout>
 
 

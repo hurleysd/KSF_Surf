@@ -77,7 +77,7 @@ namespace KSF_Surf.ViewModels
 
         private void twitchConnect()
         {
-            string clientID = "iz4y3mwgjedffv1t2oifwuvn5n6iyr"; // HIDE!!!!
+            string clientID = "";
             string query = "https://api.twitch.tv/helix/streams?";
 
             foreach (string username in streamers)
@@ -85,7 +85,6 @@ namespace KSF_Surf.ViewModels
                 query += "user_login=" + username + "&";
             }
             query = query.Substring(0, query.Length - 1);
-            Console.WriteLine(query);
 
             var client = new RestClient();
             client.BaseUrl = new Uri(query);
@@ -108,8 +107,9 @@ namespace KSF_Surf.ViewModels
             twitchConnect();
         }
 
-        public readonly string[] streamers =
+        private readonly string[] streamers =
         {
+            // 54 out of 100 (max per twitch API call)
             "truktruk",
             "gocnak",
             "troflecopter",
@@ -158,7 +158,13 @@ namespace KSF_Surf.ViewModels
             "blueraven",
             "ghostfacee",
             "muta44",
-            "gorange_ninja"
+            "gorange_ninja",
+			"txcks",
+            "kiiru",
+            "marblesurfs",
+            "virgn4life",
+            "zacki9",
+            "simexi"
         };
     }
 }

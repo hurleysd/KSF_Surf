@@ -15,9 +15,9 @@ using KSF_Surf.ViewModels;
 namespace KSF_Surf.Views
 {
     [DesignTimeVisible(false)]
-    public partial class PlayersPage : ContentPage
+    public partial class PlayerPage : ContentPage
     {
-        public PlayersPage()
+        public PlayerPage()
         {
             InitializeComponent();
         }

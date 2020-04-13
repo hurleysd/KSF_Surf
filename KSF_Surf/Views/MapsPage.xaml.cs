@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 using KSF_Surf.Models;
-using KSF_Surf.Views;
 using KSF_Surf.ViewModels;
 
 
@@ -22,6 +18,16 @@ namespace KSF_Surf.Views
         private MapsViewModel mapsViewModel;
         private List<string> maps_list = new List<string>();
 
+        private ObservableCollection<DetailedMapDatum> detailed_mapData;
+
+        // search filter vars used in API call used to minimize new calls
+        private EFilter_Game currentGame = EFilter_Game.none;
+        private EFilter_Sort currentSort = EFilter_Sort.none;
+        // other search filter vars
+        private int currentMinTier = 1;
+        private int currentMaxTier = 8;
+        private EFilter_MapType currentMapType = EFilter_MapType.any;
+
         public MapsPage()
         {
             mapsViewModel = new MapsViewModel();
@@ -31,23 +37,18 @@ namespace KSF_Surf.Views
         }
 
 
-        private void LayoutDesign() => ChangeDisplayList(LoadMaps(EFilter_Game.css, EFilter_Sort.name, 1, 8, EFilter_MapType.any)); //initial load of maps
+        private void LayoutDesign() => ChangeDisplayList(LoadMaps(EFilter_Game.css, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
 
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
-                currentGame, currentSort, currentMinTier, currentMaxTier,  currentMapType));
+                currentGame, currentSort, currentMinTier, currentMaxTier, currentMapType));
         }
 
         private void SearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            //if (e.NewTextValue == null) // "cancel" button pressed on iOS
-            //{
-            //    MapsListView.ItemsSource = maps_list;
-            //} 
-            //else 
             if (e.NewTextValue == "")
             {
                 ChangeDisplayList(new List<string>());
@@ -71,39 +72,32 @@ namespace KSF_Surf.Views
             if (MapsSearchBar.Text == null || MapsSearchBar.Text == "") ChangeDisplayList(maps_list);
         }
 
-        private void MapItem_Tapped(object sender, ItemTappedEventArgs e)
+        private async void Map_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MapsSearchBar.Unfocus();
-        }
+            if (e.CurrentSelection.Count == 0) return;
 
-        private void MapItem_Selected(object sender, SelectedItemChangedEventArgs e)
-        {
-            // TODO: go to map page
+            string selectedMap = (string)MapsCollectionView.SelectedItem;
+            MapsCollectionView.SelectedItem = null;
+            
+            await Navigation.PushAsync(new MapsMapPage(selectedMap, currentGame));
+
         }
 
 
         // Loading KSF map list ---------------------------------------------------------------------------------------------------------------------
-
-        private ObservableCollection<KSFDetailedMapDatum> detailed_mapData;
-
-        // search filter vars used in API call used to minimize new calls
-        private EFilter_Game currentGame = EFilter_Game.none;
-        private EFilter_Sort currentSort = EFilter_Sort.none;
-        // other search filter vars
-        private int currentMinTier;
-        private int currentMaxTier;
-        private EFilter_MapType currentMapType;
-
+        
         private List<string> LoadMaps(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
         {
             // minTier options: 1-8
             // maxTier options: 1-8
+
             maps_list = new List<string>();
+
             try
             {
                 if (game != currentGame || sort != currentSort)
                 {
-                    detailed_mapData = new ObservableCollection<KSFDetailedMapDatum>(MapsViewModel.getDetailedMapsList(game, sort).data);
+                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(MapsViewModel.GetDetailedMapsList(game, sort).data);
                     currentGame = game;
                     currentSort = sort;
                 }
@@ -112,39 +106,30 @@ namespace KSF_Surf.Views
                 currentMaxTier = maxTier;
                 currentMapType = mapType;
 
-
-                foreach (KSFDetailedMapDatum datum in detailed_mapData)
+                foreach (DetailedMapDatum datum in detailed_mapData)
                 {
-                    if (minTier != 1 || maxTier != 8 || mapType != 0)
+                    int tier = int.Parse(datum.tier);
+                    int type = int.Parse(datum.maptype);
+                    
+                    if (mapType != EFilter_MapType.any && type != (int)mapType)
                     {
-                        if (Int32.Parse(datum.tier) < minTier)
-                        {
-                            continue;
-                        }
-                        else if (Int32.Parse(datum.tier) > maxTier)
-                        {
-                            continue;
-                        }
-                        else if (Int32.Parse(datum.maptype) != (int) mapType)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            maps_list.Add(datum.name);
-                        }
+                        continue;
                     }
-                    else
+                    else if (tier < minTier)
                     {
-                        maps_list.Add(datum.name);
+                        continue;
                     }
+                    else if (tier > maxTier)
+                    {
+                        continue;
+                    }
+                    maps_list.Add(datum.name);
                 }
             }
             catch (NullReferenceException)
             {
                 // no handling (query failed)
                 Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
-                maps_list.Add("No maps found (error in KSF request)");
             }
             catch (FormatException)
             {
@@ -156,7 +141,9 @@ namespace KSF_Surf.Views
 
         internal void ApplyFilters(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
         {
+            MapsSearchBar.Text = "";
             ChangeDisplayList(LoadMaps(game, sort, minTier, maxTier, mapType));
+            MapsCollectionView.ScrollTo(1);
         }
 
 

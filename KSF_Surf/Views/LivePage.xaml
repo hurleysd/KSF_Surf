@@ -9,7 +9,8 @@
              x:Name="LiveTab"
              Style="{StaticResource ContentPageStyle}">
 
-    <StackLayout Padding="10">
+    <StackLayout Padding="10"
+                 Orientation="Vertical">
         <Label Text="KSFClan Servers"
                FontSize="26"
                VerticalOptions="Start"
@@ -18,24 +19,23 @@
         <!-- Servers Carousel -->
         <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      HeightRequest="200"
                       BackgroundColor="LightGray">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal" 
-                                 Grid.Row="1" >
+                    <StackLayout Orientation="Horizontal">
                         <Label Text="{Binding server_names}" 
-                               TextColor ="Black" 
-                               FontSize ="20" 
+                               TextColor="Black" 
+                               FontSize="20" 
                                HorizontalOptions="Start" 
-                               WidthRequest="130"/>
-                        <BoxView VerticalOptions="Center"
-                                 HeightRequest="180"
-                                 WidthRequest="1"
-                                 Color="White"/>
+                               WidthRequest="130"
+                               Margin="10,0,0,0"/>
+                        <BoxView WidthRequest="1"
+                                 Color="WhiteSmoke"
+                                 Margin="0,10,0,10"/>
                         <Label Text="{Binding maps}" 
-                               TextColor ="Black" 
-                               FontSize ="20"/>
+                               TextColor="Black" 
+                               FontSize="20"
+                               Margin="10,0,0,0"/>
                     </StackLayout>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
@@ -65,26 +65,65 @@
         </StackLayout>
 
         <!-- Twitch Streams -->
-        <Label Text="Surf Streams"               
+        <Label Text="Surfer Streams"               
                    FontSize="26"
                    HorizontalOptions="Start"/>
-        <ListView x:Name ="StreamsList"
+        <CollectionView x:Name ="StreamsCollectionView"
                   ItemsSource="{Binding Streams}"
-                  RowHeight="45"
-                  BackgroundColor="LightGray"
-                  ItemTapped="Stream_Tapped"
-                  IsPullToRefreshEnabled="True"
-                  Refreshing="Streams_Refresh"
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}">
-            <ListView.ItemTemplate>
+                  SelectionMode="Single"
+                  SelectionChanged="Stream_SelectionChanged"      
+                  BackgroundColor="LightGray">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ImageCell Text="{Binding user_name}" 
-                               ImageSource="{Binding thumbnail_url}"
-                               Detail="{Binding title}"
-                               TextColor="Black"/>
+                    <Grid Padding="10, 10, 10, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="1"/>
+                        </Grid.RowDefinitions>
+
+                        <Image Source="{Binding thumbnail_url}"
+                               Grid.RowSpan="2"
+                               Grid.Column="0"
+                               Grid.Row="0"/>
+
+                        <Label Text="{Binding user_name}"
+                               LineBreakMode="NoWrap"
+                               FontSize="18"
+                               Grid.Row="0"
+                               Grid.Column="1"/>
+
+                        <Label Text="{Binding title}"
+                               LineBreakMode="NoWrap"
+                               FontSize="14"
+                               TextColor="Gray"
+                               Grid.Row="1"
+                               Grid.Column="1"/>
+
+                        <BoxView Color="WhiteSmoke"
+                                 Grid.Row="2"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2"/>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="No streams online :("
+                       TextColor="Gray"
+                       FontSize="20"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
 
     </StackLayout>
 </ContentPage>

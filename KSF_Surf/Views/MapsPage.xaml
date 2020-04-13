@@ -9,9 +9,10 @@
              x:Name="MapsTab"
              Style="{StaticResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Filter" 
-                     Text="⋮"
-                     Clicked="Filter_Pressed"/>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
 
     <StackLayout Orientation="Vertical">
@@ -26,11 +27,14 @@
                    Unfocused="SearchBarUnfocused"/>
 
         <CollectionView x:Name="MapsCollectionView"
-                        BackgroundColor="WhiteSmoke">
+                        BackgroundColor="WhiteSmoke"
+                        SelectionMode="Single"
+                        SelectionChanged="Map_SelectionChanged">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Vertical" 
-                                 Padding="10, 4, 0, 4">
+                                 Padding="10, 4, 0, 4"
+                                 BackgroundColor="WhiteSmoke">
                         <Label Text="{Binding .}"
                                TextColor="Black"
                                FontSize ="20"/>
@@ -43,6 +47,14 @@
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="No maps matched your filter"
+                       TextColor="Gray"
+                       FontSize="20"
+                       HorizontalOptions="Fill"
+                       HorizontalTextAlignment="Center"
+                       Padding="20"/>
+            </CollectionView.EmptyView>
         </CollectionView>
 
     </StackLayout>

@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.MapsMapPage"
+             x:Name="MapsMap"
+             Style="{StaticResource ContentPageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key = "LeftColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key = "RightColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="10"
+                 Orientation="Vertical">
+
+            <!-- Map General Info -->
+            <Grid HorizontalOptions="FillAndExpand"
+                  BackgroundColor="LightGray"
+                  Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical"
+                             Grid.Column="0">
+                    <Label Text="Tier"
+                           TextColor="Gray"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center"/>
+                    <Label x:Name="TierLabel"
+                           Text="-1"
+                           TextColor="Black"
+                           FontSize="50"
+                           HorizontalTextAlignment="Center"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical"
+                             Grid.Column="1">
+                    <Label x:Name="MapTypeLabel"
+                           Text="Any"
+                           TextColor="Gray"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center"/>
+                    <Label x:Name="CheckpointsLabel"
+                           Text="-1"
+                           TextColor="Black"
+                           FontSize="50"
+                           HorizontalTextAlignment="Center"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical"
+                             Grid.Column="2">
+                    <Label Text="Bonuses"
+                           TextColor="Gray"
+                           FontSize="16"
+                           HorizontalTextAlignment="Center"/>
+                    <Label x:Name="BonusesLabel"
+                           Text="-1"
+                           TextColor="Black"
+                           FontSize="50"
+                           HorizontalTextAlignment="Center"/>
+                </StackLayout>
+            </Grid>
+
+            <!-- Mappers  -->
+            <Label x:Name="MappersLabel"
+                   Text="Mappers"
+                   TextColor="Black"
+                   FontSize="26"
+                   HorizontalOptions="Start"/>
+            <Grid x:Name="MappersGrid"
+                  HorizontalOptions="FillAndExpand" 
+                  Padding="20,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout x:Name="MapperTypeStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="0"/>
+                
+                <StackLayout x:Name="MapperNameStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="1"/>
+            </Grid>
+
+            <BoxView x:Name="MappersNTopSeparator"
+                     HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     Color="LightGray"/>
+
+            <!-- Map stats  -->
+            <Label Text="Stats"
+                   TextColor="Black"
+                   FontSize="26"
+                   HorizontalOptions="Start"/>
+            <Grid HorizontalOptions="FillAndExpand" 
+                  Padding="20,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout Orientation="Vertical" 
+                             Grid.Column="0">
+                    <Label Text="Completions"
+                           Style="{StaticResource LeftColStyle}"/>
+                    <Label Text="Times played"
+                           Style="{StaticResource LeftColStyle}"/>
+                    <Label Text="Total play time"
+                           Style="{StaticResource LeftColStyle}"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Vertical" 
+                             Grid.Column="1">
+                    <Label x:Name="CompletionsLabel"
+                           Style="{StaticResource RightColStyle}"/>
+                    <Label x:Name="TimesPlayedLabel"
+                           Style="{StaticResource RightColStyle}"/>
+                    <Label x:Name="PlayTimeLabel"
+                           Style="{StaticResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     Color="LightGray"/>
+
+            <!-- Map top 10  -->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Top 10"
+                       TextColor="Black"
+                       FontSize="26"
+                       HorizontalOptions="Start"
+                       Padding="0,0,0,10"/>
+
+                <Label x:Name="StyleOptionLabel"
+                       VerticalOptions="End"
+                       FontSize="16"
+                       TextColor="#147efb"
+                       HorizontalOptions="EndAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label x:Name="ZoneOptionLabel"
+                       VerticalOptions="End"
+                       FontSize="16"
+                       TextColor="#147efb"
+                       HorizontalOptions="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Picker x:Name="ZonePicker"
+                        IsVisible="False"
+                        Unfocused="ZonePicker_Unfocused"/>
+
+            </StackLayout>
+            <Grid HorizontalOptions="FillAndExpand"
+                  BackgroundColor="LightGray"
+                  Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout x:Name="TopRankStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="0"
+                             MinimumWidthRequest="50">
+                    <Label x:Name="TopColLabel1"
+                           Text="Rank" 
+                           FontSize="20"/>
+                </StackLayout>
+
+                <BoxView Color="WhiteSmoke"
+                         Grid.Column="1"/>
+
+                <StackLayout x:Name="TopTimeStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="2">
+                    <Label x:Name="TopColLabel2"
+                           Text="Time" 
+                           FontSize="20"/>
+                </StackLayout>
+
+                <BoxView Color="WhiteSmoke"
+                         Grid.Column="3"/>
+
+                <StackLayout x:Name="TopDiffStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="4">
+                    <Label x:Name="TopColLabel3"
+                           Text="Difference" 
+                           FontSize="20"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     Color="LightGray"
+                     Margin="0,10,0,0"/>
+
+            <!-- Map points -->
+            <Label Text="Points"
+                       TextColor="Black"
+                       FontSize="26"
+                       HorizontalOptions="Start"/>
+            
+            <Grid x:Name="PointsGrid"
+                  HorizontalOptions="FillAndExpand"
+                  Padding="20,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout x:Name="TopGroupStack" 
+                             Orientation="Vertical" 
+                             Grid.Column="0"/>
+
+                <StackLayout x:Name="GroupStack" 
+                             Orientation="Vertical"
+                             Grid.Column="1"/>
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

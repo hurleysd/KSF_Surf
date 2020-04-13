@@ -23,7 +23,7 @@
                HorizontalOptions="Start"/>
 
         <StackLayout Orientation="Horizontal">
-            
+
             <BoxView Color="Gray"
                      WidthRequest="1"
                      VerticalOptions="Fill"
@@ -66,14 +66,14 @@
                HorizontalOptions="Start"/>
 
         <StackLayout Orientation="Horizontal">
-            
+
             <BoxView Color="Gray"
                      WidthRequest="1"
                      VerticalOptions="Fill"
                      Margin="35, 5, 0, 5"/>
-            
+
             <StackLayout Orientation="Vertical">
-                
+
                 <Label x:Name="SortNameLabel"
                    Text="Name"
                    FontSize="20"
@@ -131,7 +131,7 @@
                      Margin="35, 5, 0, 5"/>
 
             <StackLayout Orientation="Vertical">
-                
+
                 <Label x:Name="TypeAnyLabel"
                    Text="Any"
                    FontSize="20"
@@ -166,8 +166,69 @@
                TextColor="Black"
                HorizontalOptions="Start"/>
 
-        
+        <StackLayout Orientation="Horizontal">
+            <BoxView Color="Gray"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+            <Grid HorizontalOptions="FillAndExpand" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="15"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Text="Minimum"
+                       FontSize="20"
+                       TextColor="Gray"
+                       Grid.Column="0"
+                       Grid.Row="0"/>
+
+                <Slider x:Name="MinTierSlider"
+                        Maximum="8" 
+                        Minimum="1"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        MinimumTrackColor="#147efb"
+                        MaximumTrackColor="LightGray"
+                        ValueChanged="MinTierSlider_ValueChanged"/>
+
+                <Label x:Name="MinTierLabel"
+                       Text="1"
+                       FontSize="20"
+                       TextColor="#147efb"
+                       Grid.Column="2"
+                       Grid.Row="0"/>
+
+                <Label Text="Maximum"
+                       FontSize="20"
+                       TextColor="Gray"
+                       Grid.Column="0"
+                       Grid.Row="1"/>
+
+                <Slider x:Name="MaxTierSlider"
+                        Maximum="8" 
+                        Minimum="1"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        MinimumTrackColor="LightGray"
+                        MaximumTrackColor="#147efb"
+                        ValueChanged="MaxTierSlider_ValueChanged"/>
+
+                <Label x:Name="MaxTierLabel"
+                       Text="1"
+                       FontSize="20"
+                       TextColor="#147efb"
+                       Grid.Column="2"
+                       Grid.Row="1"/>
+            </Grid>
 
 
+        </StackLayout>
     </StackLayout>
 </ContentPage>
