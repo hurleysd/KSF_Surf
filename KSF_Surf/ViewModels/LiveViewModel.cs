@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Windows.Input;
-
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 using RestSharp;
 using Newtonsoft.Json;
 
-using System.Collections.Generic;
 using KSF_Surf.Models;
-
 
 namespace KSF_Surf.ViewModels
 {
@@ -21,62 +15,75 @@ namespace KSF_Surf.ViewModels
         internal KSFServerRootObject css100t_servers;
         internal KSFServerRootObject csgo_servers;
 
+        private static RestClient client;
+        private static RestRequest request;
+
         public LiveViewModel()
         {
             Title = "Live";
+            
+            client = new RestClient();
+            request = new RestRequest();
+            request.Method = Method.GET;
+            request.RequestFormat = DataFormat.Json;
+
             ksfConnect();
             twitchConnect();
         }
 
         private void ksfConnect()
         {
-            var client = new RestClient();
+            if (!BaseViewModel.hasConnection()) return;
 
             // CSS server list ---------------------------------------------------------------------
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css/servers/list");
-
-            var request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
-
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 css_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
+            else
+            {
+                css_servers = null;
+            }
 
             // CSS100T server list ------------------------------------------------------------------
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css100t/servers/list");
-
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
-
             response = client.Execute(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 css100t_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
+            else
+            {
+                css100t_servers = null;
+            }
 
             // CSGO server list ------------------------------------------------------------------
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/csgo/servers/list");
-
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
-
             response = client.Execute(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 csgo_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
+            else
+            {
+                csgo_servers = null;
+            }
+        }
+
+        internal void ksfRefresh()
+        {
+            ksfConnect();
         }
 
         private void twitchConnect()
         {
+            if (!BaseViewModel.hasConnection()) return;
+
             string clientID = "";
             string query = "https://api.twitch.tv/helix/streams?";
 
@@ -86,20 +93,23 @@ namespace KSF_Surf.ViewModels
             }
             query = query.Substring(0, query.Length - 1);
 
-            var client = new RestClient();
             client.BaseUrl = new Uri(query);
 
-            var request = new RestRequest();
-            request.Method = Method.GET;
-            request.AddHeader("Client-ID", clientID);
-            request.RequestFormat = DataFormat.Json;
+            var trequest = new RestRequest();
+            trequest.Method = Method.GET;
+            trequest.AddHeader("Client-ID", clientID);
+            trequest.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = client.Execute(trequest);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 streams = JsonConvert.DeserializeObject<TwitchRootObject>(response.Content);
-            } 
+            }
+            else
+            {
+                streams = null;
+            }
         }
 
         internal void twitchRefresh()
@@ -109,7 +119,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 54 out of 100 (max per twitch API call)
+            // 55 out of 100 (max per twitch API call)
             "truktruk",
             "gocnak",
             "troflecopter",
@@ -119,7 +129,6 @@ namespace KSF_Surf.ViewModels
             "caffrey",
             "sneak_it",
             "rickzter",
-            "aimer_b",
             "draaph",
             "olivernb",
             "ignis_au",
@@ -164,7 +173,9 @@ namespace KSF_Surf.ViewModels
             "marblesurfs",
             "virgn4life",
             "zacki9",
-            "simexi"
+            "simexi",
+            "louieismyname",
+            "konga"
         };
     }
 }

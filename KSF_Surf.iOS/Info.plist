@@ -22,7 +22,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>KSF Surf</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.seanhurley.KSF_Surf</string>
+	<string>com.sean_hurley.KSF_Surf</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>

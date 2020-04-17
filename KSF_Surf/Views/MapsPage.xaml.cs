@@ -33,18 +33,28 @@ namespace KSF_Surf.Views
             mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
-            LayoutDesign();
+            ChangeDisplayList(LoadMaps(EFilter_Game.css, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+            MapsCollectionView.MinimumHeightRequest = 600;
         }
-
-
-        private void LayoutDesign() => ChangeDisplayList(LoadMaps(EFilter_Game.css, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
 
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
-                currentGame, currentSort, currentMinTier, currentMaxTier, currentMapType));
+            if (BaseViewModel.hasConnection())
+            {
+                if (currentGame == EFilter_Game.none)
+                {
+                    ChangeDisplayList(LoadMaps(EFilter_Game.css, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+                }
+
+                await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
+                    currentGame, currentSort, currentMinTier, currentMaxTier, currentMapType));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
+            }
         }
 
         private void SearchTextChanged(object sender, TextChangedEventArgs e)
@@ -74,12 +84,19 @@ namespace KSF_Surf.Views
 
         private async void Map_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.CurrentSelection.Count == 0) return;
+            if (MapsCollectionView.SelectedItem == null) return;
+            MapsCollectionView.SelectedItem = null;
 
             string selectedMap = (string)MapsCollectionView.SelectedItem;
-            MapsCollectionView.SelectedItem = null;
             
-            await Navigation.PushAsync(new MapsMapPage(selectedMap, currentGame));
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new MapsMapPage(selectedMap, currentGame));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF servers :(", "Please connect to the Internet.", "OK");
+            }
 
         }
 
@@ -97,7 +114,18 @@ namespace KSF_Surf.Views
             {
                 if (game != currentGame || sort != currentSort)
                 {
-                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(MapsViewModel.GetDetailedMapsList(game, sort).data);
+                    DetailedMapsRootObject dmro = MapsViewModel.GetDetailedMapsList(game, sort);
+                    if (dmro == null)
+                    {
+                        Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
+                        
+                        MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
+                        return maps_list;
+                    }
+                    MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
+                    MapsTab.Title = "Maps [" + EFilter_ToString.toString2(game) + "]";
+
+                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(dmro.data);
                     currentGame = game;
                     currentSort = sort;
                 }
@@ -126,11 +154,6 @@ namespace KSF_Surf.Views
                     maps_list.Add(datum.name);
                 }
             }
-            catch (NullReferenceException)
-            {
-                // no handling (query failed)
-                Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
-            }
             catch (FormatException)
             {
                 Console.WriteLine("Problem parsing KSFDetailedMapDatum.data field (MapsPage)");
@@ -143,9 +166,8 @@ namespace KSF_Surf.Views
         {
             MapsSearchBar.Text = "";
             ChangeDisplayList(LoadMaps(game, sort, minTier, maxTier, mapType));
-            MapsCollectionView.ScrollTo(1);
+            MapsCollectionView.ScrollTo(0);
         }
-
 
         private void ChangeDisplayList(List<string> list)
         {

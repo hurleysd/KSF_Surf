@@ -1,88 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KSF_Surf.Models
 {
-    public enum EFilter_Game
-    {
-        none, css, css100t, csgo
-    }
-
-    public enum EFilter_Sort
-    {
-        none, name, created, lastplayed, playtime, popularity
-    }
-
-    public enum EFilter_MapType
-    {
-        none = -1, any = 0, linear = 1, staged = 2
-    }
-
-    public enum EFilter_Mode
-    {
-        fw = 0, sw = 1, hsw = 2, bw = 3
-    }
-
-    public static class EFilter_ToString
-    {
-        public static string toString(EFilter_Game game)
-        {
-            string gameString = "";
-            switch (game)
-            {
-                case EFilter_Game.css: gameString = "css"; break;
-                case EFilter_Game.css100t: gameString = "css100t"; break;
-                case EFilter_Game.csgo: gameString = "csgo"; break;
-                default: break;
-            }
-            return gameString;
-        }
-
-        public static string toString(EFilter_Sort sort)
-        {
-            string sortString = "";
-            switch (sort)
-            {
-                case EFilter_Sort.name: sortString = "name"; break;
-                case EFilter_Sort.created: sortString = "created"; break;
-                case EFilter_Sort.lastplayed: sortString = "lastplayed"; break;
-                case EFilter_Sort.playtime: sortString = "playtime"; break;
-                case EFilter_Sort.popularity: sortString = "popularity"; break;
-                default: break;
-            }
-            return sortString;
-        }
-
-        public static string toString(EFilter_Mode mode)
-        {
-            string modeString = "";
-            switch (mode)
-            {
-                case EFilter_Mode.fw: modeString = "FW"; break;
-                case EFilter_Mode.hsw: modeString = "HSW"; break;
-                case EFilter_Mode.sw: modeString = "SW"; break;
-                case EFilter_Mode.bw: modeString = "BW"; break;
-                default: break;
-            }
-            return modeString;
-        }
-    }
-
-    public static class Seconds_Formatter
-    {
-        public static string toString_PlayTime(string seconds)
-        {
-            TimeSpan time = TimeSpan.FromSeconds(Int64.Parse(seconds));
-            return time.ToString(@"d\.h\:mm\:ss");
-        }
-
-        public static string toString_RankTime(string seconds)
-        {
-            TimeSpan time = TimeSpan.FromSeconds(double.Parse(seconds));
-            return time.ToString(@"m\:ss\.FFFFFF");
-        }
-    }
-
     // Classes for KSF API response JSON deserialization-----------------------------------
 
     // SERVER LIST
@@ -217,5 +136,197 @@ namespace KSF_Surf.Models
     {
         public string status { get; set; }
         public PointsData data { get; set; }
+    }
+
+    // SURF TOP
+
+    public class SurfTopDatum
+    {
+        public string name { get; set; }
+        public string points { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string country { get; set; }
+        public string lastOnline { get; set; }
+    }
+
+    public class SurfTopRootObject
+    {
+        public string status { get; set; }
+        public List<SurfTopDatum> data { get; set; }
+    }
+
+    // RECENT RECORDS
+
+    public class RRDatum
+    {
+        public string date { get; set; }
+        public string mapName { get; set; }
+        public string zoneID { get; set; }
+        public string finishtype { get; set; }
+        public string surfTime { get; set; }
+        public string wrDiff { get; set; }
+        public string r2Diff { get; set; }
+        public string dateNow { get; set; }
+        public string server { get; set; }
+        public string playerID { get; set; }
+        public string playerName { get; set; }
+        public string country { get; set; }
+        public string steamid { get; set; }
+    }
+
+    public class RRRootObject
+    {
+        public string status { get; set; }
+        public List<RRDatum> data { get; set; }
+    }
+
+    // RECENT TOP 10
+    public class RR10Datum
+    {
+        public string date { get; set; }
+        public string mapName { get; set; }
+        public string zoneID { get; set; }
+        public string newRank { get; set; }
+        public string prevRank { get; set; }
+        public string finishType { get; set; }
+        public string dateNow { get; set; }
+        public string server { get; set; }
+        public string surfTime { get; set; }
+        public string wrDiff { get; set; }
+        public string playerID { get; set; }
+        public string playerName { get; set; }
+        public string country { get; set; }
+        public string steamid { get; set; }
+    }
+
+    public class RR10RootObject
+    {
+        public string status { get; set; }
+        public List<RR10Datum> data { get; set; }
+    }
+
+
+
+
+    // MOST BY TYPE (COUNT)
+
+    public class MostCountDatum
+    {
+        public string name { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string country { get; set; }
+        public string lastonline { get; set; }
+        public string total { get; set; }
+    }
+
+    public class MostCountRootObject
+    {
+        public string status { get; set; }
+        public List<MostCountDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (CONTESTED ZONE)
+
+    public class MostContZoneDatum
+    {
+        public string mapID { get; set; }
+        public string mapName { get; set; }
+        public string zoneID { get; set; }
+        public string stageID { get; set; }
+        public string total { get; set; }
+        public string date { get; set; }
+    }
+
+    public class MostContZoneRootObject
+    {
+        public string status { get; set; }
+        public List<MostContZoneDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (GROUP)
+
+    public class MostGroupDatum
+    {
+        public string name { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string country { get; set; }
+        public string lastonline { get; set; }
+        public string groupPoints { get; set; }
+    }
+
+    public class MostGroupRootObject
+    {
+        public string status { get; set; }
+        public List<MostGroupDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (PC)
+
+    public class MostPCDatum
+    {
+        public string name { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string country { get; set; }
+        public string lastonline { get; set; }
+        public string percentCompletion { get; set; }
+    }
+
+    public class MostPCRootObject
+    {
+        public string status { get; set; }
+        public List<MostPCDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (TOP)
+
+    public class MostTopDatum
+    {
+        public string name { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string country { get; set; }
+        public string lastonline { get; set; }
+        public string top10Points { get; set; }
+    }
+
+    public class MostTopRootObject
+    {
+        public string status { get; set; }
+        public List<MostTopDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (CONTESTED WR)
+
+    public class MostContWrDatum
+    {
+        public string mapID { get; set; }
+        public string mapName { get; set; }
+        public string total { get; set; }
+        public string date { get; set; }
+    }
+
+    public class MostContWrRootObject
+    {
+        public string status { get; set; }
+        public List<MostContWrDatum> data { get; set; }
+    }
+
+    // MOST BY TYPE (TIME)
+
+    public class MostTimeDatum
+    {
+        public string mapID { get; set; }
+        public string mapName { get; set; }
+        public int totalplaytime { get; set; }
+    }
+
+    public class MostTimeRootObject
+    {
+        public string status { get; set; }
+        public List<MostTimeDatum> data { get; set; }
     }
 }

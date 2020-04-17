@@ -9,7 +9,6 @@ using Xamarin.Essentials;
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
-
 namespace KSF_Surf.Views
 {
     [DesignTimeVisible(false)]
@@ -22,19 +21,39 @@ namespace KSF_Surf.Views
         private ObservableCollection<KSFServerDatum> csgo_serverData;
         private ObservableCollection<TwitchDatum> streamData;
 
+        private bool allowVibrate = true;
+
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
 
             InitializeComponent();
-            LayoutDesign(); 
+            StreamsRefreshView.Command = new Command(StreamsRefresh);
+
+            LayoutDesign();
         }
 
-        private void LayoutDesign()
+        private async void LayoutDesign()
         {
             List<ServersList> servers = LoadServers();
-            ServersCarousel.ItemsSource = servers;
-
+            if (servers.Count != 0)
+            {
+                ServersCarousel.ItemsSource = servers;
+            }
+            else
+            {
+                bool tryAgain = await DisplayAlert("Could not connect to KSF servers :(", "Would you like to retry?", "Retry", "Cancel");
+                if (tryAgain)
+                {
+                    liveViewModel.ksfRefresh();
+                    liveViewModel.twitchRefresh();
+                    LayoutDesign();
+                }
+                else
+                {
+                    System.Environment.Exit(0); // exit the app (no WIFI)
+                }
+            }
             LoadStreams();
         }
 
@@ -56,12 +75,20 @@ namespace KSF_Surf.Views
 
         private void CSSLabel_Tapped(object sender, EventArgs e)
         {
-            ServersCarousel.ScrollTo(0);
+            if (ServersCarousel.Position != 0)
+            {
+                BaseViewModel.vibrate(allowVibrate);
+                ServersCarousel.ScrollTo(0);
+            }
         }
 
         private void CSGOLabel_Tapped(object sender, EventArgs e)
         {
-            ServersCarousel.ScrollTo(1);
+            if (ServersCarousel.Position != 1)
+            {
+                BaseViewModel.vibrate(allowVibrate);
+                ServersCarousel.ScrollTo(1);
+            }
         }
 
         private async void Stream_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,16 +98,26 @@ namespace KSF_Surf.Views
             TwitchDatum datum = (TwitchDatum)StreamsCollectionView.SelectedItem;
             StreamsCollectionView.SelectedItem = null;
 
-            Uri link = new Uri("https://www.twitch.tv/" + datum.user_name);
-            if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
+            if (BaseViewModel.hasConnection())
+            {
+                Uri link = new Uri("https://www.twitch.tv/" + datum.user_name);
+                if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
+            }
         }
 
-        /*private void Streams_Refresh(object sender, EventArgs e)
+        private async void StreamsRefresh()
         {
-            liveViewModel.twitchRefresh();
-            LoadStreams();
-            //StreamsCollectionView.EndRefresh();
-        }*/
+            if (BaseViewModel.hasConnection())
+            {
+                liveViewModel.twitchRefresh();
+                LoadStreams();
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to Twitch", "Please connect to the Internet.", "OK");
+            }
+            StreamsRefreshView.IsRefreshing = false;
+        }
 
         // Loading KSF Server List ---------------------------------------------------------------------------------------------------------------------
 
@@ -90,7 +127,7 @@ namespace KSF_Surf.Views
 
         private List<ServersList> LoadServers()
         {
-            List<ServersList> servers= new List<ServersList>();
+            List<ServersList> servers = new List<ServersList>();
             try
             {
                 css_serverData = new ObservableCollection<KSFServerDatum>(liveViewModel.css_servers.data);
@@ -101,68 +138,68 @@ namespace KSF_Surf.Views
             {
                 // no handling (query failed)
                 Console.WriteLine("KSF Server Request returned NULL (LivePage)");
+                return servers;
             }
-            finally
+
+            string cssServerString = "";
+            string cssMapString = "";
+            foreach (KSFServerDatum datum in css_serverData) // Adding CSS servers to list of Strings
             {
-                string cssServerString = "";
-                string cssMapString = "";
-                foreach (KSFServerDatum datum in css_serverData) // Adding CSS servers to list of Strings
+                if (datum.surftimer_servername.Contains("test")) continue;
+                cssServerString += datum.surftimer_servername + "\n";
+
+                string map = datum.currentmap;
+                if (map.Length > 22)
                 {
-                    if (datum.surftimer_servername.Contains("test")) continue;
-                    cssServerString += datum.surftimer_servername + "\n";
-
-                    string map = datum.currentmap;
-                    if (map.Length > 22)
-                    {
-                        map = map.Substring(0, 19) + "...";
-                    }
-                    cssMapString += map + "\n";
+                    map = map.Substring(0, 19) + "...";
                 }
-                
-                foreach (KSFServerDatum datum in css100t_serverData) // Adding CSS100T servers to list of Strings
-                {
-                    if (datum.surftimer_servername.Contains("TEST")) continue;
-                    cssServerString += datum.surftimer_servername + "\n";
-
-                    string map = datum.currentmap;
-                    if (map.Length > 22)
-                    {
-                        map = map.Substring(0, 19) + "...";
-                    }
-                    cssMapString += map + "\n";
-                }
-                ServersList cssServersList = new ServersList { game = "css" };
-                cssServersList.server_names = cssServerString;
-                cssServersList.maps = cssMapString;
-
-                string csgoServerString = "";
-                string csgoMapString = "";
-                foreach (KSFServerDatum datum in csgo_serverData) // Adding CSGO servers to list of Strings
-                {
-                    if (datum.surftimer_servername.Contains("TEST")) continue;
-                    if (datum.surftimer_servername.Contains("Europe")) // "EasySurf Europe" is too long
-                    {
-                        csgoServerString += "Europe\n";
-                    }
-                    else
-                    {
-                        csgoServerString += datum.surftimer_servername + "\n";
-                    }
-
-                    string map = datum.currentmap;
-                    if (map.Length > 22)
-                    {
-                        map = map.Substring(0, 19) + "...";
-                    }
-                    csgoMapString += map + "\n";
-                }
-                ServersList csgoServersList = new ServersList { game = "csgo" };
-                csgoServersList.server_names = csgoServerString;
-                csgoServersList.maps = csgoMapString;
-
-                servers.Add(cssServersList);
-                servers.Add(csgoServersList);
+                cssMapString += map + "\n";
             }
+                
+            foreach (KSFServerDatum datum in css100t_serverData) // Adding CSS100T servers to list of Strings
+            {
+                if (datum.surftimer_servername.Contains("TEST")) continue;
+                cssServerString += datum.surftimer_servername + "\n";
+
+                string map = datum.currentmap;
+                if (map.Length > 22)
+                {
+                    map = map.Substring(0, 19) + "...";
+                }
+                cssMapString += map + "\n";
+            }
+            ServersList cssServersList = new ServersList { game = "css" };
+            cssServersList.server_names = cssServerString.Trim();
+            cssServersList.maps = cssMapString.Trim();
+
+            string csgoServerString = "";
+            string csgoMapString = "";
+            foreach (KSFServerDatum datum in csgo_serverData) // Adding CSGO servers to list of Strings
+            {
+                if (datum.surftimer_servername.Contains("TEST")) continue;
+                if (datum.surftimer_servername.Contains("Europe")) // "EasySurf Europe" is too long
+                {
+                    csgoServerString += "Europe\n";
+                }
+                else
+                {
+                    csgoServerString += datum.surftimer_servername + "\n";
+                }
+
+                string map = datum.currentmap;
+                if (map.Length > 22)
+                {
+                    map = map.Substring(0, 19) + "...";
+                }
+                csgoMapString += map + "\n";
+            }
+            ServersList csgoServersList = new ServersList { game = "csgo" };
+            csgoServersList.server_names = csgoServerString.Trim();
+            csgoServersList.maps = csgoMapString.Trim();
+
+            servers.Add(cssServersList);
+            servers.Add(csgoServersList);
+
             return servers;
         }
 
@@ -172,20 +209,19 @@ namespace KSF_Surf.Views
 
         private void LoadStreams()
         {
-            try
-            {
-                streamData = new ObservableCollection<TwitchDatum>(liveViewModel.streams.data);
-            }
-            catch (NullReferenceException)
+            TwitchRootObject tro = liveViewModel.streams;
+            if (tro == null)
             {
                 // no handling (no streams online or Twitch query failed)
                 Console.WriteLine("Twitch Request returned NULL (LivePage)");
-                return;
+                StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
+                return;    
             }
+            streamData = new ObservableCollection<TwitchDatum>(tro.data);
 
             if (streamData.Count > 0)
             {
-                foreach (TwitchDatum datum in streamData) // applying image heights to stream thumbnails
+                foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
                 {
                     if (datum.thumbnail_url != null)
                     {

@@ -4,12 +4,12 @@ using Xamarin.Forms;
 using UIKit;
 using System.Diagnostics;
 
-[assembly: ExportRenderer(typeof(SearchBar), typeof(Namespace.iOS.Renderers.ExtendedSearchBarRenderer))]
+[assembly: ExportRenderer(typeof(SearchBar), typeof(KSF_Surf.iOS.Renderers.ExtendedSearchBarRenderer))]
 
 
 //Taken from : https://gist.github.com/xleon/9f94a8482162460ceaf9
 //Thanks to xleon
-namespace Namespace.iOS.Renderers
+namespace KSF_Surf.iOS.Renderers
 {
 	public class ExtendedSearchBarRenderer : SearchBarRenderer
 	{

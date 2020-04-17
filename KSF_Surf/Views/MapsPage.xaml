@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsPage"
-             Title="Maps"
+             Title="Maps [CS:S]"
              x:Name="MapsTab"
              Style="{StaticResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
@@ -27,20 +27,22 @@
                    Unfocused="SearchBarUnfocused"/>
 
         <CollectionView x:Name="MapsCollectionView"
+                        VerticalOptions="FillAndExpand"
                         BackgroundColor="WhiteSmoke"
                         SelectionMode="Single"
-                        SelectionChanged="Map_SelectionChanged">
+                        SelectionChanged="Map_SelectionChanged"
+                        VerticalScrollBarVisibility="Default">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Vertical" 
-                                 Padding="10, 4, 0, 4"
-                                 BackgroundColor="WhiteSmoke">
+                                 BackgroundColor="WhiteSmoke"
+                                 Padding="10, 4, 0, 4">
                         <Label Text="{Binding .}"
                                TextColor="Black"
                                FontSize ="20"/>
                         <BoxView HorizontalOptions="FillAndExpand"
-                                 HeightRequest="1"
-                                 Color="LightGray"/>
+                                     HeightRequest="1"
+                                     Color="LightGray"/>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -48,7 +50,8 @@
                 <LinearItemsLayout Orientation="Vertical"/>
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
-                <Label Text="No maps matched your filter"
+                <Label x:Name="MapsCollectionEmptyViewLabel"
+                       Text="No maps matched your filter"
                        TextColor="Gray"
                        FontSize="20"
                        HorizontalOptions="Fill"
@@ -56,6 +59,5 @@
                        Padding="20"/>
             </CollectionView.EmptyView>
         </CollectionView>
-
     </StackLayout>
 </ContentPage>

@@ -12,37 +12,43 @@
     <StackLayout Padding="10"
                  Orientation="Vertical">
         <Label Text="KSFClan Servers"
-               FontSize="26"
-               VerticalOptions="Start"
-               HorizontalOptions="Start"/>
+               FontSize="26"/>
 
         <!-- Servers Carousel -->
         <CarouselView x:Name="ServersCarousel"
                       CurrentItemChanged="ServersCarousel_CurrentItemChanged"
-                      BackgroundColor="LightGray">
+                      BackgroundColor="LightGray"
+                      MinimumHeightRequest="55"
+                      IsSwipeEnabled="False"
+                      IsScrollAnimated="False">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
+                    <Grid BackgroundColor="LightGray"
+                          Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
                         <Label Text="{Binding server_names}" 
                                TextColor="Black" 
                                FontSize="20" 
                                HorizontalOptions="Start" 
                                WidthRequest="130"
-                               Margin="10,0,0,0"/>
-                        <BoxView WidthRequest="1"
-                                 Color="WhiteSmoke"
-                                 Margin="0,10,0,10"/>
+                               Grid.Column="0"/>
+                        <BoxView Grid.Column="1"
+                                 Color="WhiteSmoke"/>
                         <Label Text="{Binding maps}" 
                                TextColor="Black" 
                                FontSize="20"
-                               Margin="10,0,0,0"/>
-                    </StackLayout>
+                               Grid.Column="2"/>
+                    </Grid>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
 
-        <StackLayout Grid.Row="1" 
-                     Orientation="Horizontal" 
+        <StackLayout Orientation="Horizontal" 
                      Spacing="3" 
                      HorizontalOptions="Center">
             <Label x:Name="CSSServersLabel" 
@@ -66,16 +72,20 @@
 
         <!-- Twitch Streams -->
         <Label Text="Surfer Streams"               
-                   FontSize="26"
-                   HorizontalOptions="Start"/>
-        <CollectionView x:Name ="StreamsCollectionView"
+                   FontSize="26"/>
+        
+        <RefreshView x:Name="StreamsRefreshView"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     RefreshColor="WhiteSmoke">
+            <CollectionView x:Name ="StreamsCollectionView"
                   ItemsSource="{Binding Streams}"
                   SelectionMode="Single"
                   SelectionChanged="Stream_SelectionChanged"      
                   BackgroundColor="LightGray">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10, 10, 10, 0">
+                    <Grid Padding="10, 6, 10, 6"
+                          BackgroundColor="LightGray">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
@@ -105,6 +115,7 @@
                                Grid.Column="1"/>
 
                         <BoxView Color="WhiteSmoke"
+                                 MinimumHeightRequest="1"
                                  Grid.Row="2"
                                  Grid.Column="0"
                                  Grid.ColumnSpan="2"/>
@@ -124,6 +135,7 @@
                        VerticalTextAlignment="Center"/>
             </CollectionView.EmptyView>
         </CollectionView>
+        </RefreshView>
 
     </StackLayout>
 </ContentPage>

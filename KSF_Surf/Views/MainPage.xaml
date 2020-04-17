@@ -10,47 +10,47 @@
 
     <TabbedPage.Children>
         <NavigationPage Title="Live">
+            <x:Arguments>
+                <views:LivePage />
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_live.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:LivePage />
-            </x:Arguments>
         </NavigationPage>
         
         <NavigationPage Title="Records">
+            <x:Arguments>
+                <views:RecordsPage />
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_records.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:RecordsPage />
-            </x:Arguments>
         </NavigationPage>
 
         <NavigationPage Title="Maps">
+            <x:Arguments>
+                <views:MapsPage />
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_maps.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:MapsPage />
-            </x:Arguments>
         </NavigationPage>
 
         <NavigationPage Title="Player">
+            <x:Arguments>
+                <views:PlayerPage />
+            </x:Arguments>
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_player.png"/>
                 </OnPlatform>
             </NavigationPage.Icon>
-            <x:Arguments>
-                <views:PlayerPage />
-            </x:Arguments>
         </NavigationPage>
     </TabbedPage.Children>
     

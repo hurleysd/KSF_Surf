@@ -1,4 +1,5 @@
 ﻿using KSF_Surf.Models;
+using KSF_Surf.ViewModels;
 
 using System;
 using System.ComponentModel;
@@ -18,6 +19,8 @@ namespace KSF_Surf.Views
         private EFilter_MapType mapType = EFilter_MapType.none;
         private Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
 
+        private bool allowVibrate = false;
+
         public MapsFilterPage(Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier,
             EFilter_Game currentGame, EFilter_Sort currentSort, int currentMinTier, int currentMaxTier, EFilter_MapType currentMapType)
         {
@@ -28,13 +31,17 @@ namespace KSF_Surf.Views
             ChangeGameFilter(currentGame);
             ChangeSortFilter(currentSort);
             ChangeMapTypeFilter(currentMapType);
+            allowVibrate = true;
 
             minTier = currentMinTier;
             maxTier = currentMaxTier;
             MaxTierSlider.Value = maxTier;
             MinTierSlider.Value = minTier;
-            
-            MaxTierSlider.MinimumTrackColor = MinTierSlider.MaximumTrackColor;
+
+            if (minTier != 1 || maxTier != 8)
+            {
+                ResetLabel.IsVisible = true;
+            }
         }
 
         private void ChangeGameFilter(EFilter_Game newGame)
@@ -52,10 +59,21 @@ namespace KSF_Surf.Views
             switch (newGame)
             {
                 case EFilter_Game.css: GameCSSLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_Game.css100t:
+                    {
+                        GameCSS100TLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
+                case EFilter_Game.csgo:
+                    {
+                        GameCSGOLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
             }
 
+            BaseViewModel.vibrate(allowVibrate);
             game = newGame;
         }
 
@@ -76,12 +94,33 @@ namespace KSF_Surf.Views
             switch (newSort)
             {
                 case EFilter_Sort.name: SortNameLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Sort.created: SortCreateLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Sort.playtime: SortPlayLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_Sort.popularity: SortPopLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_Sort.created:
+                    {
+                        SortCreateLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
+                case EFilter_Sort.lastplayed:
+                    {
+                        SortLastLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
+                case EFilter_Sort.playtime:
+                    {
+                        SortPlayLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
+                case EFilter_Sort.popularity:
+                    {
+                        SortPopLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
             }
 
+            BaseViewModel.vibrate(allowVibrate);
             sort = newSort;
         }
 
@@ -100,10 +139,21 @@ namespace KSF_Surf.Views
             switch (newMapType)
             {
                 case EFilter_MapType.any: TypeAnyLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_MapType.linear: TypeLinearLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
-                case EFilter_MapType.staged: TypeStagedLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_MapType.linear:
+                    {
+                        TypeLinearLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
+                case EFilter_MapType.staged:
+                    {
+                        TypeStagedLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        ResetLabel.IsVisible = true;
+                        break;
+                    }
             }
 
+            BaseViewModel.vibrate(allowVibrate);
             mapType = newMapType;
         }
 
@@ -139,6 +189,11 @@ namespace KSF_Surf.Views
                 MaxTierSlider.Value = newValue;
             }
             minTier = newValue;
+
+            if (minTier != 1)
+            {
+                ResetLabel.IsVisible = true;
+            }
         }
 
         private void MaxTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -151,6 +206,45 @@ namespace KSF_Surf.Views
                 MinTierSlider.Value = newValue;
             }
             maxTier = newValue;
+
+            if (maxTier != 8)
+            {
+                ResetLabel.IsVisible = true;
+            }
+        }
+
+        private void ResetLabel_Tapped(object sender, EventArgs e)
+        {
+            bool oldAllowVibrate = allowVibrate;
+            allowVibrate = false;
+
+            if (game != EFilter_Game.css)
+            {
+                ChangeGameFilter(EFilter_Game.css);
+            }
+            if (sort != EFilter_Sort.name)
+            {
+                ChangeSortFilter(EFilter_Sort.name);
+            }
+            if (mapType != EFilter_MapType.any)
+            {
+                ChangeMapTypeFilter(EFilter_MapType.any);
+            }
+            if (minTier != 1)
+            {
+                minTier = 1;
+                MinTierSlider.Value = minTier;
+            }
+            if (maxTier != 8)
+            {
+                maxTier = 8;
+                MaxTierSlider.Value = maxTier;
+            }
+
+            allowVibrate = oldAllowVibrate;
+            BaseViewModel.vibrate(allowVibrate);
+
+            ResetLabel.IsVisible = false;
         }
     }
     

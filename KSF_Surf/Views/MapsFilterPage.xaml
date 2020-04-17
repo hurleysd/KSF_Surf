@@ -15,12 +15,25 @@
                      Clicked="Apply_Clicked"/>
     </ContentPage.ToolbarItems>
 
+    <!-- Game -->
     <StackLayout Padding="10">
-        <Label Text="Game"
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Game"
                FontSize="26"
-               TextColor="Black"
-               VerticalOptions="Start"
-               HorizontalOptions="Start"/>
+               TextColor="Black"/>
+
+            <Label x:Name="ResetLabel"
+                   Text="Reset"
+                   FontSize="20"
+                   TextColor="#fc3d39"
+                   HorizontalOptions="EndAndExpand"
+                   IsVisible="False"
+                   Padding="2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
 
         <StackLayout Orientation="Horizontal">
 
@@ -58,12 +71,10 @@
         </StackLayout>
 
 
-
+        <!-- Sort -->
         <Label Text="Sort by"
                FontSize="26"
-               TextColor="Black"
-               VerticalOptions="Start"
-               HorizontalOptions="Start"/>
+               TextColor="Black"/>
 
         <StackLayout Orientation="Horizontal">
 
@@ -117,54 +128,10 @@
             </StackLayout>
         </StackLayout>
 
-
-
-        <Label Text="Map Type"
-               FontSize="26"
-               TextColor="Black"
-               HorizontalOptions="Start"/>
-
-        <StackLayout Orientation="Horizontal">
-            <BoxView Color="Gray"
-                     WidthRequest="1"
-                     VerticalOptions="Fill"
-                     Margin="35, 5, 0, 5"/>
-
-            <StackLayout Orientation="Vertical">
-
-                <Label x:Name="TypeAnyLabel"
-                   Text="Any"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="AnyMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="TypeLinearLabel"
-                   Text="Linear"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="LinearMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="TypeStagedLabel"
-                   Text="Staged"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="StagedMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
-        </StackLayout>
-
-
-
+        <!-- Tier -->
         <Label Text="Map Tier(s)"
                FontSize="26"
-               TextColor="Black"
-               HorizontalOptions="Start"/>
+               TextColor="Black"/>
 
         <StackLayout Orientation="Horizontal">
             <BoxView Color="Gray"
@@ -227,8 +194,48 @@
                        Grid.Column="2"
                        Grid.Row="1"/>
             </Grid>
-
-
         </StackLayout>
+
+
+        <!-- Map Type -->
+        <Label Text="Map Type"
+               FontSize="26"
+               TextColor="Black"/>
+
+        <StackLayout Orientation="Horizontal">
+            <BoxView Color="Gray"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+            <StackLayout Orientation="Vertical">
+
+                <Label x:Name="TypeAnyLabel"
+                   Text="Any"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="AnyMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="TypeLinearLabel"
+                   Text="Linear"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="LinearMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label x:Name="TypeStagedLabel"
+                   Text="Staged"
+                   FontSize="20"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped ="StagedMapTypeFilter_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+       
     </StackLayout>
 </ContentPage>

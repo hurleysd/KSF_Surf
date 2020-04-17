@@ -4,13 +4,18 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using KSF_Surf.Models;
+
+using UIKit;
+
 
 namespace KSF_Surf.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        readonly static string deviceString = Device.RuntimePlatform;
 
         bool isBusy = false;
         public bool IsBusy
@@ -50,5 +55,27 @@ namespace KSF_Surf.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        internal static void vibrate(bool allowVibrate)
+        {
+            if (!allowVibrate) return;
+
+            if (deviceString == Device.iOS)
+            {
+                if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+                {
+                    return;
+                }
+                var impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
+                impact.Prepare();
+                impact.ImpactOccurred();
+            }
+        }
+
+        internal static bool hasConnection()
+        {
+            var current = Connectivity.NetworkAccess;
+            return (current == NetworkAccess.Internet);
+        }
     }
 }

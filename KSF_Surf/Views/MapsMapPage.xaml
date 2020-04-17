@@ -20,13 +20,19 @@
                 <Setter Property="HorizontalTextAlignment" Value="End"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
+            <Style x:Key = "TopNPointsStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
 
-    <ScrollView Orientation="Vertical">
+    <ScrollView Orientation="Vertical"
+                VerticalScrollBarVisibility="Default">
         <StackLayout Padding="10"
-                 Orientation="Vertical">
+                     Orientation="Vertical">
 
             <!-- Map General Info -->
             <Grid HorizontalOptions="FillAndExpand"
@@ -152,23 +158,23 @@
                        HorizontalOptions="Start"
                        Padding="0,0,0,10"/>
 
-                <Label x:Name="StyleOptionLabel"
+                <Label x:Name="ZoneOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
                        TextColor="#147efb"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
+                        <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Label x:Name="ZoneOptionLabel"
+                <Label x:Name="StyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
                        TextColor="#147efb"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
+                        <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -181,11 +187,9 @@
                   BackgroundColor="LightGray"
                   Padding="10">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
 
                 <StackLayout x:Name="TopRankStack" 
@@ -207,17 +211,6 @@
                            Text="Time" 
                            FontSize="20"/>
                 </StackLayout>
-
-                <BoxView Color="WhiteSmoke"
-                         Grid.Column="3"/>
-
-                <StackLayout x:Name="TopDiffStack" 
-                             Orientation="Vertical" 
-                             Grid.Column="4">
-                    <Label x:Name="TopColLabel3"
-                           Text="Difference" 
-                           FontSize="20"/>
-                </StackLayout>
             </Grid>
 
             <BoxView HorizontalOptions="FillAndExpand"
@@ -230,7 +223,11 @@
                        TextColor="Black"
                        FontSize="26"
                        HorizontalOptions="Start"/>
-            
+
+            <StackLayout x:Name = "CompletionStack"
+                         Orientation="Vertical"
+                         Padding="20,10,10,10"/>
+
             <Grid x:Name="PointsGrid"
                   HorizontalOptions="FillAndExpand"
                   Padding="20,10,10,10">
