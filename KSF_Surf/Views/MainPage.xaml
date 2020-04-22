@@ -6,10 +6,11 @@
             mc:Ignorable="d"
             xmlns:views="clr-namespace:KSF_Surf.Views"
             x:Class="KSF_Surf.Views.MainPage"
-            Style="{StaticResource TabbedPageStyle}">
+            Style="{DynamicResource TabbedPageStyle}">
 
+    <!-- Tabs -->
     <TabbedPage.Children>
-        <NavigationPage Title="Live">
+        <NavigationPage Style="{DynamicResource NavigationPageStyle}">
             <x:Arguments>
                 <views:LivePage />
             </x:Arguments>
@@ -19,8 +20,8 @@
                 </OnPlatform>
             </NavigationPage.Icon>
         </NavigationPage>
-        
-        <NavigationPage Title="Records">
+
+        <NavigationPage Style="{DynamicResource NavigationPageStyle}">
             <x:Arguments>
                 <views:RecordsPage />
             </x:Arguments>
@@ -31,7 +32,7 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
-        <NavigationPage Title="Maps">
+        <NavigationPage Style="{DynamicResource NavigationPageStyle}">
             <x:Arguments>
                 <views:MapsPage />
             </x:Arguments>
@@ -42,7 +43,7 @@
             </NavigationPage.Icon>
         </NavigationPage>
 
-        <NavigationPage Title="Player">
+        <NavigationPage Style="{DynamicResource NavigationPageStyle}">
             <x:Arguments>
                 <views:PlayerPage />
             </x:Arguments>

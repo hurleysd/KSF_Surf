@@ -6,8 +6,6 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
-using KSF_Surf.Models;
-
 using UIKit;
 
 
@@ -17,6 +15,7 @@ namespace KSF_Surf.ViewModels
     {
         readonly static string deviceString = Device.RuntimePlatform;
 
+        #region autogen
         bool isBusy = false;
         public bool IsBusy
         {
@@ -55,7 +54,11 @@ namespace KSF_Surf.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        #endregion
 
+
+        // System wide static methods ----------------------------------------------------------
+        #region system
         internal static void vibrate(bool allowVibrate)
         {
             if (!allowVibrate) return;
@@ -77,5 +80,6 @@ namespace KSF_Surf.ViewModels
             var current = Connectivity.NetworkAccess;
             return (current == NetworkAccess.Internet);
         }
+        #endregion
     }
 }

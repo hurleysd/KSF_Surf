@@ -6,23 +6,24 @@
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsMapPage"
              x:Name="MapsMap"
-             Style="{StaticResource ContentPageStyle}">
+             Style="{DynamicResource ContentPageStyle}">
+    <!-- Label Styles -->
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key = "LeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key = "RightColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="HorizontalTextAlignment" Value="End"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key = "TopNPointsStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="16"/>
-                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
         </ResourceDictionary>
@@ -31,66 +32,68 @@
 
     <ScrollView Orientation="Vertical"
                 VerticalScrollBarVisibility="Default">
-        <StackLayout Padding="10"
+        <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
 
             <!-- Map General Info -->
-            <Grid HorizontalOptions="FillAndExpand"
-                  BackgroundColor="LightGray"
+            <Frame Style="{StaticResource FrameStyle}"
+                   IsClippedToBounds="True">
+                <Grid HorizontalOptions="FillAndExpand"
+                  BackgroundColor="{DynamicResource ViewBackgroundColor}"
                   Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackLayout Orientation="Vertical"
+                    <StackLayout Orientation="Vertical"
                              Grid.Column="0">
-                    <Label Text="Tier"
-                           TextColor="Gray"
+                        <Label Text="Tier"
+                           TextColor="{DynamicResource GrayTextColor}"
                            FontSize="16"
                            HorizontalTextAlignment="Center"/>
-                    <Label x:Name="TierLabel"
+                        <Label x:Name="TierLabel"
                            Text="-1"
-                           TextColor="Black"
+                           TextColor="{DynamicResource HeaderTextColor}"
                            FontSize="50"
                            HorizontalTextAlignment="Center"/>
-                </StackLayout>
+                    </StackLayout>
 
-                <StackLayout Orientation="Vertical"
+                    <StackLayout Orientation="Vertical"
                              Grid.Column="1">
-                    <Label x:Name="MapTypeLabel"
+                        <Label x:Name="MapTypeLabel"
                            Text="Any"
-                           TextColor="Gray"
+                           TextColor="{DynamicResource GrayTextColor}"
                            FontSize="16"
                            HorizontalTextAlignment="Center"/>
-                    <Label x:Name="CheckpointsLabel"
+                        <Label x:Name="CheckpointsLabel"
                            Text="-1"
-                           TextColor="Black"
+                           TextColor="{DynamicResource HeaderTextColor}"
                            FontSize="50"
                            HorizontalTextAlignment="Center"/>
-                </StackLayout>
+                    </StackLayout>
 
-                <StackLayout Orientation="Vertical"
+                    <StackLayout Orientation="Vertical"
                              Grid.Column="2">
-                    <Label Text="Bonuses"
-                           TextColor="Gray"
+                        <Label Text="Bonuses"
+                           TextColor="{DynamicResource GrayTextColor}"
                            FontSize="16"
                            HorizontalTextAlignment="Center"/>
-                    <Label x:Name="BonusesLabel"
+                        <Label x:Name="BonusesLabel"
                            Text="-1"
-                           TextColor="Black"
+                           TextColor="{DynamicResource HeaderTextColor}"
                            FontSize="50"
                            HorizontalTextAlignment="Center"/>
-                </StackLayout>
-            </Grid>
+                    </StackLayout>
+                </Grid>
+            </Frame>
 
             <!-- Mappers  -->
             <Label x:Name="MappersLabel"
                    Text="Mappers"
-                   TextColor="Black"
-                   FontSize="26"
-                   HorizontalOptions="Start"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,10,0,0"/>
             <Grid x:Name="MappersGrid"
                   HorizontalOptions="FillAndExpand" 
                   Padding="20,10,10,10">
@@ -111,13 +114,12 @@
             <BoxView x:Name="MappersNTopSeparator"
                      HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
-                     Color="LightGray"/>
+                     Color="{DynamicResource ViewBackgroundColor}"/>
 
             <!-- Map stats  -->
             <Label Text="Stats"
-                   TextColor="Black"
-                   FontSize="26"
-                   HorizontalOptions="Start"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,10,0,0"/>
             <Grid HorizontalOptions="FillAndExpand" 
                   Padding="20,10,10,10">
                 <Grid.ColumnDefinitions>
@@ -128,40 +130,39 @@
                 <StackLayout Orientation="Vertical" 
                              Grid.Column="0">
                     <Label Text="Completions"
-                           Style="{StaticResource LeftColStyle}"/>
+                           Style="{DynamicResource LeftColStyle}"/>
                     <Label Text="Times played"
-                           Style="{StaticResource LeftColStyle}"/>
+                           Style="{DynamicResource LeftColStyle}"/>
                     <Label Text="Total play time"
-                           Style="{StaticResource LeftColStyle}"/>
+                           Style="{DynamicResource LeftColStyle}"/>
                 </StackLayout>
                 
                 <StackLayout Orientation="Vertical" 
                              Grid.Column="1">
                     <Label x:Name="CompletionsLabel"
-                           Style="{StaticResource RightColStyle}"/>
+                           Style="{DynamicResource RightColStyle}"/>
                     <Label x:Name="TimesPlayedLabel"
-                           Style="{StaticResource RightColStyle}"/>
+                           Style="{DynamicResource RightColStyle}"/>
                     <Label x:Name="PlayTimeLabel"
-                           Style="{StaticResource RightColStyle}"/>
+                           Style="{DynamicResource RightColStyle}"/>
                 </StackLayout>
             </Grid>
 
             <BoxView HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
-                     Color="LightGray"/>
+                     Color="{DynamicResource ViewBackgroundColor}"
+                     Margin="0,10,0,10"/>
 
             <!-- Map top 10  -->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Top 10"
-                       TextColor="Black"
-                       FontSize="26"
-                       HorizontalOptions="Start"
-                       Padding="0,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Padding="10,0,0,10"/>
 
                 <Label x:Name="ZoneOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="#147efb"
+                       TextColor="{DynamicResource TappedTextColor}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
@@ -171,7 +172,7 @@
                 <Label x:Name="StyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="#147efb"
+                       TextColor="{DynamicResource TappedTextColor}"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
@@ -183,46 +184,50 @@
                         Unfocused="ZonePicker_Unfocused"/>
 
             </StackLayout>
-            <Grid HorizontalOptions="FillAndExpand"
-                  BackgroundColor="LightGray"
-                  Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <StackLayout x:Name="TopRankStack" 
+            <Frame Style="{StaticResource FrameStyle}">
+                <Grid HorizontalOptions="FillAndExpand"
+                  BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                  Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="155"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout x:Name="TopRankStack" 
                              Orientation="Vertical" 
                              Grid.Column="0"
                              MinimumWidthRequest="50">
-                    <Label x:Name="TopColLabel1"
+                        <Label x:Name="TopColLabel1"
                            Text="Rank" 
+                           TextColor="{DynamicResource HeaderTextColor}"
                            FontSize="20"/>
-                </StackLayout>
+                    </StackLayout>
 
-                <BoxView Color="WhiteSmoke"
+                    <BoxView Color="{DynamicResource SeparatorColor}"
                          Grid.Column="1"/>
 
-                <StackLayout x:Name="TopTimeStack" 
+                    <StackLayout x:Name="TopTimeStack" 
                              Orientation="Vertical" 
                              Grid.Column="2">
-                    <Label x:Name="TopColLabel2"
+                        <Label x:Name="TopColLabel2"
                            Text="Time" 
+                           TextColor="{DynamicResource HeaderTextColor}"
                            FontSize="20"/>
-                </StackLayout>
-            </Grid>
+                    </StackLayout>
+                </Grid>
+            </Frame>
 
             <BoxView HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
-                     Color="LightGray"
-                     Margin="0,10,0,0"/>
+                     Color="{DynamicResource ViewBackgroundColor}"
+                     Margin="0,20,0,10"/>
 
             <!-- Map points -->
             <Label Text="Points"
-                       TextColor="Black"
-                       FontSize="26"
-                       HorizontalOptions="Start"/>
+                    Style="{DynamicResource HeaderLabel}"
+                    Margin="10,0,0,0"/>
 
             <StackLayout x:Name = "CompletionStack"
                          Orientation="Vertical"

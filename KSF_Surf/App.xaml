@@ -6,16 +6,40 @@
              mc:Ignorable="d"
              x:Class="KSF_Surf.App">
 
+    <!--Global Styles-->
     <Application.Resources>
         <ResourceDictionary>
-            <!--Global Styles-->
-            <!-- Color x:Key="NavigationPrimary">#2196F3</ -->
+            <Color x:Key="ViewBackgroundColor">#363636</Color>
+            <Color x:Key="GrayTextColor">#9e9e9e</Color>
+            <Color x:Key="HeaderTextColor">WhiteSmoke</Color>
+            <Color x:Key="TappedTextColor">#147efb</Color>
+            <Color x:Key="SeparatorColor">Black</Color>
+            <Color x:Key="AppBackgroundColor">Black</Color>
+
             <Style x:Key ="TabbedPageStyle" TargetType="TabbedPage">
-                <Setter Property="BarBackgroundColor" Value="{DynamicResource ThemeBackGroundColor}"/>
-                <Setter Property="BarTextColor" Value="Gray"/>
+                <Setter Property="BarBackgroundColor" Value="{DynamicResource AppBackgroundColor}"/>
+                <Setter Property="SelectedTabColor" Value="{DynamicResource TappedTextColor}"/>
+                <Setter Property="UnselectedTabColor" Value="{DynamicResource GrayTextColor}"/>
+            </Style>
+            <Style x:Key ="NavigationPageStyle" TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{DynamicResource AppBackgroundColor}"/>
             </Style>
             <Style x:Key ="ContentPageStyle" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value ="WhiteSmoke"/>
+                <Setter Property="BackgroundColor" Value ="{DynamicResource AppBackgroundColor}"/>
+            </Style>
+
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="TextColor" Value ="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="FontSize" Value ="28"/>
+                <Setter Property="FontAttributes" Value ="Bold"/>
+            </Style>
+
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value ="10"/>
+                <Setter Property="HasShadow" Value ="False"/>
+                <Setter Property="Padding" Value ="0"/>
+                <Setter Property="HorizontalOptions" Value ="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value ="Fill"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

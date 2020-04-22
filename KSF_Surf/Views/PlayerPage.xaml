@@ -7,7 +7,7 @@
              x:Class="KSF_Surf.Views.PlayerPage"
              Title="Player"
              x:Name="PlayerTab"  
-             Style="{StaticResource ContentPageStyle}">
+             Style="{DynamicResource ContentPageStyle}">
 
     <StackLayout Orientation="Vertical">
         

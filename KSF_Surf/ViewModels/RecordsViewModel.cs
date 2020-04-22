@@ -2,12 +2,14 @@
 
 using RestSharp;
 using Newtonsoft.Json;
+
 using KSF_Surf.Models;
 
 namespace KSF_Surf.ViewModels
 {
     public class RecordsViewModel : BaseViewModel
     {
+        // objects for HTTP requests
         private static RestClient client;
         private static RestRequest request;
 
@@ -20,6 +22,8 @@ namespace KSF_Surf.ViewModels
             request.Method = Method.GET;
             request.RequestFormat = DataFormat.Json;
         }
+
+        // KSF API calls -------------------------------------------------------------------------------------------
 
         internal static SurfTopRootObject GetSurfTop(EFilter_Game game, EFilter_Mode mode)
         {

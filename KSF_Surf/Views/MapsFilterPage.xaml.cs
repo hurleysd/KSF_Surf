@@ -12,14 +12,19 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class MapsFilterPage : ContentPage
     {
+        // variables for filters
         private EFilter_Game game = EFilter_Game.none;
         private EFilter_Sort sort = EFilter_Sort.none;
         private int minTier = -1;
         private int maxTier = -1;
         private EFilter_MapType mapType = EFilter_MapType.none;
+
+        // method to apply filters
         private Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
 
+        // vibration
         private bool allowVibrate = false;
+
 
         public MapsFilterPage(Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier,
             EFilter_Game currentGame, EFilter_Sort currentSort, int currentMinTier, int currentMaxTier, EFilter_MapType currentMapType)
@@ -44,30 +49,35 @@ namespace KSF_Surf.Views
             }
         }
 
+        // UI -------------------------------------------------------------------------------------------------------------------------------------
+        #region UI
+
         private void ChangeGameFilter(EFilter_Game newGame)
         {
             if (game == newGame) return;
+            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
+            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
             switch (game)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = Xamarin.Forms.Color.Gray; break;
+                case EFilter_Game.css: GameCSSLabel.TextColor = GrayTextColor; break;
+                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = GrayTextColor; break;
+                case EFilter_Game.csgo: GameCSGOLabel.TextColor = GrayTextColor; break;
                 default: break;
             }
 
             switch (newGame)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_Game.css: GameCSSLabel.TextColor = tappedTextColor; break;
                 case EFilter_Game.css100t:
                     {
-                        GameCSS100TLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        GameCSS100TLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
                 case EFilter_Game.csgo:
                     {
-                        GameCSGOLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        GameCSGOLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
@@ -80,41 +90,43 @@ namespace KSF_Surf.Views
         private void ChangeSortFilter(EFilter_Sort newSort)
         {
             if (sort == newSort) return;
+            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
+            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
             switch (sort)
             {
-                case EFilter_Sort.name: SortNameLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Sort.created: SortCreateLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Sort.playtime: SortPlayLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_Sort.popularity: SortPopLabel.TextColor = Xamarin.Forms.Color.Gray; break;
+                case EFilter_Sort.name: SortNameLabel.TextColor = GrayTextColor; break;
+                case EFilter_Sort.created: SortCreateLabel.TextColor = GrayTextColor; break;
+                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = GrayTextColor; break;
+                case EFilter_Sort.playtime: SortPlayLabel.TextColor = GrayTextColor; break;
+                case EFilter_Sort.popularity: SortPopLabel.TextColor = GrayTextColor; break;
                 default: break;
             }
 
             switch (newSort)
             {
-                case EFilter_Sort.name: SortNameLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_Sort.name: SortNameLabel.TextColor = tappedTextColor; break;
                 case EFilter_Sort.created:
                     {
-                        SortCreateLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        SortCreateLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
                 case EFilter_Sort.lastplayed:
                     {
-                        SortLastLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        SortLastLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
                 case EFilter_Sort.playtime:
                     {
-                        SortPlayLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        SortPlayLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
                 case EFilter_Sort.popularity:
                     {
-                        SortPopLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        SortPopLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
@@ -127,27 +139,29 @@ namespace KSF_Surf.Views
         private void ChangeMapTypeFilter(EFilter_MapType newMapType)
         {
             if (mapType == newMapType) return;
+            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
+            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
             switch (mapType)
             {
-                case EFilter_MapType.any: TypeAnyLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_MapType.linear: TypeLinearLabel.TextColor = Xamarin.Forms.Color.Gray; break;
-                case EFilter_MapType.staged: TypeStagedLabel.TextColor = Xamarin.Forms.Color.Gray; break;
+                case EFilter_MapType.any: TypeAnyLabel.TextColor = GrayTextColor; break;
+                case EFilter_MapType.linear: TypeLinearLabel.TextColor = GrayTextColor; break;
+                case EFilter_MapType.staged: TypeStagedLabel.TextColor = GrayTextColor; break;
                 default: break;
             }
 
             switch (newMapType)
             {
-                case EFilter_MapType.any: TypeAnyLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb"); break;
+                case EFilter_MapType.any: TypeAnyLabel.TextColor = tappedTextColor; break;
                 case EFilter_MapType.linear:
                     {
-                        TypeLinearLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        TypeLinearLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
                 case EFilter_MapType.staged:
                     {
-                        TypeStagedLabel.TextColor = Xamarin.Forms.Color.FromHex("147efb");
+                        TypeStagedLabel.TextColor = tappedTextColor;
                         ResetLabel.IsVisible = true;
                         break;
                     }
@@ -157,7 +171,9 @@ namespace KSF_Surf.Views
             mapType = newMapType;
         }
 
+        #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
+        #region events
 
         private async void Apply_Clicked(object sender, System.EventArgs e)
         {
@@ -247,5 +263,6 @@ namespace KSF_Surf.Views
             ResetLabel.IsVisible = false;
         }
     }
-    
+
+    #endregion
 }

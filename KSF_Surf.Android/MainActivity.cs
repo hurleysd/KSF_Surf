@@ -1,11 +1,8 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
+
 using Xamarin.Forms;
 
 namespace KSF_Surf.Droid
@@ -21,7 +18,7 @@ namespace KSF_Surf.Droid
 
             base.OnCreate(savedInstanceState);
 
-            Forms.SetFlags("CollectionView_Experimental"); //needed for CarouselView(LivePage.xaml) and CollectionView(MapsPage.xaml)
+            Forms.SetFlags("CollectionView_Experimental"); //needed for CarouselView (LivePage.xaml) and CollectionView(MapsPage.xaml)
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

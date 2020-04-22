@@ -2,10 +2,6 @@
 using RestSharp;
 
 using System;
-using System.Windows.Input;
-
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 using KSF_Surf.Models;
 
@@ -13,6 +9,7 @@ namespace KSF_Surf.ViewModels
 {
     public class MapsViewModel : BaseViewModel
     {
+        // objects for HTTP requests
         private static RestClient client;
         private static RestRequest request;
 
@@ -25,6 +22,8 @@ namespace KSF_Surf.ViewModels
             request.Method = Method.GET;
             request.RequestFormat = DataFormat.Json;
         }
+
+        // KSF API calls -----------------------------------------------------------------------------------------------------------
 
         internal static DetailedMapsRootObject GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
         {

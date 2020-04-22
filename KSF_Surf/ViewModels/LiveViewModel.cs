@@ -9,12 +9,10 @@ namespace KSF_Surf.ViewModels
 {
     public class LiveViewModel : BaseViewModel
     {
-
+        // object for "Surfer Streams"
         internal TwitchRootObject streams;
-        internal KSFServerRootObject css_servers;
-        internal KSFServerRootObject css100t_servers;
-        internal KSFServerRootObject csgo_servers;
 
+        // objects for HTTP requests
         private static RestClient client;
         private static RestRequest request;
 
@@ -27,58 +25,35 @@ namespace KSF_Surf.ViewModels
             request.Method = Method.GET;
             request.RequestFormat = DataFormat.Json;
 
-            ksfConnect();
             twitchConnect();
         }
 
-        private void ksfConnect()
-        {
-            if (!BaseViewModel.hasConnection()) return;
+        // KSF API call -------------------------------------------------------------------------
+        #region ksf
 
-            // CSS server list ---------------------------------------------------------------------
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css/servers/list");
+        internal static KSFServerRootObject GetServers(EFilter_Game game)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            if (gameString == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/servers/list");
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                css_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
+                return JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
             }
             else
             {
-                css_servers = null;
-            }
-
-            // CSS100T server list ------------------------------------------------------------------
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/css100t/servers/list");
-            response = client.Execute(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                css100t_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
-            }
-            else
-            {
-                css100t_servers = null;
-            }
-
-            // CSGO server list ------------------------------------------------------------------
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/csgo/servers/list");
-            response = client.Execute(request);
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                csgo_servers = JsonConvert.DeserializeObject<KSFServerRootObject>(response.Content);
-            }
-            else
-            {
-                csgo_servers = null;
+                return null;
             }
         }
 
-        internal void ksfRefresh()
-        {
-            ksfConnect();
-        }
+        #endregion
+        //Twitch API call ------------------------------------------------------------------------
+        #region twitch
 
         private void twitchConnect()
         {
@@ -119,7 +94,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 55 out of 100 (max per twitch API call)
+            // 57 out of 100 (max per twitch API call)
             "truktruk",
             "gocnak",
             "troflecopter",
@@ -175,7 +150,11 @@ namespace KSF_Surf.ViewModels
             "zacki9",
             "simexi",
             "louieismyname",
-            "konga"
+            "konga",
+            "mbnlol",
+            "granis_"
         };
+
+        #endregion
     }
 }

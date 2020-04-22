@@ -78,6 +78,8 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TabbedRenderer.cs" />
+    <Compile Include="PageRenderer.cs" />
     <Compile Include="ExtendedSearchBarRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

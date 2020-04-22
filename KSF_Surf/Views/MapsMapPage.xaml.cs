@@ -13,6 +13,7 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class MapsMapPage : ContentPage
     {
+        // objects for map information
         private MapInfoData mapInfoData;
         private MapSettings mapSettings;
         private List<Mapper> mappers;
@@ -21,6 +22,7 @@ namespace KSF_Surf.Views
 
         private PointsData pointsData;
 
+        // variables for this map
         private readonly string map;
         private readonly EFilter_Game game;
         private EFilter_MapType mapType;
@@ -40,8 +42,8 @@ namespace KSF_Surf.Views
             currentMode = EFilter_Mode.fw;
             
             currentZone = 0;
-            currentZoneString = "Map";
-            zonePickerList = new List<string>() { "Map" };
+            currentZoneString = "Main";
+            zonePickerList = new List<string>() { "Main" };
             stageCount = 0;
             bonusCount = 0;
 
@@ -50,11 +52,14 @@ namespace KSF_Surf.Views
             LoadMapInfo();
         }
 
+        // UI --------------------------------------------------------------------------------------------------------------------------------------
+        #region UI
+
         private void LoadMapInfo()
         {
             MapsMap.Title = map + " [" + EFilter_ToString.toString2(game) + "]";
 
-            // running query and setting member variables
+            // running query and assigning to map information objects
             mapInfoData = MapsViewModel.GetMapInfo(game, map)?.data;
             if (mapInfoData is null) return;
 
@@ -73,7 +78,7 @@ namespace KSF_Surf.Views
                 Console.WriteLine("Problem parsing mapSettings.maptype field (MapsMapPage mapType)");
             }
 
-            // filling in XAML and setting zone options
+            // filling in UI and setting zone options
             LayoutGeneralMapInfo();
             LayoutMappers();
             LayoutStats();
@@ -110,7 +115,7 @@ namespace KSF_Surf.Views
             topData = MapsViewModel.GetMapTop(game, map, currentMode, currentZone)?.data;
             if (topData is null) return;
             
-            LayoutTop("FW", "Map");
+            LayoutTop("FW", "Main");
         }
 
         private void LayoutGeneralMapInfo()
@@ -160,7 +165,7 @@ namespace KSF_Surf.Views
         {
             CompletionsLabel.Text = pointsData.TotalPlayers;
             TimesPlayedLabel.Text = mapSettings.totalplaytimes;
-            PlayTimeLabel.Text = Seconds_Formatter.toString_PlayTime(mapSettings.playtime);
+            PlayTimeLabel.Text = Seconds_Formatter.toString_PlayTime(mapSettings.playtime, true);
         }
 
         private void LayoutTop(string modeString, string zone)
@@ -173,7 +178,7 @@ namespace KSF_Surf.Views
             {
                 Label RankLabel = new Label
                 {
-                    Text = i + ". " + datum.name,
+                    Text = i + ". " + datum.name + " (" + datum.count + ")",
                     Style = Resources["TopNPointsStyle"] as Style
                 };
                 TopRankStack.Children.Add(RankLabel);
@@ -268,15 +273,15 @@ namespace KSF_Surf.Views
             TopTimeStack.Children.Add(TopColLabel2);
         }
 
+        #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
-
-        private readonly List<string> modes_list = new List<string> { "FW", "HSW", "SW", "BW" };
+        #region events
 
         private async void StyleOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> modes = new List<string>();
             string currentModeString = EFilter_ToString.toString(currentMode);
-            foreach (string mode in modes_list)
+            foreach (string mode in EFilter_ToString.modes_arr)
             {
                 if (mode != currentModeString)
                 {
@@ -284,7 +289,7 @@ namespace KSF_Surf.Views
                 }
             }
 
-            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes[0], modes[1], modes[2]);
+            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
 
             EFilter_Mode newCurrentMode = EFilter_Mode.fw;
             switch (newStyle)
@@ -307,8 +312,8 @@ namespace KSF_Surf.Views
         
         private void ZoneOptionLabel_Tapped(object sender, EventArgs e)
         {
-            ZonePicker.Focus();
             ZonePicker.SelectedItem = currentZoneString;
+            ZonePicker.Focus();
         }
 
         private void ZonePicker_Unfocused(object sender, FocusEventArgs e)
@@ -342,4 +347,5 @@ namespace KSF_Surf.Views
         }
     }
 
+    #endregion
 }

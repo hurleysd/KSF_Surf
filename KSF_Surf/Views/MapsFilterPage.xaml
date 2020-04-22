@@ -7,7 +7,7 @@
              x:Class="KSF_Surf.Views.MapsFilterPage"
              Title="Filters"
              x:Name="MapsFilter"
-             Style="{StaticResource ContentPageStyle}">
+             Style="{DynamicResource ContentPageStyle}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="Apply" 
@@ -15,227 +15,235 @@
                      Clicked="Apply_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <!-- Game -->
-    <StackLayout Padding="10">
-        <StackLayout Orientation="Horizontal">
+    <ScrollView Orientation="Vertical"
+                VerticalScrollBarVisibility="Default">
+        
+        <!-- Game -->
+        <StackLayout Padding="10,15,10,15">
+            <StackLayout Orientation="Horizontal">
             <Label Text="Game"
-               FontSize="26"
-               TextColor="Black"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,0,0,10"/>
 
-            <Label x:Name="ResetLabel"
-                   Text="Reset"
-                   FontSize="20"
-                   TextColor="#fc3d39"
-                   HorizontalOptions="EndAndExpand"
-                   IsVisible="False"
-                   Padding="2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-        </StackLayout>
-
-        <StackLayout Orientation="Horizontal">
-
-            <BoxView Color="Gray"
-                     WidthRequest="1"
-                     VerticalOptions="Fill"
-                     Margin="35, 5, 0, 5"/>
-
-            <StackLayout Orientation="Vertical">
-                <Label x:Name="GameCSSLabel"
-                   Text="CS:S"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="CSSGameFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="GameCSS100TLabel"
-                   Text="CS:S 100T"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="CSS100TGameFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="GameCSGOLabel"
-                   Text="CS:GO"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="CSGOGameFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
-        </StackLayout>
-
-
-        <!-- Sort -->
-        <Label Text="Sort by"
-               FontSize="26"
-               TextColor="Black"/>
-
-        <StackLayout Orientation="Horizontal">
-
-            <BoxView Color="Gray"
-                     WidthRequest="1"
-                     VerticalOptions="Fill"
-                     Margin="35, 5, 0, 5"/>
-
-            <StackLayout Orientation="Vertical">
-
-                <Label x:Name="SortNameLabel"
-                   Text="Name"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="NameSortFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="SortCreateLabel"
-                   Text="Creation date"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="CreateSortFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="SortLastLabel"
-                   Text="Last played"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="LastSortFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="SortPlayLabel"
-                   Text="Play time"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="PlaySortFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="SortPopLabel"
-                   Text="Popularity"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="PopSortFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
-        </StackLayout>
-
-        <!-- Tier -->
-        <Label Text="Map Tier(s)"
-               FontSize="26"
-               TextColor="Black"/>
-
-        <StackLayout Orientation="Horizontal">
-            <BoxView Color="Gray"
-                     WidthRequest="1"
-                     VerticalOptions="Fill"
-                     Margin="35, 5, 0, 5"/>
-
-            <Grid HorizontalOptions="FillAndExpand" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="15"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <Label Text="Minimum"
+                <Label x:Name="ResetLabel"
+                       Text="Reset"
                        FontSize="20"
-                       TextColor="Gray"
-                       Grid.Column="0"
-                       Grid.Row="0"/>
+                       TextColor="#fc3d39"
+                       HorizontalOptions="EndAndExpand"
+                       IsVisible="False"
+                       Padding="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
 
-                <Slider x:Name="MinTierSlider"
+            <StackLayout Orientation="Horizontal">
+
+                <BoxView Color="{DynamicResource ViewBackgroundColor}"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+                <StackLayout Orientation="Vertical"
+                             Padding="5">
+                    <Label x:Name="GameCSSLabel"
+                       Text="CS:S"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="CSSGameFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="GameCSS100TLabel"
+                       Text="CS:S 100T"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="CSS100TGameFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="GameCSGOLabel"
+                       Text="CS:GO"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="CSGOGameFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+
+
+            <!-- Sort -->
+            <Label Text="Sort by"
+               Style="{DynamicResource HeaderLabel}"
+               Margin="10,10,0,10"/>
+
+            <StackLayout Orientation="Horizontal">
+
+                <BoxView Color="{DynamicResource ViewBackgroundColor}"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+                <StackLayout Orientation="Vertical"
+                             Padding="5">
+
+                    <Label x:Name="SortNameLabel"
+                       Text="Name"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="NameSortFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="SortCreateLabel"
+                       Text="Creation date"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="CreateSortFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="SortLastLabel"
+                       Text="Last played"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="LastSortFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="SortPlayLabel"
+                       Text="Play time"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="PlaySortFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="SortPopLabel"
+                       Text="Popularity"
+                       FontSize="22"
+                       TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="PopSortFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Tier -->
+            <Label Text="Map Tier(s)"
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,10,0,10"/>
+
+            <StackLayout Orientation="Horizontal">
+                <BoxView Color="{DynamicResource ViewBackgroundColor}"
+                     WidthRequest="1"
+                     VerticalOptions="Fill"
+                     Margin="35, 5, 0, 5"/>
+
+                <Grid HorizontalOptions="FillAndExpand"
+                      Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="Min"
+                        FontSize="22"
+                        TextColor="{DynamicResource GrayTextColor}"
+                        Grid.Column="0"
+                        Grid.Row="0"/>
+
+                    <Slider x:Name="MinTierSlider"
                         Maximum="8" 
                         Minimum="1"
                         Grid.Column="1"
                         Grid.Row="0"
-                        MinimumTrackColor="#147efb"
-                        MaximumTrackColor="LightGray"
+                        MinimumTrackColor="{DynamicResource TappedTextColor}"
+                        MaximumTrackColor="{DynamicResource ViewBackgroundColor}"
                         ValueChanged="MinTierSlider_ValueChanged"/>
 
-                <Label x:Name="MinTierLabel"
-                       Text="1"
-                       FontSize="20"
-                       TextColor="#147efb"
-                       Grid.Column="2"
-                       Grid.Row="0"/>
+                    <Label x:Name="MinTierLabel"
+                        Text="1"
+                        FontSize="22"
+                        TextColor="{DynamicResource TappedTextColor}"
+                        Grid.Column="2"
+                        Grid.Row="0"/>
 
-                <Label Text="Maximum"
-                       FontSize="20"
-                       TextColor="Gray"
-                       Grid.Column="0"
-                       Grid.Row="1"/>
+                    <Label Text="Max"
+                        FontSize="22"
+                        TextColor="{DynamicResource GrayTextColor}"
+                        Grid.Column="0"
+                        Grid.Row="1"/>
 
-                <Slider x:Name="MaxTierSlider"
+                    <Slider x:Name="MaxTierSlider"
                         Maximum="8" 
                         Minimum="1"
                         Grid.Column="1"
                         Grid.Row="1"
-                        MinimumTrackColor="LightGray"
-                        MaximumTrackColor="#147efb"
+                        MinimumTrackColor="{DynamicResource ViewBackgroundColor}"
+                        MaximumTrackColor="{DynamicResource TappedTextColor}"
                         ValueChanged="MaxTierSlider_ValueChanged"/>
 
-                <Label x:Name="MaxTierLabel"
-                       Text="1"
-                       FontSize="20"
-                       TextColor="#147efb"
-                       Grid.Column="2"
-                       Grid.Row="1"/>
-            </Grid>
-        </StackLayout>
-
-
-        <!-- Map Type -->
-        <Label Text="Map Type"
-               FontSize="26"
-               TextColor="Black"/>
-
-        <StackLayout Orientation="Horizontal">
-            <BoxView Color="Gray"
-                     WidthRequest="1"
-                     VerticalOptions="Fill"
-                     Margin="35, 5, 0, 5"/>
-
-            <StackLayout Orientation="Vertical">
-
-                <Label x:Name="TypeAnyLabel"
-                   Text="Any"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="AnyMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="TypeLinearLabel"
-                   Text="Linear"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="LinearMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label x:Name="TypeStagedLabel"
-                   Text="Staged"
-                   FontSize="20"
-                   TextColor="Gray">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped ="StagedMapTypeFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    <Label x:Name="MaxTierLabel"
+                        Text="1"
+                        FontSize="22"
+                        TextColor="{DynamicResource TappedTextColor}"
+                        Grid.Column="2"
+                        Grid.Row="1"/>
+                </Grid>
             </StackLayout>
+
+
+            <!-- Map Type -->
+            <Label Text="Map Type"
+               Style="{DynamicResource HeaderLabel}"
+               Margin="10,10,0,10"/>
+
+            <StackLayout Orientation="Horizontal">
+                <BoxView Color="{DynamicResource ViewBackgroundColor}"
+                         WidthRequest="1"
+                         VerticalOptions="Fill"
+                         Margin="35, 5, 0, 5"/>
+
+                <StackLayout Orientation="Vertical"
+                             Padding="5">
+
+                    <Label x:Name="TypeAnyLabel"
+                           Text="Any"
+                           FontSize="22"
+                           TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="AnyMapTypeFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="TypeLinearLabel"
+                        Text="Linear"
+                        FontSize="22"
+                        TextColor="{DynamicResource GrayTextColor}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped ="LinearMapTypeFilter_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label x:Name="TypeStagedLabel"
+                        Text="Staged"
+                        FontSize="22"
+                        TextColor="{DynamicResource GrayTextColor}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped ="StagedMapTypeFilter_Tapped"/>
+                            </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+
         </StackLayout>
-       
-    </StackLayout>
+    </ScrollView>
 </ContentPage>

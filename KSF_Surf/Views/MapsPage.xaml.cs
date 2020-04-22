@@ -37,7 +37,71 @@ namespace KSF_Surf.Views
             MapsCollectionView.MinimumHeightRequest = 600;
         }
 
+        // Loading KSF map list --------------------------------------------------------------------------------------------------------------------
+        #region ksf
+
+        private List<string> LoadMaps(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
+        {
+            // minTier options: 1-8
+            // maxTier options: 1-8
+
+            maps_list = new List<string>();
+
+            try
+            {
+                if (game != currentGame || sort != currentSort)
+                {
+                    DetailedMapsRootObject dmro = MapsViewModel.GetDetailedMapsList(game, sort);
+                    if (dmro == null)
+                    {
+                        Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
+
+                        MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
+                        return maps_list;
+                    }
+                    MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
+                    MapsTab.Title = "Maps [" + EFilter_ToString.toString2(game) + "]";
+
+                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(dmro.data);
+                    currentGame = game;
+                    currentSort = sort;
+                }
+
+                currentMinTier = minTier;
+                currentMaxTier = maxTier;
+                currentMapType = mapType;
+
+                foreach (DetailedMapDatum datum in detailed_mapData)
+                {
+                    int tier = int.Parse(datum.tier);
+                    int type = int.Parse(datum.maptype);
+
+                    if (mapType != EFilter_MapType.any && type != (int)mapType)
+                    {
+                        continue;
+                    }
+                    else if (tier < minTier)
+                    {
+                        continue;
+                    }
+                    else if (tier > maxTier)
+                    {
+                        continue;
+                    }
+                    maps_list.Add(datum.name);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Problem parsing KSFDetailedMapDatum.data field (MapsPage)");
+            }
+
+            return maps_list;
+        }
+
+        #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
+        #region events
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
@@ -100,68 +164,6 @@ namespace KSF_Surf.Views
 
         }
 
-
-        // Loading KSF map list ---------------------------------------------------------------------------------------------------------------------
-        
-        private List<string> LoadMaps(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
-        {
-            // minTier options: 1-8
-            // maxTier options: 1-8
-
-            maps_list = new List<string>();
-
-            try
-            {
-                if (game != currentGame || sort != currentSort)
-                {
-                    DetailedMapsRootObject dmro = MapsViewModel.GetDetailedMapsList(game, sort);
-                    if (dmro == null)
-                    {
-                        Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
-                        
-                        MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
-                        return maps_list;
-                    }
-                    MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
-                    MapsTab.Title = "Maps [" + EFilter_ToString.toString2(game) + "]";
-
-                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(dmro.data);
-                    currentGame = game;
-                    currentSort = sort;
-                }
-
-                currentMinTier = minTier;
-                currentMaxTier = maxTier;
-                currentMapType = mapType;
-
-                foreach (DetailedMapDatum datum in detailed_mapData)
-                {
-                    int tier = int.Parse(datum.tier);
-                    int type = int.Parse(datum.maptype);
-                    
-                    if (mapType != EFilter_MapType.any && type != (int)mapType)
-                    {
-                        continue;
-                    }
-                    else if (tier < minTier)
-                    {
-                        continue;
-                    }
-                    else if (tier > maxTier)
-                    {
-                        continue;
-                    }
-                    maps_list.Add(datum.name);
-                }
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Problem parsing KSFDetailedMapDatum.data field (MapsPage)");
-            }
-
-            return maps_list;
-        }
-
         internal void ApplyFilters(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
         {
             MapsSearchBar.Text = "";
@@ -173,5 +175,7 @@ namespace KSF_Surf.Views
         {
             MapsCollectionView.ItemsSource = list;
         }
+
+        #endregion
     }
 }

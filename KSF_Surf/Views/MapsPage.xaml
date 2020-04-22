@@ -7,7 +7,7 @@
              x:Class="KSF_Surf.Views.MapsPage"
              Title="Maps [CS:S]"
              x:Name="MapsTab"
-             Style="{StaticResource ContentPageStyle}">
+             Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="Filter"
                      IconImageSource="filter_icon.png"
@@ -15,34 +15,40 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
-    <StackLayout Orientation="Vertical">
+    <!-- Search Bar -->
+    <StackLayout Orientation="Vertical"
+                 Spacing="0">
         <SearchBar x:Name="MapsSearchBar"
-                   Placeholder="Search maps..."
-                   HorizontalTextAlignment="Start"
-                   FontSize="20"
-                   TextColor="Black"
-                   BackgroundColor="White"
-                   TextChanged="SearchTextChanged"
-                   Focused="SearchBarFocused"
-                   Unfocused="SearchBarUnfocused"/>
+                Placeholder="Search maps..."
+                FontSize="20"
+                TextColor="{DynamicResource HeaderTextColor}"
+                BackgroundColor="{DynamicResource AppBackgroundColor}"
+                TextChanged="SearchTextChanged"
+                Focused="SearchBarFocused"
+                Unfocused="SearchBarUnfocused"/>
 
+        <BoxView Color="{DynamicResource ViewBackgroundColor}"
+                     HeightRequest="1"
+                     HorizontalOptions="Fill"/>
+
+        <!-- Maps List -->  
         <CollectionView x:Name="MapsCollectionView"
                         VerticalOptions="FillAndExpand"
-                        BackgroundColor="WhiteSmoke"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
                         SelectionMode="Single"
                         SelectionChanged="Map_SelectionChanged"
                         VerticalScrollBarVisibility="Default">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Vertical" 
-                                 BackgroundColor="WhiteSmoke"
-                                 Padding="10, 4, 0, 4">
+                                 BackgroundColor="{DynamicResource SeparatorColor}"
+                                 Padding="15, 5, 0, 5">
                         <Label Text="{Binding .}"
-                               TextColor="Black"
+                               TextColor="{DynamicResource HeaderTextColor}"
                                FontSize ="20"/>
                         <BoxView HorizontalOptions="FillAndExpand"
-                                     HeightRequest="1"
-                                     Color="LightGray"/>
+                                 HeightRequest="1"
+                                 Color="{DynamicResource ViewBackgroundColor}"/>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -52,7 +58,7 @@
             <CollectionView.EmptyView>
                 <Label x:Name="MapsCollectionEmptyViewLabel"
                        Text="No maps matched your filter"
-                       TextColor="Gray"
+                       TextColor="{DynamicResource GrayTextColor}"
                        FontSize="20"
                        HorizontalOptions="Fill"
                        HorizontalTextAlignment="Center"

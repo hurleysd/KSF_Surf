@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 
+// Classes for KSF API response JSON deserialization
+
 namespace KSF_Surf.Models
 {
-    // Classes for KSF API response JSON deserialization-----------------------------------
+    // LivePage ----------------------------------------------------------------------
+    #region LivePage
 
     // SERVER LIST
 
-    public class KSFServerDatum
+    public class KSFServerDatum 
     {
         public string hostname { get; set; }
         public string surftimer_servername { get; set; }
@@ -28,7 +31,11 @@ namespace KSF_Surf.Models
         public List<KSFServerDatum> data { get; set; }
     }
 
-    // DETAILED MAP
+    #endregion
+    // MapsPage ----------------------------------------------------------------------
+    #region MapsPage
+
+    // MAP LIST
 
     public class DetailedMapDatum
     {
@@ -51,6 +58,10 @@ namespace KSF_Surf.Models
         public string status { get; set; }
         public List<DetailedMapDatum> data { get; set; }
     }
+
+    #endregion
+    // MapsMapPage -------------------------------------------------------------------
+    #region MapsMapPage
 
     // MAP INFO
 
@@ -98,7 +109,7 @@ namespace KSF_Surf.Models
         public MapInfoData data { get; set; }
     }
 
-    // MAP TOP
+    // MAP TOP 
 
     public class TopDatum
     {
@@ -119,7 +130,7 @@ namespace KSF_Surf.Models
         public List<TopDatum> data { get; set; }
     }
 
-    // MAP POINTS
+    // MAP POINTS 
 
     public class PointsData
     {
@@ -137,6 +148,10 @@ namespace KSF_Surf.Models
         public string status { get; set; }
         public PointsData data { get; set; }
     }
+
+    #endregion
+    // RecordsPage -------------------------------------------------------------------
+    #region RecordsPage
 
     // SURF TOP
 
@@ -205,9 +220,6 @@ namespace KSF_Surf.Models
         public string status { get; set; }
         public List<RR10Datum> data { get; set; }
     }
-
-
-
 
     // MOST BY TYPE (COUNT)
 
@@ -329,4 +341,6 @@ namespace KSF_Surf.Models
         public string status { get; set; }
         public List<MostTimeDatum> data { get; set; }
     }
+
+    #endregion
 }
