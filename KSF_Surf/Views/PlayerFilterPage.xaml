@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.PlayerFilterPage"
+             Title="Filters"
+             x:Name="PlayerFilter"
+             Style="{DynamicResource ContentPageStyle}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Apply" 
+                     Text="Apply"
+                     Clicked="Apply_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10,15,10,15">
+
+        <!-- Player -->
+        <Label Text="Player"
+                Style="{DynamicResource HeaderLabel}"
+                Margin="10,0,0,10"/>
+
+        <Grid Padding ="10"
+              HorizontalOptions="FillAndExpand"
+              RowSpacing="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="PlayerRankLabel"
+                Text="Rank"
+                FontSize="24"
+                TextColor="{DynamicResource GrayTextColor}"
+                HorizontalOptions="End"
+                Grid.Column="0"
+                Grid.Row="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="PlayerRankLabel_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Entry x:Name="RankEntry"
+                   Keyboard="Numeric"
+                   Focused="RankEntry_Focused"
+                   HorizontalOptions="Fill"
+                   Grid.Column="1"
+                   Grid.Row="0"/>
+
+            <Label x:Name="PlayerSteamLabel"
+                Text="Steam ID"
+                FontSize="24"
+                TextColor="{DynamicResource GrayTextColor}"
+                HorizontalOptions="End"
+                Grid.Column="0"
+                Grid.Row="1">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="PlayerSteamLabel_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Entry x:Name="SteamIdEntry"
+                   Focused="SteamIdEntry_Focused"
+                   HorizontalOptions="Fill"
+                   Grid.Column="1"
+                   Grid.Row="1"/>
+
+        </Grid>
+
+        <BoxView HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     Color="{DynamicResource ViewBackgroundColor}"
+                     Margin="0,0,0,10"/>
+
+        <!-- Game -->
+        <Label Text="Game"
+            Style="{DynamicResource HeaderLabel}"
+            Margin="10,0,0,10"/>
+
+        <Grid Padding ="10"
+                  HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="GameCSSLabel"
+                       Text="CS:S"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CSSGameFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label x:Name="GameCSS100TLabel"
+                       Text="CS:S 100T"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="1">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CSS100TGameFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label x:Name="GameCSGOLabel"
+                       Text="CS:GO"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CSGOGameFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <BoxView HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     Color="{DynamicResource ViewBackgroundColor}"
+                     Margin="0,0,0,10"/>
+
+        <!-- Style -->
+        <Label Text="Style"
+                Style="{DynamicResource HeaderLabel}"
+                Margin="10,0,0,10"/>
+
+        <Grid Padding ="10"
+                HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="ModeFWLabel"
+                       Text="FW"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="FWModeFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label x:Name="ModeHSWLabel"
+                       Text="HSW"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="1">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="HSWModeFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label x:Name="ModeSWLabel"
+                       Text="SW"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="SWModeFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label x:Name="ModeBWLabel"
+                       Text="BW"
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="3">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BWModeFilter_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+
+    </StackLayout>
+</ContentPage>

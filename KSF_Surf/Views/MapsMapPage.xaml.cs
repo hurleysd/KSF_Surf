@@ -13,6 +13,8 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class MapsMapPage : ContentPage
     {
+        private readonly MapsViewModel mapsViewModel;
+
         // objects for map information
         private MapInfoData mapInfoData;
         private MapSettings mapSettings;
@@ -37,6 +39,8 @@ namespace KSF_Surf.Views
 
         public MapsMapPage(string mapName, EFilter_Game gameFilter)
         {
+            mapsViewModel = new MapsViewModel();
+            
             map = mapName;
             game = gameFilter;
             currentMode = EFilter_Mode.fw;
@@ -60,39 +64,24 @@ namespace KSF_Surf.Views
             MapsMap.Title = map + " [" + EFilter_ToString.toString2(game) + "]";
 
             // running query and assigning to map information objects
-            mapInfoData = MapsViewModel.GetMapInfo(game, map)?.data;
+            mapInfoData = mapsViewModel.GetMapInfo(game, map)?.data;
             if (mapInfoData is null) return;
 
             
-            pointsData = MapsViewModel.GetMapPoints(game, map)?.data;
+            pointsData = mapsViewModel.GetMapPoints(game, map)?.data;
             if (pointsData is null) return;
 
             mapSettings = mapInfoData.MapSettings;
             mappers = mapInfoData.Mappers;
-            try
-            {
-                mapType = (EFilter_MapType)int.Parse(mapSettings.maptype);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Problem parsing mapSettings.maptype field (MapsMapPage mapType)");
-            }
+            mapType = (EFilter_MapType)int.Parse(mapSettings.maptype);
 
             // filling in UI and setting zone options
             LayoutGeneralMapInfo();
             LayoutMappers();
             LayoutStats();
 
-            try
-            {
-                stageCount = int.Parse(mapSettings.cp_count);
-                bonusCount = int.Parse(mapSettings.b_count);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Problem parsing mapSettings.maptype field (MapsMapPage counts)");
-            }
-
+            stageCount = int.Parse(mapSettings.cp_count);
+            bonusCount = int.Parse(mapSettings.b_count);
             if ((int)mapType == 1)
             {
                 stageCount = 0;
@@ -112,7 +101,7 @@ namespace KSF_Surf.Views
             LayoutPoints();
             ZonePicker.ItemsSource = zonePickerList;
 
-            topData = MapsViewModel.GetMapTop(game, map, currentMode, currentZone)?.data;
+            topData = mapsViewModel.GetMapTop(game, map, currentMode, currentZone)?.data;
             if (topData is null) return;
             
             LayoutTop("FW", "Main");
@@ -144,28 +133,24 @@ namespace KSF_Surf.Views
             {
                 foreach (Mapper mapper in mappers)
                 {
-                    Label MapperTypeLabel = new Label
-                    {
+                    MapperTypeStack.Children.Add(new Label {
                         Text = mapper.typeName,
-                        Style = Resources["LeftColStyle"] as Style
-                    };
-                    MapperTypeStack.Children.Add(MapperTypeLabel);
-
-                    Label MapperNameLabel = new Label
+                        Style = App.Current.Resources["LeftColStyle"] as Style
+                    });
+                    MapperNameStack.Children.Add(new Label
                     {
                         Text = mapper.mapperName,
-                        Style = Resources["RightColStyle"] as Style
-                    };
-                    MapperNameStack.Children.Add(MapperNameLabel);
+                        Style = App.Current.Resources["RightColStyle"] as Style
+                    });
                 }
             }
         }
 
         private void LayoutStats()
         {
-            CompletionsLabel.Text = pointsData.TotalPlayers;
-            TimesPlayedLabel.Text = mapSettings.totalplaytimes;
-            PlayTimeLabel.Text = Seconds_Formatter.toString_PlayTime(mapSettings.playtime, true);
+            CompletionsLabel.Text = String_Formatter.toString_Int(pointsData.TotalPlayers);
+            TimesPlayedLabel.Text = String_Formatter.toString_Int(mapSettings.totalplaytimes);
+            PlayTimeLabel.Text = String_Formatter.toString_PlayTime(mapSettings.playtime, true);
         }
 
         private void LayoutTop(string modeString, string zone)
@@ -176,21 +161,19 @@ namespace KSF_Surf.Views
             int i = 1;
             foreach (TopDatum datum in topData)
             {
-                Label RankLabel = new Label
-                {
-                    Text = i + ". " + datum.name + " (" + datum.count + ")",
+                TopRankStack.Children.Add(new Label {
+                    Text = i + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name + " (" + datum.count + ")",
                     Style = Resources["TopNPointsStyle"] as Style
-                };
-                TopRankStack.Children.Add(RankLabel);
+                });
 
                 Label TimeLabel = new Label
                 {
-                    Text = Seconds_Formatter.toString_RankTime(datum.time),
+                    Text = String_Formatter.toString_RankTime(datum.time),
                     Style = Resources["TopNPointsStyle"] as Style
                 };
                 if (i != 1)
                 {
-                    TimeLabel.Text += " (+" + Seconds_Formatter.toString_RankTime(datum.wrDiff) + ")";
+                    TimeLabel.Text += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
                 }
                 TopTimeStack.Children.Add(TimeLabel);
 
@@ -201,32 +184,26 @@ namespace KSF_Surf.Views
 
         private void LayoutPoints()
         {
- 
-            Label MapCompletionLabel = new Label
-            {
-                Text = "Map Completion: " + ((int)double.Parse(mapSettings.map_finish)),
+
+            CompletionStack.Children.Add( new Label {
+                Text = "Map Completion: " + String_Formatter.toString_Points(mapSettings.map_finish),
                 Style = Resources["TopNPointsStyle"] as Style
-            };
-            CompletionStack.Children.Add(MapCompletionLabel);
+            });
 
             if (stageCount > 0)
             {
-                Label StageCompletionLabel = new Label
-                {
-                    Text = "Stage Completion: " + ((int)double.Parse(mapSettings.stage_finish)),
+                CompletionStack.Children.Add(new Label {
+                    Text = "Stage Completion: " + String_Formatter.toString_Points(mapSettings.stage_finish),
                     Style = Resources["TopNPointsStyle"] as Style
-                };
-                CompletionStack.Children.Add(StageCompletionLabel);
+                });
             }
 
             if (bonusCount > 0)
             {
-                Label BonusCompletionLabel = new Label
-                {
-                    Text = "Bonus Completion: " + ((int)double.Parse(mapSettings.bonus_finish)),
+                CompletionStack.Children.Add(new Label {
+                    Text = "Bonus Completion: " + String_Formatter.toString_Points(mapSettings.bonus_finish),
                     Style = Resources["TopNPointsStyle"] as Style
-                };
-                CompletionStack.Children.Add(BonusCompletionLabel);
+                });
             }
 
 
@@ -235,12 +212,10 @@ namespace KSF_Surf.Views
             {
                 if (points == 0) continue;
 
-                Label RankLabel = new Label
-                {
-                    Text = (i != 1) ? "R" + i + ": " + ((int)points) : "R1: " + ((int)double.Parse(mapInfoData.MapSettings.wr_points_0)),
+                TopGroupStack.Children.Add(new Label {
+                    Text = (i != 1) ? "R" + i + ": " + String_Formatter.toString_Points(points) : "R1: " + String_Formatter.toString_Points(mapInfoData.MapSettings.wr_points_0),
                     Style = Resources["TopNPointsStyle"] as Style
-                };
-                TopGroupStack.Children.Add(RankLabel);
+                });
 
                 i++;
             }
@@ -254,12 +229,10 @@ namespace KSF_Surf.Views
 
                 int groupEnd = 10 + pointsData.GroupRanks[i];
 
-                Label RankLabel = new Label
-                {
-                    Text = "G" + i + " (" + (rank + 1) + "-" + groupEnd + "): " + ((int)points),
+                GroupStack.Children.Add(new Label {
+                    Text = "G" + i + " (" + (rank + 1) + "-" + groupEnd + "): " + String_Formatter.toString_Points(points),
                     Style = Resources["TopNPointsStyle"] as Style
-                };
-                GroupStack.Children.Add(RankLabel);
+                });
 
                 rank = groupEnd;
             }
@@ -300,7 +273,7 @@ namespace KSF_Surf.Views
                 case "BW": newCurrentMode = EFilter_Mode.bw; break;
             }
 
-            List<TopDatum> newTopData = MapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone)?.data;
+            List<TopDatum> newTopData = mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone)?.data;
             if (newTopData is null) return;
             topData = newTopData;
             currentMode = newCurrentMode;
@@ -334,7 +307,7 @@ namespace KSF_Surf.Views
 
             if (newZoneNum != -1)
             {
-                List<TopDatum> newTopData = MapsViewModel.GetMapTop(game, map, currentMode, newZoneNum)?.data;
+                List<TopDatum> newTopData = mapsViewModel.GetMapTop(game, map, currentMode, newZoneNum)?.data;
                 if (newTopData is null) return;
                 
                 topData = newTopData;

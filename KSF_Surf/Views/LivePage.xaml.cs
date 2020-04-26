@@ -112,6 +112,101 @@ namespace KSF_Surf.Views
             game = newGame;
         }
 
+        private void LoadServers()
+        {
+            css_serverData = liveViewModel.GetServers(EFilter_Game.css)?.data;
+            css100t_serverData = liveViewModel.GetServers(EFilter_Game.css100t)?.data;
+            csgo_serverData = liveViewModel.GetServers(EFilter_Game.csgo)?.data;
+
+            if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
+
+            foreach (KSFServerDatum datum in css_serverData)
+            {
+                if (datum.surftimer_servername.Contains("test")) continue;
+
+                css_serverLabels.Add(new Label
+                {
+                    Text = datum.surftimer_servername,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+                css_mapLabels.Add(new Label
+                {
+                    Text = datum.currentmap,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+            }
+
+            foreach (KSFServerDatum datum in css100t_serverData)
+            {
+                if (datum.surftimer_servername.Contains("TEST")) continue;
+
+                css_serverLabels.Add(new Label
+                {
+                    Text = datum.surftimer_servername,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+                css_mapLabels.Add(new Label
+                {
+                    Text = datum.currentmap,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+            }
+
+            foreach (KSFServerDatum datum in csgo_serverData)
+            {
+                if (datum.surftimer_servername.Contains("TEST")) continue;
+                if (datum.surftimer_servername == "EasySurf Europe")
+                {
+                    datum.surftimer_servername = "EasySurf EU";
+                }
+
+                csgo_serverLabels.Add(new Label
+                {
+                    Text = datum.surftimer_servername,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+                csgo_mapLabels.Add(new Label
+                {
+                    Text = datum.currentmap,
+                    Style = Resources["ServerLabelStyle"] as Style
+                });
+            }
+
+            ChangeGame(EFilter_Game.css);
+            allowVibrate = true;
+        }
+
+        #endregion
+        // Loading Twitch Streams -----------------------------------------------------------------------------------------------------------------
+        #region twitch
+
+        private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
+
+        private void LoadStreams()
+        {
+            TwitchRootObject tro = liveViewModel.streams;
+            if (tro == null)
+            {
+                // no handling (no streams online or Twitch query failed)
+                Console.WriteLine("Twitch Request returned NULL");
+                StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
+                return;
+            }
+            streamData = new ObservableCollection<TwitchDatum>(tro.data);
+
+            if (streamData.Count > 0)
+            {
+                foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
+                {
+                    if (datum.thumbnail_url != null)
+                    {
+                        datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "72");
+                        datum.thumbnail_url = datum.thumbnail_url.Replace("{width}", "128");
+                    }
+                }
+                StreamsCollectionView.ItemsSource = streamData;
+            }
+        }
 
         #endregion
         // Event Handlers -------------------------------------------------------------------------------------------------------------------------
@@ -151,114 +246,5 @@ namespace KSF_Surf.Views
         }
 
         #endregion
-        // Loading KSF Server List ----------------------------------------------------------------------------------------------------------------
-        #region ksf
-
-        private void LoadServers()
-        {
-            css_serverData = LiveViewModel.GetServers(EFilter_Game.css)?.data;
-            css100t_serverData = LiveViewModel.GetServers(EFilter_Game.css100t)?.data;
-            csgo_serverData = LiveViewModel.GetServers(EFilter_Game.csgo)?.data;
-
-            if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
-
-            foreach (KSFServerDatum datum in css_serverData)
-            {
-                if (datum.surftimer_servername.Contains("test")) continue;
-
-                Label ServerLabel = new Label
-                {
-                    Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                css_serverLabels.Add(ServerLabel);
-
-                Label MapLabel = new Label
-                {
-                    Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                css_mapLabels.Add(MapLabel);
-            }
-
-            foreach (KSFServerDatum datum in css100t_serverData)
-            {
-                if (datum.surftimer_servername.Contains("TEST")) continue;
-
-                Label ServerLabel = new Label
-                {
-                    Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                css_serverLabels.Add(ServerLabel);
-
-                Label MapLabel = new Label
-                {
-                    Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                css_mapLabels.Add(MapLabel);
-            }
-
-            foreach (KSFServerDatum datum in csgo_serverData)
-            {
-                if (datum.surftimer_servername.Contains("TEST")) continue;
-                if (datum.surftimer_servername == "EasySurf Europe")
-                {
-                    datum.surftimer_servername = "EasySurf EU";
-                }
-
-                Label ServerLabel = new Label
-                {
-                    Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                csgo_serverLabels.Add(ServerLabel);
-
-                Label MapLabel = new Label
-                {
-                    Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
-                };
-                csgo_mapLabels.Add(MapLabel);
-            }
-
-            ChangeGame(EFilter_Game.css);
-            allowVibrate = true;
-        }
-
-        #endregion
-        // Loading Twitch Streams -----------------------------------------------------------------------------------------------------------------
-        #region twitch
-
-        private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
-
-        private void LoadStreams()
-        {
-            TwitchRootObject tro = liveViewModel.streams;
-            if (tro == null)
-            {
-                // no handling (no streams online or Twitch query failed)
-                Console.WriteLine("Twitch Request returned NULL");
-                StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
-                return;    
-            }
-            streamData = new ObservableCollection<TwitchDatum>(tro.data);
-
-            if (streamData.Count > 0)
-            {
-                foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
-                {
-                    if (datum.thumbnail_url != null)
-                    {
-                        datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "72");
-                        datum.thumbnail_url = datum.thumbnail_url.Replace("{width}", "128");
-                    }
-                }
-                StreamsCollectionView.ItemsSource = streamData;
-            } 
-        }
     }
-
-    #endregion
 }

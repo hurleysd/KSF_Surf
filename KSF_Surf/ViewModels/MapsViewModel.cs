@@ -10,8 +10,8 @@ namespace KSF_Surf.ViewModels
     public class MapsViewModel : BaseViewModel
     {
         // objects for HTTP requests
-        private static RestClient client;
-        private static RestRequest request;
+        private readonly RestClient client;
+        private readonly RestRequest request;
 
         public MapsViewModel()
         {
@@ -25,7 +25,7 @@ namespace KSF_Surf.ViewModels
 
         // KSF API calls -----------------------------------------------------------------------------------------------------------
 
-        internal static DetailedMapsRootObject GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
+        internal DetailedMapsRootObject GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -47,7 +47,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MapInfoRootObject GetMapInfo(EFilter_Game game, string map)
+        internal MapInfoRootObject GetMapInfo(EFilter_Game game, string map)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -68,7 +68,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MapTopRootObject GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone)
+        internal MapTopRootObject GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -90,7 +90,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MapPointsRootObject GetMapPoints(EFilter_Game game, string map)
+        internal MapPointsRootObject GetMapPoints(EFilter_Game game, string map)
         {
             if (!BaseViewModel.hasConnection()) return null;
 

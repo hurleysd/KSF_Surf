@@ -99,13 +99,13 @@ namespace KSF_Surf.Views
 
             if (type == EFilter_RRType.top)
             {
-                recentRecords10Data = RecordsViewModel.GetRecentRecords10(game, mode)?.data;
+                recentRecords10Data = recordsViewModel.GetRecentRecords10(game, mode)?.data;
                 if (recentRecords10Data is null) return;
                 LayoutRecentRecords10(EFilter_ToString.toString(recentRecordsMode));
             }
             else
             {
-                recentRecordsData = RecordsViewModel.GetRecentRecords(game, type, mode)?.data;
+                recentRecordsData = recordsViewModel.GetRecentRecords(game, type, mode)?.data;
                 if (recentRecordsData is null) return;
                 LayoutRecentRecords(EFilter_ToString.toString2(type), EFilter_ToString.toString(mode));
             }
@@ -122,14 +122,14 @@ namespace KSF_Surf.Views
             {
                 case EFilter_MostType.pc:
                     {
-                        mostPCData = RecordsViewModel.GetMostPC(game, mode)?.data;
+                        mostPCData = recordsViewModel.GetMostPC(game, mode)?.data;
                         if (mostPCData is null) return;
                         
                         leftColString = "Completion";
                         foreach (MostPCDatum datum in mostPCData)
                         {
-                            players.Add(datum.name);
-                            values.Add((double.Parse(datum.percentCompletion) * 100).ToString("0.##") + "%");
+                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
+                            values.Add((double.Parse(datum.percentCompletion) * 100).ToString("0.00") + "%");
                         }
                         break;
                     }
@@ -140,46 +140,46 @@ namespace KSF_Surf.Views
                 case EFilter_MostType.mostwrcp:
                 case EFilter_MostType.mostwrb:
                     {
-                        mostCountData = RecordsViewModel.GetMostCount(game, type, mode)?.data;
+                        mostCountData = recordsViewModel.GetMostCount(game, type, mode)?.data;
                         if (mostCountData is null) return;
                         
                         leftColString = "Total";
                         foreach (MostCountDatum datum in mostCountData)
                         {
-                            players.Add(datum.name);
-                            values.Add(datum.total);
+                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
+                            values.Add(String_Formatter.toString_Int(datum.total));
                         }
                         break;
                     }
                 case EFilter_MostType.top10:
                     {
-                        mostTopData = RecordsViewModel.GetMostTop(game, mode)?.data;
+                        mostTopData = recordsViewModel.GetMostTop(game, mode)?.data;
                         if (mostTopData is null) return;
                         
                         leftColString = "Points";
                         foreach (MostTopDatum datum in mostTopData)
                         {
-                            players.Add(datum.name);
-                            values.Add(datum.top10Points);
+                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
+                            values.Add(String_Formatter.toString_Points(datum.top10Points));
                         }
                         break;
                     }
                 case EFilter_MostType.group:
                     {
-                        mostGroupData = RecordsViewModel.GetMostGroup(game, mode)?.data;
+                        mostGroupData = recordsViewModel.GetMostGroup(game, mode)?.data;
                         if (mostGroupData is null) return;
                         
                         leftColString = "Points";
                         foreach (MostGroupDatum datum in mostGroupData)
                         {
-                            players.Add(datum.name);
-                            values.Add(datum.groupPoints);
+                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
+                            values.Add(String_Formatter.toString_Points(datum.groupPoints));
                         }
                         break;
                     }
                 case EFilter_MostType.mostcontestedwr:
                     {
-                        mostContWrData = RecordsViewModel.GetMostContWr(game, mode)?.data;
+                        mostContWrData = recordsViewModel.GetMostContWr(game, mode)?.data;
                         if (mostContWrData is null) return;
                         
                         rightColString = "Map";
@@ -187,23 +187,23 @@ namespace KSF_Surf.Views
                         foreach (MostContWrDatum datum in mostContWrData)
                         {
                             players.Add(datum.mapName);
-                            values.Add(datum.total);
+                            values.Add(String_Formatter.toString_Int(datum.total));
                         }
                         break;
                     }
                 case EFilter_MostType.mostcontestedwrcp: 
                 case EFilter_MostType.mostcontestedwrb:
                     {
-                        mostContZoneData = RecordsViewModel.GetMostContZone(game, type, mode)?.data;
+                        mostContZoneData = recordsViewModel.GetMostContZone(game, type, mode)?.data;
                         if (mostContZoneData is null) return;
                         
                         rightColString = "Zone";
                         leftColString = "Times Broken";
                         foreach (MostContZoneDatum datum in mostContZoneData)
                         {
-                            string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID);
+                            string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, false);
                             players.Add(datum.mapName + " " + zoneString);
-                            values.Add(datum.total);
+                            values.Add(String_Formatter.toString_Int(datum.total));
                         }
                         break;
                     }
@@ -211,7 +211,7 @@ namespace KSF_Surf.Views
                 case EFilter_MostType.playtimeweek:
                 case EFilter_MostType.playtimemonth:
                     {
-                        mostTimeData = RecordsViewModel.GetMostTime(game, type, mode)?.data;
+                        mostTimeData = recordsViewModel.GetMostTime(game, type, mode)?.data;
                         if (mostTimeData is null) return;
 
                         rightColString = "Map";
@@ -219,7 +219,7 @@ namespace KSF_Surf.Views
                         foreach (MostTimeDatum datum in mostTimeData)
                         {
                             players.Add(datum.mapName);
-                            values.Add(Seconds_Formatter.toString_PlayTime(datum.totalplaytime.ToString(), true));
+                            values.Add(String_Formatter.toString_PlayTime(datum.totalplaytime.ToString(), true));
                         }
                         break;
                     }
@@ -234,7 +234,7 @@ namespace KSF_Surf.Views
         {
             if (clearGrid) ClearSurfTopGrid();
 
-            surfTopData = RecordsViewModel.GetSurfTop(game, surfTopMode)?.data;
+            surfTopData = recordsViewModel.GetSurfTop(game, surfTopMode)?.data;
             if (surfTopData is null) return;
             LayoutSurfTop(EFilter_ToString.toString(surfTopMode));
         }
@@ -248,19 +248,14 @@ namespace KSF_Surf.Views
             int i = 1;
             foreach (SurfTopDatum datum in surfTopData)
             {
-                Label RankLabel = new Label
-                {
-                    Text = i + ". " + datum.name,
-                    Style = Resources["GridLabelStyle"] as Style
-                };
-                TopRankStack.Children.Add(RankLabel);
-
-                Label PointsLabel = new Label
-                {
-                    Text = datum.points,
-                    Style = Resources["GridLabelStyle"] as Style
-                };
-                TopPointsStack.Children.Add(PointsLabel);
+                TopRankStack.Children.Add(new Label {
+                    Text = i + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name,
+                    Style = App.Current.Resources["GridLabelStyle"] as Style
+                });
+                TopPointsStack.Children.Add( new Label {
+                    Text = String_Formatter.toString_Points(datum.points),
+                    Style = App.Current.Resources["GridLabelStyle"] as Style
+                });
 
                 i++;
             }
@@ -273,19 +268,14 @@ namespace KSF_Surf.Views
 
             for (int i = 1; i <= players.Count; i++)
             {
-                Label PlayerLabel = new Label
-                {
+                MostPlayerStack.Children.Add(new Label {
                     Text = i + ". " + players[i - 1],
-                    Style = Resources["GridLabelStyle"] as Style
-                };
-                MostPlayerStack.Children.Add(PlayerLabel);
-
-                Label ValueLabel = new Label
-                {
+                    Style = App.Current.Resources["GridLabelStyle"] as Style
+                });
+                MostValueStack.Children.Add( new Label {
                     Text = values[i - 1],
-                    Style = Resources["GridLabelStyle"] as Style
-                };
-                MostValueStack.Children.Add(ValueLabel);
+                    Style = App.Current.Resources["GridLabelStyle"] as Style
+                });
             }
         }
 
@@ -302,17 +292,17 @@ namespace KSF_Surf.Views
             foreach (RRDatum datum in recentRecordsData)
             {
                 string rrstring = "";
-                rrstring += datum.playerName;
+                rrstring += String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
                 rrstring += " on " + datum.mapName;
                 rrstring_arr[i] = rrstring;
 
                 string rrtime = "";
-                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID);
+                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, true);
                 rrtime += zoneString + " ";
                 
-                rrtime += "in " + Seconds_Formatter.toString_RankTime(datum.surfTime);
-                Int64 when = Int64.Parse(datum.dateNow) - Int64.Parse(datum.date);
-                rrtime += " (" + Seconds_Formatter.toString_PlayTime(when.ToString(), false) + " ago)";
+                rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime);
+                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
+                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
                 rrtime_arr[i] = rrtime;
 
                 i++;
@@ -333,20 +323,20 @@ namespace KSF_Surf.Views
             foreach (RR10Datum datum in recentRecords10Data)
             {
                 string rrstring = "";
-                rrstring += datum.playerName;
+                rrstring += String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
                 int rank = int.Parse(datum.newRank);
 
                 rrstring += " R" + rank + " on " + datum.mapName;
                 rrstring_arr[i] = rrstring;
 
                 string rrtime = "";
-                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID);
+                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, true);
                 rrtime += zoneString + " ";
 
 
-                rrtime += "in " + Seconds_Formatter.toString_RankTime(datum.surfTime);
-                Int64 when = Int64.Parse(datum.dateNow) - Int64.Parse(datum.date);
-                rrtime += " (" + Seconds_Formatter.toString_PlayTime(when.ToString(), false) + " ago)";
+                rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
+                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
+                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
                 rrtime_arr[i] = rrtime;
 
                 i++;

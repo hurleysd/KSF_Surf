@@ -1,15 +1,404 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System;
 
 using Xamarin.Forms;
+
+using Newtonsoft.Json;
+
+using KSF_Surf.ViewModels;
+using KSF_Surf.Models;
 
 namespace KSF_Surf.Views
 {
     [DesignTimeVisible(false)]
     public partial class PlayerPage : ContentPage
     {
+        private PlayerViewModel playerViewModel;
+
+        // object used by "Info" call
+        private SteamProfile playerSteamProfile;
+        private PlayerInfoDatum playerInfoData;
+
+        // objects used by "Records Set" and "Records Broken" calls
+        private List<RecentPlayerRecords> recordsSetData;
+        private List<RecentPlayerRecords> recordsBrokenData;
+
+        // variables for current filters
+        private EFilter_Game game = EFilter_Game.none;
+        private EFilter_PlayerType playerType = EFilter_PlayerType.none;
+        private string playerValue = "";
+        private string playerSteamId;
+        private string playerRank;
+        private EFilter_Mode mode = EFilter_Mode.none;
+
         public PlayerPage()
         {
+            playerViewModel = new PlayerViewModel();
             InitializeComponent();
+
+            // CHANGE TO PROPERTIES DICT
+            ChangePlayerInfo(EFilter_Game.css, EFilter_Mode.fw, EFilter_PlayerType.steamid, "STEAM_0:0:47620794");
         }
+
+        // UI -----------------------------------------------------------------------------------------------
+        #region UI
+
+        private void ChangePlayerInfo(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        {
+            if (newGame == game && newMode == mode && newPlayerValue == playerValue) return;
+
+            playerInfoData = playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue)?.data;
+            if (playerInfoData is null) return;
+
+            playerType = newPlayerType;
+            playerValue = newPlayerValue;
+            game = newGame;
+            mode = newMode;
+            playerSteamId = playerInfoData.basicInfo.steamID;
+            playerRank = playerInfoData.SurfRank;
+
+            Title = playerInfoData.basicInfo.name + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+
+            playerSteamProfile = playerViewModel.GetPlayerSteamProfile(playerSteamId)?.response.players[0];
+            if (playerSteamProfile is null) return;
+
+            LayoutPlayerInfo();
+            LayoutPlayerProfile();
+            ChangeRecords(game, mode);
+        }
+
+        private void ChangeRecords(EFilter_Game game, EFilter_Mode mode)
+        {
+            recordsSetData = playerViewModel.GetPlayerRecords(game, mode, EFilter_PlayerRecordsType.set, playerType, playerValue)?.data.recentRecords;
+            recordsBrokenData = playerViewModel.GetPlayerRecords(game, mode, EFilter_PlayerRecordsType.broken, playerType, playerValue)?.data.recentRecords;
+            if (recordsSetData is null || recordsBrokenData is null) return;
+            LayoutRecords();
+        }
+
+        // Dispaying Changes -------------------------------------------------------------------------------
+
+        private void LayoutPlayerProfile()
+        {
+            PlayerImage.Source = playerSteamProfile.avatarfull;
+            PlayerNameLabel.Text = playerInfoData.basicInfo.name;
+            PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
+
+            List<string> attributes = new List<string>();
+            if (!(playerInfoData.banStatus is bool))
+            {
+                attributes.Add("BANNED");
+            }
+            if (playerInfoData.KSFStatus != null)
+            {
+                attributes.Add("KSF");
+            }
+            if (playerInfoData.vipStatus != null)
+            {
+                attributes.Add("VIP");
+            }
+            if (playerInfoData.adminStatus != null)
+            {
+                attributes.Add("Admin");
+            }
+            if (playerInfoData.mapperID != null)
+            {
+                attributes.Add("Mapper");
+            }
+            PlayerAttributesLabel.Text = string.Join(" | ", attributes);
+        }
+
+        private void LayoutPlayerInfo()
+        {
+            // Info -----------------------------------------------------------
+            RankLabel.Text = String_Formatter.toString_Int(playerInfoData.SurfRank);
+            PointsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.points);
+            CompletionLabel.Text = playerInfoData.percentCompletion + "%";
+            
+            WRsLabel.Text = playerInfoData.WRZones.wr;
+            WRCPsLabel.Text = String_Formatter.toString_Int(playerInfoData.WRZones.wrcp);
+            WRBsLabel.Text = String_Formatter.toString_Points(playerInfoData.WRZones.wrb);
+
+            FirstOnlineLabel.Text = String_Formatter.toString_KSFDate(playerInfoData.basicInfo.firstOnline);
+            if (playerInfoData.basicInfo.firstOnline == "0")
+            {
+                FirstOnlineLabel.Text = "Before July 2012";
+            }
+            LastSeenLabel.Text = String_Formatter.toString_LastOnline(playerInfoData.basicInfo.lastOnline) + " ago";
+            
+            
+            SurfTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.aliveTime, true);
+            SpecTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.deadTime, true);
+
+            // Completion -----------------------------------------------------
+            MapsValueLabel.Text = playerInfoData.CompletedZones.map; 
+            MapsCompLabel.Text = "Maps (" + playerInfoData.TotalZones.TotalMaps + ")";
+            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage);
+            StagesCompLabel.Text = "Stages (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalStages) + ")";
+            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus);
+            BonusesCompLabel.Text = "Bonuses (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalBonuses) + ")";
+
+            // Groups ---------------------------------------------------------
+            Top10sLabel.Text = playerInfoData.Top10Groups.top10;
+            if (playerInfoData.Top10Groups.top10 != "0")
+            {
+                if (playerInfoData.Top10Groups.rank1 != "0")
+                {
+                    R1GroupLabel.IsVisible = true;
+                    R1ValueLabel.IsVisible = true;
+                    R1ValueLabel.Text = playerInfoData.Top10Groups.rank1;
+                }
+                else
+                {
+                    R1GroupLabel.IsVisible = false;
+                    R1ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank2 != "0")
+                {
+                    R2GroupLabel.IsVisible = true;
+                    R2ValueLabel.IsVisible = true;
+                    R2ValueLabel.Text = playerInfoData.Top10Groups.rank2;
+                }
+                else
+                {
+                    R2GroupLabel.IsVisible = false;
+                    R2ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank3 != "0")
+                {
+                    R3GroupLabel.IsVisible = true;
+                    R3ValueLabel.IsVisible = true;
+                    R3ValueLabel.Text = playerInfoData.Top10Groups.rank3;
+                }
+                else
+                {
+                    R3GroupLabel.IsVisible = false;
+                    R3ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank4 != "0")
+                {
+                    R4GroupLabel.IsVisible = true;
+                    R4ValueLabel.IsVisible = true;
+                    R4ValueLabel.Text = playerInfoData.Top10Groups.rank4;
+                }
+                else
+                {
+                    R4GroupLabel.IsVisible = false;
+                    R4ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank5 != "0")
+                {
+                    R5GroupLabel.IsVisible = true;
+                    R5ValueLabel.IsVisible = true;
+                    R5ValueLabel.Text = playerInfoData.Top10Groups.rank5;
+                }
+                else
+                {
+                    R5GroupLabel.IsVisible = false;
+                    R5ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank6 != "0")
+                {
+                    R6GroupLabel.IsVisible = true;
+                    R6ValueLabel.IsVisible = true;
+                    R6ValueLabel.Text = playerInfoData.Top10Groups.rank6;
+                }
+                else
+                {
+                    R6GroupLabel.IsVisible = false;
+                    R6ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank7 != "0")
+                {
+                    R7GroupLabel.IsVisible = true;
+                    R7ValueLabel.IsVisible = true;
+                    R7ValueLabel.Text = playerInfoData.Top10Groups.rank7;
+                }
+                else
+                {
+                    R7GroupLabel.IsVisible = false;
+                    R7ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank8 != "0")
+                {
+                    R8GroupLabel.IsVisible = true;
+                    R8ValueLabel.IsVisible = true;
+                    R8ValueLabel.Text = playerInfoData.Top10Groups.rank8;
+                }
+                else
+                {
+                    R8GroupLabel.IsVisible = false;
+                    R8ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank9 != "0")
+                {
+                    R9GroupLabel.IsVisible = true;
+                    R9ValueLabel.IsVisible = true;
+                    R9ValueLabel.Text = playerInfoData.Top10Groups.rank9;
+                }
+                else
+                {
+                    R9GroupLabel.IsVisible = false;
+                    R9ValueLabel.IsVisible = false;
+                }
+
+                if (playerInfoData.Top10Groups.rank10 != "0")
+                {
+                    R10GroupLabel.IsVisible = true;
+                    R10ValueLabel.IsVisible = true;
+                    R10ValueLabel.Text = playerInfoData.Top10Groups.rank10;
+                }
+                else
+                {
+                    R10GroupLabel.IsVisible = false;
+                    R10ValueLabel.IsVisible = false;
+                }
+            }
+            else
+            {
+                R1GroupLabel.IsVisible = false;
+                R1ValueLabel.IsVisible = false;
+                R2GroupLabel.IsVisible = false;
+                R2ValueLabel.IsVisible = false;
+                R3GroupLabel.IsVisible = false;
+                R3ValueLabel.IsVisible = false;
+                R4GroupLabel.IsVisible = false;
+                R4ValueLabel.IsVisible = false;
+                R5GroupLabel.IsVisible = false;
+                R5ValueLabel.IsVisible = false;
+                R6GroupLabel.IsVisible = false;
+                R6ValueLabel.IsVisible = false;
+                R7GroupLabel.IsVisible = false;
+                R7ValueLabel.IsVisible = false;
+                R8GroupLabel.IsVisible = false;
+                R8ValueLabel.IsVisible = false;
+                R9GroupLabel.IsVisible = false;
+                R9ValueLabel.IsVisible = false;
+                R10GroupLabel.IsVisible = false;
+                R10ValueLabel.IsVisible = false;
+            }
+
+            G1sLabel.Text = playerInfoData.Top10Groups.g1;
+            G2sLabel.Text = playerInfoData.Top10Groups.g2;
+            G3sLabel.Text = playerInfoData.Top10Groups.g3;
+            G4sLabel.Text = playerInfoData.Top10Groups.g4;
+            G5sLabel.Text = playerInfoData.Top10Groups.g5;
+            G6sLabel.Text = playerInfoData.Top10Groups.g6;
+            GroupsLabel.Text = playerInfoData.Top10Groups.groups;
+
+            // Points Stack ------------------------------------------------------
+            Top10PtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.top10);
+            GroupsPtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.groups);
+            MapsPtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.map);
+
+            string wrcpPoints = "";
+            if (playerInfoData.playerPoints.wrcp != "0")
+            {
+                wrcpPoints = "[+" + String_Formatter.toString_Points(playerInfoData.playerPoints.wrcp) + "] ";
+            }
+            StagesPtsLabel.Text = wrcpPoints + String_Formatter.toString_Points(playerInfoData.playerPoints.stage);
+
+            string wrbPoints = "";
+            if (playerInfoData.playerPoints.wrb != "0")
+            {
+                wrbPoints = "[+" + String_Formatter.toString_Points(playerInfoData.playerPoints.wrb) + "] ";
+            }
+            BonusesPtsLabel.Text = wrbPoints + String_Formatter.toString_Points(playerInfoData.playerPoints.bonus);
+        }
+
+        private void LayoutRecords()
+        {
+            ClearRecordsStacks();
+
+            int i = 0;
+            foreach (RecentPlayerRecords datum in recordsSetData)
+            {
+                RecordsSetStack.Children.Add(new Label  {
+                    Text = datum.recordType + " on " + datum.mapName,
+                    Style = App.Current.Resources["RRLabelStyle"] as Style
+                });
+
+                string rrtime = EFilter_ToString.zoneFormatter(datum.zoneID, true) + " in " + String_Formatter.toString_RankTime(datum.surfTime) + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
+                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
+                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
+       
+                RecordsSetStack.Children.Add(new Label {
+                    Text = rrtime,
+                    Style = App.Current.Resources["TimeLabelStyle"] as Style
+                });
+
+                if (++i != recordsSetData.Count)
+                {
+                    RecordsSetStack.Children.Add(new BoxView {
+                        Style = App.Current.Resources["SeparatorStyle"] as Style
+                    });
+                }
+            }
+
+            i = 0;
+            foreach (RecentPlayerRecords datum in recordsBrokenData)
+            {
+                RecordsBrokenStack.Children.Add(new Label {
+                    Text = datum.recordType + " on " + datum.mapName,
+                    Style = App.Current.Resources["RRLabelStyle"] as Style
+                });
+
+                string rrtime = EFilter_ToString.zoneFormatter(datum.zoneID, true) + " now R" + datum.newRank + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
+                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
+                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
+
+                RecordsBrokenStack.Children.Add(new Label {
+                    Text = rrtime,
+                    Style = App.Current.Resources["TimeLabelStyle"] as Style
+                });
+
+                if (++i != recordsBrokenData.Count)
+                {
+                    RecordsBrokenStack.Children.Add(new BoxView {
+                        Style = App.Current.Resources["SeparatorStyle"] as Style
+                    });
+                }
+            }
+        }
+
+        private void ClearRecordsStacks()
+        {
+            RecordsSetStack.Children.Clear();
+            RecordsBrokenStack.Children.Clear();
+        }
+
+
+        #endregion
+        // Event Handlers ----------------------------------------------------------------------------------
+        #region events
+
+        private async void Filter_Pressed(object sender, EventArgs e)
+        {
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerFilterPage(ApplyFilters,
+                    game, mode, playerType, playerSteamId, playerRank));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
+            }
+        }
+
+        internal void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        {
+            ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
+            PlayerPageScrollView.ScrollToAsync(0, 0, true);
+        }
+
+        #endregion
     }
 }

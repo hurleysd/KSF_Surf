@@ -10,8 +10,8 @@ namespace KSF_Surf.ViewModels
     public class RecordsViewModel : BaseViewModel
     {
         // objects for HTTP requests
-        private static RestClient client;
-        private static RestRequest request;
+        private readonly RestClient client;
+        private readonly RestRequest request;
 
         public RecordsViewModel()
         {
@@ -24,8 +24,9 @@ namespace KSF_Surf.ViewModels
         }
 
         // KSF API calls -------------------------------------------------------------------------------------------
+        #region ksf
 
-        internal static SurfTopRootObject GetSurfTop(EFilter_Game game, EFilter_Mode mode)
+        internal SurfTopRootObject GetSurfTop(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -47,7 +48,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static RRRootObject GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
+        internal RRRootObject GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -72,7 +73,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static RR10RootObject GetRecentRecords10(EFilter_Game game, EFilter_Mode mode)
+        internal RR10RootObject GetRecentRecords10(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -96,7 +97,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostPCRootObject GetMostPC(EFilter_Game game, EFilter_Mode mode)
+        internal MostPCRootObject GetMostPC(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -120,7 +121,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostCountRootObject GetMostCount(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal MostCountRootObject GetMostCount(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -145,7 +146,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostTopRootObject GetMostTop(EFilter_Game game, EFilter_Mode mode)
+        internal MostTopRootObject GetMostTop(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -169,7 +170,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostGroupRootObject GetMostGroup(EFilter_Game game, EFilter_Mode mode)
+        internal MostGroupRootObject GetMostGroup(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -193,7 +194,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostContWrRootObject GetMostContWr(EFilter_Game game, EFilter_Mode mode)
+        internal MostContWrRootObject GetMostContWr(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -217,7 +218,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostContZoneRootObject GetMostContZone(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal MostContZoneRootObject GetMostContZone(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -242,7 +243,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal static MostTimeRootObject GetMostTime(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal MostTimeRootObject GetMostTime(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -266,5 +267,6 @@ namespace KSF_Surf.ViewModels
                 return null;
             }
         }
+        #endregion
     }
 }

@@ -8,35 +8,6 @@
              Title="Records"
              x:Name="RecordsTab"
              Style="{DynamicResource ContentPageStyle}">
-    <!-- Label Styles-->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key = "GridLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-            <Style x:Key = "RRLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-            </Style>
-            <Style x:Key = "TimeLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-            </Style>
-            <Style x:Key = "SeparatorStyle" TargetType="BoxView">
-                <Setter Property="BackgroundColor" Value="{DynamicResource SeparatorColor}"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HeightRequest" Value="1"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <ScrollView Orientation="Vertical"
                 VerticalScrollBarVisibility="Default">
@@ -55,9 +26,9 @@
                 <Label x:Name="GameCSSLabel"
                        Text="CS:S"
                        FontSize="26"
-                       TextColor="{DynamicResource TappedTextColor}"
-                       Grid.Column="0"
-                       HorizontalOptions="Center">
+                       TextColor="{StaticResource TappedTextColor}"
+                       HorizontalOptions="Center"
+                       Grid.Column="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GameCSSLabel_Tapped"/>
                     </Label.GestureRecognizers>
@@ -65,10 +36,8 @@
 
                 <Label x:Name="GameCSS100TLabel"
                        Text="CS:S 100T"
-                       FontSize="26"
-                       TextColor="{DynamicResource GrayTextColor}"
-                       Grid.Column="1"
-                       HorizontalOptions="Center">
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GameCSS100TLabel_Tapped"/>
                     </Label.GestureRecognizers>
@@ -76,10 +45,8 @@
 
                 <Label x:Name="GameCSGOLabel"
                        Text="CS:GO"
-                       FontSize="26"
-                       TextColor="{DynamicResource GrayTextColor}"
-                       Grid.Column="2"
-                       HorizontalOptions="Center">
+                       Style="{DynamicResource FilterLabelStyle}"
+                       Grid.Column="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GameCSGOLabel_Tapped"/>
                     </Label.GestureRecognizers>
@@ -100,7 +67,7 @@
                 <Label x:Name="RRTypeOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
@@ -110,7 +77,7 @@
                 <Label x:Name="RRStyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="RRStyleOptionLabel_Tapped"/>
@@ -121,7 +88,7 @@
             <Frame Style="{StaticResource FrameStyle}">
                 <StackLayout Orientation="Vertical"
                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="10">
+                         Padding="10,15,10,15">
 
                     <Label x:Name="Label_RR0"
                        Style="{DynamicResource RRLabelStyle}"/>
@@ -218,7 +185,7 @@
                 <Label x:Name="MostTypeOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
@@ -228,7 +195,7 @@
                 <Label x:Name="MostStyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="MostStyleOptionLabel_Tapped"/>
@@ -287,7 +254,7 @@
                 <Label x:Name="TopStyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TopStyleOptionLabel_Tapped"/>

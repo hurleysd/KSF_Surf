@@ -10,17 +10,6 @@
     <!-- Label Styles -->
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key = "LeftColStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-            <Style x:Key = "RightColStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
-                <Setter Property="HorizontalTextAlignment" Value="End"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
             <Style x:Key = "TopNPointsStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
@@ -96,9 +85,10 @@
                    Margin="10,10,0,0"/>
             <Grid x:Name="MappersGrid"
                   HorizontalOptions="FillAndExpand" 
-                  Padding="20,10,10,10">
+                  Padding="10"
+                  Margin="20,0,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
@@ -121,7 +111,8 @@
                    Style="{DynamicResource HeaderLabel}"
                    Margin="10,10,0,0"/>
             <Grid HorizontalOptions="FillAndExpand" 
-                  Padding="20,10,10,10">
+                  Padding="10"
+                  Margin="20,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -162,7 +153,7 @@
                 <Label x:Name="ZoneOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
@@ -172,7 +163,7 @@
                 <Label x:Name="StyleOptionLabel"
                        VerticalOptions="End"
                        FontSize="16"
-                       TextColor="{DynamicResource TappedTextColor}"
+                       TextColor="{StaticResource TappedTextColor}"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>

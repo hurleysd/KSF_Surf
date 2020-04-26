@@ -36,6 +36,7 @@ namespace KSF_Surf
                 App.Current.Resources["HeaderTextColor"] = Xamarin.Forms.Color.WhiteSmoke;
                 App.Current.Resources["SeparatorColor"] = Xamarin.Forms.Color.Black;
                 App.Current.Resources["AppBackgroundColor"] = Xamarin.Forms.Color.Black;
+                App.Current.Resources["TabBackgroundColor"] = Xamarin.Forms.Color.FromHex("#171717");
             }
             else
             {
@@ -44,6 +45,7 @@ namespace KSF_Surf
                 App.Current.Resources["HeaderTextColor"] = Xamarin.Forms.Color.Black;
                 App.Current.Resources["SeparatorColor"] = Xamarin.Forms.Color.WhiteSmoke;
                 App.Current.Resources["AppBackgroundColor"] = Xamarin.Forms.Color.WhiteSmoke;
+                App.Current.Resources["TabBackgroundColor"] = Xamarin.Forms.Color.FromHex("#e8e8e8");
             }
         }
     }

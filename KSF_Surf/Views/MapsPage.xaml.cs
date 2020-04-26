@@ -16,9 +16,10 @@ namespace KSF_Surf.Views
     public partial class MapsPage : ContentPage
     {
         private MapsViewModel mapsViewModel;
-        private List<string> maps_list = new List<string>();
 
-        private ObservableCollection<DetailedMapDatum> detailed_mapData;
+        // objects used in "Maps" call
+        private List<string> maps_list = new List<string>();
+        private List<DetailedMapDatum> detailed_mapData;
 
         // search filter vars used in API call used to minimize new calls
         private EFilter_Game currentGame = EFilter_Game.none;
@@ -51,7 +52,7 @@ namespace KSF_Surf.Views
             {
                 if (game != currentGame || sort != currentSort)
                 {
-                    DetailedMapsRootObject dmro = MapsViewModel.GetDetailedMapsList(game, sort);
+                    DetailedMapsRootObject dmro = mapsViewModel.GetDetailedMapsList(game, sort);
                     if (dmro == null)
                     {
                         Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
@@ -62,7 +63,7 @@ namespace KSF_Surf.Views
                     MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
                     MapsTab.Title = "Maps [" + EFilter_ToString.toString2(game) + "]";
 
-                    detailed_mapData = new ObservableCollection<DetailedMapDatum>(dmro.data);
+                    detailed_mapData = new List<DetailedMapDatum>(dmro.data);
                     currentGame = game;
                     currentSort = sort;
                 }

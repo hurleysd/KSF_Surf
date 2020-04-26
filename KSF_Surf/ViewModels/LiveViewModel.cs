@@ -13,8 +13,8 @@ namespace KSF_Surf.ViewModels
         internal TwitchRootObject streams;
 
         // objects for HTTP requests
-        private static RestClient client;
-        private static RestRequest request;
+        private readonly RestClient client;
+        private readonly RestRequest request;
 
         public LiveViewModel()
         {
@@ -31,7 +31,7 @@ namespace KSF_Surf.ViewModels
         // KSF API call -------------------------------------------------------------------------
         #region ksf
 
-        internal static KSFServerRootObject GetServers(EFilter_Game game)
+        internal KSFServerRootObject GetServers(EFilter_Game game)
         {
             if (!BaseViewModel.hasConnection()) return null;
 

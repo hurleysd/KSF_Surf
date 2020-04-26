@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 
 // Classes for KSF API response JSON deserialization
 
@@ -340,6 +341,136 @@ namespace KSF_Surf.Models
     {
         public string status { get; set; }
         public List<MostTimeDatum> data { get; set; }
+    }
+
+    #endregion
+    // PlayerPage
+    #region PlayerPage
+
+    // PLAYER INFO
+
+    public class TotalZones
+    {
+        public string TotalMaps { get; set; }
+        public string TotalStages { get; set; }
+        public string TotalBonuses { get; set; }
+    }
+
+    public class WRZones
+    {
+        public string wr { get; set; }
+        public string wrcp { get; set; }
+        public string wrb { get; set; }
+    }
+
+    public class Top10Groups
+    {
+        public string top10 { get; set; }
+        public string groups { get; set; }
+        public string rank1 { get; set; }
+        public string rank2 { get; set; }
+        public string rank3 { get; set; }
+        public string rank4 { get; set; }
+        public string rank5 { get; set; }
+        public string rank6 { get; set; }
+        public string rank7 { get; set; }
+        public string rank8 { get; set; }
+        public string rank9 { get; set; }
+        public string rank10 { get; set; }
+        public string g1 { get; set; }
+        public string g2 { get; set; }
+        public string g3 { get; set; }
+        public string g4 { get; set; }
+        public string g5 { get; set; }
+        public string g6 { get; set; }
+    }
+
+    public class CompletedZones
+    {
+        public string map { get; set; }
+        public string stage { get; set; }
+        public string bonus { get; set; }
+    }
+
+    public class PlayerPoints
+    {
+        public string points { get; set; }
+        public string top10 { get; set; }
+        public string groups { get; set; }
+        public string wrcp { get; set; }
+        public string wrb { get; set; }
+        public string map { get; set; }
+        public string stage { get; set; }
+        public string bonus { get; set; }
+    }
+
+    public class BasicInfo
+    {
+        public string steamID { get; set; }
+        public string name { get; set; }
+        public string playerID { get; set; }
+        public string country { get; set; }
+        public string lastOnline { get; set; }
+        public string firstOnline { get; set; }
+        public string onlineTime { get; set; }
+        public string aliveTime { get; set; }
+        public string deadTime { get; set; }
+        public string totalConnections { get; set; }
+    }
+
+    public class PlayerInfoDatum
+    {
+        public object banStatus { get; set; }
+        public BasicInfo basicInfo { get; set; }
+        
+        public string KSFStatus { get; set; } // "member" or null
+        public string vipStatus { get; set; } // "active" or null
+        public string adminStatus { get; set; } // "active" or null
+        public string mapperID { get; set; } // "<number>" or null
+        public PlayerPoints playerPoints { get; set; }
+        public CompletedZones CompletedZones { get; set; }
+        public Top10Groups Top10Groups { get; set; }
+        public WRZones WRZones { get; set; }
+        public string SurfRank { get; set; }
+        public string SurfTotalRank { get; set; }
+        public string percentCompletion { get; set; }
+        public TotalZones TotalZones { get; set; }
+    }
+
+    public class PlayerInfoRootObject
+    {
+        public string status { get; set; }
+        public PlayerInfoDatum data { get; set; }
+    }
+
+    // PLAYER RECORDS
+
+    public class RecentPlayerRecords
+    {
+        public string date { get; set; }
+        public string mapName { get; set; }
+        public string zoneID { get; set; }
+        public string newRank { get; set; }
+        public string prevRank { get; set; }
+        public string finishType { get; set; }
+        public string groupChange { get; set; }
+        public string dateNow { get; set; }
+        public string server { get; set; }
+        public string surfTime { get; set; }
+        public string wrDiff { get; set; }
+        public string recordType { get; set; }
+    }
+
+    public class PlayerRecordsDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<RecentPlayerRecords> recentRecords { get; set; }
+    }
+
+    public class PlayerRecordsRootObject
+    {
+        public string status { get; set; }
+        public PlayerRecordsDatum data { get; set; }
     }
 
     #endregion
