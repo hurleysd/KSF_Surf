@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Essentials;
@@ -15,53 +16,44 @@ namespace KSF_Surf.Views
     public partial class LivePage : ContentPage
     {
         private readonly LiveViewModel liveViewModel;
+        private bool hasLoaded = false;
 
         // objects for "KSFClan Servers"
         private List<KSFServerDatum> css_serverData;
         private List<KSFServerDatum> css100t_serverData;
         private List<KSFServerDatum> csgo_serverData;
 
-        private List<Label> css_serverLabels = new List<Label>();
-        private List<Label> css_mapLabels = new List<Label>();
-        private List<Label> csgo_serverLabels = new List<Label>();
-        private List<Label> csgo_mapLabels = new List<Label>();
-
         // object for "Surfer Streams"
         private ObservableCollection<TwitchDatum> streamData;
 
-        // variable for current filter
-        private EFilter_Game game = EFilter_Game.none;
-
-        // vibration
-        private bool allowVibrate = false;
+        // colors
+        private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
+        private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
 
             InitializeComponent();
-            StreamsRefreshView.Command = new Command(StreamsRefresh);
-
-            LayoutDesign();
+            //StreamsRefreshView.Command = new Command(StreamsRefresh);
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-        private async void LayoutDesign()
+        private async Task LayoutDesign()
         {
             if (BaseViewModel.hasConnection())
             {
-                LoadServers();
-                LoadStreams();
+                await LoadServers();
+                await LoadStreams();
             }
             else
             {
                 bool tryAgain = await DisplayAlert("Could not connect to KSF servers :(", "Would you like to retry?", "Retry", "Cancel");
                 if (tryAgain)
                 {
-                    liveViewModel.twitchRefresh();
-                    LayoutDesign();
+                    await LayoutDesign();
                 }
                 else
                 {
@@ -70,53 +62,16 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void ChangeGame(EFilter_Game newGame)
+
+        private async Task LoadServers()
         {
-            if (newGame == game) return;
-            BaseViewModel.vibrate(allowVibrate);
-
-            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
-            Color TappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
-
-            ServerStack.Children.Clear();
-            MapsStack.Children.Clear();
-
-            if (newGame == EFilter_Game.css)
-            {
-                CSSServersLabel.TextColor = TappedTextColor;
-                CSGOServersLabel.TextColor = GrayTextColor;
-
-                foreach (Label ServerLabel in css_serverLabels)
-                {
-                    ServerStack.Children.Add(ServerLabel);
-                }
-                foreach (Label MapLabel in css_mapLabels)
-                {
-                    MapsStack.Children.Add(MapLabel);
-                }
-            }
-            else
-            {
-                CSSServersLabel.TextColor = GrayTextColor;
-                CSGOServersLabel.TextColor = TappedTextColor;
-
-                foreach (Label ServerLabel in csgo_serverLabels)
-                {
-                    ServerStack.Children.Add(ServerLabel);
-                }
-                foreach (Label MapLabel in csgo_mapLabels)
-                {
-                    MapsStack.Children.Add(MapLabel);
-                }
-            }
-            game = newGame;
-        }
-
-        private void LoadServers()
-        {
-            css_serverData = liveViewModel.GetServers(EFilter_Game.css)?.data;
-            css100t_serverData = liveViewModel.GetServers(EFilter_Game.css100t)?.data;
-            csgo_serverData = liveViewModel.GetServers(EFilter_Game.csgo)?.data;
+            var css_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css);
+            var css100t_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css100t);
+            var csgos_ServerDatum = await liveViewModel.GetServers(EFilter_Game.csgo);
+            
+            css_serverData = css_ServerDatum?.data;
+            css100t_serverData = css100t_ServerDatum?.data;
+            csgo_serverData = csgos_ServerDatum?.data;
 
             if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
 
@@ -124,15 +79,15 @@ namespace KSF_Surf.Views
             {
                 if (datum.surftimer_servername.Contains("test")) continue;
 
-                css_serverLabels.Add(new Label
+                CSSServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                css_mapLabels.Add(new Label
+                CSSMapsStack.Children.Add(new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = Resources["Right2ColStyle"] as Style
                 });
             }
 
@@ -140,15 +95,15 @@ namespace KSF_Surf.Views
             {
                 if (datum.surftimer_servername.Contains("TEST")) continue;
 
-                css_serverLabels.Add(new Label
+                CSS100TServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                css_mapLabels.Add(new Label
+                CSS100TMapsStack.Children.Add(new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = Resources["Right2ColStyle"] as Style
                 });
             }
 
@@ -160,20 +115,17 @@ namespace KSF_Surf.Views
                     datum.surftimer_servername = "EasySurf EU";
                 }
 
-                csgo_serverLabels.Add(new Label
+                CSGOServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                csgo_mapLabels.Add(new Label
+                CSGOMapsStack.Children.Add(new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["ServerLabelStyle"] as Style
+                    Style = Resources["Right2ColStyle"] as Style
                 });
             }
-
-            ChangeGame(EFilter_Game.css);
-            allowVibrate = true;
         }
 
         #endregion
@@ -182,8 +134,10 @@ namespace KSF_Surf.Views
 
         private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
 
-        private void LoadStreams()
+        private async Task LoadStreams()
         {
+            await liveViewModel.twitchRefresh();
+
             TwitchRootObject tro = liveViewModel.streams;
             if (tro == null)
             {
@@ -212,9 +166,14 @@ namespace KSF_Surf.Views
         // Event Handlers -------------------------------------------------------------------------------------------------------------------------
         #region events
 
-        private void CSSLabel_Tapped(object sender, EventArgs e) => ChangeGame(EFilter_Game.css);
-
-        private void CSGOLabel_Tapped(object sender, EventArgs e) => ChangeGame(EFilter_Game.csgo);
+        protected override async void OnAppearing()
+        {
+            if (!hasLoaded)
+            {
+                await LayoutDesign();
+                hasLoaded = true;
+            }
+        }
 
 
         private async void Stream_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -235,14 +194,18 @@ namespace KSF_Surf.Views
         {
             if (BaseViewModel.hasConnection())
             {
-                liveViewModel.twitchRefresh();
-                LoadStreams();
+                await LoadStreams();
             }
             else
             {
                 await DisplayAlert("Could not connect to Twitch", "Please connect to the Internet.", "OK");
             }
-            StreamsRefreshView.IsRefreshing = false;
+            //StreamsRefreshView.IsRefreshing = false;
+        }
+
+        private async void Settings_Pressed(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
         }
 
         #endregion

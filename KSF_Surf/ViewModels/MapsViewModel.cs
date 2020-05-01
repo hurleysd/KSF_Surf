@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 using RestSharp;
 
-using System;
-
 using KSF_Surf.Models;
+
 
 namespace KSF_Surf.ViewModels
 {
@@ -12,20 +14,23 @@ namespace KSF_Surf.ViewModels
         // objects for HTTP requests
         private readonly RestClient client;
         private readonly RestRequest request;
+        private IRestResponse response = null;
 
         public MapsViewModel()
         {
             Title = "Maps";
 
             client = new RestClient();
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
+            request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json
+            };
         }
 
         // KSF API calls -----------------------------------------------------------------------------------------------------------
 
-        internal DetailedMapsRootObject GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
+        internal async Task<DetailedMapsRootObject> GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -35,7 +40,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || sortString == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/maplist/detailedlist/" + sortString + "/1,999");
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -47,7 +52,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MapInfoRootObject GetMapInfo(EFilter_Game game, string map)
+        internal async Task<MapInfoRootObject> GetMapInfo(EFilter_Game game, string map)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -56,7 +61,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || map == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/map/" + map + "/mapinfo");
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -68,7 +73,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MapTopRootObject GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone)
+        internal async Task<MapTopRootObject> GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -78,7 +83,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || map == "" || zone < 0) return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/map/" + map + "/zone/" + zone + "/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -90,7 +95,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MapPointsRootObject GetMapPoints(EFilter_Game game, string map)
+        internal async Task<MapPointsRootObject> GetMapPoints(EFilter_Game game, string map)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -99,7 +104,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || map == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/map/" + map + "/points");
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {

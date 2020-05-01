@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 
 using KSF_Surf.Views;
-
+using KSF_Surf.Models;
 
 namespace KSF_Surf
 {
@@ -31,22 +31,27 @@ namespace KSF_Surf
         {
             if (AppInfo.RequestedTheme == AppTheme.Dark)
             {
-                App.Current.Resources["ViewBackgroundColor"] = Xamarin.Forms.Color.FromHex("#363636");
-                App.Current.Resources["GrayTextColor"] = Xamarin.Forms.Color.FromHex("#9e9e9e");
-                App.Current.Resources["HeaderTextColor"] = Xamarin.Forms.Color.WhiteSmoke;
-                App.Current.Resources["SeparatorColor"] = Xamarin.Forms.Color.Black;
-                App.Current.Resources["AppBackgroundColor"] = Xamarin.Forms.Color.Black;
-                App.Current.Resources["TabBackgroundColor"] = Xamarin.Forms.Color.FromHex("#171717");
+                App.Current.Resources["ViewBackgroundColor"] = Color.FromHex("#1b1b1b");
+                App.Current.Resources["GrayTextColor"] = Color.FromHex("#9e9e9e");
+                App.Current.Resources["HeaderTextColor"] = Color.WhiteSmoke;
+                App.Current.Resources["SeparatorColor"] = Color.Black;
+                App.Current.Resources["BorderColor"] = Color.FromHex("#4f4f4f");
+                App.Current.Resources["AppBackgroundColor"] = Color.Black;
+                App.Current.Resources["BarBackgroundColor"] = Color.FromHex("#171717");
+                App.Current.Resources["TabBackgroundColor"] = Color.Black;
             }
             else
             {
-                App.Current.Resources["ViewBackgroundColor"] = Xamarin.Forms.Color.LightGray;
-                App.Current.Resources["GrayTextColor"] = Xamarin.Forms.Color.FromHex("#696969");
-                App.Current.Resources["HeaderTextColor"] = Xamarin.Forms.Color.Black;
-                App.Current.Resources["SeparatorColor"] = Xamarin.Forms.Color.WhiteSmoke;
-                App.Current.Resources["AppBackgroundColor"] = Xamarin.Forms.Color.WhiteSmoke;
-                App.Current.Resources["TabBackgroundColor"] = Xamarin.Forms.Color.FromHex("#e8e8e8");
+                App.Current.Resources["ViewBackgroundColor"] = Color.FromHex("#e4e4e4");
+                App.Current.Resources["GrayTextColor"] = Color.FromHex("#696969");
+                App.Current.Resources["HeaderTextColor"] = Color.Black;
+                App.Current.Resources["SeparatorColor"] = Color.WhiteSmoke;
+                App.Current.Resources["BorderColor"] = Color.FromHex("#b5b5b5");
+                App.Current.Resources["AppBackgroundColor"] = Color.WhiteSmoke;
+                App.Current.Resources["BarBackgroundColor"] = Color.FromHex("#e8e8e8");
+                App.Current.Resources["TabBackgroundColor"] = Color.FromHex("#e8e8e8");
             }
         }
+
     }
 }

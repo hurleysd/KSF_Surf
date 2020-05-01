@@ -4,9 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="KSF_Surf.Views.PlayerFilterPage"
+             x:Class="KSF_Surf.Views.RecordsFilterPage"
              Title="Filters"
-             x:Name="PlayerFilter"
+             x:Name="RecordsFilter"
              Style="{DynamicResource ContentPageStyle}">
 
     <ContentPage.ToolbarItems>
@@ -17,9 +17,9 @@
 
     <StackLayout Padding="10,15,10,15">
 
-        <!-- Player -->
+        <!-- Game -->
         <StackLayout Orientation="Horizontal">
-            <Label Text="Player"
+            <Label Text="Game"
                    Style="{DynamicResource HeaderLabel}"
                    Margin="10,0,0,10"/>
 
@@ -36,90 +36,6 @@
             </Label>
         </StackLayout>
 
-        <Grid Padding ="10"
-              HorizontalOptions="FillAndExpand"
-              RowSpacing="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="110"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Label x:Name="PlayerMeLabel"
-                Text="Me"
-                FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
-                HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="0">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerMeLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-            <Label x:Name="PlayerMeIDLabel"
-                TextColor="{DynamicResource HeaderTextColor}"
-                VerticalOptions="Center"
-                Grid.Column="1"
-                Grid.Row="0">
-            </Label>
-
-            <Label x:Name="PlayerRankLabel"
-                Text="Rank"
-                FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
-                HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="1">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerRankLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-            <Entry x:Name="RankEntry"
-                   Keyboard="Numeric"
-                   ClearButtonVisibility="WhileEditing"
-                   MaxLength="7"
-                   Focused="RankEntry_Focused"
-                   HorizontalOptions="Fill"
-                   Grid.Column="1"
-                   Grid.Row="1"/>
-
-            <Label x:Name="PlayerSteamLabel"
-                Text="Steam ID"
-                FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
-                HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerSteamLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-            <Entry x:Name="SteamIdEntry"
-                   ClearButtonVisibility="WhileEditing"
-                   MaxLength="20"
-                   Focused="SteamIdEntry_Focused"
-                   HorizontalOptions="Fill"
-                   Grid.Column="1"
-                   Grid.Row="2"/>
-
-        </Grid>
-
-        <BoxView HorizontalOptions="FillAndExpand"
-                     HeightRequest="1"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,10,0,10"/>
-
-        <!-- Game -->
-        <Label Text="Game"
-            Style="{DynamicResource HeaderLabel}"
-            Margin="10,0,0,10"/>
 
         <Grid Padding ="10"
                   HorizontalOptions="FillAndExpand">

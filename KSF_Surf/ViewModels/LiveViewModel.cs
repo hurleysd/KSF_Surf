@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using RestSharp;
 using Newtonsoft.Json;
@@ -15,23 +16,24 @@ namespace KSF_Surf.ViewModels
         // objects for HTTP requests
         private readonly RestClient client;
         private readonly RestRequest request;
+        private IRestResponse response = null;
 
         public LiveViewModel()
         {
             Title = "Live";
             
             client = new RestClient();
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
-
-            twitchConnect();
+            request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json
+            };
         }
 
         // KSF API call -------------------------------------------------------------------------
         #region ksf
 
-        internal KSFServerRootObject GetServers(EFilter_Game game)
+        internal async Task<KSFServerRootObject> GetServers(EFilter_Game game)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -39,7 +41,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/servers/list");
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -55,7 +57,7 @@ namespace KSF_Surf.ViewModels
         //Twitch API call ------------------------------------------------------------------------
         #region twitch
 
-        private void twitchConnect()
+        private async Task twitchConnect()
         {
             if (!BaseViewModel.hasConnection()) return;
 
@@ -70,12 +72,14 @@ namespace KSF_Surf.ViewModels
 
             client.BaseUrl = new Uri(query);
 
-            var trequest = new RestRequest();
-            trequest.Method = Method.GET;
+            var trequest = new RestRequest
+            {
+                Method = Method.GET
+            };
             trequest.AddHeader("Client-ID", clientID);
             trequest.RequestFormat = DataFormat.Json;
 
-            IRestResponse response = client.Execute(trequest);
+            await Task.Run(() => response = client.Execute(trequest));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -87,9 +91,9 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal void twitchRefresh()
+        internal async Task twitchRefresh()
         {
-            twitchConnect();
+            await twitchConnect();
         }
 
         private readonly string[] streamers =

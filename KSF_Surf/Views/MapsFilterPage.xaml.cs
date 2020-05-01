@@ -14,22 +14,37 @@ namespace KSF_Surf.Views
     {
         // variables for filters
         private EFilter_Game game = EFilter_Game.none;
+        private readonly EFilter_Game defaultGame;
+
         private EFilter_Sort sort = EFilter_Sort.none;
         private int minTier = -1;
         private int maxTier = -1;
         private EFilter_MapType mapType = EFilter_MapType.none;
 
+        // booleans for reset
+        private bool resetGame = false;
+        private bool resetSort = false;
+        private bool resetMin = false;
+        private bool resetMax = false;
+        private bool resetType = false;
+
         // method to apply filters
-        private Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
+        private readonly Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
 
         // vibration
         private bool allowVibrate = false;
 
+        // colors
+        private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
+        private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
         public MapsFilterPage(Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier,
-            EFilter_Game currentGame, EFilter_Sort currentSort, int currentMinTier, int currentMaxTier, EFilter_MapType currentMapType)
+            EFilter_Game currentGame, EFilter_Sort currentSort, 
+            int currentMinTier, int currentMaxTier, EFilter_MapType currentMapType,
+            EFilter_Game defaultGame)
         {
             this.FilterApplier = FilterApplier;
+            this.defaultGame = defaultGame;
 
             InitializeComponent();
 
@@ -42,11 +57,6 @@ namespace KSF_Surf.Views
             maxTier = currentMaxTier;
             MaxTierSlider.Value = maxTier;
             MinTierSlider.Value = minTier;
-
-            if (minTier != 1 || maxTier != 8)
-            {
-                ResetLabel.IsVisible = true;
-            }
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -55,33 +65,25 @@ namespace KSF_Surf.Views
         private void ChangeGameFilter(EFilter_Game newGame)
         {
             if (game == newGame) return;
-            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
-            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
+            
 
             switch (game)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = GrayTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = GrayTextColor; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = GrayTextColor; break;
+                case EFilter_Game.css: GameCSSLabel.TextColor = untappedTextColor; break;
+                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = untappedTextColor; break;
+                case EFilter_Game.csgo: GameCSGOLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newGame)
             {
                 case EFilter_Game.css: GameCSSLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.css100t:
-                    {
-                        GameCSS100TLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
-                case EFilter_Game.csgo:
-                    {
-                        GameCSGOLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
+                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = tappedTextColor; break;
+                case EFilter_Game.csgo: GameCSGOLabel.TextColor = tappedTextColor; break;
             }
+
+            resetGame = (newGame != defaultGame);
+            checkReset();
 
             BaseViewModel.vibrate(allowVibrate);
             game = newGame;
@@ -90,47 +92,28 @@ namespace KSF_Surf.Views
         private void ChangeSortFilter(EFilter_Sort newSort)
         {
             if (sort == newSort) return;
-            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
-            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
             switch (sort)
             {
-                case EFilter_Sort.name: SortNameLabel.TextColor = GrayTextColor; break;
-                case EFilter_Sort.created: SortCreateLabel.TextColor = GrayTextColor; break;
-                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = GrayTextColor; break;
-                case EFilter_Sort.playtime: SortPlayLabel.TextColor = GrayTextColor; break;
-                case EFilter_Sort.popularity: SortPopLabel.TextColor = GrayTextColor; break;
+                case EFilter_Sort.name: SortNameLabel.TextColor = untappedTextColor; break;
+                case EFilter_Sort.created: SortCreateLabel.TextColor = untappedTextColor; break;
+                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = untappedTextColor; break;
+                case EFilter_Sort.playtime: SortPlayLabel.TextColor = untappedTextColor; break;
+                case EFilter_Sort.popularity: SortPopLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newSort)
             {
                 case EFilter_Sort.name: SortNameLabel.TextColor = tappedTextColor; break;
-                case EFilter_Sort.created:
-                    {
-                        SortCreateLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
-                case EFilter_Sort.lastplayed:
-                    {
-                        SortLastLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
-                case EFilter_Sort.playtime:
-                    {
-                        SortPlayLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
-                case EFilter_Sort.popularity:
-                    {
-                        SortPopLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
+                case EFilter_Sort.created: SortCreateLabel.TextColor = tappedTextColor; break;
+                case EFilter_Sort.lastplayed: SortLastLabel.TextColor = tappedTextColor; break;
+                case EFilter_Sort.playtime: SortPlayLabel.TextColor = tappedTextColor; break;
+                case EFilter_Sort.popularity: SortPopLabel.TextColor = tappedTextColor; break;
             }
+
+            resetSort = newSort != (EFilter_Sort.created);
+            checkReset();
 
             BaseViewModel.vibrate(allowVibrate);
             sort = newSort;
@@ -139,36 +122,32 @@ namespace KSF_Surf.Views
         private void ChangeMapTypeFilter(EFilter_MapType newMapType)
         {
             if (mapType == newMapType) return;
-            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
-            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
             switch (mapType)
             {
-                case EFilter_MapType.any: TypeAnyLabel.TextColor = GrayTextColor; break;
-                case EFilter_MapType.linear: TypeLinearLabel.TextColor = GrayTextColor; break;
-                case EFilter_MapType.staged: TypeStagedLabel.TextColor = GrayTextColor; break;
+                case EFilter_MapType.any: TypeAnyLabel.TextColor = untappedTextColor; break;
+                case EFilter_MapType.linear: TypeLinearLabel.TextColor = untappedTextColor; break;
+                case EFilter_MapType.staged: TypeStagedLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newMapType)
             {
                 case EFilter_MapType.any: TypeAnyLabel.TextColor = tappedTextColor; break;
-                case EFilter_MapType.linear:
-                    {
-                        TypeLinearLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
-                case EFilter_MapType.staged:
-                    {
-                        TypeStagedLabel.TextColor = tappedTextColor;
-                        ResetLabel.IsVisible = true;
-                        break;
-                    }
+                case EFilter_MapType.linear: TypeLinearLabel.TextColor = tappedTextColor; break;
+                case EFilter_MapType.staged: TypeStagedLabel.TextColor = tappedTextColor; break;
             }
+
+            resetType = (newMapType != EFilter_MapType.any);
+            checkReset();
 
             BaseViewModel.vibrate(allowVibrate);
             mapType = newMapType;
+        }
+
+        private void checkReset()
+        {
+            ResetLabel.IsVisible = resetGame || resetSort || resetMin || resetMax || resetType;
         }
 
         #endregion
@@ -206,10 +185,8 @@ namespace KSF_Surf.Views
             }
             minTier = newValue;
 
-            if (minTier != 1)
-            {
-                ResetLabel.IsVisible = true;
-            }
+            resetMin = (minTier != 1);
+            checkReset();
         }
 
         private void MaxTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -223,10 +200,8 @@ namespace KSF_Surf.Views
             }
             maxTier = newValue;
 
-            if (maxTier != 8)
-            {
-                ResetLabel.IsVisible = true;
-            }
+            resetMax = (maxTier != 8);
+            checkReset();
         }
 
         private void ResetLabel_Tapped(object sender, EventArgs e)
@@ -234,13 +209,13 @@ namespace KSF_Surf.Views
             bool oldAllowVibrate = allowVibrate;
             allowVibrate = false;
 
-            if (game != EFilter_Game.css)
+            if (game != defaultGame)
             {
-                ChangeGameFilter(EFilter_Game.css);
+                ChangeGameFilter(defaultGame);
             }
-            if (sort != EFilter_Sort.name)
+            if (sort != EFilter_Sort.created)
             {
-                ChangeSortFilter(EFilter_Sort.name);
+                ChangeSortFilter(EFilter_Sort.created);
             }
             if (mapType != EFilter_MapType.any)
             {
@@ -259,8 +234,6 @@ namespace KSF_Surf.Views
 
             allowVibrate = oldAllowVibrate;
             BaseViewModel.vibrate(allowVibrate);
-
-            ResetLabel.IsVisible = false;
         }
     }
 

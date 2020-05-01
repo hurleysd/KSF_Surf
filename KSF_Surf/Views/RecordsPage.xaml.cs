@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -12,7 +13,8 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class RecordsPage : ContentPage
     {
-        private RecordsViewModel recordsViewModel;
+        private readonly RecordsViewModel recordsViewModel;
+        private bool hasLoaded = false;
 
         // objects used by "Recent" and "Surf Top" calls
         private List<SurfTopDatum> surfTopData;
@@ -30,88 +32,52 @@ namespace KSF_Surf.Views
 
         // variables for current filters
         private EFilter_Game game;
-        private EFilter_Mode surfTopMode;
-        private EFilter_Mode recentRecordsMode;
+        private readonly EFilter_Game defaultGame;
+        private EFilter_Mode mode;
+        private readonly EFilter_Mode defaultMode;
         private EFilter_RRType recentRecordsType;
-        private EFilter_Mode mostMode;
         private EFilter_MostType mostType;
         private string mostTypeString;
-
-        // vibration
-        private bool allowVibrate = true;
 
         public RecordsPage()
         {
             recordsViewModel = new RecordsViewModel();
             InitializeComponent();
 
-            game = EFilter_Game.css;
-            surfTopMode = EFilter_Mode.fw;
-            recentRecordsMode = EFilter_Mode.fw;
+            game = BaseViewModel.propertiesDict_getGame();
+            defaultGame = game;
+            mode = BaseViewModel.propertiesDict_getMode();
+            defaultMode = mode;
             recentRecordsType = EFilter_RRType.map;
-            mostMode = EFilter_Mode.fw;
             mostType = EFilter_MostType.wr;
             mostTypeString = "Current WRs";
 
-            ChangeRecentRecords(game, recentRecordsType, recentRecordsMode);
-            ChangeMostByType(game, mostType, mostMode, false);
-            ChangeSurfTop(game, surfTopMode, false);
-
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
             MostTypePicker.ItemsSource = EFilter_ToString.mosttype_arr;
         }
 
         // UI ---------------------------------------------------------------------------------------------------------
         #region UI
 
-        private void ChangeAndLayoutGame(EFilter_Game newGame)
+        private async Task ChangeRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
         {
-            if (game == newGame) return;
-            BaseViewModel.vibrate(allowVibrate);
-
-            Color GrayTextColor = (Color)App.Current.Resources["GrayTextColor"];
-            Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
-
-            switch (game)
-            {
-                case EFilter_Game.css: GameCSSLabel.TextColor = GrayTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = GrayTextColor; ; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = GrayTextColor; break;
-                default: return;
-            }
-
-            switch (newGame)
-            {
-                case EFilter_Game.css: GameCSSLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = tappedTextColor; break;
-                default: return;
-            }
-
-            game = newGame;
-            ChangeRecentRecords(game, recentRecordsType, recentRecordsMode);
-            ChangeMostByType(game, mostType, mostMode, true);
-            ChangeSurfTop(game, surfTopMode, true);
-        }
-
-
-        private void ChangeRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
-        {
-
             if (type == EFilter_RRType.top)
             {
-                recentRecords10Data = recordsViewModel.GetRecentRecords10(game, mode)?.data;
+                var recentRecords10Datum = await recordsViewModel.GetRecentRecords10(game, mode);
+                recentRecords10Data = recentRecords10Datum?.data;
                 if (recentRecords10Data is null) return;
-                LayoutRecentRecords10(EFilter_ToString.toString(recentRecordsMode));
+                LayoutRecentRecords10();
             }
             else
             {
-                recentRecordsData = recordsViewModel.GetRecentRecords(game, type, mode)?.data;
+                var recentRecordsDatum = await recordsViewModel.GetRecentRecords(game, type, mode);
+                recentRecordsData = recentRecordsDatum?.data;
                 if (recentRecordsData is null) return;
-                LayoutRecentRecords(EFilter_ToString.toString2(type), EFilter_ToString.toString(mode));
+                LayoutRecentRecords(EFilter_ToString.toString2(type));
             }
         }
 
-        private void ChangeMostByType(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode, bool clearGrid)
+        private async Task ChangeMostByType(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode, bool clearGrid)
         {
             string rightColString = "Player";
             string leftColString = "";
@@ -122,7 +88,8 @@ namespace KSF_Surf.Views
             {
                 case EFilter_MostType.pc:
                     {
-                        mostPCData = recordsViewModel.GetMostPC(game, mode)?.data;
+                        var mostPCDatum = await recordsViewModel.GetMostPC(game, mode);
+                        mostPCData = mostPCDatum?.data;
                         if (mostPCData is null) return;
                         
                         leftColString = "Completion";
@@ -140,7 +107,8 @@ namespace KSF_Surf.Views
                 case EFilter_MostType.mostwrcp:
                 case EFilter_MostType.mostwrb:
                     {
-                        mostCountData = recordsViewModel.GetMostCount(game, type, mode)?.data;
+                        var mostCountDatum = await recordsViewModel.GetMostCount(game, type, mode);
+                        mostCountData = mostCountDatum?.data;
                         if (mostCountData is null) return;
                         
                         leftColString = "Total";
@@ -153,7 +121,8 @@ namespace KSF_Surf.Views
                     }
                 case EFilter_MostType.top10:
                     {
-                        mostTopData = recordsViewModel.GetMostTop(game, mode)?.data;
+                        var mostTopDatum = await recordsViewModel.GetMostTop(game, mode);
+                        mostTopData = mostTopDatum?.data;
                         if (mostTopData is null) return;
                         
                         leftColString = "Points";
@@ -166,7 +135,8 @@ namespace KSF_Surf.Views
                     }
                 case EFilter_MostType.group:
                     {
-                        mostGroupData = recordsViewModel.GetMostGroup(game, mode)?.data;
+                        var mostGroupDatum = await recordsViewModel.GetMostGroup(game, mode);
+                        mostGroupData = mostGroupDatum?.data;
                         if (mostGroupData is null) return;
                         
                         leftColString = "Points";
@@ -179,7 +149,8 @@ namespace KSF_Surf.Views
                     }
                 case EFilter_MostType.mostcontestedwr:
                     {
-                        mostContWrData = recordsViewModel.GetMostContWr(game, mode)?.data;
+                        var mostContWrDatum = await recordsViewModel.GetMostContWr(game, mode);
+                        mostContWrData = mostContWrDatum?.data;
                         if (mostContWrData is null) return;
                         
                         rightColString = "Map";
@@ -194,7 +165,8 @@ namespace KSF_Surf.Views
                 case EFilter_MostType.mostcontestedwrcp: 
                 case EFilter_MostType.mostcontestedwrb:
                     {
-                        mostContZoneData = recordsViewModel.GetMostContZone(game, type, mode)?.data;
+                        var mostContZoneDatum = await recordsViewModel.GetMostContZone(game, type, mode);
+                        mostContZoneData = mostContZoneDatum?.data;
                         if (mostContZoneData is null) return;
                         
                         rightColString = "Zone";
@@ -211,7 +183,8 @@ namespace KSF_Surf.Views
                 case EFilter_MostType.playtimeweek:
                 case EFilter_MostType.playtimemonth:
                     {
-                        mostTimeData = recordsViewModel.GetMostTime(game, type, mode)?.data;
+                        var mostTimeDatum = await recordsViewModel.GetMostTime(game, type, mode);
+                        mostTimeData = mostTimeDatum?.data;
                         if (mostTimeData is null) return;
 
                         rightColString = "Map";
@@ -227,23 +200,24 @@ namespace KSF_Surf.Views
             }
 
             if (clearGrid) ClearMostByTypeGrid(rightColString, leftColString);
-            LayoutMostByType(type, EFilter_ToString.toString(mode), players, values);
+            LayoutMostByType(type, players, values);
         }
 
-        private void ChangeSurfTop(EFilter_Game game, EFilter_Mode mode, bool clearGrid)
+        private async Task ChangeSurfTop(EFilter_Game game, EFilter_Mode mode, bool clearGrid)
         {
             if (clearGrid) ClearSurfTopGrid();
 
-            surfTopData = recordsViewModel.GetSurfTop(game, surfTopMode)?.data;
+            var surfTopDatum = await recordsViewModel.GetSurfTop(game, mode);
+            surfTopData = surfTopDatum?.data;
             if (surfTopData is null) return;
-            LayoutSurfTop(EFilter_ToString.toString(surfTopMode));
+            LayoutSurfTop();
         }
 
         // Displaying Changes --------------------------------------------------------------------------
 
-        private void LayoutSurfTop(string modeString)
+        private void LayoutSurfTop()
         {
-            TopStyleOptionLabel.Text = "[Style: " + modeString + "]";
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
 
             int i = 1;
             foreach (SurfTopDatum datum in surfTopData)
@@ -261,10 +235,9 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void LayoutMostByType(EFilter_MostType type, string modeString, List<string> players, List<string> values)
+        private void LayoutMostByType(EFilter_MostType type, List<string> players, List<string> values)
         {
             MostTypeOptionLabel.Text = "[Type: " + EFilter_ToString.toString2(type) + "]";
-            MostStyleOptionLabel.Text = "[Style: " + modeString + "]";
 
             for (int i = 1; i <= players.Count; i++)
             {
@@ -280,96 +253,109 @@ namespace KSF_Surf.Views
         }
 
 
-        private void LayoutRecentRecords(string typeString, string modeString)
+        private void LayoutRecentRecords(string typeString)
         {
             RRTypeOptionLabel.Text = "[Type: " + typeString + "]";
-            RRStyleOptionLabel.Text = "[Style: " + modeString + "]";
 
-            string[] rrstring_arr = new string[10];
-            string[] rrtime_arr = new string[10];
+            RecordsStack.Children.Clear();
 
             int i = 0;
+            int length = recentRecordsData.Count;
             foreach (RRDatum datum in recentRecordsData)
             {
-                string rrstring = "";
-                rrstring += String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
-                rrstring += " on " + datum.mapName;
-                rrstring_arr[i] = rrstring;
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = datum.mapName + " " + EFilter_ToString.zoneFormatter(datum.zoneID, false),
+                    Style = App.Current.Resources["RRLabelStyle"] as Style
 
-                string rrtime = "";
-                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, true);
-                rrtime += zoneString + " ";
-                
-                rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime);
-                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
-                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
-                rrtime_arr[i] = rrtime;
+                });
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName + " on " + datum.server + " server",
+                    Style = App.Current.Resources["RR2LabelStyle"] as Style
+                });
 
-                i++;
+                string rrtime = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
+                if (datum.wrDiff == "0")
+                {
+                    if (datum.r2Diff is null)
+                    {
+                        rrtime += "WR N/A";
+                    }
+                    else
+                    {
+                        rrtime += "WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1));
+                    }
+                }
+                else
+                {
+                    rrtime += "now WR+" + String_Formatter.toString_RankTime(datum.wrDiff);
+                }
+                rrtime += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = rrtime,
+                    Style = App.Current.Resources["TimeLabelStyle"] as Style
+                });
+
+                if (++i != length)
+                {
+                    RecordsStack.Children.Add(new BoxView
+                    {
+                        Style = App.Current.Resources["SeparatorStyle"] as Style
+                    });
+                }
             }
-
-            reassignRRLabels(rrstring_arr, rrtime_arr);
         }
 
-        private void LayoutRecentRecords10(string modeString)
+        private void LayoutRecentRecords10()
         {
             RRTypeOptionLabel.Text = "[Type: Top10]";
-            RRStyleOptionLabel.Text = "[Style: " + modeString + "]";
 
-            string[] rrstring_arr = new string[10];
-            string[] rrtime_arr = new string[10];
+            RecordsStack.Children.Clear();
 
             int i = 0;
+            int length = recentRecords10Data.Count;
             foreach (RR10Datum datum in recentRecords10Data)
             {
-                string rrstring = "";
-                rrstring += String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
                 int rank = int.Parse(datum.newRank);
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = datum.mapName + " [R" + rank + "]",
+                    Style = App.Current.Resources["RRLabelStyle"] as Style
 
-                rrstring += " R" + rank + " on " + datum.mapName;
-                rrstring_arr[i] = rrstring;
+                });
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName + " on " + datum.server + " server",
+                    Style = App.Current.Resources["RR2LabelStyle"] as Style,
+                });
 
-                string rrtime = "";
-                string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, true);
-                rrtime += zoneString + " ";
+                string rrtime = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
+                if (datum.wrDiff == "0")
+                {
+                    rrtime += "WR";
+                }
+                else
+                {
+                    rrtime += "WR+" + String_Formatter.toString_RankTime(datum.wrDiff);
+                }
+                rrtime += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                RecordsStack.Children.Add(new Label
+                {
+                    Text = rrtime,
+                    Style = App.Current.Resources["TimeLabelStyle"] as Style
+                });
 
-
-                rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
-                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
-                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
-                rrtime_arr[i] = rrtime;
-
-                i++;
+                if (++i != length)
+                {
+                    RecordsStack.Children.Add(new BoxView
+                    {
+                        Style = App.Current.Resources["SeparatorStyle"] as Style
+                    });
+                }
             }
-
-            reassignRRLabels(rrstring_arr, rrtime_arr);
         }
-
-        private void reassignRRLabels(string[] rr, string[] time)
-        {
-            Label_RR0.Text = rr[0];
-            Label_RR1.Text = rr[1];
-            Label_RR2.Text = rr[2];
-            Label_RR3.Text = rr[3];
-            Label_RR4.Text = rr[4];
-            Label_RR5.Text = rr[5];
-            Label_RR6.Text = rr[6];
-            Label_RR7.Text = rr[7];
-            Label_RR8.Text = rr[8];
-            Label_RR9.Text = rr[9];
-
-            Label_Time0.Text = time[0];
-            Label_Time1.Text = time[1];
-            Label_Time2.Text = time[2];
-            Label_Time3.Text = time[3];
-            Label_Time4.Text = time[4];
-            Label_Time5.Text = time[5];
-            Label_Time6.Text = time[6];
-            Label_Time7.Text = time[7];
-            Label_Time8.Text = time[8];
-            Label_Time9.Text = time[9];
-        }
-
 
         private void ClearSurfTopGrid()
         {
@@ -393,37 +379,15 @@ namespace KSF_Surf.Views
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
 
-        private void GameCSSLabel_Tapped(object sender, EventArgs e) => ChangeAndLayoutGame(EFilter_Game.css);
-
-        private void GameCSS100TLabel_Tapped(object sender, EventArgs e) => ChangeAndLayoutGame(EFilter_Game.css100t);
-
-        private void GameCSGOLabel_Tapped(object sender, EventArgs e) => ChangeAndLayoutGame(EFilter_Game.csgo);
-
-        private async void TopStyleOptionLabel_Tapped(object sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            List<string> modes = new List<string>();
-            string currentModeString = EFilter_ToString.toString(surfTopMode);
-            foreach (string mode in EFilter_ToString.modes_arr)
+            if (!hasLoaded)
             {
-                if (mode != currentModeString)
-                {
-                    modes.Add(mode);
-                }
+                await ChangeRecentRecords(game, recentRecordsType, mode);
+                await ChangeMostByType(game, mostType, mode, false);
+                await ChangeSurfTop(game, mode, false);
+                hasLoaded = true;
             }
-
-            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-
-            EFilter_Mode newMode = EFilter_Mode.fw;
-            switch (newStyle)
-            {
-                case "Cancel": return;
-                case "HSW": newMode = EFilter_Mode.hsw; break;
-                case "SW": newMode = EFilter_Mode.sw; break;
-                case "BW": newMode = EFilter_Mode.bw; break;
-            }
-
-            surfTopMode = newMode;
-            ChangeSurfTop(game, surfTopMode, true);
         }
 
         private async void RRTypeOptionLabel_Tapped(object sender, EventArgs e)
@@ -447,38 +411,11 @@ namespace KSF_Surf.Views
                 case "Top10": newType = EFilter_RRType.top; break;
                 case "Stage": newType = EFilter_RRType.stage; break;
                 case "Bonus": newType = EFilter_RRType.bonus; break;
-                case "All": newType = EFilter_RRType.all; break;
+                case "All WRs": newType = EFilter_RRType.all; break;
             }
 
             recentRecordsType = newType;
-            ChangeRecentRecords(game, recentRecordsType, recentRecordsMode);
-        }
-
-        private async void RRStyleOptionLabel_Tapped(object sender, EventArgs e)
-        {
-            List<string> modes = new List<string>();
-            string currentModeString = EFilter_ToString.toString(recentRecordsMode);
-            foreach (string mode in EFilter_ToString.modes_arr)
-            {
-                if (mode != currentModeString)
-                {
-                    modes.Add(mode);
-                }
-            }
-
-            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-
-            EFilter_Mode newMode = EFilter_Mode.fw;
-            switch (newStyle)
-            {
-                case "Cancel": return;
-                case "HSW": newMode = EFilter_Mode.hsw; break;
-                case "SW": newMode = EFilter_Mode.sw; break;
-                case "BW": newMode = EFilter_Mode.bw; break;
-            }
-
-            recentRecordsMode = newMode;
-            ChangeRecentRecords(game, recentRecordsType, recentRecordsMode);
+            await ChangeRecentRecords(game, recentRecordsType, mode);
         }
 
         private void MostTypeOptionLabel_Tapped(object sender, EventArgs e)
@@ -487,7 +424,7 @@ namespace KSF_Surf.Views
             MostTypePicker.Focus();
         }
 
-        private void MostTypePicker_Unfocused(object sender, FocusEventArgs e)
+        private async void MostTypePicker_Unfocused(object sender, FocusEventArgs e)
         {
             string selected = (string)MostTypePicker.SelectedItem;
             if (selected == mostTypeString)
@@ -518,34 +455,39 @@ namespace KSF_Surf.Views
 
             mostType = newType;
             mostTypeString = selected;
-            ChangeMostByType(game, mostType, mostMode, true);
+            await ChangeMostByType(game, mostType, mode, true);
         }
 
-        private async void MostStyleOptionLabel_Tapped(object sender, EventArgs e)
+        private async void Filter_Pressed(object sender, EventArgs e)
         {
-            List<string> modes = new List<string>();
-            string currentModeString = EFilter_ToString.toString(mostMode);
-            foreach (string mode in EFilter_ToString.modes_arr)
+            if (BaseViewModel.hasConnection())
             {
-                if (mode != currentModeString)
-                {
-                    modes.Add(mode);
-                }
+                await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-
-            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-
-            EFilter_Mode newMode = EFilter_Mode.fw;
-            switch (newStyle)
+            else
             {
-                case "Cancel": return;
-                case "HSW": newMode = EFilter_Mode.hsw; break;
-                case "SW": newMode = EFilter_Mode.sw; break;
-                case "BW": newMode = EFilter_Mode.bw; break;
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
             }
+        }
 
-            mostMode = newMode;
-            ChangeMostByType(game, mostType, mostMode, true);
+        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        {
+            if (BaseViewModel.hasConnection())
+            {
+                if (newGame == game && newMode == mode) return;
+
+                game = newGame;
+                mode = newMode;
+                
+                await ChangeRecentRecords(game, recentRecordsType, mode);
+                await ChangeMostByType(game, mostType, mode, true);
+                await ChangeSurfTop(game, mode, true);
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            await RecordsPageScrollView.ScrollToAsync(0, 0, true);
         }
     }
 

@@ -10,27 +10,20 @@ using Xamarin.Forms;
 namespace KSF_Surf.Views
 {
     [DesignTimeVisible(false)]
-    public partial class PlayerFilterPage : ContentPage
+    public partial class RecordsFilterPage : ContentPage
     {
         // variables for filters
         private EFilter_Game game = EFilter_Game.none;
         private readonly EFilter_Game defaultGame;
-
         private EFilter_Mode mode = EFilter_Mode.none;
         private readonly EFilter_Mode defaultMode;
 
-        private EFilter_PlayerType playerType = EFilter_PlayerType.none;
-        private readonly string meSteamId;
-        private string playerSteamId;
-        private string playerRank;
-
         // method to apply filters
-        private readonly Action<EFilter_Game, EFilter_Mode, EFilter_PlayerType, string> FilterApplier;
+        private readonly Action<EFilter_Game, EFilter_Mode> FilterApplier;
 
         // booleans for reset
         private bool resetGame = false;
         private bool resetMode = false;
-        private bool resetPlayer = false;
 
         // vibration
         private bool allowVibrate = false;
@@ -40,28 +33,18 @@ namespace KSF_Surf.Views
         private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
 
-        public PlayerFilterPage(Action<EFilter_Game, EFilter_Mode, EFilter_PlayerType, string> FilterApplier,
-            EFilter_Game currentGame, EFilter_Mode currentMode, EFilter_PlayerType currentPlayerType, string currentPlayerSteamId, string currentPlayerRank,
-            EFilter_Game defaultGame, EFilter_Mode defaultMode, string meSteamId)
+        public RecordsFilterPage(Action<EFilter_Game, EFilter_Mode> FilterApplier,
+            EFilter_Game currentGame, EFilter_Mode currentMode,
+            EFilter_Game defaultGame, EFilter_Mode defaultMode)
         {
             this.FilterApplier = FilterApplier;
             this.defaultGame = defaultGame;
             this.defaultMode = defaultMode;
-            this.meSteamId = meSteamId;
 
             InitializeComponent();
 
             ChangeGameFilter(currentGame);
             ChangeModeFilter(currentMode);
-            ChangePlayerFilter(currentPlayerType);
-
-            PlayerMeIDLabel.Text = "  " + meSteamId;
-
-            playerRank = currentPlayerRank;
-            RankEntry.Text = playerRank;
-
-            playerSteamId = currentPlayerSteamId;
-            SteamIdEntry.Text = playerSteamId;
 
             allowVibrate = true;
         }
@@ -69,32 +52,6 @@ namespace KSF_Surf.Views
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-        private void ChangePlayerFilter(EFilter_PlayerType newPlayerType)
-        {
-            if (playerType == newPlayerType) return;
-
-            switch (playerType)
-            {
-                case EFilter_PlayerType.me: PlayerMeLabel.TextColor = untappedTextColor; break;
-                case EFilter_PlayerType.rank: PlayerRankLabel.TextColor = untappedTextColor; break;
-                case EFilter_PlayerType.steamid: PlayerSteamLabel.TextColor = untappedTextColor; break;
-                default: break;
-            }
-
-            switch (newPlayerType)
-            {
-                case EFilter_PlayerType.me: PlayerMeLabel.TextColor = tappedTextColor; break;
-                case EFilter_PlayerType.rank: PlayerRankLabel.TextColor = tappedTextColor; break;
-                case EFilter_PlayerType.steamid: PlayerSteamLabel.TextColor = tappedTextColor; break;
-                default: break;
-            }
-
-            resetPlayer = (newPlayerType != EFilter_PlayerType.me) ;
-            checkReset();
-
-            BaseViewModel.vibrate(allowVibrate);
-            playerType = newPlayerType;
-        }
 
         private void ChangeGameFilter(EFilter_Game newGame)
         {
@@ -153,7 +110,7 @@ namespace KSF_Surf.Views
 
         private void checkReset()
         {
-            ResetLabel.IsVisible = resetPlayer || resetGame || resetMode;
+            ResetLabel.IsVisible = resetGame || resetMode;
         }
 
 
@@ -163,23 +120,9 @@ namespace KSF_Surf.Views
 
         private async void Apply_Clicked(object sender, System.EventArgs e)
         {
-            string playerValue = meSteamId;
-            if (playerType == EFilter_PlayerType.rank)
-            {
-                playerValue = RankEntry.Text;
-            }
-            else if (playerType == EFilter_PlayerType.steamid)
-            {
-                playerValue = SteamIdEntry.Text;
-            }
-
-            FilterApplier(game, mode, playerType, playerValue);
+            FilterApplier(game, mode);
             await Navigation.PopAsync();
         }
-
-        private void PlayerMeLabel_Tapped(object sender, EventArgs e) => ChangePlayerFilter(EFilter_PlayerType.me);
-        private void PlayerRankLabel_Tapped(object sender, EventArgs e) => ChangePlayerFilter(EFilter_PlayerType.rank);
-        private void PlayerSteamLabel_Tapped(object sender, EventArgs e) => ChangePlayerFilter(EFilter_PlayerType.steamid);
 
         private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css);
         private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css100t);
@@ -190,18 +133,11 @@ namespace KSF_Surf.Views
         private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.sw);
         private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.bw);
 
-        private void RankEntry_Focused(object sender, FocusEventArgs e) => ChangePlayerFilter(EFilter_PlayerType.rank);
-        private void SteamIdEntry_Focused(object sender, FocusEventArgs e) => ChangePlayerFilter(EFilter_PlayerType.steamid);
-
         private void ResetLabel_Tapped(object sender, EventArgs e)
         {
             bool oldAllowVibrate = allowVibrate;
             allowVibrate = false;
 
-            if (playerType != EFilter_PlayerType.me)
-            {
-                ChangePlayerFilter(EFilter_PlayerType.me);
-            }
             if (game != defaultGame)
             {
                 ChangeGameFilter(defaultGame);
@@ -210,7 +146,7 @@ namespace KSF_Surf.Views
             {
                 ChangeModeFilter(defaultMode);
             }
-
+  
             allowVibrate = oldAllowVibrate;
             BaseViewModel.vibrate(allowVibrate);
 

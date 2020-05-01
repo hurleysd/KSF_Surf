@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using RestSharp;
 using Newtonsoft.Json;
@@ -12,21 +13,24 @@ namespace KSF_Surf.ViewModels
         // objects for HTTP requests
         private readonly RestClient client;
         private readonly RestRequest request;
+        private IRestResponse response = null;
 
         public RecordsViewModel()
         {
             Title = "Records";
 
             client = new RestClient();
-            request = new RestRequest();
-            request.Method = Method.GET;
-            request.RequestFormat = DataFormat.Json;
+            request = new RestRequest
+            {
+                Method = Method.GET,
+                RequestFormat = DataFormat.Json
+            };
         }
 
         // KSF API calls -------------------------------------------------------------------------------------------
         #region ksf
 
-        internal SurfTopRootObject GetSurfTop(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<SurfTopRootObject> GetSurfTop(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -36,7 +40,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/server/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -48,7 +52,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal RRRootObject GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
+        internal async Task<RRRootObject> GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -60,7 +64,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -73,7 +77,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal RR10RootObject GetRecentRecords10(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<RR10RootObject> GetRecentRecords10(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -84,7 +88,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -97,7 +101,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostPCRootObject GetMostPC(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<MostPCRootObject> GetMostPC(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -108,7 +112,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/pc/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -121,7 +125,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostCountRootObject GetMostCount(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal async Task<MostCountRootObject> GetMostCount(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -133,7 +137,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -146,7 +150,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostTopRootObject GetMostTop(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<MostTopRootObject> GetMostTop(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -157,7 +161,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/top10/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -170,7 +174,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostGroupRootObject GetMostGroup(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<MostGroupRootObject> GetMostGroup(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -181,7 +185,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/group/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -194,7 +198,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostContWrRootObject GetMostContWr(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<MostContWrRootObject> GetMostContWr(EFilter_Game game, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -205,7 +209,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/mostcontestedwr/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -218,7 +222,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostContZoneRootObject GetMostContZone(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal async Task<MostContZoneRootObject> GetMostContZone(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -230,7 +234,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -243,7 +247,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal MostTimeRootObject GetMostTime(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
+        internal async Task<MostTimeRootObject> GetMostTime(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -255,7 +259,7 @@ namespace KSF_Surf.ViewModels
 
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/1,10/" + modeString);
-            IRestResponse response = client.Execute(request);
+            await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {

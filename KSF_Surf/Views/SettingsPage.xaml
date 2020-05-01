@@ -4,9 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="KSF_Surf.Views.PlayerFilterPage"
-             Title="Filters"
-             x:Name="PlayerFilter"
+             x:Class="KSF_Surf.Views.SettingsPage"
+             Title="Settings"
+             x:Name="Settings"
              Style="{DynamicResource ContentPageStyle}">
 
     <ContentPage.ToolbarItems>
@@ -18,96 +18,29 @@
     <StackLayout Padding="10,15,10,15">
 
         <!-- Player -->
-        <StackLayout Orientation="Horizontal">
-            <Label Text="Player"
-                   Style="{DynamicResource HeaderLabel}"
-                   Margin="10,0,0,10"/>
-
-            <Label x:Name="ResetLabel"
-                       Text="Reset"
-                       FontSize="20"
-                       TextColor="#fc3d39"
-                       HorizontalOptions="EndAndExpand"
-                       IsVisible="False"
-                       Padding="2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-        </StackLayout>
+        <Label Text="Me"
+                Style="{DynamicResource HeaderLabel}"
+                Margin="10,0,0,10"/>
 
         <Grid Padding ="10"
-              HorizontalOptions="FillAndExpand"
-              RowSpacing="20">
+              HorizontalOptions="FillAndExpand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
-            <Label x:Name="PlayerMeLabel"
-                Text="Me"
+            <Label Text="Steam ID"
                 FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
+                TextColor="{StaticResource TappedTextColor}"
                 HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="0">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerMeLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-            <Label x:Name="PlayerMeIDLabel"
-                TextColor="{DynamicResource HeaderTextColor}"
-                VerticalOptions="Center"
-                Grid.Column="1"
-                Grid.Row="0">
-            </Label>
-
-            <Label x:Name="PlayerRankLabel"
-                Text="Rank"
-                FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
-                HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="1">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerRankLabel_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
-
-            <Entry x:Name="RankEntry"
-                   Keyboard="Numeric"
-                   ClearButtonVisibility="WhileEditing"
-                   MaxLength="7"
-                   Focused="RankEntry_Focused"
-                   HorizontalOptions="Fill"
-                   Grid.Column="1"
-                   Grid.Row="1"/>
-
-            <Label x:Name="PlayerSteamLabel"
-                Text="Steam ID"
-                FontSize="24"
-                TextColor="{StaticResource UntappedTextColor}"
-                HorizontalOptions="End"
-                Grid.Column="0"
-                Grid.Row="2">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="PlayerSteamLabel_Tapped"/>
-                </Label.GestureRecognizers>
+                Grid.Column="0">
             </Label>
 
             <Entry x:Name="SteamIdEntry"
                    ClearButtonVisibility="WhileEditing"
                    MaxLength="20"
-                   Focused="SteamIdEntry_Focused"
                    HorizontalOptions="Fill"
-                   Grid.Column="1"
-                   Grid.Row="2"/>
+                   Grid.Column="1"/>
 
         </Grid>
 
@@ -117,7 +50,7 @@
                      Margin="0,10,0,10"/>
 
         <!-- Game -->
-        <Label Text="Game"
+        <Label Text="Default Game"
             Style="{DynamicResource HeaderLabel}"
             Margin="10,0,0,10"/>
 
@@ -163,7 +96,7 @@
                      Margin="0,10,0,10"/>
 
         <!-- Style -->
-        <Label Text="Style"
+        <Label Text="Default Style"
                 Style="{DynamicResource HeaderLabel}"
                 Margin="10,0,0,10"/>
 
@@ -213,6 +146,12 @@
             </Label>
         </Grid>
 
+        <Label Text="Changes will take effect on restart :)"
+               TextColor="{DynamicResource HeaderTextColor}"
+               FontSize="12"
+               VerticalOptions="FillAndExpand"
+               HorizontalOptions="Center"
+               VerticalTextAlignment="End"/>
 
     </StackLayout>
 </ContentPage>

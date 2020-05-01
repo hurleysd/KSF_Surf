@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace KSF_Surf.Views
     public partial class MapsMapPage : ContentPage
     {
         private readonly MapsViewModel mapsViewModel;
+        private bool hasLoaded = false;
 
         // objects for map information
         private MapInfoData mapInfoData;
@@ -52,23 +54,22 @@ namespace KSF_Surf.Views
             bonusCount = 0;
 
             InitializeComponent();
-
-            LoadMapInfo();
         }
 
         // UI --------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-        private void LoadMapInfo()
+        private async Task LoadMapInfo()
         {
             MapsMap.Title = map + " [" + EFilter_ToString.toString2(game) + "]";
 
             // running query and assigning to map information objects
-            mapInfoData = mapsViewModel.GetMapInfo(game, map)?.data;
+            var mapInfoDatum = await mapsViewModel.GetMapInfo(game, map);
+            mapInfoData = mapInfoDatum?.data;
             if (mapInfoData is null) return;
 
-            
-            pointsData = mapsViewModel.GetMapPoints(game, map)?.data;
+            var mapPointsDatum = await mapsViewModel.GetMapPoints(game, map);
+            pointsData = mapPointsDatum?.data;
             if (pointsData is null) return;
 
             mapSettings = mapInfoData.MapSettings;
@@ -101,7 +102,8 @@ namespace KSF_Surf.Views
             LayoutPoints();
             ZonePicker.ItemsSource = zonePickerList;
 
-            topData = mapsViewModel.GetMapTop(game, map, currentMode, currentZone)?.data;
+            var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone);
+            topData = topDatum?.data;
             if (topData is null) return;
             
             LayoutTop("FW", "Main");
@@ -175,6 +177,10 @@ namespace KSF_Surf.Views
                 {
                     TimeLabel.Text += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
                 }
+                else 
+                {
+                    TimeLabel.Text += " (WR)";
+                }
                 TopTimeStack.Children.Add(TimeLabel);
 
                 i++;
@@ -184,25 +190,49 @@ namespace KSF_Surf.Views
 
         private void LayoutPoints()
         {
+            int fontsize = 16;
 
             CompletionStack.Children.Add( new Label {
-                Text = "Map Completion: " + String_Formatter.toString_Points(mapSettings.map_finish),
-                Style = Resources["TopNPointsStyle"] as Style
+                Text = "Map",
+                Style = Resources["TopNPointsStyle"] as Style,
+                FontSize = fontsize
+            });
+
+            CompletionValueStack.Children.Add(new Label
+            {
+                Text = String_Formatter.toString_Points(mapSettings.map_finish),
+                Style = App.Current.Resources["RightColStyle"] as Style,
+                FontSize = fontsize
             });
 
             if (stageCount > 0)
             {
-                CompletionStack.Children.Add(new Label {
-                    Text = "Stage Completion: " + String_Formatter.toString_Points(mapSettings.stage_finish),
-                    Style = Resources["TopNPointsStyle"] as Style
+                CompletionStack.Children.Add( new Label {
+                Text = "Stage",
+                Style = Resources["TopNPointsStyle"] as Style
+                });
+
+                CompletionValueStack.Children.Add(new Label
+                {
+                    Text = String_Formatter.toString_Points(mapSettings.stage_finish),
+                    Style = App.Current.Resources["RightColStyle"] as Style,
+                    FontSize = fontsize
                 });
             }
 
             if (bonusCount > 0)
             {
                 CompletionStack.Children.Add(new Label {
-                    Text = "Bonus Completion: " + String_Formatter.toString_Points(mapSettings.bonus_finish),
-                    Style = Resources["TopNPointsStyle"] as Style
+                    Text = "Bonus",
+                    Style = Resources["TopNPointsStyle"] as Style,
+                    FontSize = fontsize
+                });
+
+                CompletionValueStack.Children.Add(new Label
+                {
+                    Text = String_Formatter.toString_Points(mapSettings.bonus_finish),
+                    Style = App.Current.Resources["RightColStyle"] as Style,
+                    FontSize = fontsize
                 });
             }
 
@@ -213,9 +243,17 @@ namespace KSF_Surf.Views
                 if (points == 0) continue;
 
                 TopGroupStack.Children.Add(new Label {
-                    Text = (i != 1) ? "R" + i + ": " + String_Formatter.toString_Points(points) : "R1: " + String_Formatter.toString_Points(mapInfoData.MapSettings.wr_points_0),
-                    Style = Resources["TopNPointsStyle"] as Style
+                    Text = (i != 1) ? "R" + i : "WR",
+                    Style = Resources["TopNPointsStyle"] as Style,
+                    FontSize = fontsize
                 });
+
+                TopGroupValueStack.Children.Add(new Label
+                {
+                    Text = (i != 1) ? String_Formatter.toString_Points(points) : String_Formatter.toString_Points(mapInfoData.MapSettings.wr_points_0),
+                    Style = App.Current.Resources["RightColStyle"] as Style,
+                    FontSize = fontsize
+                }); ;
 
                 i++;
             }
@@ -230,9 +268,17 @@ namespace KSF_Surf.Views
                 int groupEnd = 10 + pointsData.GroupRanks[i];
 
                 GroupStack.Children.Add(new Label {
-                    Text = "G" + i + " (" + (rank + 1) + "-" + groupEnd + "): " + String_Formatter.toString_Points(points),
-                    Style = Resources["TopNPointsStyle"] as Style
+                    Text = "G" + i + " (" + String_Formatter.toString_Points(rank + 1) + "-" + String_Formatter.toString_Points(groupEnd) + ")",
+                    Style = Resources["TopNPointsStyle"] as Style,
+                    FontSize = fontsize
                 });
+
+                GroupValueStack.Children.Add(new Label
+                {
+                    Text = String_Formatter.toString_Points(points),
+                    Style = App.Current.Resources["RightColStyle"] as Style,
+                    FontSize = fontsize
+                }); ;
 
                 rank = groupEnd;
             }
@@ -249,6 +295,15 @@ namespace KSF_Surf.Views
         #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
+
+        protected override async void OnAppearing()
+        {
+            if (!hasLoaded)
+            {
+                await LoadMapInfo();
+                hasLoaded = true;
+            }
+        }
 
         private async void StyleOptionLabel_Tapped(object sender, EventArgs e)
         {
@@ -273,8 +328,13 @@ namespace KSF_Surf.Views
                 case "BW": newCurrentMode = EFilter_Mode.bw; break;
             }
 
-            List<TopDatum> newTopData = mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone)?.data;
-            if (newTopData is null) return;
+            var newTopDatum = await mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone);
+            List<TopDatum> newTopData = newTopDatum?.data;
+            if (newTopData is null)
+            {
+                await DisplayAlert("No " + newStyle + " " + currentZoneString + " completions.", "Be the first!", "OK");
+                return;
+            }
             topData = newTopData;
             currentMode = newCurrentMode;
 
@@ -289,7 +349,7 @@ namespace KSF_Surf.Views
             ZonePicker.Focus();
         }
 
-        private void ZonePicker_Unfocused(object sender, FocusEventArgs e)
+        private async void ZonePicker_Unfocused(object sender, FocusEventArgs e)
         {
             string selected = (string)ZonePicker.SelectedItem;
             if (selected == currentZoneString)
@@ -301,15 +361,20 @@ namespace KSF_Surf.Views
             switch (selected[0])
             {
                 case 'M': newZoneNum = 0;  break;
-                case 'S': newZoneNum = selected[1] - '0'; break;
-                case 'B': newZoneNum = 30 + selected[1] - '0'; break;
+                case 'S': newZoneNum = int.Parse(selected.Substring(1)); break;
+                case 'B': newZoneNum = 30 + int.Parse(selected.Substring(1)); break;
             }
 
             if (newZoneNum != -1)
             {
-                List<TopDatum> newTopData = mapsViewModel.GetMapTop(game, map, currentMode, newZoneNum)?.data;
-                if (newTopData is null) return;
-                
+                var newTopDatum = await mapsViewModel.GetMapTop(game, map, currentMode, newZoneNum);
+                List<TopDatum> newTopData = newTopDatum?.data;
+                if (newTopData is null)
+                {
+                    await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " " + selected + " completions.", "Be the first!", "OK");
+                    return;
+                }
+
                 topData = newTopData;
                 currentZone = newZoneNum;
                 currentZoneString = selected;

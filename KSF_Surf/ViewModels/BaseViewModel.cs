@@ -8,6 +8,7 @@ using Xamarin.Essentials;
 
 using UIKit;
 
+using KSF_Surf.Models;
 
 namespace KSF_Surf.ViewModels
 {
@@ -65,7 +66,7 @@ namespace KSF_Surf.ViewModels
 
             if (deviceString == Device.iOS)
             {
-                if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+                if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
                 {
                     return;
                 }
@@ -80,6 +81,72 @@ namespace KSF_Surf.ViewModels
             var current = Connectivity.NetworkAccess;
             return (current == NetworkAccess.Internet);
         }
-        #endregion
+
+        // Properties Dicitonary --------------------------------------------------------------------------
+
+        internal static string propertiesDict_getSteamID()
+        {
+            string id = "STEAM_0:0:47620794";  // Sean's steam ID
+            if (App.Current.Properties.ContainsKey("steamid"))
+            {
+                id = App.Current.Properties["steamid"] as string;
+            }
+            else
+            {
+                App.Current.Properties.Add("steamid", id);
+            }
+            return id;
+        }
+
+        internal static EFilter_Game propertiesDict_getGame()
+        {
+            EFilter_Game game = EFilter_Game.css;
+
+            if (App.Current.Properties.ContainsKey("game"))
+            {
+                string gameString = App.Current.Properties["game"] as string;
+
+                switch (gameString)
+                {
+                    case "css": game = EFilter_Game.css; break;
+                    case "css100t": game = EFilter_Game.css100t; break;
+                    case "csgo": game = EFilter_Game.csgo; break;
+                    default: goto case "css";
+                }
+            }
+            else
+            {
+                App.Current.Properties.Add("game", EFilter_ToString.toString(game));
+            }
+
+            return game;
+        }
+
+        internal static EFilter_Mode propertiesDict_getMode()
+        {
+            EFilter_Mode mode = EFilter_Mode.fw;
+
+            if (App.Current.Properties.ContainsKey("mode"))
+            {
+                string modeString = App.Current.Properties["mode"] as string;
+
+                switch (modeString)
+                {
+                    case "FW": mode = EFilter_Mode.fw; break;
+                    case "HSW": mode = EFilter_Mode.hsw; break;
+                    case "SW": mode = EFilter_Mode.sw; break;
+                    case "BW": mode = EFilter_Mode.bw; break;
+                    default: goto case "FW";
+                }
+            }
+            else
+            {
+                App.Current.Properties.Add("mode", EFilter_ToString.toString(mode));
+            }
+
+            return mode;
+
+        }
     }
+    #endregion
 }

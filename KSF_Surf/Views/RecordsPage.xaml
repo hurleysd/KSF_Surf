@@ -8,61 +8,26 @@
              Title="Records"
              x:Name="RecordsTab"
              Style="{DynamicResource ContentPageStyle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
 
-    <ScrollView Orientation="Vertical"
+    <ScrollView x:Name="RecordsPageScrollView"
+                Orientation="Vertical"
                 VerticalScrollBarVisibility="Default">
         <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
 
-            <!-- Game options -->
-            <Grid Padding ="10"
-                  HorizontalOptions="FillAndExpand">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <Label x:Name="GameCSSLabel"
-                       Text="CS:S"
-                       FontSize="26"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="Center"
-                       Grid.Column="0">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="GameCSSLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-
-                <Label x:Name="GameCSS100TLabel"
-                       Text="CS:S 100T"
-                       Style="{DynamicResource FilterLabelStyle}"
-                       Grid.Column="1">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="GameCSS100TLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-
-                <Label x:Name="GameCSGOLabel"
-                       Text="CS:GO"
-                       Style="{DynamicResource FilterLabelStyle}"
-                       Grid.Column="2">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="GameCSGOLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
-
-            <BoxView HorizontalOptions="FillAndExpand"
-                     HeightRequest="1"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,0,0,10"/>
-                   
             <!-- Map Recent Records -->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Recent"
                        Style="{DynamicResource HeaderLabel}"
-                       Padding="10,0,0,10"/>
+                       Padding="10,0,0,10"
+                       HorizontalOptions="StartAndExpand"/>
+
 
                 <Label x:Name="RRTypeOptionLabel"
                        VerticalOptions="End"
@@ -73,102 +38,14 @@
                         <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
-                
-                <Label x:Name="RRStyleOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="End">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RRStyleOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
             </StackLayout>
 
             <Frame Style="{StaticResource FrameStyle}">
-                <StackLayout Orientation="Vertical"
+                <StackLayout x:Name="RecordsStack" 
+                         Orientation="Vertical"
                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="10,15,10,15">
-
-                    <Label x:Name="Label_RR0"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time0"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR1"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time1"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR2"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time2"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR3"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time3"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR4"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time4"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR5"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time5"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR6"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time6"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR7"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time7"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR8"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time8"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                    <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
-                    <Label x:Name="Label_RR9"
-                       Style="{DynamicResource RRLabelStyle}"/>
-
-                    <Label x:Name="Label_Time9"
-                       Style="{DynamicResource TimeLabelStyle}"/>
-
-                </StackLayout>
+                         Padding="15"
+                         Spacing="10"/>
             </Frame>
 
             <BoxView HorizontalOptions="FillAndExpand"
@@ -191,17 +68,6 @@
                         <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
-
-                <Label x:Name="MostStyleOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="End">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="MostStyleOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-
                 <Picker x:Name="MostTypePicker"
                         IsVisible="False"
                         Unfocused="MostTypePicker_Unfocused"/>
@@ -226,7 +92,7 @@
                            FontSize="20"/>
                     </StackLayout>
 
-                    <BoxView Color="{DynamicResource SeparatorColor}"
+                    <BoxView Color="{DynamicResource BorderColor}"
                          Grid.Column="1"/>
 
                     <StackLayout x:Name="MostValueStack"
@@ -246,21 +112,9 @@
                      Margin="0,20,0,10"/>
 
             <!-- Surf Top -->
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Surf Top"
-                       Style="{DynamicResource HeaderLabel}"
-                       Padding="10,0,0,10"/>
-
-                <Label x:Name="TopStyleOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TopStyleOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+            <Label Text="Surf Top"
+                    Style="{DynamicResource HeaderLabel}"
+                    Padding="10,0,0,10"/>
 
             <Frame Style="{StaticResource FrameStyle}">
                 <Grid HorizontalOptions="FillAndExpand"
@@ -281,7 +135,7 @@
                            FontSize="20"/>
                     </StackLayout>
 
-                    <BoxView Color="{DynamicResource SeparatorColor}"
+                    <BoxView Color="{DynamicResource BorderColor}"
                          Grid.Column="1"/>
 
                     <StackLayout x:Name="TopPointsStack" 

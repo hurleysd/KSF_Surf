@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.PlayerRecentRecordsPage"
+             Title="Player Recent Records"
+             x:Name="PlayerRecentRecordsTab"  
+             Style="{DynamicResource ContentPageStyle}">
+
+    <ScrollView x:Name="RRPageScrollView"
+                Orientation="Vertical"
+                VerticalScrollBarVisibility="Default">
+        <StackLayout Padding="10,15,10,15"
+                     Orientation="Vertical">
+            
+            <!-- Recently Broken -->
+            <Label Text="Recently Broken Records"
+                    Style="{DynamicResource HeaderLabel}"
+                    Margin="10,00,0,10"/>
+            <Frame Style="{StaticResource FrameStyle}">
+                <StackLayout x:Name="RecordsBrokenStack" 
+                         Orientation="Vertical"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Padding="15"
+                         Spacing="10"/>
+            </Frame>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                     Color="{DynamicResource ViewBackgroundColor}"
+                     Margin="0,10,0,10"/>
+            
+            <!-- Recently Set -->
+            <Label Text="Recently Set Records"
+                    Style="{DynamicResource HeaderLabel}"
+                    Margin="10,0,0,10"/>
+            <Frame Style="{StaticResource FrameStyle}">
+                <StackLayout x:Name="RecordsSetStack" 
+                         Orientation="Vertical"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Padding="15"
+                         Spacing="10"/>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

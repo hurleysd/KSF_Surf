@@ -48,7 +48,7 @@
 
                 <Label x:Name="GameCSSLabel"
                        Text="CS:S"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSSGameFilter_Tapped"/>
@@ -57,7 +57,7 @@
 
                 <Label x:Name="GameCSS100TLabel"
                        Text="CS:S 100T"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSS100TGameFilter_Tapped"/>
@@ -66,7 +66,7 @@
 
                 <Label x:Name="GameCSGOLabel"
                        Text="CS:GO"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSGOGameFilter_Tapped"/>
@@ -77,7 +77,7 @@
             <BoxView HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
                      Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,0,0,10"/>
+                     Margin="0,10,0,10"/>
 
             <!-- Sort -->
             <Label Text="Sort by"
@@ -101,7 +101,7 @@
 
                 <Label x:Name="SortNameLabel"
                        Text="Name"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Row="0"
                        Grid.Column="0"
                        Grid.ColumnSpan="2">
@@ -112,7 +112,7 @@
 
                 <Label x:Name="SortCreateLabel"
                        Text="Creation"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Row="0"
                        Grid.Column="2"
                        Grid.ColumnSpan="2">
@@ -123,7 +123,7 @@
 
                 <Label x:Name="SortPopLabel"
                        Text="Popular"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Row="0"
                        Grid.Column="4"
                        Grid.ColumnSpan="2">
@@ -134,7 +134,7 @@
 
                 <Label x:Name="SortLastLabel"
                        Text="Last played"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Row="1"
                        Grid.Column="0"
                        Grid.ColumnSpan="3">
@@ -145,7 +145,7 @@
 
                 <Label x:Name="SortPlayLabel"
                        Text="Play time"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Row="1"
                        Grid.Column="3"
                        Grid.ColumnSpan="3">
@@ -158,7 +158,7 @@
             <BoxView HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
                      Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,0,0,10"/>
+                     Margin="0,10,0,10"/>
 
             <!-- Tier -->
             <Label Text="Map Tier"
@@ -178,7 +178,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Text="Min"
-                        Style="{DynamicResource FilterLabelStyle}"
+                        Style="{StaticResource FilterLabelStyle}"
                         Grid.Column="0"
                         Grid.Row="0"/>
 
@@ -187,20 +187,20 @@
                         Minimum="1"
                         Grid.Column="1"
                         Grid.Row="0"
-                        MinimumTrackColor="{DynamicResource TappedTextColor}"
-                        MaximumTrackColor="{DynamicResource ViewBackgroundColor}"
+                        MinimumTrackColor="{StaticResource TappedTextColor}"
+                        MaximumTrackColor="{DynamicResource UntappedTextColor}"
                         ValueChanged="MinTierSlider_ValueChanged"/>
 
                 <Label x:Name="MinTierLabel"
                         Text="1"
                         FontSize="26"
-                        TextColor="{DynamicResource TappedTextColor}"
+                        TextColor="{StaticResource TappedTextColor}"
                         HorizontalOptions="Center"
                         Grid.Column="2"
                         Grid.Row="0"/>
 
                 <Label Text="Max"
-                        Style="{DynamicResource FilterLabelStyle}"
+                        Style="{StaticResource FilterLabelStyle}"
                         Grid.Column="0"
                         Grid.Row="1"/>
 
@@ -209,14 +209,14 @@
                         Minimum="1"
                         Grid.Column="1"
                         Grid.Row="1"
-                        MinimumTrackColor="{DynamicResource ViewBackgroundColor}"
-                        MaximumTrackColor="{DynamicResource TappedTextColor}"
+                        MinimumTrackColor="{DynamicResource UntappedTextColor}"
+                        MaximumTrackColor="{StaticResource TappedTextColor}"
                         ValueChanged="MaxTierSlider_ValueChanged"/>
 
                 <Label x:Name="MaxTierLabel"
                         Text="1"
                         FontSize="26"
-                        TextColor="{DynamicResource TappedTextColor}"
+                        TextColor="{StaticResource TappedTextColor}"
                         HorizontalOptions="Center"
                         Grid.Column="2"
                         Grid.Row="1"/>
@@ -225,7 +225,7 @@
             <BoxView HorizontalOptions="FillAndExpand"
                      HeightRequest="1"
                      Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,0,0,10"/>
+                     Margin="0,10,0,10"/>
             
             <!-- Map Type -->
             <Label Text="Map Type"
@@ -242,7 +242,7 @@
 
                 <Label x:Name="TypeAnyLabel"
                        Text="Any"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="AnyMapTypeFilter_Tapped"/>
@@ -251,7 +251,7 @@
 
                 <Label x:Name="TypeLinearLabel"
                        Text="Linear"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="LinearMapTypeFilter_Tapped"/>
@@ -260,7 +260,7 @@
 
                 <Label x:Name="TypeStagedLabel"
                        Text="Staged"
-                       Style="{DynamicResource FilterLabelStyle}"
+                       Style="{StaticResource FilterLabelStyle}"
                        Grid.Column="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="StagedMapTypeFilter_Tapped"/>

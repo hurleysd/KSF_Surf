@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
-using Newtonsoft.Json;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
@@ -14,42 +13,49 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class PlayerPage : ContentPage
     {
-        private PlayerViewModel playerViewModel;
+        private readonly PlayerViewModel playerViewModel;
+        private bool hasLoaded = false;
 
         // object used by "Info" call
         private SteamProfile playerSteamProfile;
         private PlayerInfoDatum playerInfoData;
 
-        // objects used by "Records Set" and "Records Broken" calls
-        private List<RecentPlayerRecords> recordsSetData;
-        private List<RecentPlayerRecords> recordsBrokenData;
-
         // variables for current filters
         private EFilter_Game game = EFilter_Game.none;
+        private readonly EFilter_Game defaultGame = BaseViewModel.propertiesDict_getGame();
+
+        private EFilter_Mode mode = EFilter_Mode.none;
+        private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
+
+        private readonly string meSteamId = BaseViewModel.propertiesDict_getSteamID();
         private EFilter_PlayerType playerType = EFilter_PlayerType.none;
         private string playerValue = "";
         private string playerSteamId;
         private string playerRank;
-        private EFilter_Mode mode = EFilter_Mode.none;
+
+        // colors
+        private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
 
         public PlayerPage()
         {
             playerViewModel = new PlayerViewModel();
             InitializeComponent();
-
-            // CHANGE TO PROPERTIES DICT
-            ChangePlayerInfo(EFilter_Game.css, EFilter_Mode.fw, EFilter_PlayerType.steamid, "STEAM_0:0:47620794");
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private void ChangePlayerInfo(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        private async Task ChangePlayerInfo(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
         {
             if (newGame == game && newMode == mode && newPlayerValue == playerValue) return;
 
-            playerInfoData = playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue)?.data;
-            if (playerInfoData is null) return;
+            var playerInfoDatum = await playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
+            playerInfoData = playerInfoDatum?.data;
+            if (playerInfoData is null || playerInfoData.basicInfo is null)
+            {
+                await DisplayAlert("Could not find player profile!", "Invalid SteamID or rank.", "OK");
+                return;
+            }
 
             playerType = newPlayerType;
             playerValue = newPlayerValue;
@@ -60,28 +66,28 @@ namespace KSF_Surf.Views
 
             Title = playerInfoData.basicInfo.name + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
 
-            playerSteamProfile = playerViewModel.GetPlayerSteamProfile(playerSteamId)?.response.players[0];
+            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamId);
+            playerSteamProfile = PlayerSteamDatum?.response.players[0];
             if (playerSteamProfile is null) return;
 
             LayoutPlayerInfo();
             LayoutPlayerProfile();
-            ChangeRecords(game, mode);
         }
 
-        private void ChangeRecords(EFilter_Game game, EFilter_Mode mode)
-        {
-            recordsSetData = playerViewModel.GetPlayerRecords(game, mode, EFilter_PlayerRecordsType.set, playerType, playerValue)?.data.recentRecords;
-            recordsBrokenData = playerViewModel.GetPlayerRecords(game, mode, EFilter_PlayerRecordsType.broken, playerType, playerValue)?.data.recentRecords;
-            if (recordsSetData is null || recordsBrokenData is null) return;
-            LayoutRecords();
-        }
 
         // Dispaying Changes -------------------------------------------------------------------------------
 
         private void LayoutPlayerProfile()
         {
             PlayerImage.Source = playerSteamProfile.avatarfull;
+
+            PlayerNameLabel.FontSize = 32;
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
+            if (PlayerNameLabel.Text.Length > 14)
+            {
+                PlayerNameLabel.FontSize = 32 * (14.0/PlayerNameLabel.Text.Length);
+            }
+
             PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 
             List<string> attributes = new List<string>();
@@ -106,6 +112,26 @@ namespace KSF_Surf.Views
                 attributes.Add("Mapper");
             }
             PlayerAttributesLabel.Text = string.Join(" | ", attributes);
+
+            string rankTitle = EFilter_ToString.getRankTitle(playerInfoData.SurfRank, playerInfoData.playerPoints.points);
+            Color rankColor = new Color();
+            switch (rankTitle)
+            {
+                case "MASTER": rankColor = EFilter_ToString.rankColors[0]; break;
+                case "ELITE": rankColor = EFilter_ToString.rankColors[1]; break;
+                case "VETERAN": rankColor = EFilter_ToString.rankColors[2]; break;
+                case "PRO": rankColor = EFilter_ToString.rankColors[3]; break;
+                case "EXPERT": rankColor = EFilter_ToString.rankColors[4]; break;
+                case "HOTSHOT": rankColor = EFilter_ToString.rankColors[5]; break;
+                case "EXCEPTIONAL": rankColor = EFilter_ToString.rankColors[6]; break;
+                case "EXPERIENCED": rankColor = EFilter_ToString.rankColors[7]; break;
+                case "SKILLED": rankColor = EFilter_ToString.rankColors[8]; break;
+                case "CASUAL": rankColor = EFilter_ToString.rankColors[9]; break;
+                case "BEGINNER": rankColor = EFilter_ToString.rankColors[10]; break;
+                case "ROOKIE": rankColor = EFilter_ToString.rankColors[11]; break;
+            }
+            RankTitleLabel.Text = rankTitle;
+            RankTitleLabel.TextColor = rankColor;
         }
 
         private void LayoutPlayerInfo()
@@ -124,18 +150,30 @@ namespace KSF_Surf.Views
             {
                 FirstOnlineLabel.Text = "Before July 2012";
             }
-            LastSeenLabel.Text = String_Formatter.toString_LastOnline(playerInfoData.basicInfo.lastOnline) + " ago";
-            
-            
+            LastSeenLabel.Text = String_Formatter.toString_LastOnline(playerInfoData.basicInfo.lastOnline);
+            if (playerInfoData.basicInfo.lastOnline == "0")
+            {
+                LastSeenLabel.Text = "Before July 2012";
+            }
+
             SurfTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.aliveTime, true);
             SpecTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.deadTime, true);
 
             // Completion -----------------------------------------------------
-            MapsValueLabel.Text = playerInfoData.CompletedZones.map; 
+            int total_m = int.Parse(playerInfoData.TotalZones.TotalMaps);
+            int num_m = int.Parse(playerInfoData.CompletedZones.map);
+            int total_s = int.Parse(playerInfoData.TotalZones.TotalStages);
+            int num_s = int.Parse(playerInfoData.CompletedZones.stage);
+            int total_b = int.Parse(playerInfoData.TotalZones.TotalBonuses);
+            int num_b = int.Parse(playerInfoData.CompletedZones.bonus);
+
+            MapsValueLabel.Text = playerInfoData.CompletedZones.map + " (" + (int)(((double)num_m / total_m) * 100) + "%)";
             MapsCompLabel.Text = "Maps (" + playerInfoData.TotalZones.TotalMaps + ")";
-            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage);
+            
+            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage) + " (" + (int)(((double)num_s / total_s) * 100) + "%)";
             StagesCompLabel.Text = "Stages (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalStages) + ")";
-            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus);
+            
+            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus) + " (" + (int)(((double)num_b / total_b) * 100) + "%)";
             BonusesCompLabel.Text = "Bonuses (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalBonuses) + ")";
 
             // Groups ---------------------------------------------------------
@@ -314,91 +352,61 @@ namespace KSF_Surf.Views
             BonusesPtsLabel.Text = wrbPoints + String_Formatter.toString_Points(playerInfoData.playerPoints.bonus);
         }
 
-        private void LayoutRecords()
-        {
-            ClearRecordsStacks();
-
-            int i = 0;
-            foreach (RecentPlayerRecords datum in recordsSetData)
-            {
-                RecordsSetStack.Children.Add(new Label  {
-                    Text = datum.recordType + " on " + datum.mapName,
-                    Style = App.Current.Resources["RRLabelStyle"] as Style
-                });
-
-                string rrtime = EFilter_ToString.zoneFormatter(datum.zoneID, true) + " in " + String_Formatter.toString_RankTime(datum.surfTime) + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
-                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
-                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
-       
-                RecordsSetStack.Children.Add(new Label {
-                    Text = rrtime,
-                    Style = App.Current.Resources["TimeLabelStyle"] as Style
-                });
-
-                if (++i != recordsSetData.Count)
-                {
-                    RecordsSetStack.Children.Add(new BoxView {
-                        Style = App.Current.Resources["SeparatorStyle"] as Style
-                    });
-                }
-            }
-
-            i = 0;
-            foreach (RecentPlayerRecords datum in recordsBrokenData)
-            {
-                RecordsBrokenStack.Children.Add(new Label {
-                    Text = datum.recordType + " on " + datum.mapName,
-                    Style = App.Current.Resources["RRLabelStyle"] as Style
-                });
-
-                string rrtime = EFilter_ToString.zoneFormatter(datum.zoneID, true) + " now R" + datum.newRank + " (WR+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
-                long when = long.Parse(datum.dateNow) - long.Parse(datum.date);
-                rrtime += " (" + String_Formatter.toString_PlayTime(when.ToString(), true) + " ago)";
-
-                RecordsBrokenStack.Children.Add(new Label {
-                    Text = rrtime,
-                    Style = App.Current.Resources["TimeLabelStyle"] as Style
-                });
-
-                if (++i != recordsBrokenData.Count)
-                {
-                    RecordsBrokenStack.Children.Add(new BoxView {
-                        Style = App.Current.Resources["SeparatorStyle"] as Style
-                    });
-                }
-            }
-        }
-
-        private void ClearRecordsStacks()
-        {
-            RecordsSetStack.Children.Clear();
-            RecordsBrokenStack.Children.Clear();
-        }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
         #region events
+
+        protected override async void OnAppearing()
+        {
+            if (!hasLoaded)
+            {
+                await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamId);
+                hasLoaded = true;
+            }
+        }
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new PlayerFilterPage(ApplyFilters,
-                    game, mode, playerType, playerSteamId, playerRank));
+                    game, mode, playerType, playerSteamId, playerRank,
+                    defaultGame, defaultMode, meSteamId));
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
             }
         }
 
-        internal void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
         {
-            ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
-            PlayerPageScrollView.ScrollToAsync(0, 0, true);
+            if (BaseViewModel.hasConnection())
+            {
+                await ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            await PlayerPageScrollView.ScrollToAsync(0, 0, true);
         }
 
         #endregion
+
+        private async void RecentRecordsLabel_Tapped(object sender, EventArgs e)
+        {
+            RecentRecordsButton.Style = Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerRecentRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            RecentRecordsButton.Style = Resources["UntappedStackStyle"] as Style;
+        }
     }
 }

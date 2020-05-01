@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsPage"
-             Title="Maps [CS:S]"
+             Title="Maps"
              x:Name="MapsTab"
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
@@ -17,38 +17,37 @@
 
     <!-- Search Bar -->
     <StackLayout Orientation="Vertical"
-                 Spacing="0">
+                 Spacing="0"
+                 Margin="0">
         <SearchBar x:Name="MapsSearchBar"
-                Placeholder="Search maps..."
-                FontSize="20"
-                TextColor="{DynamicResource HeaderTextColor}"
-                BackgroundColor="{DynamicResource AppBackgroundColor}"
-                TextChanged="SearchTextChanged"
-                Focused="SearchBarFocused"
-                Unfocused="SearchBarUnfocused"/>
+                    Placeholder="Search maps..."
+                    FontSize="20"
+                    TextColor="{DynamicResource HeaderTextColor}"
+                    BackgroundColor="{DynamicResource AppBackgroundColor}"
+                    TextChanged="SearchTextChanged"
+                    Focused="SearchBarFocused"
+                    Unfocused="SearchBarUnfocused"/>
 
         <BoxView Color="{DynamicResource ViewBackgroundColor}"
-                     HeightRequest="1"
-                     HorizontalOptions="Fill"/>
+                         HeightRequest="1"
+                         HorizontalOptions="Fill"/>
 
-        <!-- Maps List -->  
+        <!-- Maps List -->
         <CollectionView x:Name="MapsCollectionView"
-                        VerticalOptions="FillAndExpand"
                         BackgroundColor="{DynamicResource SeparatorColor}"
                         SelectionMode="Single"
                         SelectionChanged="Map_SelectionChanged"
                         VerticalScrollBarVisibility="Default">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Vertical" 
-                                 BackgroundColor="{DynamicResource SeparatorColor}"
-                                 Padding="15, 5, 0, 5">
+                    <StackLayout Orientation="Vertical"
+                                     Padding="15, 10, 0, 0">
                         <Label Text="{Binding .}"
-                               TextColor="{DynamicResource HeaderTextColor}"
-                               FontSize ="20"/>
+                                   TextColor="{DynamicResource HeaderTextColor}"
+                                   FontSize ="20"/>
                         <BoxView HorizontalOptions="FillAndExpand"
-                                 HeightRequest="1"
-                                 Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -57,12 +56,12 @@
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
                 <Label x:Name="MapsCollectionEmptyViewLabel"
-                       Text="No maps matched your filter"
-                       TextColor="{DynamicResource GrayTextColor}"
-                       FontSize="20"
-                       HorizontalOptions="Fill"
-                       HorizontalTextAlignment="Center"
-                       Padding="20"/>
+                           Text="No maps matched your filter"
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
             </CollectionView.EmptyView>
         </CollectionView>
     </StackLayout>

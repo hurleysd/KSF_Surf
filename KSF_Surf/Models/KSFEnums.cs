@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Xamarin.Forms;
+
 namespace KSF_Surf.Models
 {
     // FILTER ENUMS -------------------------------------------------------------------------
@@ -42,7 +44,7 @@ namespace KSF_Surf.Models
 
     public enum EFilter_PlayerType
     { 
-        none, steamid, rank
+        none, steamid, rank, me
     }
 
     public enum EFilter_PlayerRecordsType
@@ -128,7 +130,7 @@ namespace KSF_Surf.Models
             return typeString;
         }
 
-        public static readonly string[] rrtype_arr = new string[] { "Map", "Top10", "Stage", "Bonus", "All" };
+        public static readonly string[] rrtype_arr = new string[] { "Map", "Top10", "Stage", "Bonus", "All WRs" };
 
         public static string toString2(EFilter_RRType type)
         {
@@ -206,7 +208,8 @@ namespace KSF_Surf.Models
             {
                 case EFilter_PlayerType.steamid: typeString = "steamid"; break;
                 case EFilter_PlayerType.rank: typeString = "rank"; break;
-                default: break;
+                case EFilter_PlayerType.me: goto case EFilter_PlayerType.steamid;
+                    default: break;
             }
             return typeString;
         }
@@ -248,6 +251,71 @@ namespace KSF_Surf.Models
             }
             return zoneString;
         }
+
+        public static readonly string[] rankTitles = { "MASTER", "ELITE", "VETERAN", "PRO", "EXPERT", "HOTSHOT", 
+            "EXCEPTIONAL", "EXPERIENCED", "SKILLED", "CASUAL", "BEGINNER", "ROOKIE"};
+
+        public static readonly Color[] rankColors = { Color.Magenta, Color.HotPink, Color.Red, Color.Orange, Color.Gold,
+            Color.LimeGreen, Color.SeaGreen,  Color.SkyBlue, Color.DarkSlateBlue, Color.DarkOliveGreen, Color.SaddleBrown, Color.Gray};
+
+        public static string getRankTitle(string rankString, string pointsString)
+        {
+            string title = "";
+
+            int rank = int.Parse(rankString);
+            double points = double.Parse(pointsString);
+
+            if (1 <= rank && rank <= 10)
+            {
+                title = rankTitles[0];
+            }
+            else if (rank <= 25)
+            {
+                title = rankTitles[1];
+            }
+            else if (rank <= 50)
+            {
+                title = rankTitles[2];
+            }
+            else if (rank <= 100)
+            {
+                title = rankTitles[3];
+            }
+            else if (rank <= 200)
+            {
+                title = rankTitles[4];
+            }
+            else if (rank <= 350)
+            {
+                title = rankTitles[5];
+            }
+            else if (rank <= 500)
+            {
+                title = rankTitles[6];
+            }
+            else if (points >= 6000)
+            {
+                title = rankTitles[7];
+            }
+            else if (points >= 4000)
+            {
+                title = rankTitles[8];
+            }
+            else if (points >= 2500)
+            {
+                title = rankTitles[9];
+            }
+            else if (points >= 1000)
+            {
+                title = rankTitles[10];
+            }
+            else
+            {
+                title = rankTitles[11];
+            }
+
+            return title;
+        }
     }
 
     public static class String_Formatter
@@ -257,13 +325,23 @@ namespace KSF_Surf.Models
             TimeSpan time = TimeSpan.FromSeconds(double.Parse(seconds));
             if (abbreviate)
             {
-                if (time.Days > 0)
+                if(time.Days > 365)
+                {
+                    int years = time.Days / 365;
+                    int days = time.Days % 365;
+                    return String.Format("{0:##}y {1:#0}d {2:#0}h", years, days, time.Hours);
+                }
+                else if (time.Days > 0)
                 {
                     return String.Format("{0:##}d {1:#0}h {2:#0}m", time.Days, time.Hours, time.Minutes);
                 }
-                return String.Format("{0:#0}h {1:#0}m", time.Hours, time.Minutes);
+                else if (time.Hours > 0)
+                {
+                    return String.Format("{0:#0}h {1:#0}m", time.Hours, time.Minutes);
+                }
+                return String.Format("{0:#0}m", time.Minutes);
             }
-
+    
             if (time.Days > 0)
             {
                 return String.Format("{0:##}d {1:#0}h {2:#0}m {3:#0}s", time.Days, time.Hours, time.Minutes, time.Seconds);
@@ -278,7 +356,11 @@ namespace KSF_Surf.Models
         public static string toString_RankTime(string seconds)
         {
             TimeSpan time = TimeSpan.FromSeconds(double.Parse(seconds));
-            return String.Format("{0:#0}:{1:00}.{2:00}", time.Minutes, time.Seconds, (int)(time.Milliseconds/10));
+            if (time.Minutes > 0)
+            {
+                return String.Format("{0:#0}:{1:00}.{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
+            }
+            return String.Format("{0:#0}.{1:000}", time.Seconds, time.Milliseconds);
         }
 
         public static readonly DateTime ksf_start = new DateTime(1970, 1, 1);
@@ -291,8 +373,12 @@ namespace KSF_Surf.Models
 
         public static string toString_LastOnline(string seconds)
         {
-            TimeSpan diff = DateTime.Now - ksf_start.AddSeconds(double.Parse(seconds));
-            return toString_PlayTime(diff.TotalSeconds.ToString(), true);
+            TimeSpan diff = DateTime.Now.ToUniversalTime() - ksf_start.AddSeconds(double.Parse(seconds));
+            if (diff.Days < 30)
+            {
+                return toString_PlayTime(diff.TotalSeconds.ToString(), true) + " ago";
+            }
+            return toString_KSFDate(seconds);
         }
 
         public static string toString_Points(string points)
