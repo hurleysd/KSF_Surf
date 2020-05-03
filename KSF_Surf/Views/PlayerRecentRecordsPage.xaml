@@ -18,7 +18,7 @@
             <!-- Recently Broken -->
             <Label Text="Recently Broken Records"
                     Style="{DynamicResource HeaderLabel}"
-                    Margin="10,00,0,10"/>
+                    Margin="10,0,0,10"/>
             <Frame Style="{StaticResource FrameStyle}">
                 <StackLayout x:Name="RecordsBrokenStack" 
                          Orientation="Vertical"

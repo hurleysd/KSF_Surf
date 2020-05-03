@@ -12,7 +12,7 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class SettingsPage : ContentPage
     {
-        PlayerViewModel playerViewModel = new PlayerViewModel();
+        private readonly PlayerViewModel playerViewModel = new PlayerViewModel();
 
         // variables for filters
         private EFilter_Game game = EFilter_Game.none;
@@ -129,6 +129,13 @@ namespace KSF_Surf.Views
         private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.hsw);
         private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.sw);
         private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.bw);
+
+        private async void Info_Tapped(object sender, EventArgs e)
+        {
+            InfoButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            await Navigation.PushAsync(new InfoPage());
+            InfoButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
     }
 
     #endregion

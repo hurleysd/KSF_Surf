@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.RecordsTopPage"
+             Title="Surf Top"
+             x:Name="RecordsTopTab"  
+             Style="{DynamicResource ContentPageStyle}">
+
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="10,15,10,15"
+                     Orientation="Vertical">
+            <!-- Surf Top -->
+            <Label Text="Surf Top"
+                        Style="{DynamicResource HeaderLabel}"
+                        Padding="10,0,0,10"/>
+
+            <Frame Style="{StaticResource FrameStyle}">
+                <Grid HorizontalOptions="FillAndExpand"
+                      BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                      Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout x:Name="TopRankStack" 
+                                 Orientation="Vertical" 
+                                 Grid.Column="0">
+                        <Label x:Name="TopRankLabel"
+                               Text="Rank" 
+                               TextColor="{DynamicResource HeaderTextColor}"
+                               FontSize="20"/>
+                    </StackLayout>
+
+                    <BoxView Color="{DynamicResource BorderColor}"
+                             Grid.Column="1"/>
+
+                    <StackLayout x:Name="TopPointsStack" 
+                                 Orientation="Vertical" 
+                                 Grid.Column="2">
+                        <Label x:Name="TopPointsLabel"
+                               Text="Points" 
+                               TextColor="{DynamicResource HeaderTextColor}"
+                               FontSize="20"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+
+            <Frame x:Name="MoreFrame"
+                   Style="{DynamicResource MoreFrameStyle}">
+                <StackLayout x:Name="MoreButton"
+                            Style="{DynamicResource UntappedStackStyle}"
+                             Padding="0">
+                    <Label Style="{StaticResource MoreLabelStyle}"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                  </StackLayout>
+            </Frame>
+
+        </StackLayout>
+     </ScrollView>
+</ContentPage>

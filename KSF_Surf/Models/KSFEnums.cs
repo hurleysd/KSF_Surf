@@ -42,6 +42,11 @@ namespace KSF_Surf.Models
         playtimeday, playtimeweek, playtimemonth            // uses MostTime
     }
 
+    public enum EFilter_ORType
+    {
+        map, stage, bonus
+    }
+
     public enum EFilter_PlayerType
     { 
         none, steamid, rank, me
@@ -50,6 +55,21 @@ namespace KSF_Surf.Models
     public enum EFilter_PlayerRecordsType
     {
         set, broken
+    }
+
+    public enum EFilter_PlayerWRsType
+    {
+        none, wr, wrcp, wrb
+    }
+
+    public enum EFilter_PlayerCompletionType
+    {
+        complete, incomplete, completionbytier
+    }
+
+    public enum EFilter_PlayerOldestType
+    {
+        wr, wrcp, wrb, top10, map, stage, bonus
     }
 
     #endregion
@@ -97,6 +117,18 @@ namespace KSF_Surf.Models
                 default: break;
             }
             return sortString;
+        }
+
+        public static string toString(EFilter_MapType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_MapType.linear: typeString = "Linear"; break;
+                case EFilter_MapType.staged: typeString = "Staged"; break;
+                default: break;
+            }
+            return typeString;
         }
 
         public static readonly string[] modes_arr = new string[] { "FW", "HSW", "SW", "BW" };
@@ -201,6 +233,33 @@ namespace KSF_Surf.Models
             return typeString;
         }
 
+        public static readonly string[] otype_arr = new string[] { "Map", "Stage", "Bonus" };
+        public static string toString(EFilter_ORType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_ORType.map: typeString = "map"; break;
+                case EFilter_ORType.stage: typeString = "stage"; break;
+                case EFilter_ORType.bonus: typeString = "bonus"; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static string toString2(EFilter_ORType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_ORType.map: typeString = otype_arr[0]; break;
+                case EFilter_ORType.stage: typeString = otype_arr[1]; break;
+                case EFilter_ORType.bonus: typeString = otype_arr[2]; break;
+                default: break;
+            }
+            return typeString;
+        }
+
         public static string toString(EFilter_PlayerType type)
         {
             string typeString = "";
@@ -225,6 +284,84 @@ namespace KSF_Surf.Models
             }
             return typeString;
         }
+
+        public static readonly string[] wrtype_arr = new string[] { "wr", "wrcp", "wrb" };
+        public static readonly string[] wrtype_arr2 = new string[] { "WR", "WRCP", "WRB" };
+
+        public static string toString(EFilter_PlayerWRsType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerWRsType.wr: typeString = wrtype_arr[0]; break;
+                case EFilter_PlayerWRsType.wrcp: typeString = wrtype_arr[1]; break;
+                case EFilter_PlayerWRsType.wrb: typeString = wrtype_arr[2]; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static string toString2(EFilter_PlayerWRsType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerWRsType.wr: typeString = wrtype_arr2[0]; break;
+                case EFilter_PlayerWRsType.wrcp: typeString = wrtype_arr2[1]; break;
+                case EFilter_PlayerWRsType.wrb: typeString = wrtype_arr2[2]; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static string toString(EFilter_PlayerCompletionType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerCompletionType.complete: typeString = "complete"; break;
+                case EFilter_PlayerCompletionType.incomplete: typeString = "incomplete"; break;
+                case EFilter_PlayerCompletionType.completionbytier: typeString = "completionbytier"; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static readonly string[] ortype_arr = new string[] { "WR", "WRCP", "WRB", "Top10", "Map", "Stage", "Bonus"};
+        public static string toString(EFilter_PlayerOldestType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerOldestType.wr: typeString = "oldestwr"; break;
+                case EFilter_PlayerOldestType.wrcp: typeString = "oldestwrcp"; break;
+                case EFilter_PlayerOldestType.wrb: typeString = "oldestwrb"; break;
+                case EFilter_PlayerOldestType.top10: typeString = "oldesttop10"; break;
+                case EFilter_PlayerOldestType.map: typeString = "oldestmap"; break;
+                case EFilter_PlayerOldestType.stage: typeString = "oldeststage"; break;
+                case EFilter_PlayerOldestType.bonus: typeString = "oldestbonus"; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static string toString2(EFilter_PlayerOldestType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerOldestType.wr: typeString = ortype_arr[0]; break;
+                case EFilter_PlayerOldestType.wrcp: typeString = ortype_arr[1]; break;
+                case EFilter_PlayerOldestType.wrb: typeString = ortype_arr[2]; break;
+                case EFilter_PlayerOldestType.top10: typeString = ortype_arr[3]; break;
+                case EFilter_PlayerOldestType.map: typeString = ortype_arr[4]; break;
+                case EFilter_PlayerOldestType.stage: typeString = ortype_arr[5]; break;
+                case EFilter_PlayerOldestType.bonus: typeString = ortype_arr[6]; break;
+                default: break;
+            }
+            return typeString;
+        }
+
 
         public static string zoneFormatter(string z, bool includeMain)
         {
@@ -320,6 +457,16 @@ namespace KSF_Surf.Models
 
     public static class String_Formatter
     {
+
+        public static string toString_CompletionPercent(string completeString, string totalString)
+        {
+            int percent = 0;
+            int complete = int.Parse(completeString);
+            int total = int.Parse(totalString);
+            percent = (int)(((double)complete / total) * 100);
+            return percent + "%";
+        }
+
         public static string toString_PlayTime(string seconds, bool abbreviate)
         {
             TimeSpan time = TimeSpan.FromSeconds(double.Parse(seconds));

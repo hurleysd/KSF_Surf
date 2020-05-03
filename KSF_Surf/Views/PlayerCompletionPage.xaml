@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.PlayerCompletionPage"
+             Title="Player Map Completion"
+             x:Name="PlayerMapCompletionTab"  
+             Style="{DynamicResource ContentPageStyle}">
+
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="10,15,10,15"
+                     Orientation="Vertical">
+
+            <!-- Completion Records -->
+            <Label Text="Completion By Tier"
+                    Style="{DynamicResource HeaderLabel}"
+                    Margin="10,0,0,10"/>
+
+            <Label Text="Tier 1"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,0,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T1MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T1StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T1BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 2"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T2MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T2StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T2BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 3"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T3MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T3StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T3BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 4"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T4MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T4StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T4BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 5"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T5MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T5StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T5BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 6"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T6MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T6StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T6BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 7"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T7MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T7StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T7BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+            <BoxView Style="{StaticResource SeparatorStyle}"
+                         Color="{DynamicResource ViewBackgroundColor}"
+                         Margin="35,0,15,0"/>
+
+            <Label Text="Tier 8"
+                   Style="{DynamicResource LeftColStyle}"
+                   TextColor="{DynamicResource HeaderTextColor}"
+                   Margin="20,10,0,0"/>
+
+            <Grid Style="{StaticResource ColumnGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                    <Label Text="Maps" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Stages"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    <Label Text="Bonuses" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                    <Label x:Name="T8MapsValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T8StagesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    <Label x:Name="T8BonusesValueLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                </StackLayout>
+            </Grid>
+
+        </StackLayout>
+     </ScrollView>
+</ContentPage>

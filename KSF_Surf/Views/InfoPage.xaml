@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.InfoPage"
+             Title="Info and Credits"
+             x:Name="InfoTab"
+             Style="{DynamicResource ContentPageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key = "CreditLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Padding="20,20,20,20">
+
+        <Label x:Name="IconThanksLabel"
+               Style="{DynamicResource CreditLabelStyle}"/>
+        
+        <Label x:Name="KSFThanksLabel"
+               Style="{DynamicResource CreditLabelStyle}"
+               Margin="0,20,0,0"/>
+
+        <Label x:Name="SignOffLabel"
+               Style="{StaticResource CreditLabelStyle}"
+               TextColor="{DynamicResource HeaderTextColor}"
+               HorizontalOptions="Center"
+               VerticalOptions="EndAndExpand"
+               VerticalTextAlignment="End"/>
+
+    </StackLayout>
+</ContentPage>

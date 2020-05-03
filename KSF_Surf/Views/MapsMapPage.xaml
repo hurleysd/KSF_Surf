@@ -81,9 +81,7 @@
                    Style="{DynamicResource HeaderLabel}"
                    Margin="10,10,0,0"/>
             <Grid x:Name="MappersGrid"
-                  HorizontalOptions="FillAndExpand" 
-                  Padding="10"
-                  Margin="20,0,0,0">
+                  Style="{StaticResource ColumnGridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="*"/>
@@ -107,9 +105,7 @@
             <Label Text="Stats"
                    Style="{DynamicResource HeaderLabel}"
                    Margin="10,10,0,0"/>
-            <Grid HorizontalOptions="FillAndExpand" 
-                  Padding="10"
-                  Margin="20,0,0,0">
+            <Grid Style="{StaticResource ColumnGridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

@@ -34,7 +34,7 @@
                 <Setter Property="BackgroundColor" Value ="{DynamicResource AppBackgroundColor}"/>
             </Style>
 
-            <!-- Frame Style -->
+            <!-- Frame Styles -->
             <Style x:Key="FrameStyle" TargetType="Frame">
                 <Setter Property="CornerRadius" Value ="10"/>
                 <Setter Property="HasShadow" Value ="False"/>
@@ -43,8 +43,44 @@
                 <Setter Property="HorizontalOptions" Value ="FillAndExpand"/>
                 <Setter Property="VerticalOptions" Value ="Fill"/>
             </Style>
+            <Style x:Key="SelectableFrameStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value ="0"/>
+                <Setter Property="HasShadow" Value ="False"/>
+                <Setter Property="BorderColor" Value ="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="Padding" Value ="0"/>
+            </Style>
+            <Style x:Key="MoreFrameStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value ="10"/>
+                <Setter Property="HasShadow" Value ="False"/>
+                <Setter Property="BorderColor" Value ="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="Padding" Value ="0"/>
+                <Setter Property="Margin" Value ="0,10,0,0"/>
+                <Setter Property="HorizontalOptions" Value ="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value ="47"/>
+                <Setter Property="IsVisible" Value ="False"/>
+                
+            </Style>
 
-            <!-- BoxView Style -->
+            <!-- StackLayout Styles -->
+            <Style x:Key = "UntappedStackStyle" TargetType="StackLayout">
+                <Setter Property="Padding" Value="20,15,20,15"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
+            </Style>
+            <Style x:Key = "TappedStackStyle" TargetType="StackLayout">
+                <Setter Property="Padding" Value="20,15,20,15"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource UntappedTextColor}"/>
+            </Style>
+
+            <!-- Grid Styles -->
+            <Style x:Key = "ColumnGridStyle" TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Margin" Value="20,0,0,0"/>
+            </Style>
+
+             <!-- BoxView Style -->
             <Style x:Key = "SeparatorStyle" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource BorderColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
@@ -94,6 +130,23 @@
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key = "MoreLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
+                <Setter Property="Text" Value="&#43;"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+            </Style>
+            <Style x:Key = "NewPageLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+            </Style>
+            <Style x:Key = "RightArrowStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="Text" Value="&#8250;"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

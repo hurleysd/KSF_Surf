@@ -27,5 +27,8 @@
     <Compile Update="Views\PlayerPage.xaml.cs">
       <DependentUpon>PlayerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\PlayerWorldRecordsPage.xaml.cs">
+      <DependentUpon>PlayerWorldRecordsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

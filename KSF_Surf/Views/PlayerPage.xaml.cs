@@ -32,9 +32,8 @@ namespace KSF_Surf.Views
         private string playerValue = "";
         private string playerSteamId;
         private string playerRank;
-
-        // colors
-        private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
+        private EFilter_PlayerWRsType wrsType;
+        private bool hasTop;
 
         public PlayerPage()
         {
@@ -70,6 +69,7 @@ namespace KSF_Surf.Views
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
             if (playerSteamProfile is null) return;
 
+            wrsType = EFilter_PlayerWRsType.none;
             LayoutPlayerInfo();
             LayoutPlayerProfile();
         }
@@ -132,6 +132,7 @@ namespace KSF_Surf.Views
             }
             RankTitleLabel.Text = rankTitle;
             RankTitleLabel.TextColor = rankColor;
+            PlayerImageFrame.BorderColor = rankColor;
         }
 
         private void LayoutPlayerInfo()
@@ -144,6 +145,20 @@ namespace KSF_Surf.Views
             WRsLabel.Text = playerInfoData.WRZones.wr;
             WRCPsLabel.Text = String_Formatter.toString_Int(playerInfoData.WRZones.wrcp);
             WRBsLabel.Text = String_Formatter.toString_Points(playerInfoData.WRZones.wrb);
+
+            if (int.Parse(playerInfoData.WRZones.wr) > 0)
+            {
+                wrsType = EFilter_PlayerWRsType.wr;
+            }
+            else if (int.Parse(playerInfoData.WRZones.wrcp) > 0)
+            {
+                wrsType = EFilter_PlayerWRsType.wrcp;
+            }
+            else if (int.Parse(playerInfoData.WRZones.wrb) > 0)
+            {
+                wrsType = EFilter_PlayerWRsType.wrb;
+            }
+            WRsFrame.IsVisible = (wrsType != EFilter_PlayerWRsType.none);
 
             FirstOnlineLabel.Text = String_Formatter.toString_KSFDate(playerInfoData.basicInfo.firstOnline);
             if (playerInfoData.basicInfo.firstOnline == "0")
@@ -160,25 +175,21 @@ namespace KSF_Surf.Views
             SpecTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.deadTime, true);
 
             // Completion -----------------------------------------------------
-            int total_m = int.Parse(playerInfoData.TotalZones.TotalMaps);
-            int num_m = int.Parse(playerInfoData.CompletedZones.map);
-            int total_s = int.Parse(playerInfoData.TotalZones.TotalStages);
-            int num_s = int.Parse(playerInfoData.CompletedZones.stage);
-            int total_b = int.Parse(playerInfoData.TotalZones.TotalBonuses);
-            int num_b = int.Parse(playerInfoData.CompletedZones.bonus);
+            MapsValueLabel.Text = playerInfoData.CompletedZones.map + "/" + playerInfoData.TotalZones.TotalMaps;
+            MapsValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.map, playerInfoData.TotalZones.TotalMaps) + ")";
 
-            MapsValueLabel.Text = playerInfoData.CompletedZones.map + " (" + (int)(((double)num_m / total_m) * 100) + "%)";
-            MapsCompLabel.Text = "Maps (" + playerInfoData.TotalZones.TotalMaps + ")";
-            
-            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage) + " (" + (int)(((double)num_s / total_s) * 100) + "%)";
-            StagesCompLabel.Text = "Stages (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalStages) + ")";
-            
-            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus) + " (" + (int)(((double)num_b / total_b) * 100) + "%)";
-            BonusesCompLabel.Text = "Bonuses (" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalBonuses) + ")";
+            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage) 
+                + "/" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalStages);
+            StagesValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.stage, playerInfoData.TotalZones.TotalStages) + ")";
+
+            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus) 
+                + "/" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalBonuses);
+            BonusesValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.bonus, playerInfoData.TotalZones.TotalBonuses) + ")";
 
             // Groups ---------------------------------------------------------
             Top10sLabel.Text = playerInfoData.Top10Groups.top10;
-            if (playerInfoData.Top10Groups.top10 != "0")
+            hasTop = (playerInfoData.Top10Groups.top10 != "0");
+            if (hasTop)
             {
                 if (playerInfoData.Top10Groups.rank1 != "0")
                 {
@@ -393,11 +404,9 @@ namespace KSF_Surf.Views
             await PlayerPageScrollView.ScrollToAsync(0, 0, true);
         }
 
-        #endregion
-
-        private async void RecentRecordsLabel_Tapped(object sender, EventArgs e)
+        private async void RecentRecords_Tapped(object sender, EventArgs e)
         {
-            RecentRecordsButton.Style = Resources["TappedStackStyle"] as Style;
+            RecentRecordsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new PlayerRecentRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue));
@@ -406,7 +415,50 @@ namespace KSF_Surf.Views
             {
                 await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
             }
-            RecentRecordsButton.Style = Resources["UntappedStackStyle"] as Style;
+            RecentRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
+
+        private async void OldestRecords_Tapped(object sender, EventArgs e)
+        {
+            OldestRecordsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerOldestRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue, wrsType, hasTop));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void WorldRecords_Tapped(object sender, EventArgs e)
+        {
+            WRsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerWorldRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue, wrsType));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            WRsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void TierCompletion_Tapped(object sender, EventArgs e)
+        {
+            TierCompletionButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerCompletionPage(Title, playerViewModel, game, mode, playerType, playerValue));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            TierCompletionButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+        #endregion
     }
 }

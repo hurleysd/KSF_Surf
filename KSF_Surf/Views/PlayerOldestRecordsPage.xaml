@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.PlayerOldestRecordsPage"
+             Title="Player Oldest Records"
+             x:Name="PlayerOldestRecordsTab"  
+             Style="{DynamicResource ContentPageStyle}">
+
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="10,15,10,15"
+                     Orientation="Vertical">
+
+            <!-- World Records -->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Oldest Records"
+                           Style="{DynamicResource HeaderLabel}"
+                           Padding="10,0,0,10"
+                           HorizontalOptions="StartAndExpand"/>
+
+                <Label x:Name="ORTypeOptionLabel"
+                           VerticalOptions="End"
+                           FontSize="16"
+                           TextColor="{StaticResource TappedTextColor}"
+                           HorizontalOptions="EndAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <Frame Style="{StaticResource FrameStyle}">
+                <StackLayout x:Name="ORStack" 
+                             Orientation="Vertical"
+                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                             Padding="15"
+                             Spacing="10"/>
+            </Frame>
+
+            <Frame x:Name="MoreFrame"
+                   Style="{DynamicResource MoreFrameStyle}">
+                <StackLayout x:Name="MoreButton"
+                            Style="{DynamicResource UntappedStackStyle}"
+                             Padding="0">
+                    <Label Style="{StaticResource MoreLabelStyle}"/>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                  </StackLayout>
+            </Frame>
+
+        </StackLayout>
+     </ScrollView>
+</ContentPage>

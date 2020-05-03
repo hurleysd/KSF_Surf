@@ -23,21 +23,6 @@
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "ColumnGridStyle" TargetType="Grid">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="Padding" Value="10"/>
-                <Setter Property="Margin" Value="20,0,0,0"/>
-            </Style>
-            <Style x:Key = "UntappedStackStyle" TargetType="StackLayout">
-                <Setter Property="Padding" Value="20,15,20,15"/>
-                <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
-            </Style>
-            <Style x:Key = "TappedStackStyle" TargetType="StackLayout">
-                <Setter Property="Padding" Value="20,15,20,15"/>
-                <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="BackgroundColor" Value="{DynamicResource UntappedTextColor}"/>
-            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -56,16 +41,17 @@
                   BackgroundColor="{DynamicResource ViewBackgroundColor}"
                   Padding="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="108"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="22"/>
+                        <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
-                    <Frame CornerRadius="5"
+                    <Frame x:Name="PlayerImageFrame"
+                           CornerRadius="5"
                            HasShadow="False"
                            Padding="0"
                            Grid.RowSpan="3"
@@ -98,28 +84,63 @@
                 </Grid>
             </Frame>
 
-            <Frame Padding="0"
-                   CornerRadius="0"
-                   HasShadow="False"
-                   BorderColor="{DynamicResource ViewBackgroundColor}">
-
-                <StackLayout x:Name="RecentRecordsButton"
+            <!-- Other pages -->
+            <Frame x:Name="WRsFrame"
+                   Style="{DynamicResource SelectableFrameStyle}"
+                   IsVisible="False">
+                <StackLayout x:Name="WRsButton"
                          Style="{DynamicResource UntappedStackStyle}">
-                    
-                    <Label Text="Recent Records"
-                            TextColor="{DynamicResource HeaderTextColor}"
-                            FontSize="20"/>
-                    <Label Text="&#8250;"
-                            TextColor="{DynamicResource HeaderTextColor}"
-                            FontSize="20"
-                            HorizontalOptions="EndAndExpand"/>
+
+                    <Label Text="World Records"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
 
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RecentRecordsLabel_Tapped"/>
+                        <TapGestureRecognizer Tapped="WorldRecords_Tapped"/>
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Frame>
+            <Frame Style="{DynamicResource SelectableFrameStyle}">
+                <StackLayout x:Name="RecentRecordsButton"
+                         Style="{DynamicResource UntappedStackStyle}">
 
+                    <Label Text="Recent Records"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RecentRecords_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+            <Frame Style="{DynamicResource SelectableFrameStyle}">
+                <StackLayout x:Name="OldestRecordsButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                    <Label Text="Oldest Records"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OldestRecords_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+            <Frame x:Name="TierCompletionFrame"
+                   Style="{DynamicResource SelectableFrameStyle}">
+                <StackLayout x:Name="TierCompletionButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                    <Label Text="Completion By Tier"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TierCompletion_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+          
             <StackLayout Padding="10,15,10,15"
                 Orientation="Vertical">
 
@@ -257,17 +278,17 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="75"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <StackLayout Orientation="Vertical" 
-                                 Grid.Column="0">
-                        <Label x:Name="MapsCompLabel" 
+                                Grid.Column="0">
+                        <Label Text="Maps" 
                                Style ="{DynamicResource LeftColStyle}"/>
-                        <Label x:Name="StagesCompLabel"
+                        <Label Text="Stages"  
                                Style ="{DynamicResource LeftColStyle}"/>
-                        <Label x:Name="BonusesCompLabel" 
+                        <Label Text="Bonuses" 
                                Style ="{DynamicResource LeftColStyle}"/>
                     </StackLayout>
 

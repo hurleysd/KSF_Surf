@@ -343,6 +343,32 @@ namespace KSF_Surf.Models
         public List<MostTimeDatum> data { get; set; }
     }
 
+    // OLDEST RECORDS
+
+    public class OldRecord
+    {
+        public string mapName { get; set; }
+        public string mapID { get; set; }
+        public string zoneID { get; set; }
+        public string stageID { get; set; }
+        public string finishType { get; set; }
+        public string points { get; set; }
+        public string date { get; set; }
+        public string dateNow { get; set; }
+        public string surfTime { get; set; }
+        public string r2Diff { get; set; }
+        public string playerID { get; set; }
+        public string playerName { get; set; }
+        public string country { get; set; }
+        public string steamID { get; set; }
+    }
+
+    public class OldestRecordsObject
+    {
+        public string status { get; set; }
+        public List<OldRecord> data { get; set; }
+    }
+
     #endregion
     // PlayerPage
     #region PlayerPage
@@ -443,7 +469,7 @@ namespace KSF_Surf.Models
         public PlayerInfoDatum data { get; set; }
     }
 
-    // PLAYER RECORDS
+    // PLAYER RECENT RECORDS
 
     public class RecentPlayerRecords
     {
@@ -471,6 +497,118 @@ namespace KSF_Surf.Models
     {
         public string status { get; set; }
         public PlayerRecordsDatum data { get; set; }
+    }
+
+    // PLAYER WORLD RECORDS
+
+    public class PlayerWorldRecords
+    {
+        public string mapName { get; set; }
+        public string mapID { get; set; }
+        public string stageID { get; set; }
+        public string zoneID { get; set; }
+        public string finishType { get; set; }
+        public string date { get; set; }
+        public string dateNow { get; set; }
+        public string surfTime { get; set; }
+        public string r2Diff { get; set; }
+    }
+
+    public class PlayerWRsDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<PlayerWorldRecords> records { get; set; }
+    }
+
+    public class PlayerWRsRootObject
+    {
+        public string status { get; set; }
+        public PlayerWRsDatum data { get; set; }
+    }
+
+    // PLAYER COMPLETIONS ------------------------------------REMOVE???
+
+    public class PlayerCompletionRecord
+    {
+        public string mapName { get; set; }
+        public string mapID { get; set; }
+        public string mapType { get; set; }
+        public string cp_count { get; set; }
+        public string b_count { get; set; }
+        public string tier { get; set; }
+        public string completedZones { get; set; }
+        public string totalZones { get; set; }
+    }
+
+    public class PlayerMapCompletionDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<PlayerCompletionRecord> records { get; set; }
+    }
+
+    public class PlayerMapsCompletionRootObject
+    {
+        public string status { get; set; }
+        public PlayerMapCompletionDatum data { get; set; }
+    }
+
+    // PLAYER COMPLETION BY TIER
+
+    public class PlayerTierCompletion
+    {
+        public string tier { get; set; }
+        public string map { get; set; }
+        public string mapTotal { get; set; }
+        public string stage { get; set; }
+        public string stageTotal { get; set; }
+        public string bonus { get; set; }
+        public string bonusTotal { get; set; }
+    }
+
+    public class PlayerTierCompletionDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<PlayerTierCompletion> records { get; set; }
+    }
+
+    public class PlayerTierCompletionRootObject
+    {
+        public string status { get; set; }
+        public PlayerTierCompletionDatum data { get; set; }
+    }
+
+    // PLAYER COMPLETION BY TIER
+
+    public class PlayerOldRecord
+    {
+        public string mapName { get; set; }
+        public string mapID { get; set; }
+        public string zoneID { get; set; }                  // wrcp/wrb stage/bonus
+        public string stageID { get; set; }
+        public string finishType { get; set; }
+        public string rank { get; set; }                    // top10
+        public string top10Points { get; set; }             // top10
+        public string groupPoints { get; set; }             // top10
+        public string points { get; set; }                  // map
+        public string top10Group { get; set; }              // map
+        public string date { get; set; }
+        public string dateNow { get; set; }
+        public string surfTime { get; set; }
+        public string count { get; set; }                   // map/stage/bonus
+        public string wrdiff { get; set; }                  // top10
+        public string r2Diff { get; set; }                  // wr/wrcp/wrb/top10
+    }
+
+    public class PlayerOldestRecordsDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<PlayerOldRecord> records { get; set; }
+    }
+
+    public class PlayerOldestRecordsRootObject
+    {
+        public string status { get; set; }
+        public PlayerOldestRecordsDatum data { get; set; }
     }
 
     #endregion

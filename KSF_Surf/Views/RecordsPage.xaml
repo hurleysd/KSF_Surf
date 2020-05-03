@@ -18,135 +18,81 @@
     <ScrollView x:Name="RecordsPageScrollView"
                 Orientation="Vertical"
                 VerticalScrollBarVisibility="Default">
-        <StackLayout Padding="10,15,10,15"
+        <StackLayout Padding="0" Spacing="0">
+            <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
 
-            <!-- Map Recent Records -->
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Recent"
-                       Style="{DynamicResource HeaderLabel}"
-                       Padding="10,0,0,10"
-                       HorizontalOptions="StartAndExpand"/>
+                <!-- Map Recent Records -->
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Recent"
+                           Style="{DynamicResource HeaderLabel}"
+                           Padding="10,0,0,10"
+                           HorizontalOptions="StartAndExpand"/>
 
 
-                <Label x:Name="RRTypeOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    <Label x:Name="RRTypeOptionLabel"
+                           VerticalOptions="End"
+                           FontSize="16"
+                           TextColor="{StaticResource TappedTextColor}"
+                           HorizontalOptions="EndAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+                <Frame Style="{StaticResource FrameStyle}">
+                    <StackLayout x:Name="RecordsStack" 
+                             Orientation="Vertical"
+                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                             Padding="15"
+                             Spacing="10"/>
+                </Frame>
             </StackLayout>
 
-            <Frame Style="{StaticResource FrameStyle}">
-                <StackLayout x:Name="RecordsStack" 
-                         Orientation="Vertical"
-                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="15"
-                         Spacing="10"/>
+            <!-- Other Pages -->
+            <Frame Style="{DynamicResource SelectableFrameStyle}"
+               VerticalOptions="EndAndExpand">
+                <StackLayout x:Name="SurfTopButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                    <Label Text="Surf Top"
+                       Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SurfTop_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
             </Frame>
+            <Frame Style="{DynamicResource SelectableFrameStyle}"
+               VerticalOptions="End">
+                <StackLayout x:Name="MostButton"
+                         Style="{DynamicResource UntappedStackStyle}">
 
-            <BoxView HorizontalOptions="FillAndExpand"
-                     HeightRequest="1"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,20,0,10"/>
+                    <Label Text="Most By Type"
+                       Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
 
-            <!-- Most by type -->
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Most"
-                       Style="{DynamicResource HeaderLabel}"
-                       Padding="10,0,0,10"/>
-
-                <Label x:Name="MostTypeOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Picker x:Name="MostTypePicker"
-                        IsVisible="False"
-                        Unfocused="MostTypePicker_Unfocused"/>
-            </StackLayout>
-
-            <Frame Style="{StaticResource FrameStyle}">
-                <Grid HorizontalOptions="FillAndExpand"
-                  BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                  Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackLayout x:Name="MostPlayerStack" 
-                             Orientation="Vertical" 
-                             Grid.Column="0">
-                        <Label x:Name="MostPlayerLabel"
-                           Text="Player" 
-                           TextColor="{DynamicResource HeaderTextColor}"
-                           FontSize="20"/>
-                    </StackLayout>
-
-                    <BoxView Color="{DynamicResource BorderColor}"
-                         Grid.Column="1"/>
-
-                    <StackLayout x:Name="MostValueStack"
-                             Orientation="Vertical" 
-                             Grid.Column="2">
-                        <Label x:Name="MostValueLabel"
-                           Text = "Total"
-                           TextColor="{DynamicResource HeaderTextColor}"
-                           FontSize="20"/>
-                    </StackLayout>
-                </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MostByType_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
             </Frame>
+            <Frame Style="{DynamicResource SelectableFrameStyle}"
+               VerticalOptions="End"
+               Margin="0,0,0,15">
+                <StackLayout x:Name="OldestRecordsButton"
+                         Style="{DynamicResource UntappedStackStyle}">
 
-            <BoxView HorizontalOptions="FillAndExpand"
-                     HeightRequest="1"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,20,0,10"/>
+                    <Label Text="Oldest Records"
+                       Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
 
-            <!-- Surf Top -->
-            <Label Text="Surf Top"
-                    Style="{DynamicResource HeaderLabel}"
-                    Padding="10,0,0,10"/>
-
-            <Frame Style="{StaticResource FrameStyle}">
-                <Grid HorizontalOptions="FillAndExpand"
-                  BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                  Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackLayout x:Name="TopRankStack" 
-                             Orientation="Vertical" 
-                             Grid.Column="0">
-                        <Label x:Name="TopRankLabel"
-                           Text="Rank" 
-                           TextColor="{DynamicResource HeaderTextColor}"
-                           FontSize="20"/>
-                    </StackLayout>
-
-                    <BoxView Color="{DynamicResource BorderColor}"
-                         Grid.Column="1"/>
-
-                    <StackLayout x:Name="TopPointsStack" 
-                             Orientation="Vertical" 
-                             Grid.Column="2">
-                        <Label x:Name="TopPointsLabel"
-                           Text="Points" 
-                           TextColor="{DynamicResource HeaderTextColor}"
-                           FontSize="20"/>
-                    </StackLayout>
-                </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OldestRecords_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
             </Frame>
         </StackLayout>
     </ScrollView>

@@ -52,7 +52,8 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal async Task<PlayerRecordsRootObject> GetPlayerRecords(EFilter_Game game, EFilter_Mode mode, EFilter_PlayerRecordsType recordsType, EFilter_PlayerType playerType, string playerValue)
+        internal async Task<PlayerRecordsRootObject> GetPlayerRecords(EFilter_Game game, EFilter_Mode mode, EFilter_PlayerRecordsType recordsType, 
+            EFilter_PlayerType playerType, string playerValue)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -62,7 +63,8 @@ namespace KSF_Surf.ViewModels
             string playerTypeString = EFilter_ToString.toString(playerType);
             if (gameString == "" || playerValue == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/" + recordsString + "/1,10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/" 
+                + recordsString + "/1,10/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -74,11 +76,86 @@ namespace KSF_Surf.ViewModels
                 return null;
             }
         }
-        
+
+        internal async Task<PlayerWRsRootObject> GetPlayerWRs(EFilter_Game game, EFilter_Mode mode, EFilter_PlayerWRsType wrType, 
+            EFilter_PlayerType playerType, string playerValue, int startIndex)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string wrString = EFilter_ToString.toString(wrType);
+            string playerTypeString = EFilter_ToString.toString(playerType);
+            if (gameString == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/" 
+                + wrString + "/" + startIndex + ",10/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<PlayerWRsRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        internal async Task<PlayerTierCompletionRootObject> GetPlayerTierCompletion(EFilter_Game game, EFilter_Mode mode, 
+            EFilter_PlayerType playerType, string playerValue)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string playerTypeString = EFilter_ToString.toString(playerType);
+            if (gameString == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue 
+                + "/completionbytier/1,10/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<PlayerTierCompletionRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        internal async Task<PlayerOldestRecordsRootObject> GetPlayerOldestRecords(EFilter_Game game, EFilter_Mode mode, EFilter_PlayerOldestType oldType,
+            EFilter_PlayerType playerType, string playerValue, int startIndex)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string playerTypeString = EFilter_ToString.toString(playerType);
+            string oldestString = EFilter_ToString.toString(oldType);
+
+            if (gameString == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/" 
+                + oldestString + "/" + startIndex + ",10/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<PlayerOldestRecordsRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         #endregion
         // Steam API call -----------------------------------------------------------------------------------------------------
         #region steam
-        
+
         internal async Task<SteamProfileRootObject> GetPlayerSteamProfile(string steamid)
         {
             if (!BaseViewModel.hasConnection()) return null;

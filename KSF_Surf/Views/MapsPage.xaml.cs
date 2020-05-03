@@ -140,7 +140,7 @@ namespace KSF_Surf.Views
             {
                 ChangeDisplayList(new List<string>());
             }
-            else
+            else if (e.NewTextValue != null)
             {
                 var keyword = MapsSearchBar.Text;
                 var suggestions = maps_list.Where(m => m.Contains(keyword.ToLower()));
