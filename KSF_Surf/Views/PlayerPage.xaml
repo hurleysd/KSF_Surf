@@ -154,7 +154,7 @@
                        FontSize="20"
                        FontFamily="Bold"
                        HorizontalOptions="EndAndExpand"
-                       VerticalOptions="Center"
+                       VerticalOptions="End"
                        Margin="0,0,10,0">
                     </Label>
                 </StackLayout>
@@ -185,9 +185,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+                <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
@@ -215,9 +213,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+                <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
@@ -241,10 +237,8 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
-
+                <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
+                
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
@@ -267,9 +261,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+                <BoxView Style="{StaticResource Separator2Style}"/>
 
                 <!-- Completion -->
                 <Label Text="Completion"
@@ -303,9 +295,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+                <BoxView Style="{StaticResource Separator2Style}"/>
 
                 <!-- Points -->
                 <Label Text="Points"
@@ -335,9 +325,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+                <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
@@ -366,9 +354,7 @@
                     </StackLayout>
                 </Grid>
 
-                <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+                <BoxView Style="{StaticResource Separator2Style}"/>
 
                 <!-- Groups -->
                 <Label Text="Groups"

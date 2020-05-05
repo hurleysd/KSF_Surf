@@ -36,7 +36,7 @@ namespace KSF_Surf.Models
     // MapsPage ----------------------------------------------------------------------
     #region MapsPage
 
-    // MAP LIST
+    // MAPS LIST
 
     public class DetailedMapDatum
     {
@@ -59,10 +59,6 @@ namespace KSF_Surf.Models
         public string status { get; set; }
         public List<DetailedMapDatum> data { get; set; }
     }
-
-    #endregion
-    // MapsMapPage -------------------------------------------------------------------
-    #region MapsMapPage
 
     // MAP INFO
 
@@ -148,6 +144,80 @@ namespace KSF_Surf.Models
     {
         public string status { get; set; }
         public PointsData data { get; set; }
+    }
+
+    // PERSONAL RECORD INFO
+
+    public class MapPRInfoDatum
+    {
+        public string mapID { get; set; }
+        public string tier { get; set; }
+        public string stageID { get; set; }
+        public int zoneID { get; set; }
+        public string playerID { get; set; }
+        public BasicInfo basicInfo { get; set; }
+        public string recordID { get; set; }
+        public int rank { get; set; }               // 0 or null
+        public string totalRanks { get; set; }
+        public int? group { get; set; }             // null if none, 0 if top10
+        public string time { get; set; }            
+        public string wrDiff { get; set; }          
+        public string r2Diff { get; set; }          // null if no r2
+        public string count { get; set; }          
+        public string date { get; set; }          
+        public string avgvel { get; set; }          
+        public string startvel { get; set; }          
+        public string endvel { get; set; }          
+        public string total_time { get; set; }          
+        public string attempts { get; set; }          
+        public string first_date { get; set; }          // none for other styles besides FW
+        public string first_timetaken { get; set; }     // none for other styles besides FW    
+        public string first_attempts { get; set; }      // none for other styles besides FW   
+        public string date_lastplayed { get; set; }     // none for other styles besides FW     
+    }
+
+    public class MapPRInfoRootObject
+    {
+        public string status { get; set; }
+        public MapPRInfoDatum data { get; set; }
+    }
+
+    // PERSONAL RECORD
+
+    public class MapPRDetails
+    {
+        public string zoneID { get; set; }
+        public string stageID { get; set; }
+        public string surfTime { get; set; }
+        public string rank { get; set; }               // 0 or null
+        public string totalRanks { get; set; }
+        public string avgVel { get; set; }
+        public string startVel { get; set; }
+        public string endVel { get; set; }
+        public string dateSet { get; set; }
+        public string count { get; set; }
+        public string attempts { get; set; }
+        public string totalSurfTime { get; set; }
+        public string dateLastPlayed { get; set; }
+        public string firstDate { get; set; }       // none for other styles besides FW
+        public string firstTimeTaken { get; set; }  // none for other styles besides FW
+        public string firstAttempts { get; set; }   // none for other styles besides FW
+        public int? group { get; set; }              // null if none, 0 if top10
+    }
+
+    public class MapPRDatum
+    {
+        public string mapID { get; set; }
+        public string tier { get; set; }
+        public BasicInfo basicInfo { get; set; }
+        public List<MapPRDetails> PRInfo { get; set; }
+        
+    }
+
+    public class MapPRRootObject
+    {
+        public string status { get; set; }
+        public MapPRDatum data { get; set; }
     }
 
     #endregion

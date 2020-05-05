@@ -19,8 +19,7 @@
                     Margin="10,0,0,10"/>
 
             <Label Text="Tier 1"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,0,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -49,13 +48,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 2"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -84,13 +80,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 3"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -119,13 +112,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 4"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -154,13 +144,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 5"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -189,13 +176,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 6"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -224,13 +208,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 7"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
@@ -259,13 +240,10 @@
                 </StackLayout>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="35,0,15,0"/>
+            <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
 
             <Label Text="Tier 8"
-                   Style="{DynamicResource LeftColStyle}"
-                   TextColor="{DynamicResource HeaderTextColor}"
+                   Style="{DynamicResource LeftLeftColStyle}"
                    Margin="20,10,0,0"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">

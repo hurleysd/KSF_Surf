@@ -76,7 +76,7 @@ namespace KSF_Surf.Views
             {
                 RecordsStack.Children.Add(new Label
                 {
-                    Text = datum.mapName + " " + EFilter_ToString.zoneFormatter(datum.zoneID, false),
+                    Text = datum.mapName + " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false),
                     Style = App.Current.Resources["RRLabelStyle"] as Style
 
                 });

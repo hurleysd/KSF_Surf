@@ -22,18 +22,12 @@ namespace KSF_Surf.Views
         private MapSettings mapSettings;
         private List<Mapper> mappers;
 
-        private List<TopDatum> topData;
-
         private PointsData pointsData;
 
         // variables for this map
         private readonly string map;
         private readonly EFilter_Game game;
         private EFilter_MapType mapType;
-        private EFilter_Mode currentMode;
-        
-        private int currentZone;
-        private string currentZoneString;
 
         private List<string> zonePickerList;
         private int stageCount;
@@ -45,10 +39,7 @@ namespace KSF_Surf.Views
             
             map = mapName;
             game = gameFilter;
-            currentMode = EFilter_Mode.fw;
-            
-            currentZone = 0;
-            currentZoneString = "Main";
+
             zonePickerList = new List<string>() { "Main" };
             stageCount = 0;
             bonusCount = 0;
@@ -100,13 +91,6 @@ namespace KSF_Surf.Views
             }
 
             LayoutPoints();
-            ZonePicker.ItemsSource = zonePickerList;
-
-            var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone);
-            topData = topDatum?.data;
-            if (topData is null) return;
-            
-            LayoutTop("FW", "Main");
         }
 
         private void LayoutGeneralMapInfo()
@@ -155,46 +139,13 @@ namespace KSF_Surf.Views
             PlayTimeLabel.Text = String_Formatter.toString_PlayTime(mapSettings.playtime, true);
         }
 
-        private void LayoutTop(string modeString, string zone)
-        {
-            StyleOptionLabel.Text = "[Style: " + modeString + "]";
-            ZoneOptionLabel.Text = "[Zone: " + zone + "]";
-
-            int i = 1;
-            foreach (TopDatum datum in topData)
-            {
-                TopRankStack.Children.Add(new Label {
-                    Text = i + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name + " (" + datum.count + ")",
-                    Style = Resources["TopNPointsStyle"] as Style
-                });
-
-                Label TimeLabel = new Label
-                {
-                    Text = String_Formatter.toString_RankTime(datum.time),
-                    Style = Resources["TopNPointsStyle"] as Style
-                };
-                if (i != 1)
-                {
-                    TimeLabel.Text += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
-                }
-                else 
-                {
-                    TimeLabel.Text += " (WR)";
-                }
-                TopTimeStack.Children.Add(TimeLabel);
-
-                i++;
-            }
-
-        }
-
         private void LayoutPoints()
         {
             int fontsize = 16;
 
             CompletionStack.Children.Add( new Label {
                 Text = "Map",
-                Style = Resources["TopNPointsStyle"] as Style,
+                Style = Resources["PointsStyle"] as Style,
                 FontSize = fontsize
             });
 
@@ -209,7 +160,7 @@ namespace KSF_Surf.Views
             {
                 CompletionStack.Children.Add( new Label {
                 Text = "Stage",
-                Style = Resources["TopNPointsStyle"] as Style
+                Style = Resources["PointsStyle"] as Style
                 });
 
                 CompletionValueStack.Children.Add(new Label
@@ -224,7 +175,7 @@ namespace KSF_Surf.Views
             {
                 CompletionStack.Children.Add(new Label {
                     Text = "Bonus",
-                    Style = Resources["TopNPointsStyle"] as Style,
+                    Style = Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
@@ -244,7 +195,7 @@ namespace KSF_Surf.Views
 
                 TopGroupStack.Children.Add(new Label {
                     Text = (i != 1) ? "R" + i : "WR",
-                    Style = Resources["TopNPointsStyle"] as Style,
+                    Style = Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
@@ -269,7 +220,7 @@ namespace KSF_Surf.Views
 
                 GroupStack.Children.Add(new Label {
                     Text = "G" + i + " (" + String_Formatter.toString_Points(rank + 1) + "-" + String_Formatter.toString_Points(groupEnd) + ")",
-                    Style = Resources["TopNPointsStyle"] as Style,
+                    Style = Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
@@ -282,14 +233,6 @@ namespace KSF_Surf.Views
 
                 rank = groupEnd;
             }
-        }
-
-        private void ClearTopGrid()
-        {
-            TopRankStack.Children.Clear();
-            TopRankStack.Children.Add(TopColLabel1);
-            TopTimeStack.Children.Clear();
-            TopTimeStack.Children.Add(TopColLabel2);
         }
 
         #endregion
@@ -305,83 +248,32 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void StyleOptionLabel_Tapped(object sender, EventArgs e)
+        private async void Top_Tapped(object sender, EventArgs e)
         {
-            List<string> modes = new List<string>();
-            string currentModeString = EFilter_ToString.toString(currentMode);
-            foreach (string mode in EFilter_ToString.modes_arr)
+            TopButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
             {
-                if (mode != currentModeString)
-                {
-                    modes.Add(mode);
-                }
+                await Navigation.PushAsync(new MapsMapTopPage(Title, mapsViewModel, game, map, stageCount, bonusCount, zonePickerList));
             }
-
-            string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-
-            EFilter_Mode newCurrentMode = EFilter_Mode.fw;
-            switch (newStyle)
+            else
             {
-                case "Cancel": return;
-                case "HSW": newCurrentMode = EFilter_Mode.hsw; break;
-                case "SW": newCurrentMode = EFilter_Mode.sw; break;
-                case "BW": newCurrentMode = EFilter_Mode.bw; break;
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
             }
-
-            var newTopDatum = await mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone);
-            List<TopDatum> newTopData = newTopDatum?.data;
-            if (newTopData is null)
-            {
-                await DisplayAlert("No " + newStyle + " " + currentZoneString + " completions.", "Be the first!", "OK");
-                return;
-            }
-            topData = newTopData;
-            currentMode = newCurrentMode;
-
-            ClearTopGrid();
-            LayoutTop(newStyle, currentZoneString);
+            TopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
-        
-        private void ZoneOptionLabel_Tapped(object sender, EventArgs e)
+        private async void PR_Tapped(object sender, EventArgs e)
         {
-            ZonePicker.SelectedItem = currentZoneString;
-            ZonePicker.Focus();
-        }
-
-        private async void ZonePicker_Unfocused(object sender, FocusEventArgs e)
-        {
-            string selected = (string)ZonePicker.SelectedItem;
-            if (selected == currentZoneString)
+            PRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
             {
-                return;
+                await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), mapsViewModel, game, map, (stageCount + bonusCount > 0)));
             }
-
-            int newZoneNum = -1; 
-            switch (selected[0])
+            else
             {
-                case 'M': newZoneNum = 0;  break;
-                case 'S': newZoneNum = int.Parse(selected.Substring(1)); break;
-                case 'B': newZoneNum = 30 + int.Parse(selected.Substring(1)); break;
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
             }
-
-            if (newZoneNum != -1)
-            {
-                var newTopDatum = await mapsViewModel.GetMapTop(game, map, currentMode, newZoneNum);
-                List<TopDatum> newTopData = newTopDatum?.data;
-                if (newTopData is null)
-                {
-                    await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " " + selected + " completions.", "Be the first!", "OK");
-                    return;
-                }
-
-                topData = newTopData;
-                currentZone = newZoneNum;
-                currentZoneString = selected;
-
-                ClearTopGrid();
-                LayoutTop(EFilter_ToString.toString(currentMode), currentZoneString);
-            }
+            PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
     }
 

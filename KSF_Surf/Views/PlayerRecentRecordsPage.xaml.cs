@@ -64,7 +64,7 @@ namespace KSF_Surf.Views
                 string rrstring = datum.mapName + " ";
                 if (datum.zoneID != "0")
                 {
-                    rrstring += EFilter_ToString.zoneFormatter(datum.zoneID, false) + " ";
+                    rrstring += EFilter_ToString.zoneFormatter(datum.zoneID, false, false) + " ";
                 }
                 RecordsBrokenStack.Children.Add(new Label
                 {
@@ -118,7 +118,7 @@ namespace KSF_Surf.Views
                 string rrstring = datum.mapName + " ";
                 if (datum.zoneID != "0")
                 {
-                    rrstring += EFilter_ToString.zoneFormatter(datum.zoneID, false) + " ";
+                    rrstring += EFilter_ToString.zoneFormatter(datum.zoneID, false, false) + " ";
                 }
                 RecordsSetStack.Children.Add(new Label
                 {

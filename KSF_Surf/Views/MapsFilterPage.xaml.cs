@@ -112,7 +112,7 @@ namespace KSF_Surf.Views
                 case EFilter_Sort.popularity: SortPopLabel.TextColor = tappedTextColor; break;
             }
 
-            resetSort = newSort != (EFilter_Sort.created);
+            resetSort = newSort != (EFilter_Sort.name);
             checkReset();
 
             BaseViewModel.vibrate(allowVibrate);
@@ -213,9 +213,9 @@ namespace KSF_Surf.Views
             {
                 ChangeGameFilter(defaultGame);
             }
-            if (sort != EFilter_Sort.created)
+            if (sort != EFilter_Sort.name)
             {
-                ChangeSortFilter(EFilter_Sort.created);
+                ChangeSortFilter(EFilter_Sort.name);
             }
             if (mapType != EFilter_MapType.any)
             {

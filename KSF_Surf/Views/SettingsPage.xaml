@@ -38,17 +38,12 @@
                 </Label>
 
                 <Entry x:Name="SteamIdEntry"
-                       ClearButtonVisibility="WhileEditing"
-                       MaxLength="20"
-                       HorizontalOptions="Fill"
+                       Style="{StaticResource SteamIDEntryStyle}"
                        Grid.Column="1"/>
 
             </Grid>
 
-            <BoxView HorizontalOptions="FillAndExpand"
-                         HeightRequest="1"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+            <BoxView Style="{DynamicResource Separator2Style}"/>
 
             <!-- Game -->
             <Label Text="Default Game"
@@ -91,10 +86,7 @@
                 </Label>
             </Grid>
 
-            <BoxView HorizontalOptions="FillAndExpand"
-                         HeightRequest="1"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+            <BoxView Style="{DynamicResource Separator2Style}"/>
 
             <!-- Style -->
             <Label Text="Default Style"

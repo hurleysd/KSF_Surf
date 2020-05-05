@@ -10,21 +10,9 @@ namespace KSF_Surf.ViewModels
 {
     public class RecordsViewModel : BaseViewModel
     {
-        // objects for HTTP requests
-        private readonly RestClient client;
-        private readonly RestRequest request;
-        private IRestResponse response = null;
-
         public RecordsViewModel()
         {
             Title = "Records";
-
-            client = new RestClient();
-            request = new RestRequest
-            {
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json
-            };
         }
 
         // KSF API calls -------------------------------------------------------------------------------------------

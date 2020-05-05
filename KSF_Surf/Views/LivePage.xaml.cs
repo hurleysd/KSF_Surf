@@ -142,7 +142,6 @@ namespace KSF_Surf.Views
             if (tro == null)
             {
                 // no handling (no streams online or Twitch query failed)
-                Console.WriteLine("Twitch Request returned NULL");
                 StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
                 return;
             }

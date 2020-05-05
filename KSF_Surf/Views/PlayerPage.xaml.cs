@@ -85,7 +85,7 @@ namespace KSF_Surf.Views
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
             if (PlayerNameLabel.Text.Length > 14)
             {
-                PlayerNameLabel.FontSize = 32 * (14.0/PlayerNameLabel.Text.Length);
+                PlayerNameLabel.FontSize = 32 * (13.0/PlayerNameLabel.Text.Length);
             }
 
             PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
@@ -161,15 +161,8 @@ namespace KSF_Surf.Views
             WRsFrame.IsVisible = (wrsType != EFilter_PlayerWRsType.none);
 
             FirstOnlineLabel.Text = String_Formatter.toString_KSFDate(playerInfoData.basicInfo.firstOnline);
-            if (playerInfoData.basicInfo.firstOnline == "0")
-            {
-                FirstOnlineLabel.Text = "Before July 2012";
-            }
             LastSeenLabel.Text = String_Formatter.toString_LastOnline(playerInfoData.basicInfo.lastOnline);
-            if (playerInfoData.basicInfo.lastOnline == "0")
-            {
-                LastSeenLabel.Text = "Before July 2012";
-            }
+
 
             SurfTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.aliveTime, true);
             SpecTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.deadTime, true);

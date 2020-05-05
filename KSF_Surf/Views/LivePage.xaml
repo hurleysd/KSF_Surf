@@ -50,9 +50,7 @@
                                  Grid.Column="1"/>
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                             Color="{DynamicResource ViewBackgroundColor}"
-                             Margin="35,0,15,0"/>
+            <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
                 <Grid.ColumnDefinitions>
@@ -70,9 +68,7 @@
 
             </Grid>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                             Margin="35,0,15,0"/>
+            <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
 
             <Grid Style="{StaticResource ColumnGridStyle}">
                 <Grid.ColumnDefinitions>
@@ -89,10 +85,7 @@
                                  Grid.Column="1"/>
             </Grid>
 
-            <BoxView HorizontalOptions="FillAndExpand"
-                         HeightRequest="1"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"/>
+            <BoxView Style="{DynamicResource Separator2Style}"/>
 
             <!-- Twitch Streams -->
             <Label Text="Surfer Streams"
