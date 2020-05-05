@@ -10,21 +10,10 @@ namespace KSF_Surf.ViewModels
 {
     public class PlayerViewModel : BaseViewModel
     {
-        // objects for HTTP requests
-        private readonly RestClient client;
-        private readonly RestRequest request;
-        private IRestResponse response = null;
 
         public PlayerViewModel()
         {
             Title = "Player";
-
-            client = new RestClient();
-            request = new RestRequest
-            {
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json
-            };
         }
 
         // KSF API calls ------------------------------------------------------------------------------------------------------
@@ -161,10 +150,15 @@ namespace KSF_Surf.ViewModels
             if (!BaseViewModel.hasConnection()) return null;
 
             string steamid64 = SteamIDConverter.Steam32to64(steamid);
-            string key = "";
 
-            client.BaseUrl = new Uri("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + steamid64);
-            await Task.Run(() => response = client.Execute(request));
+            var srequest = new RestRequest
+            {
+                Method = Method.GET
+            };
+            srequest.RequestFormat = DataFormat.Json;
+
+            client.BaseUrl = new Uri("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + BaseViewModel.STEAM + "&steamids=" + steamid64);
+            await Task.Run(() => response = client.Execute(srequest));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {

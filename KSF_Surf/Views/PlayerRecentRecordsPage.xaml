@@ -27,9 +27,7 @@
                          Spacing="10"/>
             </Frame>
 
-            <BoxView Style="{StaticResource SeparatorStyle}"
-                     Color="{DynamicResource ViewBackgroundColor}"
-                     Margin="0,10,0,10"/>
+            <BoxView Style="{StaticResource Separator2Style}"/>
             
             <!-- Recently Set -->
             <Label Text="Recently Set Records"

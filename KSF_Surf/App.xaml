@@ -80,11 +80,36 @@
                 <Setter Property="Margin" Value="20,0,0,0"/>
             </Style>
 
-             <!-- BoxView Style -->
+             <!-- BoxView Styles -->
             <Style x:Key = "SeparatorStyle" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource BorderColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="1"/>
+            </Style>
+            <Style x:Key = "Separator2Style" TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,10,0,10"/>
+            </Style>
+            <Style x:Key = "MiniSeparatorStyle" TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="35,0,15,0"/>
+            </Style>
+
+            <!-- Entry Styles -->
+            <Style x:Key = "SteamIDEntryStyle" TargetType="Entry">
+                <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+                <Setter Property="MaxLength" Value="20"/>
+                <Setter Property="HorizontalOptions" Value="Fill"/>
+            </Style>
+            <Style x:Key = "RankEntryStyle" TargetType="Entry">
+                <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+                <Setter Property="Keyboard" Value="Numeric"/>
+                <Setter Property="MaxLength" Value="7"/>
+                <Setter Property="HorizontalOptions" Value="Fill"/>
             </Style>
 
             <!-- Label Styles -->
@@ -98,6 +123,11 @@
                 <Setter Property="TextColor" Value="{StaticResource UntappedTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key = "LeftLeftColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key = "LeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>

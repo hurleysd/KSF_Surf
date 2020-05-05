@@ -16,6 +16,7 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private readonly int LIST_LIMIT = 25;
+        private readonly int CALL_LIMIT = 250;
 
         // objects possibly used by "Most By Type" calls
         private List<MostPCDatum> mostPCData;
@@ -71,7 +72,7 @@ namespace KSF_Surf.Views
                             return;
                         }
 
-                        leftColString = "Completion";
+                        leftColString = "Amount";
                         foreach (MostPCDatum datum in mostPCData)
                         {
                             players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
@@ -149,7 +150,7 @@ namespace KSF_Surf.Views
                         }
 
                         rightColString = "Map";
-                        leftColString = "Times Broken";
+                        leftColString = "Beaten";
                         foreach (MostContWrDatum datum in mostContWrData)
                         {
                             players.Add(datum.mapName);
@@ -169,10 +170,10 @@ namespace KSF_Surf.Views
                         }
 
                         rightColString = "Zone";
-                        leftColString = "Times Broken";
+                        leftColString = "Beaten";
                         foreach (MostContZoneDatum datum in mostContZoneData)
                         {
-                            string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, false);
+                            string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                             players.Add(datum.mapName + " " + zoneString);
                             values.Add(String_Formatter.toString_Int(datum.total));
                         }
@@ -221,14 +222,13 @@ namespace KSF_Surf.Views
                     Style = App.Current.Resources["GridLabelStyle"] as Style
                 });
             }
-            
-            moreRecords = ((list_index - 1) % LIST_LIMIT == 0);
-            MoreFrame.IsVisible = moreRecords;
 
+            moreRecords = (((list_index - 1) % LIST_LIMIT == 0) && ((list_index - 1) < CALL_LIMIT));
             if (type == EFilter_MostType.playtimeday || type == EFilter_MostType.playtimeweek || type == EFilter_MostType.playtimemonth)
             {
-                MoreFrame.IsVisible = false; // calling with these types again leads to JSON deserialization errors 
+                moreRecords = false; // calling with these types again leads to JSON deserialization errors 
             }
+            MoreFrame.IsVisible = moreRecords;
         }
 
         private void ClearMostByTypeGrid(string rightColText, string leftColText)

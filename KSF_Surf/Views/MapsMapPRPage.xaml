@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.MapsMapPRPage"
+             Title="Personal Record"
+             x:Name="MapsMapPRTab"  
+             Style="{DynamicResource ContentPageStyle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView x:Name="MapsMapPRScollView"
+                Orientation="Vertical">
+        <StackLayout Padding="0"
+                     Spacing="0"
+                     Orientation="Vertical">
+            
+            <!-- Other Page -->
+            <Frame x:Name="ZoneRecordsOption"
+                   Style="{DynamicResource SelectableFrameStyle}"
+                   Margin="0,15,0,0">
+                <StackLayout x:Name="PRButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                    <Label Text="Personal Zone Records"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PR_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+
+            <!-- Personal Record -->
+            <Label x:Name="PRTitleLabel"
+                Style="{DynamicResource HeaderLabel}"
+                LineBreakMode="NoWrap"
+                Margin="20,15,0,0"/>
+
+            <Label Text="Personal Record"
+                Style="{DynamicResource HeaderLabel}"
+                Margin="20,0,0,0"/>
+
+            <StackLayout x:Name="PRStack"
+                     Padding="10,15,10,15"
+                     Orientation="Vertical">
+
+                <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                        <Label Text="Time" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Rank"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                        <Label x:Name="TimeLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="RankLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    </StackLayout>
+                </Grid>
+
+                <BoxView Style="{StaticResource SeparatorStyle}"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Margin="0,10,0,10"/>
+
+                <Label Text="Velocity"
+                   Style="{DynamicResource HeaderLabel}"
+                    Margin="10,0,0,0"/>
+
+                <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="73"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                        <Label Text="Average" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Start"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="End" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                        <Label x:Name="AvgVelLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="StartVelLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="EndVelLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    </StackLayout>
+                </Grid>
+
+                <BoxView Style="{StaticResource SeparatorStyle}"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Margin="0,10,0,10"/>
+
+                <Label Text="Info"
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,0,0,0"/>
+
+                <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                        <Label Text="Date Set" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Last Played"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                        <Label x:Name="DateSetLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="LastPlayedLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    </StackLayout>
+                </Grid>
+
+                <BoxView Style="{StaticResource MiniSeparatorStyle}"/>
+
+                <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="114"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                        <Label Text="Completions" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Time in Zone"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                        <Label x:Name="CompletionsLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="ZoneTimeLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    </StackLayout>
+                </Grid>
+
+                <BoxView Style="{StaticResource SeparatorStyle}"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Margin="0,10,0,10"/>
+
+                <Label Text="First Completion"
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,0,0,0"/>
+
+                <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="0">
+                        <Label Text="Date" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Time Taken"  
+                               Style ="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Attempts" 
+                               Style ="{DynamicResource LeftColStyle}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" 
+                                Grid.Column="1">
+                        <Label x:Name="FirstDateLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="FirstTimeLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                        <Label x:Name="FirstAttemptsLabel" 
+                               Style ="{DynamicResource RightColStyle}"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+
+            <StackLayout x:Name="PagesStack"
+                         Orientation="Vertical"
+                         Padding="0"
+                         Spacing="0">
+                <!-- Other Pages -->
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
+                   VerticalOptions="EndAndExpand">
+                    <StackLayout x:Name="CPRButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Compare to WR"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CPR_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
+                   VerticalOptions="End"
+                   Margin="0,0,0,15">
+                    <StackLayout x:Name="CCPButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Compare to WR Checkpoints"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CCP_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <Label x:Name="NoPRLabel"
+                Text="No personal record found :("
+                TextColor="{DynamicResource GrayTextColor}"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Margin="10,30,10,15"/>
+        </StackLayout>
+     </ScrollView>
+</ContentPage>

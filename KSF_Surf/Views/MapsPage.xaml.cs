@@ -111,7 +111,7 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 MapsCollectionView.VerticalOptions = LayoutOptions.FillAndExpand;
-                ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.created, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+                ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
                 hasLoaded = true;
             }
         }

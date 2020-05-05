@@ -204,4 +204,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\tab_records%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\hesuka_logo_alpha.png" />
+  </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private readonly int LIST_LIMIT = 25;
+        private readonly int CALL_LIMIT = 250;
 
         // objects used by "SurfTop" call
         private List<SurfTopDatum> surfTopData;
@@ -68,7 +69,7 @@ namespace KSF_Surf.Views
                 list_index++;
             }
 
-            moreRecords = ((list_index - 1) % LIST_LIMIT == 0);
+            moreRecords = (((list_index - 1) % LIST_LIMIT == 0) && ((list_index - 1) < CALL_LIMIT));
             MoreFrame.IsVisible = moreRecords;
         }
 

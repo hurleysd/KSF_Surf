@@ -76,7 +76,7 @@ namespace KSF_Surf.Views
                 string rrstring = datum.mapName;
                 if (wrsType != EFilter_PlayerWRsType.wr)
                 {
-                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false);
+                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
                 WRsStack.Children.Add(new Label
                 {

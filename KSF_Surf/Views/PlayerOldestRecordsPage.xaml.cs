@@ -16,6 +16,7 @@ namespace KSF_Surf.Views
         private readonly PlayerViewModel playerViewModel;
         private bool hasLoaded = false;
         private readonly int LIST_LIMIT = 10;
+        private readonly int CALL_LIMIT = 50;
 
         // objects used by "Oldest Records" call
         private List<PlayerOldRecord> oldRecordData;
@@ -82,7 +83,7 @@ namespace KSF_Surf.Views
                 string rrstring = datum.mapName;
                 if (datum.zoneID != null)
                 {
-                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false);
+                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
                 ORStack.Children.Add(new Label
                 {
@@ -106,7 +107,14 @@ namespace KSF_Surf.Views
                     oldestType == EFilter_PlayerOldestType.wrcp ||
                     oldestType == EFilter_PlayerOldestType.wrb)
                 {
-                    rrdiff += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                    if (datum.r2Diff != "0")
+                    {
+                        rrdiff += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                    }
+                    else
+                    {
+                        rrdiff += " (RETAKEN)";
+                    } 
                 }
 
                 rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime) + rrdiff;
@@ -126,7 +134,7 @@ namespace KSF_Surf.Views
                 }
             }
 
-            moreRecords = (i == LIST_LIMIT);
+            moreRecords = ((i == LIST_LIMIT) && list_index < CALL_LIMIT);
             MoreFrame.IsVisible = moreRecords;
 
             if (i == 0) // no recently broken records
@@ -197,6 +205,7 @@ namespace KSF_Surf.Views
                 case "WR": newType = EFilter_PlayerOldestType.wr; break;
                 case "WRCP": newType = EFilter_PlayerOldestType.wrcp; break;
                 case "WRB": newType = EFilter_PlayerOldestType.wrb; break;
+                case "Top10": newType = EFilter_PlayerOldestType.top10; break;
             }
 
             oldestType = newType;

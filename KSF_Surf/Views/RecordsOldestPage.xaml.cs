@@ -16,6 +16,7 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private readonly int LIST_LIMIT = 10;
+        private readonly int CALL_LIMIT = 50;
 
         // objects used by "Oldest Records" call
         private List<OldRecord> oldRecordData;
@@ -71,7 +72,7 @@ namespace KSF_Surf.Views
                 string rrstring = datum.mapName;
                 if (datum.zoneID != null)
                 {
-                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false);
+                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
                 ORStack.Children.Add(new Label
                 {
@@ -87,7 +88,21 @@ namespace KSF_Surf.Views
                 });
 
                 string rrtime = "in " + String_Formatter.toString_RankTime(datum.surfTime);
-                rrtime += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                if (!(datum.r2Diff is null))
+                {
+                    if (datum.r2Diff != "0")
+                    {
+                        rrtime += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                    }
+                    else
+                    {
+                        rrtime += " (RETAKEN)";
+                    }
+                }
+                else
+                {
+                    rrtime += " (WR N/A)";
+                }
                 rrtime += " (" + String_Formatter.toString_LastOnline(datum.date) + ")";
                 ORStack.Children.Add(new Label
                 {
@@ -104,7 +119,7 @@ namespace KSF_Surf.Views
                 }
             }
 
-            moreRecords = (i == LIST_LIMIT);
+            moreRecords = ((i == LIST_LIMIT) && list_index < CALL_LIMIT);
             MoreFrame.IsVisible = moreRecords;
         }
 

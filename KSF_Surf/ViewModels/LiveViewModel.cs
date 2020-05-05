@@ -13,21 +13,9 @@ namespace KSF_Surf.ViewModels
         // object for "Surfer Streams"
         internal TwitchRootObject streams;
 
-        // objects for HTTP requests
-        private readonly RestClient client;
-        private readonly RestRequest request;
-        private IRestResponse response = null;
-
-        public LiveViewModel()
+        public LiveViewModel() : base()
         {
             Title = "Live";
-            
-            client = new RestClient();
-            request = new RestRequest
-            {
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json
-            };
         }
 
         // KSF API call -------------------------------------------------------------------------
@@ -61,9 +49,7 @@ namespace KSF_Surf.ViewModels
         {
             if (!BaseViewModel.hasConnection()) return;
 
-            string clientID = "";
             string query = "https://api.twitch.tv/helix/streams?";
-
             foreach (string username in streamers)
             {
                 query += "user_login=" + username + "&";
@@ -76,7 +62,7 @@ namespace KSF_Surf.ViewModels
             {
                 Method = Method.GET
             };
-            trequest.AddHeader("Client-ID", clientID);
+            trequest.AddHeader("Client-ID", BaseViewModel.TWITCH);
             trequest.RequestFormat = DataFormat.Json;
 
             await Task.Run(() => response = client.Execute(trequest));

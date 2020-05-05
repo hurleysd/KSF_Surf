@@ -11,21 +11,9 @@ namespace KSF_Surf.ViewModels
 {
     public class MapsViewModel : BaseViewModel
     {
-        // objects for HTTP requests
-        private readonly RestClient client;
-        private readonly RestRequest request;
-        private IRestResponse response = null;
-
         public MapsViewModel()
         {
             Title = "Maps";
-
-            client = new RestClient();
-            request = new RestRequest
-            {
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json
-            };
         }
 
         // KSF API calls -----------------------------------------------------------------------------------------------------------
@@ -73,7 +61,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal async Task<MapTopRootObject> GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone)
+        internal async Task<MapTopRootObject> GetMapTop(EFilter_Game game, string map, EFilter_Mode mode, int zone, int start_index)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -82,7 +70,8 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || zone < 0) return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/map/" + map + "/zone/" + zone + "/1,10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/map/" + map + "/zone/" + zone 
+                + "/" + start_index + ",25/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -116,5 +105,52 @@ namespace KSF_Surf.ViewModels
             }
         }
 
+        internal async Task<MapPRInfoRootObject> GetMapPRInfo(EFilter_Game game, EFilter_Mode mode, string map, EFilter_PlayerType playerType, string playerValue)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string playerTypeString = EFilter_ToString.toString(playerType);
+
+            if (gameString == "" || map == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/map/" + map + "/zone/0/" 
+                + playerTypeString + "/" + playerValue + "/recordinfo/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<MapPRInfoRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        internal async Task<MapPRRootObject> GetMapPR(EFilter_Game game, EFilter_Mode mode, string map, EFilter_PlayerType playerType, string playerValue)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string playerTypeString = EFilter_ToString.toString(playerType);
+
+            if (gameString == "" || map == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString 
+                + "/" + playerValue + "/prinfo/map/" + map + "/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<MapPRRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
