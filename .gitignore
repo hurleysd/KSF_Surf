@@ -340,4 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 # Precondition
-Precondition.cs
+KSF_Surf/ViewModels/Precondition.cs
