@@ -20,23 +20,56 @@
         <StackLayout Padding="0"
                      Spacing="0"
                      Orientation="Vertical">
-            
-            <!-- Other Page -->
-            <Frame x:Name="ZoneRecordsOption"
-                   Style="{DynamicResource SelectableFrameStyle}"
-                   Margin="0,15,0,0">
-                <StackLayout x:Name="PRButton"
+
+            <StackLayout x:Name="PagesStack"
+                     Margin="0,15,0,0"
+                     Padding="0"
+                     Spacing="0"
+                     Orientation="Vertical">
+                <!-- Other Pages -->
+                <Frame x:Name="ZoneRecordsOption"
+                   Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="PRButton"
                              Style="{DynamicResource UntappedStackStyle}">
 
-                    <Label Text="Personal Zone Records"
+                        <Label Text="Personal Zone Records"
                            Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="PR_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PR_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame x:Name="CPROption"
+                   Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="CPRButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Compare to WR"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CPR_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame x:Name="CCPOption"
+                   Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="CCPButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Compare to WR by Checkpoints"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CCP_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
 
             <!-- Personal Record -->
             <Label x:Name="PRTitleLabel"
@@ -195,42 +228,6 @@
                                Style ="{DynamicResource RightColStyle}"/>
                     </StackLayout>
                 </Grid>
-            </StackLayout>
-
-            <StackLayout x:Name="PagesStack"
-                         Orientation="Vertical"
-                         Padding="0"
-                         Spacing="0">
-                <!-- Other Pages -->
-                <Frame Style="{DynamicResource SelectableFrameStyle}"
-                   VerticalOptions="EndAndExpand">
-                    <StackLayout x:Name="CPRButton"
-                             Style="{DynamicResource UntappedStackStyle}">
-
-                        <Label Text="Compare to WR"
-                           Style="{DynamicResource NewPageLabelStyle}"/>
-                        <Label Style="{DynamicResource RightArrowStyle}"/>
-
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="CPR_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Frame>
-                <Frame Style="{DynamicResource SelectableFrameStyle}"
-                   VerticalOptions="End"
-                   Margin="0,0,0,15">
-                    <StackLayout x:Name="CCPButton"
-                             Style="{DynamicResource UntappedStackStyle}">
-
-                        <Label Text="Compare to WR Checkpoints"
-                           Style="{DynamicResource NewPageLabelStyle}"/>
-                        <Label Style="{DynamicResource RightArrowStyle}"/>
-
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="CCP_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Frame>
             </StackLayout>
 
             <Label x:Name="NoPRLabel"

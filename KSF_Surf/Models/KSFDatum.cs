@@ -157,7 +157,7 @@ namespace KSF_Surf.Models
         public string playerID { get; set; }
         public BasicInfo basicInfo { get; set; }
         public string recordID { get; set; }
-        public int rank { get; set; }               // 0 or null
+        public int? rank { get; set; }               // 0 or null
         public string totalRanks { get; set; }
         public int? group { get; set; }             // null if none, 0 if top10
         public string time { get; set; }            
@@ -218,6 +218,37 @@ namespace KSF_Surf.Models
     {
         public string status { get; set; }
         public MapPRDatum data { get; set; }
+    }
+
+    // CPR
+
+    public class MapCPRDetails
+    {
+        public string zoneID { get; set; }
+        public string WRTime { get; set; }
+        public string WRTouchVel { get; set; }
+        public string playerTime { get; set; }
+        public string playerTouchVel { get; set; }
+        public string timeDiff { get; set; }
+        public string velDiff { get; set; }
+
+    }
+
+    public class MapCPRDatum
+    {
+        public string mapID { get; set; }
+        public string stageID { get; set; }
+        public string mapType { get; set; }
+        public BasicInfo basicInfo { get; set; }
+        public BasicInfo basicInfoWR { get; set; }
+        public List<MapCPRDetails> CPR { get; set; }
+
+    }
+
+    public class MapCPRRootObject
+    {
+        public string status { get; set; }
+        public MapCPRDatum data { get; set; }
     }
 
     #endregion

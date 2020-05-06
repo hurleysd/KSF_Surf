@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -25,6 +24,7 @@ namespace KSF_Surf.Views
         private EFilter_Mode currentMode = EFilter_Mode.none;
         private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
         private readonly string map;
+        private readonly bool hasZones;
         
         private EFilter_PlayerType playerType;
         private string playerValue;
@@ -38,6 +38,7 @@ namespace KSF_Surf.Views
             this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.map = map;
+            this.hasZones = hasZones;
             playerValue = meSteamID;
             playerSteamID = meSteamID;
             playerType = EFilter_PlayerType.me;
@@ -63,34 +64,37 @@ namespace KSF_Surf.Views
                 return;
             }
 
-            if (prInfoData.time is null || prInfoData.time == "0")
+            currentMode = newMode;
+            playerType = newPlayerType;
+            playerValue = newPlayerValue;
+            playerSteamID = prInfoData.basicInfo.steamID;
+            Title = mapsMapTitle + " " + EFilter_ToString.toString(currentMode) + "]";
+            setTitleLabel(prInfoData.basicInfo.country, prInfoData.basicInfo.name);
+
+            if (prInfoData.time is null || prInfoData.time == "0") // no main completion
             {
                 hidePR();
-                await DisplayAlert("Could not find personal record!", "Player has not completed the map.", "OK");
                 return;
             }
             displayPR();
 
-            currentMode = newMode;
-            playerType = newPlayerType;
-            playerValue = newPlayerValue;
-            Title = mapsMapTitle + " " + EFilter_ToString.toString(currentMode) + "]";
-
-            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prInfoData.basicInfo.country) + prInfoData.basicInfo.name + "'s";
             playerRank = prInfoData.rank.ToString();
-            playerSteamID = prInfoData.basicInfo.steamID;
             LayoutPRInfo();
         }
-
-        
 
         // Dispaying Changes -------------------------------------------------------------------------------
 
         private void LayoutPRInfo()
         {
+            bool isR1 = (prInfoData.rank == 1);
+            CPROption.IsVisible = !isR1;
+            CCPOption.IsVisible = !isR1;
+
+            PagesStack.IsVisible = !(!hasZones && isR1);
+
             // Info -----------------------------------------------------------------
             string time = String_Formatter.toString_RankTime(prInfoData.time) + " (WR";
-            if (prInfoData.rank == 1)
+            if (isR1)
             {
                 if (prInfoData.r2Diff is null || prInfoData.r2Diff == "0")
                 {
@@ -110,7 +114,7 @@ namespace KSF_Surf.Views
             string rank = prInfoData.rank + "/" + prInfoData.totalRanks;
             if (!(prInfoData.group is null))
             {
-                if (prInfoData.rank == 1)
+                if (isR1)
                 {
                     rank = "[WR] " + rank;
                 }
@@ -174,21 +178,30 @@ namespace KSF_Surf.Views
 
         private void hidePR()
         {
-            if (hasLoaded) return;
-
-            PRTitleLabel.Text = "";
+            playerRank = "";
+            CPROption.IsVisible = false;
+            CCPOption.IsVisible = false;
             PRStack.IsVisible = false;
-            PagesStack.IsVisible = false;
             NoPRLabel.IsVisible = true;
         }
 
         private void displayPR()
         {
+            CPROption.IsVisible = true;
+            CCPOption.IsVisible = true;
             PRStack.IsVisible = true;
-            PagesStack.IsVisible = true;
             NoPRLabel.IsVisible = false;
         }
 
+        private void setTitleLabel(string country, string name)
+        {
+            PRTitleLabel.Text = String_Formatter.toEmoji_Country(country) + " " + name;
+            PRTitleLabel.FontSize = 32;
+            if (PRTitleLabel.Text.Length > 25)
+            {
+                PRTitleLabel.FontSize = 32 * (24.0 / PRTitleLabel.Text.Length);
+            }
+        }
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -228,7 +241,7 @@ namespace KSF_Surf.Views
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRDetailsPage(Title,
-                    mapsViewModel, game, currentMode, map, playerSteamID));
+                    mapsViewModel, game, currentMode, defaultMode, map, playerSteamID));
             }
             else
             {
@@ -242,7 +255,8 @@ namespace KSF_Surf.Views
             CPRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                
+                await Navigation.PushAsync(new MapsMapCPRPage(Title,
+                    mapsViewModel, game, currentMode, map, playerSteamID));
             }
             else
             {
