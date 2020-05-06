@@ -4,25 +4,24 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="KSF_Surf.Views.MapsMapPRDetailsPage"
-             Title="Personal Record Details"
-             x:Name="MapsMapPRDetialsTab"  
+             x:Class="KSF_Surf.Views.MapsMapCPRPage"
+             Title="Comparing PR to WR"
+             x:Name="MapsMapCPRTab"  
              Style="{DynamicResource ContentPageStyle}">
 
     <ScrollView Orientation="Vertical">
         <StackLayout Orientation="Vertical"
                      Padding="0"
                      Spacing="0">
-            <Label x:Name="PRTitleLabel"
-                   Text="Personal Zone Records"
-                Style="{DynamicResource HeaderLabel}"
-                LineBreakMode="NoWrap"
-                Margin="20,15,0,0"/>
-            <!-- Personal Record -->
-            <StackLayout x:Name="ZoneRecordStack"
+            <Label x:Name="WRPlayer" 
+                   Style="{DynamicResource HeaderLabel}"
+                   LineBreakMode="NoWrap"
+                   Margin="20,15,0,0"/>
+            <!-- CPR -->
+            <StackLayout x:Name="CPRStack"
                          Padding="10,0,10,30"
                          Orientation="Vertical"/>
-
+           
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -11,6 +11,7 @@ using UIKit;
 using RestSharp;
 
 using KSF_Surf.Models;
+using System.Text.RegularExpressions;
 
 namespace KSF_Surf.ViewModels
 {
@@ -496,6 +497,32 @@ namespace KSF_Surf.ViewModels
                     zoneString = "Main";
                 }
             }
+            return zoneString;
+        }
+
+        public static string CPRZoneFormatter(string z, EFilter_MapType mapType)
+        {
+            string zoneString = "";
+            int zone = int.Parse(z);
+
+            if (zone == 1)
+            {
+                return "Start";
+            }
+            else if (zone == 0)
+            {
+                return "End";
+            }
+
+            if (mapType == EFilter_MapType.staged)
+            {
+                zoneString = "Stage " + zone;
+            }
+            else if (mapType == EFilter_MapType.linear)
+            {
+                zoneString = "Checkpoint " + (zone - 1);
+            }
+
             return zoneString;
         }
 

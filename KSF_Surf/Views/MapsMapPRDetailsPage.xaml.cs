@@ -24,17 +24,17 @@ namespace KSF_Surf.Views
         private readonly EFilter_Mode mode;
         private readonly string map;
         
-        private string playerSteamId;
+        private string playerSteamID;
 
-        public MapsMapPRDetailsPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, EFilter_Mode mode, 
-            string map, string playerSteamID)
+        public MapsMapPRDetailsPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, EFilter_Mode mode,
+            EFilter_Mode defaultMode, string map, string playerSteamID)
         {
             mapsMapTitle = title;
             this.mapsViewModel = mapsViewModel;
             this.game = game;
-            this.mode = mode;
+            this.mode = (mode == EFilter_Mode.none)? defaultMode : mode;
             this.map = map;
-            this.playerSteamId = playerSteamID;
+            this.playerSteamID = playerSteamID;
 
             InitializeComponent();
             Title = title;
@@ -45,11 +45,16 @@ namespace KSF_Surf.Views
 
         private async Task ChangePRDetails()
         {
-            var prDatum = await mapsViewModel.GetMapPR(game, mode, map, EFilter_PlayerType.steamid, playerSteamId);
+            var prDatum = await mapsViewModel.GetMapPR(game, mode, map, EFilter_PlayerType.steamid, playerSteamID);
             mapPRDetails = prDatum?.data.PRInfo;
-            if (mapPRDetails is null || mapPRDetails.Count < 1) return;
+            if (mapPRDetails is null) return;
 
-            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prDatum.data.basicInfo.country) + prDatum.data.basicInfo.name;
+            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prDatum.data.basicInfo.country) + " " + prDatum.data.basicInfo.name;
+            PRTitleLabel.FontSize = 32;
+            if (PRTitleLabel.Text.Length > 15)
+            {
+                PRTitleLabel.FontSize = 32 * (14.0 / PRTitleLabel.Text.Length);
+            }
             LayoutPRDetails();
         }
 
@@ -57,10 +62,13 @@ namespace KSF_Surf.Views
 
         private void LayoutPRDetails()
         {
+            string units = " u/s";
             int i = 0;
+
             foreach (MapPRDetails zonePR in mapPRDetails)
             {
-                if (zonePR.surfTime is null || zonePR.surfTime == "0" || zonePR.zoneID == "0") continue;
+                if (zonePR.zoneID == "0") continue;
+                bool noTime = (zonePR.surfTime is null || zonePR.surfTime == "0");
 
                 if (i != 0)
                 {
@@ -99,39 +107,62 @@ namespace KSF_Surf.Views
                     }
                 }, 0, 0);
 
-                string rank = zonePR.rank + "/" + zonePR.totalRanks;
-                if (zonePR.rank == "1")
+                if (noTime)
                 {
-                    rank = "[WR] " + rank;
+                    recordGrid.Children.Add(new StackLayout
+                    {
+                        Children = {
+                            new Label {
+                                Text = "None",
+                                Style = App.Current.Resources["RightColStyle"] as Style
+                            },
+                            new Label {
+                                Text = "N/A",
+                                Style = App.Current.Resources["RightColStyle"] as Style
+                            },
+                        }
+                    }, 1, 0);
                 }
-                else if (int.Parse(zonePR.rank) <= 10)
+                else
                 {
-                    rank = "[Top10] " + rank;
-                }
-
-                recordGrid.Children.Add(new StackLayout
-                {
-                    Children = {
-                        new Label {
-                            Text = String_Formatter.toString_RankTime(zonePR.surfTime),
-                            Style = App.Current.Resources["RightColStyle"] as Style
-                        },
-                        new Label {
-                            Text = rank,
-                            Style = App.Current.Resources["RightColStyle"] as Style
-                        },
+                    string rank = zonePR.rank + "/" + zonePR.totalRanks;
+                    if (zonePR.rank == "1")
+                    {
+                        rank = "[WR] " + rank;
                     }
-                }, 1, 0);
+                    else if (int.Parse(zonePR.rank) <= 10)
+                    {
+                        rank = "[Top10] " + rank;
+                    }
+
+                    recordGrid.Children.Add(new StackLayout
+                    {
+                        Children = {
+                            new Label {
+                                Text = String_Formatter.toString_RankTime(zonePR.surfTime),
+                                Style = App.Current.Resources["RightColStyle"] as Style
+                            },
+                            new Label {
+                                Text = rank,
+                                Style = App.Current.Resources["RightColStyle"] as Style
+                            },
+                        }
+                    }, 1, 0);
+                }
 
                 ZoneRecordStack.Children.Add(recordGrid);
+                if (noTime)
+                {
+                    i++;
+                    continue;
+                }
+
                 ZoneRecordStack.Children.Add(new BoxView
                 {
                     Style = App.Current.Resources["MiniSeparatorStyle"] as Style
                 });
 
                 // Velocity -------------------------------------------------------------
-                string units = " u/s";
-
                 Grid velGrid = new Grid
                 {
                     ColumnDefinitions = {
@@ -237,15 +268,6 @@ namespace KSF_Surf.Views
 
                 ZoneRecordStack.Children.Add(compGrid);
                 i++;
-            }
-
-            if (i == 0) // no zone records
-            {
-                ZoneRecordStack.IsVisible = false;
-            }
-            else
-            {
-                NoPRLabel.IsVisible = false;
             }
         }
 
