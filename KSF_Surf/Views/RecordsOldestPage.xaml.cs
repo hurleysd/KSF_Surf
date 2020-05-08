@@ -48,7 +48,7 @@ namespace KSF_Surf.Views
             oldRecordData = oldRecordDatum?.data;
             if (oldRecordData is null) return;
 
-            ORTypeOptionLabel.Text = "[Type: " + EFilter_ToString.toString2(type) + "]";
+            ORTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(type);
             if (list_index == 1) ORStack.Children.Clear();
             LayoutRecords();
         }

@@ -31,9 +31,7 @@
 
 
                     <Label x:Name="RRTypeOptionLabel"
-                           VerticalOptions="End"
-                           FontSize="16"
-                           TextColor="{StaticResource TappedTextColor}"
+                           Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>

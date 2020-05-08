@@ -66,7 +66,7 @@ namespace KSF_Surf.Views
         private void LayoutRecentRecords(string typeString)
         {
             Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
-            RRTypeOptionLabel.Text = "[Type: " + typeString + "]";
+            RRTypeOptionLabel.Text = "Type: " + typeString;
 
             RecordsStack.Children.Clear();
 

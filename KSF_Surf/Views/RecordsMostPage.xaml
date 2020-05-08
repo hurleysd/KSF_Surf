@@ -20,9 +20,7 @@
                            Padding="10,0,0,10"/>
 
                 <Label x:Name="MostTypeOptionLabel"
-                        VerticalOptions="End"
-                        FontSize="16"
-                        TextColor="{StaticResource TappedTextColor}"
+                       Style="{StaticResource TypeLabelStyle}"
                         HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>

@@ -124,10 +124,16 @@
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
             </Style>
+            <Style x:Key = "TypeLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
+                <Setter Property="VerticalOptions" Value="End"/>
+            </Style>
             <Style x:Key = "LeftLeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
             <Style x:Key = "LeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>

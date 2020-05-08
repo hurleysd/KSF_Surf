@@ -26,16 +26,12 @@ namespace KSF_Surf.Views
         // object for "Surfer Streams"
         private ObservableCollection<TwitchDatum> streamData;
 
-        // colors
-        private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
-        private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
-
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
 
             InitializeComponent();
-            //StreamsRefreshView.Command = new Command(StreamsRefresh);
+            LiveRefreshView.Command = new Command(LiveRefresh);
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -74,6 +70,13 @@ namespace KSF_Surf.Views
             csgo_serverData = csgos_ServerDatum?.data;
 
             if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
+
+            CSSServerStack.Children.Clear();
+            CSSMapsStack.Children.Clear();
+            CSS100TServerStack.Children.Clear();
+            CSS100TMapsStack.Children.Clear();
+            CSGOServerStack.Children.Clear();
+            CSGOMapsStack.Children.Clear();
 
             foreach (KSFServerDatum datum in css_serverData)
             {
@@ -189,17 +192,18 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void StreamsRefresh()
+        private async void LiveRefresh()
         {
             if (BaseViewModel.hasConnection())
             {
                 await LoadStreams();
+                await LoadServers();
             }
             else
             {
-                await DisplayAlert("Could not connect to Twitch", "Please connect to the Internet.", "OK");
+                await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
-            //StreamsRefreshView.IsRefreshing = false;
+            LiveRefreshView.IsRefreshing = false;
         }
 
         private async void Settings_Pressed(object sender, EventArgs e)

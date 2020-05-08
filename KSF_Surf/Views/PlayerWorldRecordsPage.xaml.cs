@@ -52,7 +52,7 @@ namespace KSF_Surf.Views
             worldRecordsData = worldRecordsDatum?.data.records;
             if (worldRecordsData is null) return;
 
-            WRTypeOptionLabel.Text = "[Type: " + EFilter_ToString.toString2(type) + "]";
+            WRTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(type);
             if (list_index == 1) WRsStack.Children.Clear();
             LayoutRecords();
         }

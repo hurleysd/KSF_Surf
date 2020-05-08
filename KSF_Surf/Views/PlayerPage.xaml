@@ -78,7 +78,7 @@
                     <Label x:Name ="PlayerAttributesLabel"
                            Style="{StaticResource ProfileLabelStyle}"
                            TextColor="{DynamicResource HeaderTextColor}"
-                           FontSize="16"
+                           FontSize="14"
                            Grid.Column="1"
                            Grid.Row="2"/>
                 </Grid>
