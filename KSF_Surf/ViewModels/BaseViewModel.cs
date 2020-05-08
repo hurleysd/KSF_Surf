@@ -534,7 +534,7 @@ namespace KSF_Surf.ViewModels
 
         public static string getRankTitle(string rankString, string pointsString)
         {
-            string title = "";
+            string title;
 
             int rank = int.Parse(rankString);
             double points = double.Parse(pointsString);
@@ -600,10 +600,9 @@ namespace KSF_Surf.ViewModels
     {
         public static string toString_CompletionPercent(string completeString, string totalString)
         {
-            int percent = 0;
             int complete = int.Parse(completeString);
             int total = int.Parse(totalString);
-            percent = (int)(((double)complete / total) * 100);
+            int percent = (int)(((double)complete / total) * 100);
             return percent + "%";
         }
 
@@ -695,7 +694,7 @@ namespace KSF_Surf.ViewModels
 
         public static string toEmoji_Country(string country)
         {
-            string emoji = "";
+            string emoji;
             switch (country)
             {
                 case "Ascension Island": emoji = "\U0000001F1E6\U0001F1E8"; break;
@@ -959,7 +958,7 @@ namespace KSF_Surf.ViewModels
                 case "South Africa": emoji = "\U0001F1FF\U0001F1E6"; break;
                 case "Zambia": emoji = "\U0001F1FF\U0001F1F2"; break;
                 case "Zimbabwe": emoji = "\U0001F1FF\U0001F1FC"; break;
-                default: break;
+                default: emoji = "\U0001F3F3"; break;
             }
             return emoji;
         }

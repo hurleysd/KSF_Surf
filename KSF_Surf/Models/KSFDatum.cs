@@ -251,6 +251,39 @@ namespace KSF_Surf.Models
         public MapCPRDatum data { get; set; }
     }
 
+    // CCP
+
+    public class MapCCPDetails
+    {
+        public string zoneID { get; set; }
+        public string cpTimeWR { get; set; }
+        public string avgVelWR { get; set; }
+        public string attemptsWR { get; set; }
+        public string cpTimePlayer { get; set; }
+        public string avgVelPlayer { get; set; }
+        public string attemptsPlayer { get; set; }
+        public string rankPlayer { get; set; }
+        public string totalRanks { get; set; }
+
+    }
+
+    public class MapCCPDatum
+    {
+        public string mapID { get; set; }
+        public string stageID { get; set; }
+        public string mapType { get; set; }
+        public BasicInfo basicInfo { get; set; }
+        public BasicInfo basicInfoWR { get; set; }
+        public List<MapCCPDetails> CCP { get; set; }
+
+    }
+
+    public class MapCCPRootObject
+    {
+        public string status { get; set; }
+        public MapCCPDatum data { get; set; }
+    }
+
     #endregion
     // RecordsPage -------------------------------------------------------------------
     #region RecordsPage

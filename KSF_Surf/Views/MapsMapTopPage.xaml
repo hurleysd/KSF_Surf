@@ -24,15 +24,14 @@
                      Orientation="Vertical">
 
             <!-- Map top 10  -->
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal"
+                         Spacing="14">
                 <Label Text="Map Top"
                        Style="{DynamicResource HeaderLabel}"
                        Padding="10,0,0,10"/>
 
                 <Label x:Name="ZoneOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
+                       Style="{StaticResource TypeLabelStyle}"
                        HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
@@ -40,9 +39,7 @@
                 </Label>
 
                 <Label x:Name="StyleOptionLabel"
-                       VerticalOptions="End"
-                       FontSize="16"
-                       TextColor="{StaticResource TappedTextColor}"
+                       Style="{StaticResource TypeLabelStyle}"
                        HorizontalOptions="End">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>

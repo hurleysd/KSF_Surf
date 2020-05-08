@@ -63,8 +63,8 @@ namespace KSF_Surf.Views
             topData = topDatum?.data;
             if (topData is null)
             {
-                StyleOptionLabel.Text = "[Style: " + EFilter_ToString.toString(currentMode) + "]";
-                ZoneOptionLabel.Text = "[Zone: " + currentZoneString + "]";
+                StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
+                ZoneOptionLabel.Text = "Zone: " + currentZoneString;
                 await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " Main completions.", "Be the first!", "OK");
                 return;
             };
@@ -76,8 +76,8 @@ namespace KSF_Surf.Views
 
         private void LayoutTop(string modeString, string zone)
         {
-            StyleOptionLabel.Text = "[Style: " + modeString + "]";
-            ZoneOptionLabel.Text = "[Zone: " + zone + "]";
+            StyleOptionLabel.Text = "Style: " + modeString;
+            ZoneOptionLabel.Text = "Zone: " + zone;
 
             foreach (TopDatum datum in topData)
             {

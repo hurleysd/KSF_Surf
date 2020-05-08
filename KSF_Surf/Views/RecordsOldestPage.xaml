@@ -21,9 +21,7 @@
                            HorizontalOptions="StartAndExpand"/>
 
                 <Label x:Name="ORTypeOptionLabel"
-                           VerticalOptions="End"
-                           FontSize="16"
-                           TextColor="{StaticResource TappedTextColor}"
+                        Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>

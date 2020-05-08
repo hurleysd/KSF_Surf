@@ -25,6 +25,7 @@ namespace KSF_Surf.Views
         private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
         private readonly string map;
         private readonly bool hasZones;
+        private readonly bool hasStages;
         
         private EFilter_PlayerType playerType;
         private string playerValue;
@@ -32,13 +33,15 @@ namespace KSF_Surf.Views
         private string playerRank;
         private readonly string meSteamID  = BaseViewModel.propertiesDict_getSteamID();
 
-        public MapsMapPRPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, string map, bool hasZones)
+        public MapsMapPRPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, string map, bool hasZones, bool hasStages)
         {
             mapsMapTitle = title;
             this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.map = map;
             this.hasZones = hasZones;
+            this.hasStages = hasStages;
+            
             playerValue = meSteamID;
             playerSteamID = meSteamID;
             playerType = EFilter_PlayerType.me;
@@ -46,6 +49,7 @@ namespace KSF_Surf.Views
             InitializeComponent();
             Title = mapsMapTitle + " " + EFilter_ToString.toString(defaultMode) + "]";
             if (!hasZones) ZoneRecordsOption.IsVisible = false;
+            if (!hasStages) CCPOption.IsVisible = false;
         }
 
         // UI -----------------------------------------------------------------------------------------------
@@ -88,7 +92,7 @@ namespace KSF_Surf.Views
         {
             bool isR1 = (prInfoData.rank == 1);
             CPROption.IsVisible = !isR1;
-            CCPOption.IsVisible = !isR1;
+            if (hasStages) CCPOption.IsVisible = !isR1;
 
             PagesStack.IsVisible = !(!hasZones && isR1);
 
@@ -181,6 +185,8 @@ namespace KSF_Surf.Views
             playerRank = "";
             CPROption.IsVisible = false;
             CCPOption.IsVisible = false;
+            if (!hasZones) PagesStack.IsVisible = false;
+            
             PRStack.IsVisible = false;
             NoPRLabel.IsVisible = true;
         }
@@ -188,7 +194,9 @@ namespace KSF_Surf.Views
         private void displayPR()
         {
             CPROption.IsVisible = true;
-            CCPOption.IsVisible = true;
+            if (hasStages) CCPOption.IsVisible = true;
+            PagesStack.IsVisible = true;
+
             PRStack.IsVisible = true;
             NoPRLabel.IsVisible = false;
         }
@@ -270,7 +278,8 @@ namespace KSF_Surf.Views
             CCPButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                
+                await Navigation.PushAsync(new MapsMapCCPPage(Title,
+                    mapsViewModel, game, currentMode, map, playerSteamID));
             }
             else
             {

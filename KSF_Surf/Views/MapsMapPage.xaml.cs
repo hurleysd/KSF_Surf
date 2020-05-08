@@ -267,7 +267,8 @@ namespace KSF_Surf.Views
             PRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), mapsViewModel, game, map, (stageCount + bonusCount > 0)));
+                await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), mapsViewModel, game, map, 
+                    (stageCount + bonusCount > 0), (mapType == EFilter_MapType.staged)));
             }
             else
             {

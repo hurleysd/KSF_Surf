@@ -176,5 +176,29 @@ namespace KSF_Surf.ViewModels
                 return null;
             }
         }
+
+        internal async Task<MapCCPRootObject> GetMapCCP(EFilter_Game game, EFilter_Mode mode, string map, EFilter_PlayerType playerType, string playerValue)
+        {
+            if (!BaseViewModel.hasConnection()) return null;
+
+            string gameString = EFilter_ToString.toString(game);
+            string modeString = ((int)mode).ToString();
+            string playerTypeString = EFilter_ToString.toString(playerType);
+
+            if (gameString == "" || map == "" || playerValue == "") return null;
+
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString
+                + "/" + playerValue + "/ccp/map/" + map + "/" + modeString);
+            await Task.Run(() => response = client.Execute(request));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<MapCCPRootObject>(response.Content);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

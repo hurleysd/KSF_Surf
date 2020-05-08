@@ -199,7 +199,7 @@ namespace KSF_Surf.Views
                 default: return;
             }
 
-            MostTypeOptionLabel.Text = "[Type: " + EFilter_ToString.toString2(type) + "]";
+            MostTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(type);
 
             if (clearGrid) ClearMostByTypeGrid(rightColString, leftColString);
             LayoutMostByType(type, players, values);

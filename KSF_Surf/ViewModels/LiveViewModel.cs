@@ -142,7 +142,9 @@ namespace KSF_Surf.ViewModels
             "louieismyname",
             "konga",
             "mbnlol",
-            "granis_"
+            "granis_",
+            "taiikii",
+            "benowy"
         };
 
         #endregion
