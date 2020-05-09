@@ -3,5 +3,7 @@
 ## DESCRIPTION
 A .NET mobile application for KSF surf news, information, and statistics. Developed using Visual Studio with Xamarin.Forms and NewtonSoft. The current focus will be on the iOS version with Android soon after. 
 
+This application interfaces the APIs of KSF, Twitch, and Steam to gather data about players, maps, records, and live streams.
+
 ## AUTHOR
 **[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *JMU Computer Science Class of 2020* 
