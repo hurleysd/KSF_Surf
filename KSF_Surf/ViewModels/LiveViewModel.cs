@@ -144,7 +144,8 @@ namespace KSF_Surf.ViewModels
             "mbnlol",
             "granis_",
             "taiikii",
-            "benowy"
+            "benowy",
+            "melinder"
         };
 
         #endregion

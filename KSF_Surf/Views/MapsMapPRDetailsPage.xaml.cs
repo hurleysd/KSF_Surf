@@ -50,11 +50,6 @@ namespace KSF_Surf.Views
             if (mapPRDetails is null) return;
 
             PRTitleLabel.Text = String_Formatter.toEmoji_Country(prDatum.data.basicInfo.country) + " " + prDatum.data.basicInfo.name;
-            PRTitleLabel.FontSize = 32;
-            if (PRTitleLabel.Text.Length > 15)
-            {
-                PRTitleLabel.FontSize = 32 * (14.0 / PRTitleLabel.Text.Length);
-            }
             LayoutPRDetails();
         }
 
@@ -280,6 +275,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangePRDetails();
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapPRDetailsScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

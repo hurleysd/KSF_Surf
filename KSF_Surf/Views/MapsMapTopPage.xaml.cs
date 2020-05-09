@@ -126,6 +126,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeRecords();
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapTopScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -143,6 +146,7 @@ namespace KSF_Surf.Views
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
+            LoadingAnimation.IsRunning = true;
 
             EFilter_Mode newCurrentMode = EFilter_Mode.fw;
             switch (newStyle)
@@ -157,6 +161,7 @@ namespace KSF_Surf.Views
             List<TopDatum> newTopData = newTopDatum?.data;
             if (newTopData is null)
             {
+                LoadingAnimation.IsRunning = false;
                 await DisplayAlert("No " + newStyle + " " + currentZoneString + " completions.", "Be the first!", "OK");
                 return;
             }
@@ -165,7 +170,10 @@ namespace KSF_Surf.Views
 
             list_index = 1;
             ClearTopGrid();
+
+            
             LayoutTop(newStyle, currentZoneString);
+            LoadingAnimation.IsRunning = false;
         }
 
         private void ZoneOptionLabel_Tapped(object sender, EventArgs e)
@@ -181,6 +189,7 @@ namespace KSF_Surf.Views
             {
                 return;
             }
+            LoadingAnimation.IsRunning = true;
 
             int newZoneNum = -1;
             switch (selected[0])
@@ -196,6 +205,7 @@ namespace KSF_Surf.Views
                 List<TopDatum> newTopData = newTopDatum?.data;
                 if (newTopData is null)
                 {
+                    LoadingAnimation.IsRunning = false;
                     await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " " + selected + " completions.", "Be the first!", "OK");
                     return;
                 }
@@ -206,7 +216,9 @@ namespace KSF_Surf.Views
 
                 list_index = 1;
                 ClearTopGrid();
+
                 LayoutTop(EFilter_ToString.toString(currentMode), currentZoneString);
+                LoadingAnimation.IsRunning = false;
             }
         }
 

@@ -16,10 +16,15 @@
     </ContentPage.ToolbarItems>
 
     <!-- Search Bar -->
-    <StackLayout Orientation="Vertical"
-                 Spacing="0"
-                 Margin="0">
-        <SearchBar x:Name="MapsSearchBar"
+    <AbsoluteLayout>
+        <StackLayout x:Name="MapsStack"
+                Orientation="Vertical"
+                Spacing="0"
+                Margin="0"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                IsVisible="False">
+            <SearchBar x:Name="MapsSearchBar"
                     Placeholder="Search maps..."
                     FontSize="20"
                     TextColor="{DynamicResource HeaderTextColor}"
@@ -28,41 +33,46 @@
                     Focused="SearchBarFocused"
                     Unfocused="SearchBarUnfocused"/>
 
-        <BoxView Color="{DynamicResource ViewBackgroundColor}"
+            <BoxView Color="{DynamicResource ViewBackgroundColor}"
                          HeightRequest="1"
                          HorizontalOptions="Fill"/>
 
-        <!-- Maps List -->
-        <CollectionView x:Name="MapsCollectionView"
+            <!-- Maps List -->
+            <CollectionView x:Name="MapsCollectionView"
                         BackgroundColor="{DynamicResource SeparatorColor}"
                         SelectionMode="Single"
                         SelectionChanged="Map_SelectionChanged"
                         VerticalScrollBarVisibility="Default">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Vertical"
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Vertical"
                                      Padding="15, 10, 0, 0">
-                        <Label Text="{Binding .}"
+                            <Label Text="{Binding .}"
                                    TextColor="{DynamicResource HeaderTextColor}"
                                    FontSize ="20"/>
-                        <BoxView HorizontalOptions="FillAndExpand"
+                            <BoxView HorizontalOptions="FillAndExpand"
                                      HeightRequest="1"
                                      Color="{DynamicResource ViewBackgroundColor}"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.EmptyView>
-                <Label x:Name="MapsCollectionEmptyViewLabel"
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label x:Name="MapsCollectionEmptyViewLabel"
                            Text="No maps matched your filter"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"
                            HorizontalTextAlignment="Center"
                            Padding="20"/>
-            </CollectionView.EmptyView>
-        </CollectionView>
-    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

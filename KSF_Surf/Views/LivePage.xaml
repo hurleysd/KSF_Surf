@@ -25,146 +25,156 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <RefreshView x:Name="LiveRefreshView">
-        <ScrollView Orientation="Vertical">
-            <StackLayout Orientation="Vertical"
+    <AbsoluteLayout>
+        <RefreshView x:Name="LiveRefreshView"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
+            <ScrollView Orientation="Vertical">
+                <StackLayout Orientation="Vertical"
                      Padding="0"
                      Spacing="0">
 
-                <!-- Twitch Streams -->
-                <Label Text="Surfer Streams"
+                    <!-- Twitch Streams -->
+                    <Label Text="Surfer Streams"
                        Style="{DynamicResource HeaderLabel}"
                        Margin="20,15,10,10"/>
 
-                <Frame Style="{DynamicResource SelectableFrameStyle}">
-                    <CollectionView x:Name ="StreamsCollectionView"
+                    <Frame Style="{DynamicResource SelectableFrameStyle}">
+                        <CollectionView x:Name ="StreamsCollectionView"
                             ItemsSource="{Binding Streams}"
                             SelectionMode="Single"
                             SelectionChanged="Stream_SelectionChanged"      
                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
                             HeightRequest="133"
-                            HorizontalOptions="Fill">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="9,10,9,10"
+                            HorizontalOptions="Fill"
+                            HorizontalScrollBarVisibility="Never">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="9,10,9,10"
                                           RowSpacing="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="128"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="72"/>
-                                        <RowDefinition Height="26"/>
-                                        <RowDefinition Height="15"/>
-                                    </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="128"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72"/>
+                                            <RowDefinition Height="26"/>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
 
-                                    <Frame CornerRadius="6"
+                                        <Frame CornerRadius="6"
                                                BorderColor="{StaticResource TwitchPurpleColor}"
                                                HasShadow="False"
                                                Grid.Row="0"
                                                IsClippedToBounds="True"
                                                Padding="0">
-                                        <Image Source="{Binding thumbnail_url}"/>
-                                    </Frame>
+                                            <Image Source="{Binding thumbnail_url}"/>
+                                        </Frame>
 
-                                    <Label Text="{Binding user_name}"
+                                        <Label Text="{Binding user_name}"
                                                LineBreakMode="NoWrap"
                                                TextColor="{DynamicResource HeaderTextColor}"
                                                FontSize="17"
                                                Grid.Row="1"
                                                VerticalOptions="Center"/>
 
-                                    <Label Text="{Binding title}"
+                                        <Label Text="{Binding title}"
                                                LineBreakMode="NoWrap"
                                                FontSize="10"
                                                TextColor="{StaticResource TwitchPurpleColor}"
                                                VerticalOptions="Center"
                                                Grid.Row="2"/>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.EmptyView>
-                            <Label Text="No streams online :("
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="No streams online :("
                                    TextColor="{DynamicResource GrayTextColor}"
                                    FontSize="20"
                                    HorizontalOptions="Fill"
                                    VerticalOptions="Fill"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"/>
-                        </CollectionView.EmptyView>
-                    </CollectionView>
-                </Frame>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </Frame>
 
-                <StackLayout Orientation="Vertical"
+                    <StackLayout Orientation="Vertical"
                      Padding="10,15,10,15">
 
-                    <!-- Servers -->
-                    <Label Text="KSFClan Servers"
+                        <!-- Servers -->
+                        <Label Text="KSFClan Servers"
                        Style="{DynamicResource HeaderLabel}"
                        Margin="10,0,0,0"/>
 
-                    <Label Text="CS:S"
-                       Style="{DynamicResource LeftLeftColStyle}"
-                       Margin="20,10,0,0"/>
+                        <Label Text="CS:S"
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,0"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="115"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid Style="{StaticResource ColumnGridStyle}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackLayout x:Name="CSSServerStack" 
+                            <StackLayout x:Name="CSSServerStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="0"/>
 
-                        <StackLayout x:Name="CSSMapsStack" 
+                            <StackLayout x:Name="CSSMapsStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="1"/>
-                    </Grid>
+                        </Grid>
 
-                    <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
+                        <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="115"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid Style="{StaticResource ColumnGridStyle}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackLayout x:Name="CSS100TServerStack" 
+                            <StackLayout x:Name="CSS100TServerStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="0"/>
 
-                        <StackLayout x:Name="CSS100TMapsStack" 
+                            <StackLayout x:Name="CSS100TMapsStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="1"/>
 
-                    </Grid>
+                        </Grid>
 
-                    <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
+                        <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
 
-                    <Label Text="CS:GO"
-                       Style="{DynamicResource LeftLeftColStyle}"
-                       Margin="20,10,0,0"/>
+                        <Label Text="CS:GO"
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,10,0,0"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="115"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid Style="{StaticResource ColumnGridStyle}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="115"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackLayout x:Name="CSGOServerStack" 
+                            <StackLayout x:Name="CSGOServerStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="0"/>
 
-                        <StackLayout x:Name="CSGOMapsStack" 
+                            <StackLayout x:Name="CSGOMapsStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="1"/>
-                    </Grid>
+                        </Grid>
 
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </RefreshView>
+            </ScrollView>
+        </RefreshView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

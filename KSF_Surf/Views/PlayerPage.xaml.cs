@@ -63,7 +63,12 @@ namespace KSF_Surf.Views
             playerSteamId = playerInfoData.basicInfo.steamID;
             playerRank = playerInfoData.SurfRank;
 
-            Title = playerInfoData.basicInfo.name + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            string playerName = playerInfoData.basicInfo.name;
+            if (playerName.Length > 18)
+            {
+                playerName = playerName.Substring(0, 18) + "...";
+            }
+            Title = playerName + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
 
             var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamId);
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
@@ -80,14 +85,7 @@ namespace KSF_Surf.Views
         private void LayoutPlayerProfile()
         {
             PlayerImage.Source = playerSteamProfile.avatarfull;
-
-            PlayerNameLabel.FontSize = 32;
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
-            if (PlayerNameLabel.Text.Length > 14)
-            {
-                PlayerNameLabel.FontSize = 32 * (13.0/PlayerNameLabel.Text.Length);
-            }
-
             PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 
             List<string> attributes = new List<string>();
@@ -366,6 +364,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamId);
+
+                LoadingAnimation.IsRunning = false;
+                PlayerPageScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -388,7 +389,9 @@ namespace KSF_Surf.Views
         {
             if (BaseViewModel.hasConnection())
             {
+                LoadingAnimation.IsRunning = true;
                 await ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
+                LoadingAnimation.IsRunning = false;
             }
             else
             {

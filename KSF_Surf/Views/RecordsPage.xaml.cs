@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
+using System.Linq.Expressions;
 
 namespace KSF_Surf.Views
 {
@@ -121,7 +122,7 @@ namespace KSF_Surf.Views
 
         private void LayoutRecentRecords10()
         {
-            RRTypeOptionLabel.Text = "[Type: Top10]";
+            RRTypeOptionLabel.Text = "Type: Top10";
 
             RecordsStack.Children.Clear();
 
@@ -177,6 +178,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeRecentRecords(game, recentRecordsType, mode);
+
+                LoadingAnimation.IsRunning = false;
+                RecordsPageScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -206,7 +210,10 @@ namespace KSF_Surf.Views
             }
 
             recentRecordsType = newType;
+
+            LoadingAnimation.IsRunning = true;
             await ChangeRecentRecords(game, recentRecordsType, mode);
+            LoadingAnimation.IsRunning = false;
         }
 
         
@@ -231,8 +238,10 @@ namespace KSF_Surf.Views
 
                 game = newGame;
                 mode = newMode;
-                
+
+                LoadingAnimation.IsRunning = true;
                 await ChangeRecentRecords(game, recentRecordsType, mode);
+                LoadingAnimation.IsRunning = false;
             }
             else
             {

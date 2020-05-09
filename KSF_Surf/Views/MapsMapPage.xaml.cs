@@ -52,7 +52,12 @@ namespace KSF_Surf.Views
 
         private async Task LoadMapInfo()
         {
-            MapsMap.Title = map + " [" + EFilter_ToString.toString2(game) + "]";
+            string mapName = map;
+            if (mapName.Length > 18)
+            {
+                mapName = mapName.Substring(0, 18) + "...";
+            }
+            MapsMap.Title = mapName + " [" + EFilter_ToString.toString2(game) + "]";
 
             // running query and assigning to map information objects
             var mapInfoDatum = await mapsViewModel.GetMapInfo(game, map);
@@ -244,6 +249,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await LoadMapInfo();
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

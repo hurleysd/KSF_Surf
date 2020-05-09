@@ -70,7 +70,11 @@ namespace KSF_Surf.Views
             csgo_serverData = csgos_ServerDatum?.data;
 
             if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
+            ChangeServers();
+        }
 
+        private void ChangeServers()
+        {
             CSSServerStack.Children.Clear();
             CSSMapsStack.Children.Clear();
             CSS100TServerStack.Children.Clear();
@@ -173,10 +177,12 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await LayoutDesign();
+
+                LoadingAnimation.IsRunning = false;
+                LiveRefreshView.IsVisible = true;
                 hasLoaded = true;
             }
         }
-
 
         private async void Stream_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
