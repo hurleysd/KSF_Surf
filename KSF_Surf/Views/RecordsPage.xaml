@@ -15,83 +15,91 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
-    <ScrollView x:Name="RecordsPageScrollView"
+    <AbsoluteLayout>
+        <ScrollView x:Name="RecordsPageScrollView"
                 Orientation="Vertical"
-                VerticalScrollBarVisibility="Default">
-        <StackLayout Padding="0" Spacing="0">
-            <StackLayout Padding="10,15,10,15"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                IsVisible="False">
+            <StackLayout Padding="0" Spacing="0">
+                <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
 
-                <!-- Map Recent Records -->
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Recent"
+                    <!-- Map Recent Records -->
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Recent"
                            Style="{DynamicResource HeaderLabel}"
                            Padding="10,0,0,10"
                            HorizontalOptions="StartAndExpand"/>
 
 
-                    <Label x:Name="RRTypeOptionLabel"
+                        <Label x:Name="RRTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
 
-                <Frame Style="{StaticResource FrameStyle}">
-                    <StackLayout x:Name="RecordsStack" 
+                    <Frame Style="{StaticResource FrameStyle}">
+                        <StackLayout x:Name="RecordsStack" 
                              Orientation="Vertical"
                              BackgroundColor="{DynamicResource ViewBackgroundColor}"
                              Padding="15"
                              Spacing="10"/>
-                </Frame>
-            </StackLayout>
+                    </Frame>
+                </StackLayout>
 
-            <!-- Other Pages -->
-            <Frame Style="{DynamicResource SelectableFrameStyle}"
+                <!-- Other Pages -->
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
                VerticalOptions="EndAndExpand">
-                <StackLayout x:Name="SurfTopButton"
+                    <StackLayout x:Name="SurfTopButton"
                          Style="{DynamicResource UntappedStackStyle}">
 
-                    <Label Text="Surf Top"
+                        <Label Text="Surf Top"
                        Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="SurfTop_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
-            <Frame Style="{DynamicResource SelectableFrameStyle}"
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SurfTop_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
                VerticalOptions="End">
-                <StackLayout x:Name="MostButton"
+                    <StackLayout x:Name="MostButton"
                          Style="{DynamicResource UntappedStackStyle}">
 
-                    <Label Text="Most By Type"
+                        <Label Text="Most By Type"
                        Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="MostByType_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
-            <Frame Style="{DynamicResource SelectableFrameStyle}"
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="MostByType_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
                VerticalOptions="End"
                Margin="0,0,0,15">
-                <StackLayout x:Name="OldestRecordsButton"
+                    <StackLayout x:Name="OldestRecordsButton"
                          Style="{DynamicResource UntappedStackStyle}">
 
-                    <Label Text="Oldest Records"
+                        <Label Text="Oldest Records"
                        Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OldestRecords_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
-        </StackLayout>
-    </ScrollView>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OldestRecords_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

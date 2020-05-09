@@ -134,6 +134,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeRecords(wrsType);
+
+                LoadingAnimation.IsRunning = false;
+                PlayerWorldRecordsScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -162,7 +165,10 @@ namespace KSF_Surf.Views
 
             wrsType = newType;
             list_index = 1;
+
+            LoadingAnimation.IsRunning = true;
             await ChangeRecords(newType);
+            LoadingAnimation.IsRunning = false;
         }
 
         private async void MoreButton_Tapped(object sender, EventArgs e)

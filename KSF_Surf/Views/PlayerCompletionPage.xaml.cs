@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -116,6 +115,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeTierCompletion();
+
+                LoadingAnimation.IsRunning = false;
+                PlayerCompletionScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

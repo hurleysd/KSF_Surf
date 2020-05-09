@@ -47,12 +47,7 @@ namespace KSF_Surf.Views
             CCPDetails = ccpDatum?.data.CCP;
             if (CCPDetails is null || CCPDetails.Count < 1) return;
 
-            WRPlayer.Text = "Best CP vs " + String_Formatter.toEmoji_Country(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
-            WRPlayer.FontSize = 32;
-            if (WRPlayer.Text.Length > 25)
-            {
-                WRPlayer.FontSize = 32 * (24.0 / WRPlayer.Text.Length);
-            }
+            WRPlayer.Text = "PRCP vs " + String_Formatter.toEmoji_Country(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
             LayoutPRDetails();
         }
 
@@ -171,6 +166,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangePRDetails();
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapCCPScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

@@ -9,37 +9,45 @@
              x:Name="PlayerRecentRecordsTab"  
              Style="{DynamicResource ContentPageStyle}">
 
-    <ScrollView x:Name="RRPageScrollView"
+    <AbsoluteLayout>
+        <ScrollView x:Name="RRPageScrollView"
                 Orientation="Vertical"
-                VerticalScrollBarVisibility="Default">
-        <StackLayout Padding="10,15,10,15"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                IsVisible="False">
+            <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
-            
-            <!-- Recently Broken -->
-            <Label Text="Recently Broken Records"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
-            <Frame Style="{StaticResource FrameStyle}">
-                <StackLayout x:Name="RecordsBrokenStack" 
-                         Orientation="Vertical"
-                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="15"
-                         Spacing="10"/>
-            </Frame>
 
-            <BoxView Style="{StaticResource Separator2Style}"/>
-            
-            <!-- Recently Set -->
-            <Label Text="Recently Set Records"
+                <!-- Recently Broken -->
+                <Label Text="Recently Broken Records"
                     Style="{DynamicResource HeaderLabel}"
                     Margin="10,0,0,10"/>
-            <Frame Style="{StaticResource FrameStyle}">
-                <StackLayout x:Name="RecordsSetStack" 
+                <Frame Style="{StaticResource FrameStyle}">
+                    <StackLayout x:Name="RecordsBrokenStack" 
                          Orientation="Vertical"
                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
                          Padding="15"
                          Spacing="10"/>
-            </Frame>
-        </StackLayout>
-    </ScrollView>
+                </Frame>
+
+                <BoxView Style="{StaticResource Separator2Style}"/>
+
+                <!-- Recently Set -->
+                <Label Text="Recently Set Records"
+                    Style="{DynamicResource HeaderLabel}"
+                    Margin="10,0,0,10"/>
+                <Frame Style="{StaticResource FrameStyle}">
+                    <StackLayout x:Name="RecordsSetStack" 
+                         Orientation="Vertical"
+                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                         Padding="15"
+                         Spacing="10"/>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

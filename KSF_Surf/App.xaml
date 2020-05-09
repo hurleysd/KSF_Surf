@@ -58,7 +58,13 @@
                 <Setter Property="HorizontalOptions" Value ="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value ="47"/>
                 <Setter Property="IsVisible" Value ="False"/>
-                
+            </Style>
+
+            <!-- ActivityIndicator Style -->
+            <Style x:Key="LoadingStyle" TargetType="ActivityIndicator">
+                <Setter Property="IsRunning" Value="True"/>
+                <Setter Property="Color" Value="{DynamicResource UntappedTextColor}"/>
+                <Setter Property="Scale" Value="1.45"/>
             </Style>
 
             <!-- StackLayout Styles -->
@@ -128,12 +134,6 @@
                 <Setter Property="FontSize" Value="17"/>
                 <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
                 <Setter Property="VerticalOptions" Value="End"/>
-            </Style>
-            <Style x:Key = "LeftLeftColStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
             <Style x:Key = "LeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>

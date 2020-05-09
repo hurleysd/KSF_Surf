@@ -19,217 +19,226 @@
     </ContentPage.Resources>
 
 
-    <ScrollView Orientation="Vertical"
-                VerticalScrollBarVisibility="Default">
-        <StackLayout Padding="0"
-                     Spacing="0"
-                     Orientation="Vertical">
-
-            <!-- Map General Info -->
-            <Frame Style="{StaticResource FrameStyle}"
-                    IsClippedToBounds="True"
-                    Margin="10,15,10,15">
-                <Grid HorizontalOptions="FillAndExpand"
-                    BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                    Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackLayout Orientation="Vertical"
-                                Grid.Column="0">
-                        <Label Text="Tier"
-                            TextColor="{DynamicResource GrayTextColor}"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"/>
-                        <Label x:Name="TierLabel"
-                            TextColor="{DynamicResource HeaderTextColor}"
-                            FontSize="50"
-                            HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-
-                    <StackLayout Orientation="Vertical"
-                                Grid.Column="1">
-                        <Label x:Name="MapTypeLabel"
-                            Text="Any"
-                            TextColor="{DynamicResource GrayTextColor}"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"/>
-                        <Label x:Name="CheckpointsLabel"
-                            TextColor="{DynamicResource HeaderTextColor}"
-                            FontSize="50"
-                            HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-
-                    <StackLayout Orientation="Vertical"
-                                Grid.Column="2">
-                        <Label Text="Bonuses"
-                            TextColor="{DynamicResource GrayTextColor}"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"/>
-                        <Label x:Name="BonusesLabel"
-                            TextColor="{DynamicResource HeaderTextColor}"
-                            FontSize="50"
-                            HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </Grid>
-            </Frame>
-
-            <!-- Other Pages -->
-            <Frame Style="{DynamicResource SelectableFrameStyle}">
-                <StackLayout x:Name="TopButton"
-                         Style="{DynamicResource UntappedStackStyle}">
-
-                    <Label Text="Map Top"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
-
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Top_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
-            <Frame Style="{DynamicResource SelectableFrameStyle}">
-                <StackLayout x:Name="PRButton"
-                         Style="{DynamicResource UntappedStackStyle}">
-
-                    <Label Text="Personal Record"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
-                    <Label Style="{DynamicResource RightArrowStyle}"/>
-
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="PR_Tapped"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </Frame>
-
-            <StackLayout Padding="10,15,10,15"
+    <AbsoluteLayout>
+        <ScrollView x:Name="MapsMapScrollView"
+                Orientation="Vertical"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                IsVisible="False">
+            <StackLayout Padding="0"
+                         Spacing="0"
                          Orientation="Vertical">
 
-                <!-- Mappers  -->
-                <Label x:Name="MappersLabel"
-                       Text="Mappers"
-                       Style="{DynamicResource HeaderLabel}"
-                       Margin="10,0,0,0"/>
-                <Grid x:Name="MappersGrid"
-                      Style="{StaticResource ColumnGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Map General Info -->
+                <Frame Style="{StaticResource FrameStyle}"
+                        IsClippedToBounds="True"
+                        Margin="10,15,10,15">
+                    <Grid HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                        Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <StackLayout x:Name="MapperTypeStack" 
-                                 Orientation="Vertical" 
-                                 Grid.Column="0"/>
+                        <StackLayout Orientation="Vertical"
+                                    Grid.Column="0">
+                            <Label Text="Tier"
+                                TextColor="{DynamicResource GrayTextColor}"
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"/>
+                            <Label x:Name="TierLabel"
+                                TextColor="{DynamicResource HeaderTextColor}"
+                                FontSize="50"
+                                HorizontalTextAlignment="Center"/>
+                        </StackLayout>
 
-                    <StackLayout x:Name="MapperNameStack" 
-                                 Orientation="Vertical" 
-                                 Grid.Column="1"/>
-                </Grid>
+                        <StackLayout Orientation="Vertical"
+                                    Grid.Column="1">
+                            <Label x:Name="MapTypeLabel"
+                                Text="Any"
+                                TextColor="{DynamicResource GrayTextColor}"
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"/>
+                            <Label x:Name="CheckpointsLabel"
+                                TextColor="{DynamicResource HeaderTextColor}"
+                                FontSize="50"
+                                HorizontalTextAlignment="Center"/>
+                        </StackLayout>
 
-                <BoxView x:Name="MappersNTopSeparator"
-                         Style="{StaticResource Separator2Style}"/>
+                        <StackLayout Orientation="Vertical"
+                                    Grid.Column="2">
+                            <Label Text="Bonuses"
+                                TextColor="{DynamicResource GrayTextColor}"
+                                FontSize="16"
+                                HorizontalTextAlignment="Center"/>
+                            <Label x:Name="BonusesLabel"
+                                TextColor="{DynamicResource HeaderTextColor}"
+                                FontSize="50"
+                                HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
 
-                <!-- Map stats  -->
-                <Label Text="Stats"
-                       Style="{DynamicResource HeaderLabel}"
-                       Margin="10,0,0,0"/>
-                <Grid Style="{StaticResource ColumnGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Other Pages -->
+                <Frame Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="TopButton"
+                             Style="{DynamicResource UntappedStackStyle}">
 
-                    <StackLayout Orientation="Vertical" 
-                                 Grid.Column="0">
-                        <Label Text="Completions"
-                               Style="{DynamicResource LeftColStyle}"/>
-                        <Label Text="Times played"
-                               Style="{DynamicResource LeftColStyle}"/>
-                        <Label Text="Total play time"
-                               Style="{DynamicResource LeftColStyle}"/>
+                        <Label Text="Map Top"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Top_Tapped"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="PRButton"
+                             Style="{DynamicResource UntappedStackStyle}">
 
-                    <StackLayout Orientation="Vertical" 
-                                 Grid.Column="1">
-                        <Label x:Name="CompletionsLabel"
-                               Style="{DynamicResource RightColStyle}"/>
-                        <Label x:Name="TimesPlayedLabel"
-                               Style="{DynamicResource RightColStyle}"/>
-                        <Label x:Name="PlayTimeLabel"
-                               Style="{DynamicResource RightColStyle}"/>
+                        <Label Text="Personal Record"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PR_Tapped"/>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
-                </Grid>
+                </Frame>
 
-                <BoxView Style="{StaticResource Separator2Style}"/>
+                <StackLayout Padding="10,15,10,15"
+                             Orientation="Vertical">
 
-                <!-- Map points -->
-                <Label Text="Points"
-                        Style="{DynamicResource HeaderLabel}"
-                        Margin="10,0,0,0"/>
+                    <!-- Mappers  -->
+                    <Label x:Name="MappersLabel"
+                           Text="Mappers"
+                           Style="{DynamicResource HeaderLabel}"
+                           Margin="10,0,0,0"/>
+                    <Grid x:Name="MappersGrid"
+                          Style="{StaticResource ColumnGridStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                <Grid x:Name="PointsGrid"
-                      HorizontalOptions="FillAndExpand"
-                      Padding="20,10,10,10"
-                      RowSpacing="12"
-                      HeightRequest="250">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                        <StackLayout x:Name="MapperTypeStack" 
+                                     Orientation="Vertical" 
+                                     Grid.Column="0"/>
 
-                    <StackLayout x:Name="TopGroupStack" 
-                                Orientation="Vertical" 
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                Grid.RowSpan="2"/>
+                        <StackLayout x:Name="MapperNameStack" 
+                                     Orientation="Vertical" 
+                                     Grid.Column="1"/>
+                    </Grid>
 
-                    <StackLayout x:Name="TopGroupValueStack" 
-                                 Orientation="Vertical" 
-                                 Grid.Column="1"
-                                 Grid.Row="0"
-                                 Grid.RowSpan="2"/>
+                    <BoxView x:Name="MappersNTopSeparator"
+                             Style="{StaticResource Separator2Style}"/>
 
-                    <BoxView VerticalOptions="FillAndExpand"
-                         WidthRequest="1"
-                         Color="{DynamicResource ViewBackgroundColor}"
-                         Margin="0,10,0,10"
-                         HorizontalOptions="Center"
-                         Grid.Column="2"
-                         Grid.Row="0"
-                         Grid.RowSpan="2"/>
+                    <!-- Map stats  -->
+                    <Label Text="Stats"
+                           Style="{DynamicResource HeaderLabel}"
+                           Margin="10,0,0,0"/>
+                    <Grid Style="{StaticResource ColumnGridStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <StackLayout x:Name = "CompletionStack"
-                             Orientation="Vertical"
-                             Grid.Column="3"
-                             Grid.Row="0"/>
+                        <StackLayout Orientation="Vertical" 
+                                     Grid.Column="0">
+                            <Label Text="Completions"
+                                   Style="{DynamicResource LeftColStyle}"/>
+                            <Label Text="Times played"
+                                   Style="{DynamicResource LeftColStyle}"/>
+                            <Label Text="Total play time"
+                                   Style="{DynamicResource LeftColStyle}"/>
+                        </StackLayout>
 
-                    <StackLayout x:Name="GroupStack" 
+                        <StackLayout Orientation="Vertical" 
+                                     Grid.Column="1">
+                            <Label x:Name="CompletionsLabel"
+                                   Style="{DynamicResource RightColStyle}"/>
+                            <Label x:Name="TimesPlayedLabel"
+                                   Style="{DynamicResource RightColStyle}"/>
+                            <Label x:Name="PlayTimeLabel"
+                                   Style="{DynamicResource RightColStyle}"/>
+                        </StackLayout>
+                    </Grid>
+
+                    <BoxView Style="{StaticResource Separator2Style}"/>
+
+                    <!-- Map points -->
+                    <Label Text="Points"
+                            Style="{DynamicResource HeaderLabel}"
+                            Margin="10,0,0,0"/>
+
+                    <Grid x:Name="PointsGrid"
+                          HorizontalOptions="FillAndExpand"
+                          Padding="20,10,10,10"
+                          RowSpacing="12"
+                          HeightRequest="250">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="90"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackLayout x:Name="TopGroupStack" 
+                                    Orientation="Vertical" 
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"/>
+
+                        <StackLayout x:Name="TopGroupValueStack" 
+                                     Orientation="Vertical" 
+                                     Grid.Column="1"
+                                     Grid.Row="0"
+                                     Grid.RowSpan="2"/>
+
+                        <BoxView VerticalOptions="FillAndExpand"
+                             WidthRequest="1"
+                             Color="{DynamicResource ViewBackgroundColor}"
+                             Margin="0,10,0,10"
+                             HorizontalOptions="Center"
+                             Grid.Column="2"
+                             Grid.Row="0"
+                             Grid.RowSpan="2"/>
+
+                        <StackLayout x:Name = "CompletionStack"
                                  Orientation="Vertical"
                                  Grid.Column="3"
-                                 Grid.Row="1"/>
+                                 Grid.Row="0"/>
 
-                    <StackLayout x:Name = "CompletionValueStack"
-                             Orientation="Vertical"
-                             Grid.Column="4"
-                             Grid.Row="0"/>
+                        <StackLayout x:Name="GroupStack" 
+                                     Orientation="Vertical"
+                                     Grid.Column="3"
+                                     Grid.Row="1"/>
 
-                    <StackLayout x:Name="GroupValueStack" 
+                        <StackLayout x:Name = "CompletionValueStack"
                                  Orientation="Vertical"
                                  Grid.Column="4"
-                                 Grid.Row="1"/>
-                </Grid>
+                                 Grid.Row="0"/>
 
+                        <StackLayout x:Name="GroupValueStack" 
+                                     Orientation="Vertical"
+                                     Grid.Column="4"
+                                     Grid.Row="1"/>
+                    </Grid>
+
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
-    </ScrollView>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

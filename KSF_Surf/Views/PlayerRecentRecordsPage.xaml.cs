@@ -184,6 +184,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeRecords();
+
+                LoadingAnimation.IsRunning = false;
+                RRPageScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

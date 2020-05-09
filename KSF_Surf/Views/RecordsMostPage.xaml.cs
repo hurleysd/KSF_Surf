@@ -250,6 +250,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeMostByType(game, mostType, mode, false);
+
+                LoadingAnimation.IsRunning = false;
+                RecordsMostPageScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -292,7 +295,10 @@ namespace KSF_Surf.Views
             mostType = newType;
             mostTypeString = selected;
             list_index = 1;
+
+            LoadingAnimation.IsRunning = true;
             await ChangeMostByType(game, mostType, mode, true);
+            LoadingAnimation.IsRunning = false;
         }
 
         private async void MoreButton_Tapped(object sender, EventArgs e)

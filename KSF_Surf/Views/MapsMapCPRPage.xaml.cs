@@ -51,11 +51,6 @@ namespace KSF_Surf.Views
             mapType = (EFilter_MapType)int.Parse(cprDatum.data.mapType);
 
             WRPlayer.Text = "PR vs " + String_Formatter.toEmoji_Country(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
-            WRPlayer.FontSize = 32;
-            if (WRPlayer.Text.Length > 25)
-            {
-                WRPlayer.FontSize = 32 * (24.0 / WRPlayer.Text.Length);
-            }
             LayoutPRDetails();
         }
 
@@ -170,6 +165,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangePRDetails();
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapCPRScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }

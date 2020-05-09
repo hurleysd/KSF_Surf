@@ -9,59 +9,69 @@
              x:Name="RecordsTopTab"  
              Style="{DynamicResource ContentPageStyle}">
 
-    <ScrollView Orientation="Vertical">
-        <StackLayout Padding="10,15,10,15"
+    <AbsoluteLayout>
+        <ScrollView x:Name="RecordsTopPageScrollView"
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
+            <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
-            <!-- Surf Top -->
-            <Label Text="Surf Top"
+                <!-- Surf Top -->
+                <Label Text="Surf Top"
                         Style="{DynamicResource HeaderLabel}"
                         Padding="10,0,0,10"/>
 
-            <Frame Style="{StaticResource FrameStyle}">
-                <Grid HorizontalOptions="FillAndExpand"
+                <Frame Style="{StaticResource FrameStyle}">
+                    <Grid HorizontalOptions="FillAndExpand"
                       BackgroundColor="{DynamicResource ViewBackgroundColor}"
                       Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="80"/>
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
 
-                    <StackLayout x:Name="TopRankStack" 
+                        <StackLayout x:Name="TopRankStack" 
                                  Orientation="Vertical" 
                                  Grid.Column="0">
-                        <Label x:Name="TopRankLabel"
+                            <Label x:Name="TopRankLabel"
                                Text="Rank" 
                                TextColor="{DynamicResource HeaderTextColor}"
                                FontSize="20"/>
-                    </StackLayout>
+                        </StackLayout>
 
-                    <BoxView Color="{DynamicResource BorderColor}"
+                        <BoxView Color="{DynamicResource BorderColor}"
                              Grid.Column="1"/>
 
-                    <StackLayout x:Name="TopPointsStack" 
+                        <StackLayout x:Name="TopPointsStack" 
                                  Orientation="Vertical" 
                                  Grid.Column="2">
-                        <Label x:Name="TopPointsLabel"
+                            <Label x:Name="TopPointsLabel"
                                Text="Points" 
                                TextColor="{DynamicResource HeaderTextColor}"
                                FontSize="20"/>
-                    </StackLayout>
-                </Grid>
-            </Frame>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
 
-            <Frame x:Name="MoreFrame"
+                <Frame x:Name="MoreFrame"
                    Style="{DynamicResource MoreFrameStyle}">
-                <StackLayout x:Name="MoreButton"
+                    <StackLayout x:Name="MoreButton"
                             Style="{DynamicResource UntappedStackStyle}"
                              Padding="0">
-                    <Label Style="{StaticResource MoreLabelStyle}"/>
-                    <StackLayout.GestureRecognizers>
+                        <Label Style="{StaticResource MoreLabelStyle}"/>
+                        <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
                         </StackLayout.GestureRecognizers>
-                  </StackLayout>
-            </Frame>
+                    </StackLayout>
+                </Frame>
 
-        </StackLayout>
-     </ScrollView>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

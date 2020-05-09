@@ -73,7 +73,7 @@ namespace KSF_Surf.Views
             playerValue = newPlayerValue;
             playerSteamID = prInfoData.basicInfo.steamID;
             Title = mapsMapTitle + " " + EFilter_ToString.toString(currentMode) + "]";
-            setTitleLabel(prInfoData.basicInfo.country, prInfoData.basicInfo.name);
+            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prInfoData.basicInfo.country) + " " + prInfoData.basicInfo.name;
 
             if (prInfoData.time is null || prInfoData.time == "0") // no main completion
             {
@@ -201,15 +201,6 @@ namespace KSF_Surf.Views
             NoPRLabel.IsVisible = false;
         }
 
-        private void setTitleLabel(string country, string name)
-        {
-            PRTitleLabel.Text = String_Formatter.toEmoji_Country(country) + " " + name;
-            PRTitleLabel.FontSize = 32;
-            if (PRTitleLabel.Text.Length > 25)
-            {
-                PRTitleLabel.FontSize = 32 * (24.0 / PRTitleLabel.Text.Length);
-            }
-        }
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -220,6 +211,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangePR(defaultMode, playerType, playerValue);
+
+                LoadingAnimation.IsRunning = false;
+                MapsMapPRScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -235,12 +229,14 @@ namespace KSF_Surf.Views
             {
                 await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
             }
-            await MapsMapPRScollView.ScrollToAsync(0, 0, true);
+            await MapsMapPRScrollView.ScrollToAsync(0, 0, true);
         }
 
         internal async void ApplyFilters(EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
         {
+            LoadingAnimation.IsRunning = true;
             await ChangePR(newMode, newPlayerType, newPlayerValue);
+            LoadingAnimation.IsRunning = false;
         }
 
         private async void PR_Tapped(object sender, EventArgs e)

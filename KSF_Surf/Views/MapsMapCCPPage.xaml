@@ -3,25 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Forms9Patch="clr-namespace:Forms9Patch;assembly=Forms9Patch"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsMapCCPPage"
              Title="Comparing CPs to WR"
              x:Name="MapsMapCCPTab"  
              Style="{DynamicResource ContentPageStyle}">
 
-    <ScrollView Orientation="Vertical">
-        <StackLayout Orientation="Vertical"
-                     Padding="0"
-                     Spacing="0">
-            <Label x:Name="WRPlayer" 
-                   Style="{DynamicResource HeaderLabel}"
-                   LineBreakMode="NoWrap"
-                   Margin="20,15,0,0"/>
-            <!-- CCP -->
-            <StackLayout x:Name="CCPStack"
-                         Padding="10,0,10,30"
-                         Orientation="Vertical"/>
+    <AbsoluteLayout>
+        <ScrollView x:Name="MapsMapCCPScrollView"
+                Orientation="Vertical"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                IsVisible="False">
+            <StackLayout Orientation="Vertical"
+                         Padding="0"
+                         Spacing="0">
+                <Forms9Patch:Label x:Name="WRPlayer" 
+                       Style="{DynamicResource HeaderLabel}"
+                       FontSize="32"
+                       HorizontalOptions="FillAndExpand"
+                       LineBreakMode="NoWrap"
+                       Lines="1"
+                       AutoFit="Width"
+                       MinFontSize="14"
+                       Margin="20,15,20,0"/>
+                <!-- CCP -->
+                <StackLayout x:Name="CCPStack"
+                             Padding="10,0,10,30"
+                             Orientation="Vertical"/>
            
-        </StackLayout>
-    </ScrollView>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

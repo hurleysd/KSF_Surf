@@ -9,46 +9,56 @@
              x:Name="OldestRecordsTab"  
              Style="{DynamicResource ContentPageStyle}">
 
-    <ScrollView Orientation="Vertical">
-        <StackLayout Padding="10,15,10,15"
+    <AbsoluteLayout>
+        <ScrollView x:Name="RecordsOldestPageScrollView"
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
+            <StackLayout Padding="10,15,10,15"
                      Orientation="Vertical">
 
-            <!-- Oldest Records -->
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Oldest Records"
+                <!-- Oldest Records -->
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Oldest Records"
                            Style="{DynamicResource HeaderLabel}"
                            Padding="10,0,0,10"
                            HorizontalOptions="StartAndExpand"/>
 
-                <Label x:Name="ORTypeOptionLabel"
+                    <Label x:Name="ORTypeOptionLabel"
                         Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
 
-            <Frame Style="{StaticResource FrameStyle}">
-                <StackLayout x:Name="ORStack" 
+                <Frame Style="{StaticResource FrameStyle}">
+                    <StackLayout x:Name="ORStack" 
                              Orientation="Vertical"
                              BackgroundColor="{DynamicResource ViewBackgroundColor}"
                              Padding="15"
                              Spacing="10"/>
-            </Frame>
+                </Frame>
 
-            <Frame x:Name="MoreFrame"
+                <Frame x:Name="MoreFrame"
                    Style="{DynamicResource MoreFrameStyle}">
-                <StackLayout x:Name="MoreButton"
+                    <StackLayout x:Name="MoreButton"
                             Style="{DynamicResource UntappedStackStyle}"
                              Padding="0">
-                    <Label Style="{StaticResource MoreLabelStyle}"/>
-                    <StackLayout.GestureRecognizers>
+                        <Label Style="{StaticResource MoreLabelStyle}"/>
+                        <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
                         </StackLayout.GestureRecognizers>
-                  </StackLayout>
-            </Frame>
+                    </StackLayout>
+                </Frame>
 
-        </StackLayout>
-     </ScrollView>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
 </ContentPage>

@@ -133,6 +133,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 await ChangeRecords(oldestType);
+
+                LoadingAnimation.IsRunning = false;
+                RecordsOldestPageScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -161,7 +164,10 @@ namespace KSF_Surf.Views
 
             oldestType = newType;
             list_index = 1;
+
+            LoadingAnimation.IsRunning = true;
             await ChangeRecords(newType);
+            LoadingAnimation.IsRunning = false;
         }
 
         private async void MoreButton_Tapped(object sender, EventArgs e)

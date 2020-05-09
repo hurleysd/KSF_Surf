@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -112,6 +111,9 @@ namespace KSF_Surf.Views
             {
                 MapsCollectionView.VerticalOptions = LayoutOptions.FillAndExpand;
                 ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+
+                LoadingAnimation.IsRunning = false;
+                MapsStack.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -179,7 +181,11 @@ namespace KSF_Surf.Views
         internal async void ApplyFilters(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
         {
             MapsSearchBar.Text = "";
+
+            LoadingAnimation.IsRunning = true;
             ChangeDisplayList(await LoadMaps(game, sort, minTier, maxTier, mapType));
+            LoadingAnimation.IsRunning = false;
+
             MapsCollectionView.ScrollTo(0);
         }
 
