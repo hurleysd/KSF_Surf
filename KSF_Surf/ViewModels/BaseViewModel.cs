@@ -603,7 +603,8 @@ namespace KSF_Surf.ViewModels
         {
             int complete = int.Parse(completeString);
             int total = int.Parse(totalString);
-            int percent = (int)(((double)complete / total) * 100);
+            int percent = (total == 0)? 0 : (int)(((double)complete / total) * 100);
+
             return percent + "%";
         }
 

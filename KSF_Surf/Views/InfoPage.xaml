@@ -5,26 +5,42 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.InfoPage"
-             Title="Info and Credits"
+             Title="Legal and Credits"
              x:Name="InfoTab"
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key = "CreditLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+            </Style>
+            <Style x:Key = "SmallCreditLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="10"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="20,20,20,0">
+    <StackLayout Padding="20,15,20,0">
+
+        <Label x:Name="KSFThanksLabel"
+               Style="{DynamicResource CreditLabelStyle}"/>
 
         <Label x:Name="IconThanksLabel"
-               Style="{DynamicResource CreditLabelStyle}"/>
-        
-        <Label x:Name="KSFThanksLabel"
                Style="{DynamicResource CreditLabelStyle}"
-               Margin="0,20,0,0"/>
+               Margin="0,5,0,0"/>
+
+        <Label x:Name="CopyrightsLabel"
+               Style="{DynamicResource SmallCreditLabelStyle}"
+               Margin="0,15,0,0"/>
+
+        <Label x:Name="PrivacyLabel"
+               Style="{DynamicResource SmallCreditLabelStyle}"
+               Margin="0,5,0,0"/>
+
+        <Label x:Name="CopyrightLabel"
+               Style="{DynamicResource SmallCreditLabelStyle}"
+               Margin="0,5,0,0"/>
 
         <Image Source="hesuka_logo_alpha.png"
                Scale="0.5"

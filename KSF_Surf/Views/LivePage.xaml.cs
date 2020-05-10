@@ -159,6 +159,10 @@ namespace KSF_Surf.Views
             {
                 foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
                 {
+                    if (datum.title.Length > 23)
+                    {
+                        datum.title = datum.title.Substring(0, 23) + "...";
+                    }
                     if (datum.thumbnail_url != null)
                     {
                         datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "72");
