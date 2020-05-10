@@ -54,7 +54,7 @@ namespace KSF_Surf.Views
             LayoutPRDetails();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutPRDetails()
         {

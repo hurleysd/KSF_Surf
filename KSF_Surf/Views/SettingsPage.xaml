@@ -139,7 +139,7 @@
                 </Label>
             </Grid>
 
-            <Label Text="Changes will take effect on restart :)"
+            <Label Text="Changes will take effect on restart"
                    TextColor="{DynamicResource HeaderTextColor}"
                    FontSize="12"
                    HorizontalOptions="Center"

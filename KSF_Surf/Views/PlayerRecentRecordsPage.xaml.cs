@@ -52,7 +52,7 @@ namespace KSF_Surf.Views
             LayoutRecords();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {

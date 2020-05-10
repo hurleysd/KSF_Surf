@@ -21,12 +21,12 @@
             <Color x:Key="TabBackgroundColor">Black</Color>
 
             <!-- Page Styles -->
-            <Style x:Key ="TabbedPageStyle" TargetType="TabbedPage">
+            <Style x:Key="TabbedPageStyle" TargetType="TabbedPage">
                 <Setter Property="BarBackgroundColor" Value="{DynamicResource TabBackgroundColor}"/>
                 <Setter Property="SelectedTabColor" Value="{DynamicResource TappedTextColor}"/>
                 <Setter Property="UnselectedTabColor" Value="{DynamicResource GrayTextColor}"/>
             </Style>
-            <Style x:Key ="NavigationPageStyle" TargetType="NavigationPage">
+            <Style x:Key="NavigationPageStyle" TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
                 <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
             </Style>
@@ -66,9 +66,15 @@
                 <Setter Property="Color" Value="{DynamicResource UntappedTextColor}"/>
                 <Setter Property="Scale" Value="1.45"/>
             </Style>
+            <Style x:Key="MoreLoadingStyle" TargetType="ActivityIndicator">
+                <Setter Property="IsRunning" Value="False"/>
+                <Setter Property="Color" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="Scale" Value="1.15"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            </Style>
 
             <!-- StackLayout Styles -->
-            <Style x:Key = "UntappedStackStyle" TargetType="StackLayout">
+            <Style x:Key="UntappedStackStyle" TargetType="StackLayout">
                 <Setter Property="Padding" Value="20,15,20,15"/>
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
@@ -80,25 +86,25 @@
             </Style>
 
             <!-- Grid Styles -->
-            <Style x:Key = "ColumnGridStyle" TargetType="Grid">
+            <Style x:Key="ColumnGridStyle" TargetType="Grid">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="20,0,0,0"/>
             </Style>
 
              <!-- BoxView Styles -->
-            <Style x:Key = "SeparatorStyle" TargetType="BoxView">
+            <Style x:Key="SeparatorStyle" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource BorderColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="1"/>
             </Style>
-            <Style x:Key = "Separator2Style" TargetType="BoxView">
+            <Style x:Key="Separator2Style" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="1"/>
                 <Setter Property="Margin" Value="0,10,0,10"/>
             </Style>
-            <Style x:Key = "MiniSeparatorStyle" TargetType="BoxView">
+            <Style x:Key="MiniSeparatorStyle" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="1"/>
@@ -106,12 +112,12 @@
             </Style>
 
             <!-- Entry Styles -->
-            <Style x:Key = "SteamIDEntryStyle" TargetType="Entry">
+            <Style x:Key="SteamIDEntryStyle" TargetType="Entry">
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
                 <Setter Property="MaxLength" Value="20"/>
                 <Setter Property="HorizontalOptions" Value="Fill"/>
             </Style>
-            <Style x:Key = "RankEntryStyle" TargetType="Entry">
+            <Style x:Key="RankEntryStyle" TargetType="Entry">
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
                 <Setter Property="Keyboard" Value="Numeric"/>
                 <Setter Property="MaxLength" Value="7"/>
@@ -124,61 +130,61 @@
                 <Setter Property="FontSize" Value ="28"/>
                 <Setter Property="FontAttributes" Value ="Bold"/>
             </Style>
-            <Style x:Key = "FilterLabelStyle" TargetType="Label">
+            <Style x:Key="FilterLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="24"/>
                 <Setter Property="TextColor" Value="{StaticResource UntappedTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
             </Style>
-            <Style x:Key = "TypeLabelStyle" TargetType="Label">
+            <Style x:Key="TypeLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="17"/>
                 <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
                 <Setter Property="VerticalOptions" Value="End"/>
             </Style>
-            <Style x:Key = "LeftColStyle" TargetType="Label">
+            <Style x:Key="LeftColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "RightColStyle" TargetType="Label">
+            <Style x:Key="RightColStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="HorizontalTextAlignment" Value="End"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "GridLabelStyle" TargetType="Label">
+            <Style x:Key="GridLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "RRLabelStyle" TargetType="Label">
+            <Style x:Key="RRLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "RR2LabelStyle" TargetType="Label">
+            <Style x:Key="RR2LabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "TimeLabelStyle" TargetType="Label">
+            <Style x:Key="TimeLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
-            <Style x:Key = "MoreLabelStyle" TargetType="Label">
+            <Style x:Key="MoreLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="35"/>
                 <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
                 <Setter Property="Text" Value="&#43;"/>
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
                 <Setter Property="VerticalOptions" Value="Start"/>
             </Style>
-            <Style x:Key = "NewPageLabelStyle" TargetType="Label">
+            <Style x:Key="NewPageLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
             </Style>
-            <Style x:Key = "RightArrowStyle" TargetType="Label">
+            <Style x:Key="RightArrowStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="Text" Value="&#8250;"/>

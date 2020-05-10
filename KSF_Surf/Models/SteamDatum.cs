@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace KSF_Surf.Models
 {
@@ -40,9 +41,17 @@ namespace KSF_Surf.Models
             string[] steam32_arr = steam32.Split(':');
             if (steam32_arr.Length != 3) return "";
 
-            long convertedTo64Bit = long.Parse(steam32_arr[2]) * 2;
-            convertedTo64Bit += 76561197960265728; // Valve's magic constant
-            convertedTo64Bit += long.Parse(steam32_arr[1]);
+            long convertedTo64Bit;
+            try
+            {
+                convertedTo64Bit = long.Parse(steam32_arr[2]) * 2;
+                convertedTo64Bit += 76561197960265728; // Valve's magic constant
+                convertedTo64Bit += long.Parse(steam32_arr[1]);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
 
             return convertedTo64Bit.ToString();
         }

@@ -32,6 +32,7 @@ namespace KSF_Surf.Views
 
             InitializeComponent();
             LiveRefreshView.Command = new Command(LiveRefresh);
+            LiveRefreshView.IsEnabled = false;  // Xamarin bug : page jitters on refresh with collectionview
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------

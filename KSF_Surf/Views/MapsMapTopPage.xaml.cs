@@ -72,7 +72,7 @@ namespace KSF_Surf.Views
             LayoutTop(EFilter_ToString.toString(currentMode), "Main");
         }
 
-        // Dispaying Changes ---------------------------------------------------------------------------------
+        // Displaying Changes ---------------------------------------------------------------------------------
 
         private void LayoutTop(string modeString, string zone)
         {
@@ -146,7 +146,6 @@ namespace KSF_Surf.Views
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-            LoadingAnimation.IsRunning = true;
 
             EFilter_Mode newCurrentMode = EFilter_Mode.fw;
             switch (newStyle)
@@ -156,6 +155,8 @@ namespace KSF_Surf.Views
                 case "SW": newCurrentMode = EFilter_Mode.sw; break;
                 case "BW": newCurrentMode = EFilter_Mode.bw; break;
             }
+            
+            LoadingAnimation.IsRunning = true;
 
             var newTopDatum = await mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone, 1);
             List<TopDatum> newTopData = newTopDatum?.data;
@@ -227,6 +228,8 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
 
             var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone, list_index);
             topData = topDatum?.data;
@@ -240,6 +243,8 @@ namespace KSF_Surf.Views
             }
 
             LayoutTop(EFilter_ToString.toString(currentMode), currentZoneString);
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion

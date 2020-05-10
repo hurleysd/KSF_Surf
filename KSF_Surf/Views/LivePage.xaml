@@ -34,74 +34,7 @@
                 <StackLayout Orientation="Vertical"
                      Padding="0"
                      Spacing="0">
-
-                    <!-- Twitch Streams -->
-                    <Label Text="Surfer Streams"
-                       Style="{DynamicResource HeaderLabel}"
-                       Margin="20,15,10,10"/>
-
-                    <Frame Style="{DynamicResource SelectableFrameStyle}">
-                        <CollectionView x:Name ="StreamsCollectionView"
-                            ItemsSource="{Binding Streams}"
-                            SelectionMode="Single"
-                            SelectionChanged="Stream_SelectionChanged"      
-                            BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                            HeightRequest="133"
-                            HorizontalOptions="Fill"
-                            HorizontalScrollBarVisibility="Never">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="9,10,9,10"
-                                          RowSpacing="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="128"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="72"/>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition Height="15"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Frame CornerRadius="6"
-                                               BorderColor="{StaticResource TwitchPurpleColor}"
-                                               HasShadow="False"
-                                               Grid.Row="0"
-                                               IsClippedToBounds="True"
-                                               Padding="0">
-                                            <Image Source="{Binding thumbnail_url}"/>
-                                        </Frame>
-
-                                        <Label Text="{Binding user_name}"
-                                               LineBreakMode="NoWrap"
-                                               TextColor="{DynamicResource HeaderTextColor}"
-                                               FontSize="17"
-                                               Grid.Row="1"
-                                               VerticalOptions="Center"/>
-
-                                        <Label Text="{Binding title}"
-                                               LineBreakMode="NoWrap"
-                                               FontSize="10"
-                                               TextColor="{StaticResource TwitchPurpleColor}"
-                                               VerticalOptions="Center"
-                                               Grid.Row="2"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Horizontal"/>
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.EmptyView>
-                                <Label Text="No streams online :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   VerticalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                            </CollectionView.EmptyView>
-                        </CollectionView>
-                    </Frame>
-
+                    
                     <StackLayout Orientation="Vertical"
                      Padding="10,15,10,15">
 
@@ -167,8 +100,78 @@
                                      Orientation="Vertical" 
                                      Grid.Column="1"/>
                         </Grid>
-
                     </StackLayout>
+
+                    <BoxView Style="{StaticResource Separator2Style}"
+                             Margin="10,0,10,0"/>
+
+                    <!-- Twitch Streams -->
+                    <Label Text="Surfer Streams"
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="20,15,10,10"/>
+
+                    <Frame Style="{DynamicResource SelectableFrameStyle}"
+                           Margin="0,0,0,15">
+                        <CollectionView x:Name ="StreamsCollectionView"
+                            ItemsSource="{Binding Streams}"
+                            SelectionMode="Single"
+                            SelectionChanged="Stream_SelectionChanged"      
+                            BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                            HeightRequest="133"
+                            HorizontalOptions="Fill"
+                            HorizontalScrollBarVisibility="Never">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="9,10,9,10"
+                                          RowSpacing="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="128"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="72"/>
+                                            <RowDefinition Height="26"/>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Frame CornerRadius="6"
+                                               BorderColor="{StaticResource TwitchPurpleColor}"
+                                               HasShadow="False"
+                                               Grid.Row="0"
+                                               IsClippedToBounds="True"
+                                               Padding="0">
+                                            <Image Source="{Binding thumbnail_url}"/>
+                                        </Frame>
+
+                                        <Label Text="{Binding user_name}"
+                                               LineBreakMode="NoWrap"
+                                               TextColor="{DynamicResource HeaderTextColor}"
+                                               FontSize="17"
+                                               Grid.Row="1"
+                                               VerticalOptions="Center"/>
+
+                                        <Label Text="{Binding title}"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="10"
+                                               TextColor="{StaticResource TwitchPurpleColor}"
+                                               VerticalOptions="Center"
+                                               Grid.Row="2"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="No streams online :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   VerticalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </Frame>
                 </StackLayout>
             </ScrollView>
         </RefreshView>

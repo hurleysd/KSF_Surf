@@ -180,13 +180,20 @@ namespace KSF_Surf.Views
 
         internal async void ApplyFilters(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
         {
-            MapsSearchBar.Text = "";
+            if (BaseViewModel.hasConnection())
+            {
+                MapsSearchBar.Text = "";
 
-            LoadingAnimation.IsRunning = true;
-            ChangeDisplayList(await LoadMaps(game, sort, minTier, maxTier, mapType));
-            LoadingAnimation.IsRunning = false;
+                LoadingAnimation.IsRunning = true;
+                ChangeDisplayList(await LoadMaps(game, sort, minTier, maxTier, mapType));
+                LoadingAnimation.IsRunning = false;
 
-            MapsCollectionView.ScrollTo(0);
+                MapsCollectionView.ScrollTo(0);
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF servers :(", "Please connect to the Internet.", "OK");
+            }
         }
 
         private void ChangeDisplayList(List<string> list)

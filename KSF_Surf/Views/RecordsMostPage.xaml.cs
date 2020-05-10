@@ -205,7 +205,7 @@ namespace KSF_Surf.Views
             LayoutMostByType(type, players, values);
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutMostByType(EFilter_MostType type, List<string> players, List<string> values)
         {
@@ -306,9 +306,14 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
 
             await ChangeMostByType(game, mostType, mode, false);
+            
             MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion

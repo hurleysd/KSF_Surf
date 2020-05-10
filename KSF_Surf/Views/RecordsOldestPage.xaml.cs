@@ -53,7 +53,7 @@ namespace KSF_Surf.Views
             LayoutRecords();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
@@ -175,12 +175,13 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
+
             list_index += LIST_LIMIT;
 
             var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, oldestType, mode, list_index);
             oldRecordData = oldRecordDatum?.data;
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
 
             if (oldRecordData is null || oldRecordData.Count < 1)
             {
@@ -189,6 +190,10 @@ namespace KSF_Surf.Views
             }
 
             LayoutRecords();
+
+            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion

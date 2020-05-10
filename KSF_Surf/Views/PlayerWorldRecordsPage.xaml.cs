@@ -57,7 +57,7 @@ namespace KSF_Surf.Views
             LayoutRecords();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
@@ -176,6 +176,9 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
+
             list_index += LIST_LIMIT;
 
             var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, wrsType, playerType, playerValue, list_index);
@@ -190,6 +193,8 @@ namespace KSF_Surf.Views
             }
 
             LayoutRecords();
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion

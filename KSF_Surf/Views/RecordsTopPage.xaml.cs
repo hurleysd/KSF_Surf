@@ -49,7 +49,7 @@ namespace KSF_Surf.Views
             LayoutSurfTop();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutSurfTop()
         {
@@ -94,11 +94,11 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
 
             var surfTopDatum = await recordsViewModel.GetSurfTop(game, mode, list_index);
             surfTopData = surfTopDatum?.data;
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
 
             if (surfTopData is null || surfTopData.Count < 1)
             {
@@ -107,6 +107,10 @@ namespace KSF_Surf.Views
             }
 
             LayoutSurfTop();
+
+            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion
