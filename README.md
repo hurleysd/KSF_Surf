@@ -17,4 +17,4 @@ Privacy Policy: No user data is collected, stored, or shared, nor do users rely 
 Intellectual Property: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. Copyright © 2020 Sean Hurley. All rights reserved.
 
 ## AUTHOR
-**[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *JMU Computer Science Class of 2020* 
+**[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *B.S. in Computer Science, JMU class of 2020* 
