@@ -10,6 +10,7 @@ This application interfaces the APIs of KSF, Twitch, and Steam to gather data ab
 Surfing is a gamemode available within Source Engine games due to its bugs. With the correct server settings, players can slide on angled surfaces (known as ramps), manipulate their movement mid-air, and attempt to maximize their speed to complete community-made maps designed specifically for this gamemode. KSF (Kamikaze Strike Force Clan) is a community dedicated to the surf gamemode and provides servers that host this gamemode on Counter-Strike: Source and Counter-Strike: Global Offensive. With this, KSF also provides ranking and statistics for players to encourage competition and growth. The KSF website can be found [here](https://ksfclan.com/forum/).
 
 This video is an example of what surfing is. 
+
 [![](http://img.youtube.com/vi/tn67W-nsi9M/0.jpg)](http://www.youtube.com/watch?v=tn67W-nsi9M "")
 
 ## LEGAL
