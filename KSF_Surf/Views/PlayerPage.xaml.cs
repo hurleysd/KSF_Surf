@@ -80,7 +80,7 @@ namespace KSF_Surf.Views
         }
 
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutPlayerProfile()
         {

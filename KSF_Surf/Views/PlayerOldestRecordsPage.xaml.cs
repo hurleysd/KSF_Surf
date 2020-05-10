@@ -64,7 +64,7 @@ namespace KSF_Surf.Views
             LayoutRecords();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
@@ -224,6 +224,9 @@ namespace KSF_Surf.Views
             if (!BaseViewModel.hasConnection()) return;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            MoreLabel.IsVisible = false;
+            MoreLoadingAnimation.IsRunning = true;
+
             list_index += LIST_LIMIT;
 
             var oldRecordDatum = await playerViewModel.GetPlayerOldestRecords(game, mode, oldestType, playerType, playerValue, list_index);
@@ -238,6 +241,8 @@ namespace KSF_Surf.Views
             }
 
             LayoutRecords();
+            MoreLoadingAnimation.IsRunning = false;
+            MoreLabel.IsVisible = true;
         }
 
         #endregion

@@ -47,7 +47,18 @@
                     <StackLayout x:Name="MoreButton"
                             Style="{DynamicResource UntappedStackStyle}"
                              Padding="0">
-                        <Label Style="{StaticResource MoreLabelStyle}"/>
+                        <Grid HorizontalOptions="CenterAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label x:Name="MoreLabel"
+                                   Style="{StaticResource MoreLabelStyle}"
+                                   Grid.Row="0"/>
+                            <ActivityIndicator x:Name="MoreLoadingAnimation"
+                                               Style="{DynamicResource MoreLoadingStyle}"
+                                               Grid.Row="0"/>
+
+                        </Grid>
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
                         </StackLayout.GestureRecognizers>

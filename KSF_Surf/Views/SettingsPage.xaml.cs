@@ -102,23 +102,29 @@ namespace KSF_Surf.Views
 
         private async void Apply_Clicked(object sender, System.EventArgs e)
         {
-            if (playerSteamID != SteamIdEntry.Text)
+            if (BaseViewModel.hasConnection())
             {
-                if (SteamIdEntry.Text.Length < 15) return;
-
-                var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIdEntry.Text);
-                if (steamProfileDatum?.response.players.Count == 0)
+                if (playerSteamID != SteamIdEntry.Text)
                 {
-                    await DisplayAlert("Could not find player profile!", "Invalid SteamID.", "OK");
-                    return;
+                    var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIdEntry.Text);
+                    if (steamProfileDatum?.response.players.Count == 0)
+                    {
+                        await DisplayAlert("Could not find player profile!", "Invalid SteamID.", "OK");
+                        return;
+                    }
                 }
+
+                App.Current.Properties["steamid"] = SteamIdEntry.Text;
+                App.Current.Properties["game"] = EFilter_ToString.toString(game);
+                App.Current.Properties["mode"] = EFilter_ToString.toString(mode);
+
+                await Navigation.PopAsync();
             }
-
-            App.Current.Properties["steamid"] = SteamIdEntry.Text;
-            App.Current.Properties["game"] = EFilter_ToString.toString(game);
-            App.Current.Properties["mode"] = EFilter_ToString.toString(mode);
-
-            await Navigation.PopAsync();
+            else
+            {
+                await DisplayAlert("Could not connect to Steam!", "Please connect to the Internet.", "OK");
+            }
+            
         }
 
         private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css);

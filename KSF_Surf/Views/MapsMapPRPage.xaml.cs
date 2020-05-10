@@ -86,7 +86,7 @@ namespace KSF_Surf.Views
             LayoutPRInfo();
         }
 
-        // Dispaying Changes -------------------------------------------------------------------------------
+        // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutPRInfo()
         {
