@@ -72,7 +72,7 @@ namespace KSF_Surf.Views
                             return;
                         }
 
-                        leftColString = "Amount";
+                        leftColString = "Total";
                         foreach (MostPCDatum datum in mostPCData)
                         {
                             players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);

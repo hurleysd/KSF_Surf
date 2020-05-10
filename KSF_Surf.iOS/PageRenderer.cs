@@ -4,11 +4,10 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-using KSF_Surf;
-
 [assembly: ExportRenderer(typeof(ContentPage), typeof(KSF_Surf.iOS.Renderers.PageRenderer))]
 namespace KSF_Surf.iOS.Renderers
 {
+    // custom page renderer that responds to device theme changes
     public class PageRenderer : Xamarin.Forms.Platform.iOS.PageRenderer
     {
         protected override void OnElementChanged(VisualElementChangedEventArgs e)

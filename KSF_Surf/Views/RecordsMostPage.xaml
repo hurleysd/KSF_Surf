@@ -43,7 +43,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="1"/>
-                            <ColumnDefinition Width="88"/>
+                            <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="MostPlayerStack" 

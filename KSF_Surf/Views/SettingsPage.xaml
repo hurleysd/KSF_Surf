@@ -147,13 +147,14 @@
 
         </StackLayout>
 
+        <!-- Other page -->
         <Frame Style="{DynamicResource SelectableFrameStyle}"
                VerticalOptions="EndAndExpand"
                Margin="0,0,0,15">
             <StackLayout x:Name="InfoButton"
                          Style="{DynamicResource UntappedStackStyle}">
 
-                <Label Text="Info and Credits"
+                <Label Text="Legal and Credits"
                        Style="{DynamicResource NewPageLabelStyle}"/>
                 <Label Style="{DynamicResource RightArrowStyle}"/>
 

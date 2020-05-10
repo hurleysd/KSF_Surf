@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer: Sean Hurley (DDT5J75TWU)</CodesignKey>
+    <CodesignKey>Apple Development: Sean Hurley (DDT5J75TWU)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
