@@ -10,7 +10,7 @@
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="Settings"
-                     Text="Settings"
+                     IconImageSource="settings_icon.png"
                      Clicked="Settings_Pressed">
         </ToolbarItem>
     </ContentPage.ToolbarItems>

@@ -22,9 +22,9 @@
 	<key>CFBundleDisplayName</key>
 	<string>KSF Surf</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sean_hurley.KSF_Surf</string>
+	<string>com.seanhurley.KSFSurf</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.9.1</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
@@ -32,7 +32,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.9.1</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 </dict>

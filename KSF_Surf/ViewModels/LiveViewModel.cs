@@ -62,6 +62,7 @@ namespace KSF_Surf.ViewModels
             {
                 Method = Method.GET
             };
+            trequest.AddHeader("Authorization", BaseViewModel.TWITCH_O);
             trequest.AddHeader("Client-ID", BaseViewModel.TWITCH);
             trequest.RequestFormat = DataFormat.Json;
 
@@ -73,6 +74,7 @@ namespace KSF_Surf.ViewModels
             }
             else
             {
+                Console.WriteLine("TFFFFF???" + response.StatusCode);
                 streams = null;
             }
         }
@@ -84,7 +86,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 57 out of 100 (max per twitch API call)
+            // 60 out of 100 (max per twitch API call)
             "truktruk",
             "gocnak",
             "troflecopter",
