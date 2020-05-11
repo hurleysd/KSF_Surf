@@ -11,7 +11,6 @@ using UIKit;
 using RestSharp;
 
 using KSF_Surf.Models;
-using System.Text.RegularExpressions;
 
 namespace KSF_Surf.ViewModels
 {
@@ -22,6 +21,7 @@ namespace KSF_Surf.ViewModels
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
         internal readonly static string TWITCH = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH));
+        internal readonly static string TWITCH_O = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH_O));
 
         internal readonly RestClient client = new RestClient();
         internal readonly RestRequest request = new RestRequest
@@ -965,17 +965,5 @@ namespace KSF_Surf.ViewModels
             return emoji;
         }
         #endregion
-    }
-
-    public class InvertBooleanConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return !(bool)value;
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return !(bool)value;
-        }
     }
 }

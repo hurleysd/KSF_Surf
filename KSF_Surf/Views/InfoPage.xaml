@@ -21,7 +21,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="20,15,20,0">
+    <StackLayout Padding="20,15,20,0" Spacing="3">
 
         <Label x:Name="KSFThanksLabel"
                Style="{DynamicResource CreditLabelStyle}"/>
@@ -42,8 +42,13 @@
                Style="{DynamicResource SmallCreditLabelStyle}"
                Margin="0,5,0,0"/>
 
+        <Label Text="Version 0.9.0.1"
+               Style="{DynamicResource SmallCreditLabelStyle}"
+               HorizontalOptions="Center"
+               Margin="0,5,0,0"/>
+
         <Image Source="hesuka_logo_alpha.png"
-               Scale="0.5"
+               Scale="0.45"
                HorizontalOptions="Center"
                VerticalOptions="EndAndExpand"/>
 

@@ -167,9 +167,9 @@ namespace KSF_Surf.ViewModels
             else
             {
                 return null;
-            }
-            #endregion
+            }  
         }
+        #endregion
 
     }
 }
