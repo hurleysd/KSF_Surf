@@ -97,7 +97,14 @@ namespace KSF_Surf.Views
                 if (oldestType == EFilter_PlayerOldestType.top10)
                 {
                     rrtime += "[R" + datum.rank + "] ";
-                    rrdiff += " (WR+" + String_Formatter.toString_RankTime(datum.wrdiff) + ")";
+                    if (datum.wrdiff == "0")
+                    {
+                        rrdiff += " (WR)";
+                    }
+                    else
+                    {
+                        rrdiff += " (WR+" + String_Formatter.toString_RankTime(datum.wrdiff) + ")";
+                    }
                 }
                 else if (oldestType == EFilter_PlayerOldestType.map)
                 {
@@ -107,14 +114,21 @@ namespace KSF_Surf.Views
                     oldestType == EFilter_PlayerOldestType.wrcp ||
                     oldestType == EFilter_PlayerOldestType.wrb)
                 {
-                    if (datum.r2Diff != "0")
+                    if (!(datum.r2Diff is null))
                     {
-                        rrdiff += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                        if (datum.r2Diff != "0")
+                        {
+                            rrdiff += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                        }
+                        else
+                        {
+                            rrdiff += " (RETAKEN)";
+                        }
                     }
                     else
                     {
-                        rrdiff += " (RETAKEN)";
-                    } 
+                        rrdiff += " (WR N/A)";
+                    }
                 }
 
                 rrtime += "in " + String_Formatter.toString_RankTime(datum.surfTime) + rrdiff;

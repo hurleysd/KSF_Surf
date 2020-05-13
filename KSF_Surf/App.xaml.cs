@@ -3,6 +3,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.Views;
 using KSF_Surf.Models;
+using System.Globalization;
 
 namespace KSF_Surf
 {
@@ -11,6 +12,7 @@ namespace KSF_Surf
         public App()
         {
             InitializeComponent();
+            SetCultureToUSEnglish();
 
             MainPage = new MainPage();
         }
@@ -53,5 +55,10 @@ namespace KSF_Surf
             }
         }
 
+        private void SetCultureToUSEnglish()
+        {
+            CultureInfo englishUSCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = englishUSCulture;
+        }
     }
 }
