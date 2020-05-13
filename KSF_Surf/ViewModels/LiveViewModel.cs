@@ -74,7 +74,6 @@ namespace KSF_Surf.ViewModels
             }
             else
             {
-                Console.WriteLine("TFFFFF???" + response.StatusCode);
                 streams = null;
             }
         }
