@@ -146,7 +146,9 @@ namespace KSF_Surf.ViewModels
             "granis_",
             "taiikii",
             "benowy",
-            "melinder"
+            "melinder",
+            "idkdreams",
+            "weazr"
         };
 
         #endregion

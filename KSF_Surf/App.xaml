@@ -114,7 +114,7 @@
             <!-- Entry Styles -->
             <Style x:Key="SteamIDEntryStyle" TargetType="Entry">
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
-                <Setter Property="MaxLength" Value="20"/>
+                <Setter Property="MaxLength" Value="18"/>
                 <Setter Property="HorizontalOptions" Value="Fill"/>
             </Style>
             <Style x:Key="RankEntryStyle" TargetType="Entry">

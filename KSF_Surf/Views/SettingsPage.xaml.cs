@@ -95,7 +95,6 @@ namespace KSF_Surf.Views
             mode = newMode;
         }
 
-
         #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events

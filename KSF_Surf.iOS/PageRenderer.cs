@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KSF_Surf.ViewModels;
+using System;
 using UIKit;
 
 using Xamarin.Forms;
@@ -11,7 +12,7 @@ namespace KSF_Surf.iOS.Renderers
     public class PageRenderer : Xamarin.Forms.Platform.iOS.PageRenderer
     {
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
-        {
+        {                
             base.OnElementChanged(e);
 
             if (e.OldElement != null || Element == null)

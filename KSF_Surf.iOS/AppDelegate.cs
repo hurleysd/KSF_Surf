@@ -1,6 +1,6 @@
 ﻿using Foundation;
 using UIKit;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KSF_Surf.iOS
@@ -24,8 +24,9 @@ namespace KSF_Surf.iOS
             Forms.SetFlags("CollectionView_Experimental"); // needed for CarouselView (LivePage.xaml) and CollectionView (MapsPage.xaml)
             global::Xamarin.Forms.Forms.Init();
             Forms9Patch.iOS.Settings.Initialize(this);     // needed for Forms9Patch
+            
             LoadApplication(new App());
-
+            
             return base.FinishedLaunching(app, options);
         }
 
