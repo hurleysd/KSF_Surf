@@ -166,7 +166,6 @@ namespace KSF_Surf.ViewModels
             }
 
             return mode;
-
         }
     }
 
@@ -420,6 +419,18 @@ namespace KSF_Surf.ViewModels
                 case EFilter_PlayerCompletionType.complete: typeString = "complete"; break;
                 case EFilter_PlayerCompletionType.incomplete: typeString = "incomplete"; break;
                 case EFilter_PlayerCompletionType.completionbytier: typeString = "completionbytier"; break;
+                default: break;
+            }
+            return typeString;
+        }
+
+        public static string toString2(EFilter_PlayerCompletionType type)
+        {
+            string typeString = "";
+            switch (type)
+            {
+                case EFilter_PlayerCompletionType.complete: typeString = "Complete Maps"; break;
+                case EFilter_PlayerCompletionType.incomplete: typeString = "Incomplete Maps"; break;
                 default: break;
             }
             return typeString;

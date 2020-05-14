@@ -455,6 +455,36 @@ namespace KSF_Surf.Views
             }
             TierCompletionButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
+
+        private async void CompleteMaps_Tapped(object sender, EventArgs e)
+        {
+            CompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, playerViewModel, game, mode, EFilter_PlayerCompletionType.complete, 
+                    playerType, playerValue));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            CompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void IncompleteMaps_Tapped(object sender, EventArgs e)
+        {
+            IncompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, playerViewModel, game, mode, EFilter_PlayerCompletionType.incomplete,
+                    playerType, playerValue));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
+            IncompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
         #endregion
     }
 }

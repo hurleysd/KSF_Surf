@@ -71,6 +71,18 @@ namespace KSF_Surf.Views
                     Text = rrstring,
                     Style = App.Current.Resources["RRLabelStyle"] as Style
                 });
+
+                if (datum.recordType.Contains("Top10"))
+                {
+                    if (datum.prevRank != "10")
+                    {
+                        datum.recordType = "[R" + datum.prevRank + "]";
+                    }
+                    else
+                    {
+                        datum.recordType = "Top10";
+                    }
+                }
                 RecordsBrokenStack.Children.Add(new Label
                 {
                     Text = datum.recordType + " lost on " + datum.server + " server",

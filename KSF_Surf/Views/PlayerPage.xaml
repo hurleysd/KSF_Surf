@@ -488,6 +488,35 @@
                         </StackLayout>
                     </Grid>
                 </StackLayout>
+
+                <!-- Other pages -->
+                <Frame Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="CompleteMapsButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Complete Maps"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CompleteMaps_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
+                       Margin="0,0,0,15">
+                    <StackLayout x:Name="IncompleteMapsButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Incomplete Maps"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IncompleteMaps_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
         </ScrollView>
         <ActivityIndicator x:Name="LoadingAnimation"

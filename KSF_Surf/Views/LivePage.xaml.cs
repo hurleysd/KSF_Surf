@@ -31,8 +31,7 @@ namespace KSF_Surf.Views
             liveViewModel = new LiveViewModel();
 
             InitializeComponent();
-            LiveRefreshView.Command = new Command(LiveRefresh);
-            LiveRefreshView.IsEnabled = false;  // Xamarin bug : page jitters on refresh with collectionview
+            //LiveRefreshView.Command = new Command(LiveRefresh);
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -184,7 +183,7 @@ namespace KSF_Surf.Views
                 await LayoutDesign();
 
                 LoadingAnimation.IsRunning = false;
-                LiveRefreshView.IsVisible = true;
+                LiveScrollView.IsVisible = true;
                 hasLoaded = true;
             }
         }
@@ -203,18 +202,23 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void LiveRefresh()
+        private async void Refresh_Pressed(object sender, EventArgs e)
         {
             if (BaseViewModel.hasConnection())
             {
+                BaseViewModel.vibrate(true);
+                LoadingAnimation.IsRunning = true;
+                
                 await LoadStreams();
                 await LoadServers();
+                
+                LoadingAnimation.IsRunning = false;
+                BaseViewModel.vibrate(true);
             }
             else
             {
                 await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
-            LiveRefreshView.IsRefreshing = false;
         }
 
         private async void Settings_Pressed(object sender, EventArgs e)

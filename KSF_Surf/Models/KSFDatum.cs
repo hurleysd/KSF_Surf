@@ -719,5 +719,31 @@ namespace KSF_Surf.Models
         public PlayerOldestRecordsDatum data { get; set; }
     }
 
+    // PLAYER COMPLETIONS
+
+    public class PlayerCompletionRecord
+    {
+        public string mapName { get; set; }
+        public string mapID { get; set; }
+        public string mapType { get; set; }
+        public string cp_count { get; set; }
+        public string b_count { get; set; }
+        public string tier { get; set; }
+        public string completedZones { get; set; }
+        public string totalZones { get; set; }
+    }
+
+    public class PlayerMapCompletionDatum
+    {
+        public BasicInfo basicInfo { get; set; }
+        public List<PlayerCompletionRecord> records { get; set; }
+    }
+
+    public class PlayerMapsCompletionRootObject
+    {
+        public string status { get; set; }
+        public PlayerMapCompletionDatum data { get; set; }
+    }
+
     #endregion
 }
