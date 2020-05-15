@@ -134,7 +134,7 @@ namespace KSF_Surf.ViewModels
             "ghostfacee",
             "muta44",
             "gorange_ninja",
-			"txcks",
+            "txcks",
             "kiiru",
             "marblesurfs",
             "virgn4life",

@@ -12,7 +12,7 @@ namespace KSF_Surf.iOS.Renderers
     public class PageRenderer : Xamarin.Forms.Platform.iOS.PageRenderer
     {
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
-        {                
+        { 
             base.OnElementChanged(e);
 
             if (e.OldElement != null || Element == null)

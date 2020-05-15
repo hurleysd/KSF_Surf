@@ -26,6 +26,17 @@
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
+            <Style x:Key = "Right3ColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key = "MapSeparatorStyle" TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -59,11 +70,13 @@
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="CSSServerStack" 
-                                     Orientation="Vertical" 
+                                     Orientation="Vertical"
+                                     Spacing="22"
                                      Grid.Column="0"/>
 
                         <StackLayout x:Name="CSSMapsStack" 
                                      Orientation="Vertical" 
+                                     Spacing="3"
                                      Grid.Column="1"/>
                     </Grid>
 
@@ -77,10 +90,12 @@
 
                         <StackLayout x:Name="CSS100TServerStack" 
                                      Orientation="Vertical" 
+                                     Spacing="22"
                                      Grid.Column="0"/>
 
                         <StackLayout x:Name="CSS100TMapsStack" 
-                                     Orientation="Vertical" 
+                                     Orientation="Vertical"
+                                     Spacing="3"
                                      Grid.Column="1"/>
 
                     </Grid>
@@ -98,11 +113,13 @@
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="CSGOServerStack" 
-                                     Orientation="Vertical" 
+                                     Orientation="Vertical"
+                                     Spacing="22"
                                      Grid.Column="0"/>
 
                         <StackLayout x:Name="CSGOMapsStack" 
-                                     Orientation="Vertical" 
+                                     Orientation="Vertical"
+                                     Spacing="3"
                                      Grid.Column="1"/>
                     </Grid>
                 </StackLayout>

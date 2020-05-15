@@ -4,6 +4,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 
 using KSF_Surf.Views;
+using System.Linq;
 
 namespace KSF_Surf
 {
@@ -14,7 +15,7 @@ namespace KSF_Surf
             InitializeComponent();
             SetCultureToUSEnglish();
 
-            MainPage = new MainPage(); 
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

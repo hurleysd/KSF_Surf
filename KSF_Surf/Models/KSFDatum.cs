@@ -10,6 +10,19 @@ namespace KSF_Surf.Models
 
     // SERVER LIST
 
+    public class ServerPlayerDatum
+    {
+        public string playerid { get; set; }
+        public string playername { get; set; }
+        public string rank { get; set; }
+        public string points { get; set; }
+        public string timeconnected { get; set; }
+        public string pc { get; set; }
+        public string zone { get; set; }
+        public string timeinzone { get; set; }
+    }
+
+
     public class KSFServerDatum 
     {
         public string hostname { get; set; }
@@ -23,7 +36,7 @@ namespace KSF_Surf.Models
         public string playersonline { get; set; }
         public string playersalive { get; set; }
         public string playersspectate { get; set; }
-        public List<object> players { get; set; }
+        public List<ServerPlayerDatum> players { get; set; }
     }
 
     public class KSFServerRootObject
