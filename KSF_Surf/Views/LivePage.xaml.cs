@@ -9,6 +9,7 @@ using Xamarin.Essentials;
 
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace KSF_Surf.Views
 {
@@ -82,6 +83,8 @@ namespace KSF_Surf.Views
             CSGOServerStack.Children.Clear();
             CSGOMapsStack.Children.Clear();
 
+            int i = 1;
+            int len = css_serverData.Count;
             foreach (KSFServerDatum datum in css_serverData)
             {
                 if (datum.surftimer_servername.Contains("test")) continue;
@@ -96,8 +99,24 @@ namespace KSF_Surf.Views
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
                 });
+                CSSMapsStack.Children.Add(new Label
+                {
+                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+
+                    Style = Resources["Right3ColStyle"] as Style
+                });
+
+                if (++i < len)
+                {
+                    CSSMapsStack.Children.Add(new BoxView
+                    {
+                        Style = Resources["MapSeparatorStyle"] as Style
+                    });
+                }
             }
 
+            i = 1;
+            len = css100t_serverData.Count;
             foreach (KSFServerDatum datum in css100t_serverData)
             {
                 if (datum.surftimer_servername.Contains("TEST")) continue;
@@ -112,8 +131,24 @@ namespace KSF_Surf.Views
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
                 });
+                CSS100TMapsStack.Children.Add(new Label
+                {
+                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+
+                    Style = Resources["Right3ColStyle"] as Style
+                });
+
+                if (++i < len)
+                {
+                    CSS100TMapsStack.Children.Add(new BoxView
+                    {
+                        Style = Resources["MapSeparatorStyle"] as Style
+                    });
+                }
             }
 
+            i = 1;
+            len = csgo_serverData.Count;
             foreach (KSFServerDatum datum in csgo_serverData)
             {
                 if (datum.surftimer_servername.Contains("TEST")) continue;
@@ -132,6 +167,20 @@ namespace KSF_Surf.Views
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
                 });
+                CSGOMapsStack.Children.Add(new Label
+                {
+                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+
+                    Style = Resources["Right3ColStyle"] as Style
+                });
+
+                if (++i < len)
+                {
+                    CSGOMapsStack.Children.Add(new BoxView
+                    {
+                        Style = Resources["MapSeparatorStyle"] as Style
+                    });
+                }
             }
         }
 

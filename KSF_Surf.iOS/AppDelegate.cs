@@ -1,6 +1,5 @@
 ﻿using Foundation;
 using UIKit;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace KSF_Surf.iOS

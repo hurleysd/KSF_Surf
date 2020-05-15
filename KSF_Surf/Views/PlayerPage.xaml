@@ -135,20 +135,6 @@
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Frame>
-                <Frame x:Name="TierCompletionFrame"
-                   Style="{DynamicResource SelectableFrameStyle}">
-                    <StackLayout x:Name="TierCompletionButton"
-                         Style="{DynamicResource UntappedStackStyle}">
-
-                        <Label Text="Completion By Tier"
-                           Style="{DynamicResource NewPageLabelStyle}"/>
-                        <Label Style="{DynamicResource RightArrowStyle}"/>
-
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TierCompletion_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Frame>
 
                 <StackLayout Padding="10,15,10,15"
                 Orientation="Vertical">
@@ -490,6 +476,19 @@
                 </StackLayout>
 
                 <!-- Other pages -->
+                <Frame Style="{DynamicResource SelectableFrameStyle}">
+                    <StackLayout x:Name="TierCompletionButton"
+                         Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Completion By Tier"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TierCompletion_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}">
                     <StackLayout x:Name="CompleteMapsButton"
                          Style="{DynamicResource UntappedStackStyle}">
