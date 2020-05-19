@@ -1,13 +1,13 @@
 # ![alt text](https://github.com/hurleysd/KSF_Surf/blob/master/KSF_Surf.iOS/Assets.xcassets/AppIcon.appiconset/Icon80.png "Title App Icon") KSF Surf
 
 ### DESCRIPTION
-A .NET mobile application for KSF surf news, information, and statistics. Developed using Visual Studio with Xamarin.Forms and NewtonSoft. The current focus will be on the iOS version with Android soon after. 
+A .NET mobile application for KSF surf news, information, and statistics. Developed using Visual Studio with Xamarin.Forms, NewtonSoft, and Forms9Patch. The current focus will be on the iOS version with Android soon after. 
 
 This application interfaces the APIs of KSF, Twitch, and Steam to gather data about players, maps, records, and live streams. KSF data has been previously only available in-game or on Discord, but this application will provide access to KSF data to anyone with a mobile phone.
 
 ### WHAT IS "SURF"?
 
-Surfing is a physics-based gamemode available within Source Engine games due to its bugs. With the correct server settings, players can slide on angled surfaces (known as ramps), manipulate their movement mid-air, and attempt to maximize their speed to complete community-made maps designed specifically for this gamemode. KSF (Kamikaze Strike Force Clan) is a community dedicated to the surf gamemode and provides servers that host this gamemode on Counter-Strike: Source and Counter-Strike: Global Offensive. With this, KSF also provides ranking and statistics for players to encourage competition and growth. The KSF website can be found [here](https://ksfclan.com/forum/).
+Surfing is a physics-based gamemode available within Source Engine games due to its bugs. With the correct server settings, players can slide on angled surfaces (known as ramps), manipulate their movement mid-air, and attempt to maximize their speed to complete community-made maps designed specifically for this gamemode. KSF is a community dedicated to the surf gamemode and provides servers that host this gamemode on Counter-Strike: Source and Counter-Strike: Global Offensive. With this, KSF also provides ranking and statistics for players to encourage competition and growth. The KSF website can be found [here](https://ksfclan.com/forum/).
 
 This video is an example of what surfing is. 
 
