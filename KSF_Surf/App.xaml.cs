@@ -4,7 +4,6 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 
 using KSF_Surf.Views;
-using System.Linq;
 
 namespace KSF_Surf
 {

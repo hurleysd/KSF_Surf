@@ -9,7 +9,6 @@ using Xamarin.Essentials;
 
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
-using System.Runtime.CompilerServices;
 
 namespace KSF_Surf.Views
 {
@@ -18,6 +17,7 @@ namespace KSF_Surf.Views
     {
         private readonly LiveViewModel liveViewModel;
         private bool hasLoaded = false;
+        private bool isRefreshing = false;
 
         // objects for "KSFClan Servers"
         private List<KSFServerDatum> css_serverData;
@@ -32,7 +32,6 @@ namespace KSF_Surf.Views
             liveViewModel = new LiveViewModel();
 
             InitializeComponent();
-            //LiveRefreshView.Command = new Command(LiveRefresh);
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -253,8 +252,11 @@ namespace KSF_Surf.Views
 
         private async void Refresh_Pressed(object sender, EventArgs e)
         {
+            if (isRefreshing) return;
+
             if (BaseViewModel.hasConnection())
             {
+                isRefreshing = true; 
                 BaseViewModel.vibrate(true);
                 LoadingAnimation.IsRunning = true;
                 
@@ -263,6 +265,7 @@ namespace KSF_Surf.Views
                 
                 LoadingAnimation.IsRunning = false;
                 BaseViewModel.vibrate(true);
+                isRefreshing = false;
             }
             else
             {
