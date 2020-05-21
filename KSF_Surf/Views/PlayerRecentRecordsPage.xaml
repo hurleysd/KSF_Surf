@@ -11,37 +11,37 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="RRPageScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Padding="10,15,10,15"
-                     Orientation="Vertical">
+                         Orientation="Vertical">
 
                 <!-- Recently Broken -->
                 <Label Text="Recently Broken Records"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
                 <Frame Style="{StaticResource FrameStyle}">
                     <StackLayout x:Name="RecordsBrokenStack" 
-                         Orientation="Vertical"
-                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="15"
-                         Spacing="10"/>
+                                 Orientation="Vertical"
+                                 BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                                 Padding="15"
+                                 Spacing="10"/>
                 </Frame>
 
                 <BoxView Style="{StaticResource Separator2Style}"/>
 
                 <!-- Recently Set -->
                 <Label Text="Recently Set Records"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
                 <Frame Style="{StaticResource FrameStyle}">
                     <StackLayout x:Name="RecordsSetStack" 
-                         Orientation="Vertical"
-                         BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                         Padding="15"
-                         Spacing="10"/>
+                                 Orientation="Vertical"
+                                 BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                                 Padding="15"
+                                 Spacing="10"/>
                 </Frame>
             </StackLayout>
         </ScrollView>

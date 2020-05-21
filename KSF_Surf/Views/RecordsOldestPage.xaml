@@ -16,7 +16,7 @@
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     IsVisible="False">
             <StackLayout Padding="10,15,10,15"
-                     Orientation="Vertical">
+                         Orientation="Vertical">
 
                 <!-- Oldest Records -->
                 <StackLayout Orientation="Horizontal">
@@ -26,7 +26,7 @@
                            HorizontalOptions="StartAndExpand"/>
 
                     <Label x:Name="ORTypeOptionLabel"
-                        Style="{StaticResource TypeLabelStyle}"
+                           Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
@@ -36,17 +36,17 @@
 
                 <Frame Style="{StaticResource FrameStyle}">
                     <StackLayout x:Name="ORStack" 
-                             Orientation="Vertical"
-                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                             Padding="15"
-                             Spacing="10"/>
+                                 Orientation="Vertical"
+                                 BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                                 Padding="15"
+                                 Spacing="10"/>
                 </Frame>
 
                 <Frame x:Name="MoreFrame"
-                   Style="{DynamicResource MoreFrameStyle}">
+                       Style="{DynamicResource MoreFrameStyle}">
                     <StackLayout x:Name="MoreButton"
-                            Style="{DynamicResource UntappedStackStyle}"
-                             Padding="0">
+                                 Style="{DynamicResource UntappedStackStyle}"
+                                 Padding="0">
                         <Grid HorizontalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>

@@ -24,12 +24,12 @@
                    Margin="10,0,0,10"/>
 
             <Label x:Name="ResetLabel"
-                       Text="Reset"
-                       FontSize="20"
-                       TextColor="#fc3d39"
-                       HorizontalOptions="EndAndExpand"
-                       IsVisible="False"
-                       Padding="2">
+                   Text="Reset"
+                   FontSize="20"
+                   TextColor="#fc3d39"
+                   HorizontalOptions="EndAndExpand"
+                   IsVisible="False"
+                   Padding="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
                 </Label.GestureRecognizers>
@@ -38,7 +38,7 @@
 
 
         <Grid Padding ="10"
-                  HorizontalOptions="FillAndExpand">
+              HorizontalOptions="FillAndExpand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="150"/>
@@ -46,27 +46,27 @@
             </Grid.ColumnDefinitions>
 
             <Label x:Name="GameCSSLabel"
-                       Text="CS:S"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="0">
+                   Text="CS:S"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="0">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CSSGameFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
             <Label x:Name="GameCSS100TLabel"
-                       Text="CS:S 100T"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="1">
+                   Text="CS:S 100T"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="1">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CSS100TGameFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
             <Label x:Name="GameCSGOLabel"
-                       Text="CS:GO"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="2">
+                   Text="CS:GO"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="CSGOGameFilter_Tapped"/>
                 </Label.GestureRecognizers>
@@ -77,11 +77,11 @@
 
         <!-- Style -->
         <Label Text="Style"
-                Style="{DynamicResource HeaderLabel}"
-                Margin="10,0,0,10"/>
+               Style="{DynamicResource HeaderLabel}"
+               Margin="10,0,0,10"/>
 
         <Grid Padding ="10"
-                HorizontalOptions="FillAndExpand">
+              HorizontalOptions="FillAndExpand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -90,42 +90,41 @@
             </Grid.ColumnDefinitions>
 
             <Label x:Name="ModeFWLabel"
-                       Text="FW"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="0">
+                   Text="FW"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="0">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="FWModeFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
             <Label x:Name="ModeHSWLabel"
-                       Text="HSW"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="1">
+                   Text="HSW"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="1">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="HSWModeFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
             <Label x:Name="ModeSWLabel"
-                       Text="SW"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="2">
+                   Text="SW"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="2">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SWModeFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
 
             <Label x:Name="ModeBWLabel"
-                       Text="BW"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="3">
+                   Text="BW"
+                   Style="{StaticResource FilterLabelStyle}"
+                   Grid.Column="3">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BWModeFilter_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
-
 
     </StackLayout>
 </ContentPage>

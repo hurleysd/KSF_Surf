@@ -18,31 +18,31 @@
     <!-- Search Bar -->
     <AbsoluteLayout>
         <StackLayout x:Name="MapsStack"
-                Orientation="Vertical"
-                Spacing="0"
-                Margin="0"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
             <SearchBar x:Name="MapsSearchBar"
-                    Placeholder="Search maps..."
-                    FontSize="20"
-                    TextColor="{DynamicResource HeaderTextColor}"
-                    BackgroundColor="{DynamicResource AppBackgroundColor}"
-                    TextChanged="SearchTextChanged"
-                    Focused="SearchBarFocused"
-                    Unfocused="SearchBarUnfocused"/>
+                       Placeholder="Search maps..."
+                       FontSize="20"
+                       TextColor="{DynamicResource HeaderTextColor}"
+                       BackgroundColor="{DynamicResource AppBackgroundColor}"
+                       TextChanged="SearchTextChanged"
+                       Focused="SearchBarFocused"
+                       Unfocused="SearchBarUnfocused"/>
 
             <BoxView Color="{DynamicResource ViewBackgroundColor}"
-                         HeightRequest="1"
-                         HorizontalOptions="Fill"/>
+                     HeightRequest="1"
+                     HorizontalOptions="Fill"/>
 
             <!-- Maps List -->
             <CollectionView x:Name="MapsCollectionView"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        SelectionMode="Single"
-                        SelectionChanged="Map_SelectionChanged"
-                        VerticalScrollBarVisibility="Default">
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            SelectionMode="Single"
+                            SelectionChanged="Map_SelectionChanged"
+                            VerticalScrollBarVisibility="Default">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Orientation="Vertical"
