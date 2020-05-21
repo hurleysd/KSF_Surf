@@ -22,8 +22,8 @@
             <!-- Game -->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Game"
-                   Style="{DynamicResource HeaderLabel}"
-                   Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Label x:Name="ResetLabel"
                        Text="Reset"
@@ -78,8 +78,8 @@
 
             <!-- Sort -->
             <Label Text="Sort by"
-               Style="{DynamicResource HeaderLabel}"
-               Margin="10,10,0,10"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,10,0,10"/>
 
             <Grid Padding ="10"
                   HorizontalOptions="FillAndExpand">
@@ -172,9 +172,9 @@
                 </Grid.RowDefinitions>
 
                 <Label Text="Min"
-                        Style="{StaticResource FilterLabelStyle}"
-                        Grid.Column="0"
-                        Grid.Row="0"/>
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="0"
+                       Grid.Row="0"/>
 
                 <Slider x:Name="MinTierSlider"
                         Maximum="8" 
@@ -186,17 +186,17 @@
                         ValueChanged="MinTierSlider_ValueChanged"/>
 
                 <Label x:Name="MinTierLabel"
-                        Text="1"
-                        FontSize="26"
-                        TextColor="{StaticResource TappedTextColor}"
-                        HorizontalOptions="Center"
-                        Grid.Column="2"
-                        Grid.Row="0"/>
+                       Text="1"
+                       FontSize="26"
+                       TextColor="{StaticResource TappedTextColor}"
+                       HorizontalOptions="Center"
+                       Grid.Column="2"
+                       Grid.Row="0"/>
 
                 <Label Text="Max"
-                        Style="{StaticResource FilterLabelStyle}"
-                        Grid.Column="0"
-                        Grid.Row="1"/>
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="0"
+                       Grid.Row="1"/>
 
                 <Slider x:Name="MaxTierSlider"
                         Maximum="8" 
@@ -208,20 +208,20 @@
                         ValueChanged="MaxTierSlider_ValueChanged"/>
 
                 <Label x:Name="MaxTierLabel"
-                        Text="1"
-                        FontSize="26"
-                        TextColor="{StaticResource TappedTextColor}"
-                        HorizontalOptions="Center"
-                        Grid.Column="2"
-                        Grid.Row="1"/>
+                       Text="1"
+                       FontSize="26"
+                       TextColor="{StaticResource TappedTextColor}"
+                       HorizontalOptions="Center"
+                       Grid.Column="2"
+                       Grid.Row="1"/>
             </Grid>
 
             <BoxView Style="{DynamicResource Separator2Style}"/>
             
             <!-- Map Type -->
             <Label Text="Map Type"
-               Style="{DynamicResource HeaderLabel}"
-               Margin="10,10,0,10"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,10,0,10"/>
 
             <Grid Padding ="10"
                   HorizontalOptions="FillAndExpand">

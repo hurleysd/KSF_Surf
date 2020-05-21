@@ -17,6 +17,7 @@ namespace KSF_Surf.ViewModels
         }
 
         // KSF API calls -----------------------------------------------------------------------------------------------------------
+        #region ksf
 
         internal async Task<DetailedMapsRootObject> GetDetailedMapsList(EFilter_Game game, EFilter_Sort sort)
         {
@@ -200,5 +201,7 @@ namespace KSF_Surf.ViewModels
                 return null;
             }
         }
+
+        #endregion
     }
 }

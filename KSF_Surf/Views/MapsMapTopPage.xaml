@@ -21,10 +21,10 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="MapsMapTopScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Padding="10,15,10,15"
                          Orientation="Vertical">
 
@@ -59,8 +59,8 @@
 
                 <Frame Style="{StaticResource FrameStyle}">
                     <Grid HorizontalOptions="FillAndExpand"
-                      BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                      Padding="10">
+                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                          Padding="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="1"/>
@@ -68,25 +68,25 @@
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="TopRankStack" 
-                                 Orientation="Vertical" 
-                                 Grid.Column="0"
-                                 MinimumWidthRequest="50">
+                                     Orientation="Vertical" 
+                                     Grid.Column="0"
+                                     MinimumWidthRequest="50">
                             <Label x:Name="TopColLabel1"
-                               Text="Rank" 
-                               TextColor="{DynamicResource HeaderTextColor}"
-                               FontSize="20"/>
+                                   Text="Rank" 
+                                   TextColor="{DynamicResource HeaderTextColor}"
+                                   FontSize="20"/>
                         </StackLayout>
 
                         <BoxView Color="{DynamicResource BorderColor}"
                              Grid.Column="1"/>
 
                         <StackLayout x:Name="TopTimeStack" 
-                                 Orientation="Vertical" 
-                                 Grid.Column="2">
+                                     Orientation="Vertical" 
+                                     Grid.Column="2">
                             <Label x:Name="TopColLabel2"
-                               Text="Time" 
-                               TextColor="{DynamicResource HeaderTextColor}"
-                               FontSize="20"/>
+                                   Text="Time" 
+                                   TextColor="{DynamicResource HeaderTextColor}"
+                                   FontSize="20"/>
                         </StackLayout>
                     </Grid>
                 </Frame>
@@ -94,7 +94,7 @@
                 <Frame x:Name="MoreFrame"
                        Style="{DynamicResource MoreFrameStyle}">
                     <StackLayout x:Name="MoreButton"
-                                Style="{DynamicResource UntappedStackStyle}"
+                                 Style="{DynamicResource UntappedStackStyle}"
                                  Padding="0">
                         <Grid HorizontalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>

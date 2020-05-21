@@ -79,7 +79,7 @@ namespace KSF_Surf.ViewModels
         #endregion
 
 
-        // System wide static methods ----------------------------------------------------------
+        // System wide static methods ------------------------------------------------------
         #region system
         internal static void vibrate(bool allowVibrate)
         {
@@ -167,9 +167,9 @@ namespace KSF_Surf.ViewModels
 
             return mode;
         }
+        #endregion
     }
 
-    #endregion
     // TOSTRING -----------------------------------------------------------------------------
     #region ToString
 

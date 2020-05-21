@@ -17,25 +17,25 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="RecordsPageScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Padding="0" Spacing="0">
                 <StackLayout Padding="10,15,10,15"
-                     Orientation="Vertical">
+                             Orientation="Vertical">
 
                     <!-- Map Recent Records -->
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Recent"
-                           Style="{DynamicResource HeaderLabel}"
-                           Padding="10,0,0,10"
-                           HorizontalOptions="StartAndExpand"/>
+                               Style="{DynamicResource HeaderLabel}"
+                               Padding="10,0,0,10"
+                               HorizontalOptions="StartAndExpand"/>
 
 
                         <Label x:Name="RRTypeOptionLabel"
-                           Style="{StaticResource TypeLabelStyle}"
-                           HorizontalOptions="EndAndExpand">
+                               Style="{StaticResource TypeLabelStyle}"
+                               HorizontalOptions="EndAndExpand">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
                             </Label.GestureRecognizers>
@@ -44,21 +44,21 @@
 
                     <Frame Style="{StaticResource FrameStyle}">
                         <StackLayout x:Name="RecordsStack" 
-                             Orientation="Vertical"
-                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                             Padding="15"
-                             Spacing="10"/>
+                                     Orientation="Vertical"
+                                     BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                                     Padding="15"
+                                     Spacing="10"/>
                     </Frame>
                 </StackLayout>
 
                 <!-- Other Pages -->
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
-               VerticalOptions="EndAndExpand">
+                       VerticalOptions="EndAndExpand">
                     <StackLayout x:Name="SurfTopButton"
-                         Style="{DynamicResource UntappedStackStyle}">
+                                 Style="{DynamicResource UntappedStackStyle}">
 
                         <Label Text="Surf Top"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
+                               Style="{DynamicResource NewPageLabelStyle}"/>
                         <Label Style="{DynamicResource RightArrowStyle}"/>
 
                         <StackLayout.GestureRecognizers>
@@ -67,12 +67,12 @@
                     </StackLayout>
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
-               VerticalOptions="End">
+                       VerticalOptions="End">
                     <StackLayout x:Name="MostButton"
-                         Style="{DynamicResource UntappedStackStyle}">
+                                 Style="{DynamicResource UntappedStackStyle}">
 
                         <Label Text="Most By Type"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
+                               Style="{DynamicResource NewPageLabelStyle}"/>
                         <Label Style="{DynamicResource RightArrowStyle}"/>
 
                         <StackLayout.GestureRecognizers>
@@ -81,13 +81,13 @@
                     </StackLayout>
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
-               VerticalOptions="End"
-               Margin="0,0,0,15">
+                       VerticalOptions="End"
+                       Margin="0,0,0,15">
                     <StackLayout x:Name="OldestRecordsButton"
-                         Style="{DynamicResource UntappedStackStyle}">
+                                 Style="{DynamicResource UntappedStackStyle}">
 
                         <Label Text="Oldest Records"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
+                               Style="{DynamicResource NewPageLabelStyle}"/>
                         <Label Style="{DynamicResource RightArrowStyle}"/>
 
                         <StackLayout.GestureRecognizers>

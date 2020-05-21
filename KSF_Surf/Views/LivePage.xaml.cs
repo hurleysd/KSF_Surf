@@ -27,6 +27,9 @@ namespace KSF_Surf.Views
         // object for "Surfer Streams"
         private ObservableCollection<TwitchDatum> streamData;
 
+        // Date of last refresh
+        DateTime lastRefresh = DateTime.Now;
+
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
@@ -57,7 +60,6 @@ namespace KSF_Surf.Views
                 }
             }
         }
-
 
         private async Task LoadServers()
         {
@@ -183,10 +185,6 @@ namespace KSF_Surf.Views
             }
         }
 
-        #endregion
-        // Loading Twitch Streams -----------------------------------------------------------------------------------------------------------------
-        #region twitch
-
         private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
 
         private async Task LoadStreams()
@@ -254,15 +252,26 @@ namespace KSF_Surf.Views
         {
             if (isRefreshing) return;
 
+            TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
+            bool tooSoon = sinceRefresh.TotalSeconds < 10;
+
             if (BaseViewModel.hasConnection())
             {
                 isRefreshing = true; 
                 BaseViewModel.vibrate(true);
                 LoadingAnimation.IsRunning = true;
                 
-                await LoadStreams();
-                await LoadServers();
-                
+                if (tooSoon)
+                {
+                    await Task.Delay(750); // 0.75 seconds
+                }
+                else
+                {
+                    await LoadStreams();
+                    await LoadServers();
+                    lastRefresh = DateTime.Now;
+                }
+
                 LoadingAnimation.IsRunning = false;
                 BaseViewModel.vibrate(true);
                 isRefreshing = false;
@@ -272,6 +281,7 @@ namespace KSF_Surf.Views
                 await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
         }
+
 
         private async void Settings_Pressed(object sender, EventArgs e)
         {

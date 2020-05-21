@@ -21,26 +21,26 @@
 
                 <!-- Player -->
                 <Label Text="Me"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Grid Padding ="10"
-                  HorizontalOptions="FillAndExpand">
+                      HorizontalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="110"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Label Text="Steam ID"
-                    FontSize="24"
-                    TextColor="{StaticResource TappedTextColor}"
-                    HorizontalOptions="End"
-                    Grid.Column="0">
+                           FontSize="24"
+                           TextColor="{StaticResource TappedTextColor}"
+                           HorizontalOptions="End"
+                           Grid.Column="0">
                     </Label>
 
                     <Entry x:Name="SteamIdEntry"
-                       Style="{StaticResource SteamIDEntryStyle}"
-                       Grid.Column="1"/>
+                           Style="{StaticResource SteamIDEntryStyle}"
+                           Grid.Column="1"/>
 
                 </Grid>
 
@@ -48,8 +48,8 @@
 
                 <!-- Game -->
                 <Label Text="Default Game"
-                Style="{DynamicResource HeaderLabel}"
-                Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Grid Padding ="10"
                       HorizontalOptions="FillAndExpand">
@@ -91,8 +91,8 @@
 
                 <!-- Style -->
                 <Label Text="Default Style"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Grid Padding ="10"
                     HorizontalOptions="FillAndExpand">
@@ -141,22 +141,22 @@
                 </Grid>
 
                 <Label Text="Changes will take effect on restart"
-                   TextColor="{DynamicResource HeaderTextColor}"
-                   FontSize="12"
-                   HorizontalOptions="Center"
-                   Margin="0,20,0,0"/>
+                       TextColor="{DynamicResource HeaderTextColor}"
+                       FontSize="12"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,0"/>
 
             </StackLayout>
 
             <!-- Other page -->
             <Frame Style="{DynamicResource SelectableFrameStyle}"
-               VerticalOptions="EndAndExpand"
-               Margin="0,0,0,15">
+                   VerticalOptions="EndAndExpand"
+                   Margin="0,0,0,15">
                 <StackLayout x:Name="InfoButton"
-                         Style="{DynamicResource UntappedStackStyle}">
+                             Style="{DynamicResource UntappedStackStyle}">
 
                     <Label Text="Legal and Credits"
-                       Style="{DynamicResource NewPageLabelStyle}"/>
+                           Style="{DynamicResource NewPageLabelStyle}"/>
                     <Label Style="{DynamicResource RightArrowStyle}"/>
 
                     <StackLayout.GestureRecognizers>

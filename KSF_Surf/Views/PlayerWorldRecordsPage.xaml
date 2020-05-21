@@ -11,23 +11,23 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="PlayerWorldRecordsScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Padding="10,15,10,15"
                          Orientation="Vertical">
 
                 <!-- World Records -->
                 <StackLayout Orientation="Horizontal">
                     <Label Text="World Records"
-                               Style="{DynamicResource HeaderLabel}"
-                               Padding="10,0,0,10"
-                               HorizontalOptions="StartAndExpand"/>
+                           Style="{DynamicResource HeaderLabel}"
+                           Padding="10,0,0,10"
+                           HorizontalOptions="StartAndExpand"/>
 
                     <Label x:Name="WRTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
-                               HorizontalOptions="EndAndExpand">
+                           HorizontalOptions="EndAndExpand">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="WRTypeOptionLabel_Tapped"/>
                         </Label.GestureRecognizers>
@@ -45,7 +45,7 @@
                 <Frame x:Name="MoreFrame"
                        Style="{DynamicResource MoreFrameStyle}">
                     <StackLayout x:Name="MoreButton"
-                                Style="{DynamicResource UntappedStackStyle}"
+                                 Style="{DynamicResource UntappedStackStyle}"
                                  Padding="0">
                         <Grid HorizontalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>

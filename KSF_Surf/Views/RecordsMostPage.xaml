@@ -21,12 +21,12 @@
                 <!-- Most by type -->
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Most"
-                               Style="{DynamicResource HeaderLabel}"
-                               Padding="10,0,0,10"/>
+                           Style="{DynamicResource HeaderLabel}"
+                           Padding="10,0,0,10"/>
 
                     <Label x:Name="MostTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
-                            HorizontalOptions="EndAndExpand">
+                           HorizontalOptions="EndAndExpand">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
                         </Label.GestureRecognizers>
@@ -72,7 +72,7 @@
                 <Frame x:Name="MoreFrame"
                        Style="{DynamicResource MoreFrameStyle}">
                     <StackLayout x:Name="MoreButton"
-                                Style="{DynamicResource UntappedStackStyle}"
+                                 Style="{DynamicResource UntappedStackStyle}"
                                  Padding="0">
                         <Grid HorizontalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>

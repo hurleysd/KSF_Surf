@@ -11,30 +11,30 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="PlayerMapsCompletionScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Padding="10,15,10,15"
-                     Orientation="Vertical">
+                         Orientation="Vertical">
 
                 <!-- Completion Records -->
                 <Label x:Name="HeaderLabel"
-                    Style="{DynamicResource HeaderLabel}"
-                    Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Frame Style="{StaticResource FrameStyle}">
                     <StackLayout x:Name="CompletionStack" 
-                             Orientation="Vertical"
-                             BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                             Padding="15"
-                             Spacing="10"/>
+                                Orientation="Vertical"
+                                BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                                Padding="15"
+                                Spacing="10"/>
                 </Frame>
 
                 <Frame x:Name="MoreFrame"
                        Style="{DynamicResource MoreFrameStyle}">
                     <StackLayout x:Name="MoreButton"
-                                Style="{DynamicResource UntappedStackStyle}"
+                                 Style="{DynamicResource UntappedStackStyle}"
                                  Padding="0">
                         <Grid HorizontalOptions="CenterAndExpand">
                             <Grid.RowDefinitions>

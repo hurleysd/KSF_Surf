@@ -12,22 +12,22 @@
 
     <AbsoluteLayout>
         <ScrollView x:Name="MapsMapCCPScrollView"
-                Orientation="Vertical"
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                IsVisible="False">
+                    Orientation="Vertical"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False">
             <StackLayout Orientation="Vertical"
                          Padding="0"
                          Spacing="0">
                 <Forms9Patch:Label x:Name="WRPlayer" 
-                       Style="{DynamicResource HeaderLabel}"
-                       FontSize="32"
-                       HorizontalOptions="FillAndExpand"
-                       LineBreakMode="NoWrap"
-                       Lines="1"
-                       AutoFit="Width"
-                       MinFontSize="14"
-                       Margin="20,15,20,0"/>
+                                   Style="{DynamicResource HeaderLabel}"
+                                   FontSize="32"
+                                   HorizontalOptions="FillAndExpand"
+                                   LineBreakMode="NoWrap"
+                                   Lines="1"
+                                   AutoFit="Width"
+                                   MinFontSize="14"
+                                   Margin="20,15,20,0"/>
                 <!-- CCP -->
                 <StackLayout x:Name="CCPStack"
                              Padding="10,0,10,30"
