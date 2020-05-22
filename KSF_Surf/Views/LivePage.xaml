@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Forms9Patch="clr-namespace:Forms9Patch;assembly=Forms9Patch"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.LivePage"
              Title="Live"
@@ -135,7 +136,6 @@
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
                        Margin="0,0,0,15">
                     <CollectionView x:Name ="StreamsCollectionView"
-                                    ItemsSource="{Binding Streams}"
                                     SelectionMode="Single"
                                     SelectionChanged="Stream_SelectionChanged"      
                                     BackgroundColor="{DynamicResource ViewBackgroundColor}"
@@ -164,12 +164,15 @@
                                         <Image Source="{Binding thumbnail_url}"/>
                                     </Frame>
 
-                                    <Label Text="{Binding user_name}"
-                                           LineBreakMode="NoWrap"
-                                           TextColor="{DynamicResource HeaderTextColor}"
-                                           FontSize="17"
-                                           Grid.Row="1"
-                                           VerticalOptions="Center"/>
+                                    <Forms9Patch:Label Text="{Binding user_name}"
+                                                       LineBreakMode="NoWrap"
+                                                       VerticalOptions="Center"
+                                                       TextColor="{DynamicResource HeaderTextColor}"
+                                                       FontSize="17"
+                                                       Lines="1"
+                                                       AutoFit="Width"
+                                                       MinFontSize="14"
+                                                       Grid.Row="1"/>
 
                                     <Label Text="{Binding title}"
                                            LineBreakMode="NoWrap"

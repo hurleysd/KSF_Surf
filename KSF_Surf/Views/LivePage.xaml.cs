@@ -28,7 +28,7 @@ namespace KSF_Surf.Views
         private ObservableCollection<TwitchDatum> streamData;
 
         // Date of last refresh
-        DateTime lastRefresh = DateTime.Now;
+        private DateTime lastRefresh = DateTime.Now;
 
         public LivePage()
         {
@@ -185,8 +185,6 @@ namespace KSF_Surf.Views
             }
         }
 
-        private ObservableCollection<TwitchDatum> Streams { get { return streamData; } }
-
         private async Task LoadStreams()
         {
             await liveViewModel.twitchRefresh();
@@ -198,16 +196,12 @@ namespace KSF_Surf.Views
                 StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
                 return;
             }
-            streamData = new ObservableCollection<TwitchDatum>(tro.data);
+            streamData = tro.data;
 
             if (streamData.Count > 0)
             {
                 foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
                 {
-                    if (datum.title.Length > 23)
-                    {
-                        datum.title = datum.title.Substring(0, 23) + "...";
-                    }
                     if (datum.thumbnail_url != null)
                     {
                         datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "72");
@@ -263,7 +257,7 @@ namespace KSF_Surf.Views
                 
                 if (tooSoon)
                 {
-                    await Task.Delay(750); // 0.75 seconds
+                    await Task.Delay(500); // 0.5 seconds
                 }
                 else
                 {

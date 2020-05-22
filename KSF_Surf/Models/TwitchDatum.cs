@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Models
 {
@@ -26,7 +27,7 @@ namespace KSF_Surf.Models
 
     public class TwitchRootObject
     {
-        public List<TwitchDatum> data { get; set; }
+        public ObservableCollection<TwitchDatum> data { get; set; }
         public TwitchPagination pagination { get; set; }
     }
 }
