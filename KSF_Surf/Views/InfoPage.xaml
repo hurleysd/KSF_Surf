@@ -42,7 +42,7 @@
                Style="{DynamicResource SmallCreditLabelStyle}"
                Margin="0,5,0,0"/>
 
-        <Label Text="Version 1.0.0"
+        <Label Text="Version 1.0.1"
                Style="{DynamicResource SmallCreditLabelStyle}"
                HorizontalOptions="Center"
                Margin="0,5,0,0"/>
