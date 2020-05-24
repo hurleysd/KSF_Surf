@@ -85,7 +85,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 65 out of 100 (max per twitch API call)
+            // 66 out of 100 (max per twitch API call)
             "gocnak",
             "troflecopter",
             "mariowned",
@@ -122,7 +122,6 @@ namespace KSF_Surf.ViewModels
             "sensemcsweggense",
             "illxjoey",
             "lordsyfo",
-            "ret_rded",
             "pignucss",
             "thegaranimal",
             "surfking",
@@ -151,7 +150,9 @@ namespace KSF_Surf.ViewModels
             "usernamesurf",
             "dangersurfs",
             "Bas_Kahvo",
-            "snosnowyyyy_y"
+            "snosnowyyyy_y",
+            "andrusken",
+            "TooManySams"
         };
 
         #endregion
