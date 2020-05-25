@@ -240,6 +240,10 @@ namespace KSF_Surf.Views
                 Uri link = new Uri("https://www.twitch.tv/" + datum.user_name);
                 if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
             }
+            else
+            {
+                await DisplayAlert("Could not open Twitch stream", "Please connect to the Internet.", "OK");
+            }
         }
 
         private async void Refresh_Pressed(object sender, EventArgs e)

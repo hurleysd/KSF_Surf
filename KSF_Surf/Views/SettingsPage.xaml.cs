@@ -1,11 +1,11 @@
-﻿using KSF_Surf.Models;
-using KSF_Surf.ViewModels;
-
-using System;
+﻿using System;
 using System.ComponentModel;
 
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
+using KSF_Surf.Models;
+using KSF_Surf.ViewModels;
 
 namespace KSF_Surf.Views
 {
@@ -140,6 +140,21 @@ namespace KSF_Surf.Views
             InfoButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             await Navigation.PushAsync(new InfoPage());
             InfoButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void Donate_Tapped(object sender, EventArgs e)
+        {
+            DonateButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                Uri link = new Uri("https://paypal.me/ksfmobiledev");
+                if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
+            }
+            else
+            {
+                await DisplayAlert("Could not open web page", "Please connect to the Internet.", "OK");
+            }
+            DonateButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
     }
 

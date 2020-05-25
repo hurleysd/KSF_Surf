@@ -16,7 +16,8 @@
     </ContentPage.ToolbarItems>
 
     <ScrollView Orientation="Vertical">
-        <StackLayout Padding="0">
+        <StackLayout Padding="0"
+                     Spacing="0">
             <StackLayout Padding="10,15,10,15">
 
                 <!-- Player -->
@@ -144,13 +145,27 @@
                        TextColor="{DynamicResource HeaderTextColor}"
                        FontSize="12"
                        HorizontalOptions="Center"
-                       Margin="0,20,0,0"/>
+                       Margin="0,15,0,0"/>
 
             </StackLayout>
 
-            <!-- Other page -->
+            <!-- Other pages -->
             <Frame Style="{DynamicResource SelectableFrameStyle}"
-                   VerticalOptions="EndAndExpand"
+                   VerticalOptions="EndAndExpand">
+                <StackLayout x:Name="DonateButton"
+                             Style="{DynamicResource UntappedStackStyle}">
+
+                    <Label Text="Support the Developer"
+                           Style="{DynamicResource NewPageLabelStyle}"/>
+                    <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Donate_Tapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Frame>
+            <Frame Style="{DynamicResource SelectableFrameStyle}"
+                   VerticalOptions="End"
                    Margin="0,0,0,15">
                 <StackLayout x:Name="InfoButton"
                              Style="{DynamicResource UntappedStackStyle}">
