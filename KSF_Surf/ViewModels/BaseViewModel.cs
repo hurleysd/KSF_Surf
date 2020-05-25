@@ -16,12 +16,15 @@ namespace KSF_Surf.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        readonly static string deviceString = Device.RuntimePlatform;
+        internal readonly static string deviceString = Device.RuntimePlatform;
+        internal readonly static string appVersionString = "1.1.0";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
         internal readonly static string TWITCH = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH));
         internal readonly static string TWITCH_O = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH_O));
+
+        internal readonly static string AGENT = propertiesDict_getUserAgent();
 
         internal readonly RestClient client = new RestClient();
         internal readonly RestRequest request = new RestRequest
@@ -35,6 +38,7 @@ namespace KSF_Surf.ViewModels
         public BaseViewModel()
         {
             request.AddHeader("x-auth-token", KSF);
+            request.AddHeader("User-Agent", AGENT);
         }
 
         #region autogen
@@ -105,6 +109,26 @@ namespace KSF_Surf.ViewModels
 
         // Properties Dicitonary --------------------------------------------------------------------------
 
+        internal static string propertiesDict_getUserAgent()
+        {
+            // EXAMPLE AGENT:   Phone/Apple/iOS/13.3/1.1.0 Sean/0584707f-0f7a-4a9e-8106-f7b01c6354cd
+
+            string agent = "";
+            if (App.Current.Properties.ContainsKey("agent"))
+            {
+                agent = App.Current.Properties["agent"] as string;
+            }
+            else
+            {
+                agent = DeviceInfo.Idiom + "/" + DeviceInfo.Manufacturer + "/" + DeviceInfo.Platform + "/" + DeviceInfo.VersionString;
+                agent += "/" + appVersionString + " " + DeviceInfo.Name + "/" + System.Guid.NewGuid().ToString();
+
+                App.Current.Properties.Add("agent", agent);
+                App.Current.SavePropertiesAsync();
+            }
+            return agent;
+        }
+
         internal static string propertiesDict_getSteamID()
         {
             string id = "STEAM_0:0:47620794";  // Sean's steam ID
@@ -115,6 +139,7 @@ namespace KSF_Surf.ViewModels
             else
             {
                 App.Current.Properties.Add("steamid", id);
+                App.Current.SavePropertiesAsync();
             }
             return id;
         }
@@ -138,6 +163,7 @@ namespace KSF_Surf.ViewModels
             else
             {
                 App.Current.Properties.Add("game", EFilter_ToString.toString(game));
+                App.Current.SavePropertiesAsync();
             }
 
             return game;
@@ -163,6 +189,7 @@ namespace KSF_Surf.ViewModels
             else
             {
                 App.Current.Properties.Add("mode", EFilter_ToString.toString(mode));
+                App.Current.SavePropertiesAsync();
             }
 
             return mode;
