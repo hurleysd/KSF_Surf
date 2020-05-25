@@ -226,7 +226,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                DisplayNoConnectionAlert();
             }
         }
 
@@ -245,7 +245,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                DisplayNoConnectionAlert();
             }
             await RecordsPageScrollView.ScrollToAsync(0, 0, true);
         }
@@ -259,9 +259,37 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                DisplayNoConnectionAlert();
             }
             SurfTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void CountryTop_Tapped(object sender, EventArgs e)
+        {
+            CountryTopButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new RecordsCountryTopPage(Title, recordsViewModel, game, mode));
+            }
+            else
+            {
+                DisplayNoConnectionAlert();
+            }
+            CountryTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void TopCountries_Tapped(object sender, EventArgs e)
+        {
+            TopCountriesButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new RecordsTopCountriesPage(Title, recordsViewModel, game, mode));
+            }
+            else
+            {
+                DisplayNoConnectionAlert();
+            }
+            TopCountriesButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void MostByType_Tapped(object sender, EventArgs e)
@@ -273,7 +301,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                DisplayNoConnectionAlert();
             }
             MostButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -287,9 +315,14 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                DisplayNoConnectionAlert();
             }
             OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
     }
 

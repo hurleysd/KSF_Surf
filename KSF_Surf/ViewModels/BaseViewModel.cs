@@ -602,6 +602,27 @@ namespace KSF_Surf.ViewModels
 
             return title;
         }
+
+        public static readonly string[] ctopCountries = {
+            "Argentina", "Australia", "Austria",
+            "Belarus", "Belgium", "Brazil", "Bulgaria",
+            "Canada", "Chile", "China", "Colombia", "Croatia", "Czech Republic", "Czechia",
+            "Denmark",
+            "Egypt", "Estonia",
+            "Finland", "France",
+            "Germany", "Greece", "Greenland",
+            "Hungary",
+            "Iceland", "Ireland", "Israel", "Italy",
+            "Japan",
+            "Kazakhstan", "Korea, Republic of", "Kuwait",
+            "Latvia", "Lithuania", "Luxembourg",
+            "Macedonia", "Malaysia", "Mexico",
+            "Netherlands", "New Zealand", "Norway",
+            "Peru", "Poland", "Portugal",
+            "Romania", "Russia", "Russian Federation",
+            "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "Spain", "Sweden", "Switzerland",
+            "Turkey",
+            "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay" };
     }
 
     #endregion
