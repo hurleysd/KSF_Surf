@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using KSF_Surf.ViewModels;
+using System.ComponentModel;
 
 using Xamarin.Forms;
 
@@ -22,6 +23,8 @@ namespace KSF_Surf.Views
                 " with these services by this software. If you have any questions, please email seandhurley@live.com. Changes to this policy will be shown here.";
             CopyrightLabel.Text = "Intellectual Property: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. " +
                 "Copyright \U000000A9 2020 Sean Hurley. All rights reserved.";
+
+            VersionLabel.Text = "Version " + BaseViewModel.appVersionString;
         }
     }
 }
