@@ -227,7 +227,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             await MapsMapPRScrollView.ScrollToAsync(0, 0, true);
         }
@@ -249,7 +249,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -264,7 +264,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             CPRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -279,11 +279,15 @@ namespace KSF_Surf.Views
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             CCPButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
+        private async Task DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+        }
         #endregion
     }
 }

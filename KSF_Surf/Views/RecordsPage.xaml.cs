@@ -226,7 +226,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
         }
 
@@ -245,7 +245,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             await RecordsPageScrollView.ScrollToAsync(0, 0, true);
         }
@@ -259,7 +259,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             SurfTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -273,7 +273,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             CountryTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -287,7 +287,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             TopCountriesButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -301,7 +301,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             MostButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -315,12 +315,12 @@ namespace KSF_Surf.Views
             }
             else
             {
-                DisplayNoConnectionAlert();
+                await DisplayNoConnectionAlert();
             }
             OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
-        private async void DisplayNoConnectionAlert()
+        private async Task DisplayNoConnectionAlert()
         {
             await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
