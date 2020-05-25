@@ -510,10 +510,41 @@ namespace KSF_Surf.Models
         public string steamID { get; set; }
     }
 
-    public class OldestRecordsObject
+    public class OldestRecordsRootObject
     {
         public string status { get; set; }
         public List<OldRecord> data { get; set; }
+    }
+
+    // TOP COUNTRIES
+
+    public class CountryPoints
+    {
+        public string country { get; set; }
+        public string points { get; set; }
+    }
+
+    public class TopCountriesRootObject
+    {
+        public string status { get; set; }
+        public List<CountryPoints> data { get; set; }
+    }
+
+    // COUNTRY TOP
+
+    public class CountryPlayer
+    {
+        public string playerName { get; set; }
+        public string points { get; set; }
+        public string playerID { get; set; }
+        public string steamID { get; set; }
+        public string lastonline { get; set; }
+    }
+
+    public class CountryTopRootObject
+    {
+        public string status { get; set; }
+        public List<CountryPlayer> data { get; set; }
     }
 
     #endregion

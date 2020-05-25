@@ -68,6 +68,34 @@
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
                        VerticalOptions="End">
+                    <StackLayout x:Name="CountryTopButton"
+                                 Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Country Top"
+                               Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CountryTop_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
+                       VerticalOptions="End">
+                    <StackLayout x:Name="TopCountriesButton"
+                                 Style="{DynamicResource UntappedStackStyle}">
+
+                        <Label Text="Top Countries"
+                               Style="{DynamicResource NewPageLabelStyle}"/>
+                        <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TopCountries_Tapped"/>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Frame>
+                <Frame Style="{DynamicResource SelectableFrameStyle}"
+                       VerticalOptions="End">
                     <StackLayout x:Name="MostButton"
                                  Style="{DynamicResource UntappedStackStyle}">
 
