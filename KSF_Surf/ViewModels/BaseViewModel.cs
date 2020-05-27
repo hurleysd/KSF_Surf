@@ -111,7 +111,7 @@ namespace KSF_Surf.ViewModels
 
         internal static string propertiesDict_getUserAgent()
         {
-            // EXAMPLE AGENT:   Phone/Apple/iOS/13.3/1.1.0 Sean/0584707f-0f7a-4a9e-8106-f7b01c6354cd
+            // EXAMPLE AGENT:   Phone/Apple/iOS/13.3/1.1.0/0584707f-0f7a-4a9e-8106-f7b01c6354cd
 
             string agent = "";
             if (App.Current.Properties.ContainsKey("agent"))
@@ -121,7 +121,7 @@ namespace KSF_Surf.ViewModels
             else
             {
                 agent = DeviceInfo.Idiom + "/" + DeviceInfo.Manufacturer + "/" + DeviceInfo.Platform + "/" + DeviceInfo.VersionString;
-                agent += "/" + appVersionString + " " + DeviceInfo.Name + "/" + System.Guid.NewGuid().ToString();
+                agent += "/" + appVersionString + "/" + System.Guid.NewGuid().ToString();
 
                 App.Current.Properties.Add("agent", agent);
                 App.Current.SavePropertiesAsync();
