@@ -16,6 +16,7 @@ namespace KSF_Surf.Views
     {
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
+        private bool isLoading = false;
         private readonly int LIST_LIMIT = 25;
         private readonly int CALL_LIMIT = 250;
 
@@ -131,7 +132,8 @@ namespace KSF_Surf.Views
 
         private async void MoreButton_Tapped(object sender, EventArgs e)
         {
-            if (!BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            isLoading = true;
 
             MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             MoreLabel.IsVisible = false;
@@ -151,6 +153,7 @@ namespace KSF_Surf.Views
             MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
             MoreLoadingAnimation.IsRunning = false;
             MoreLabel.IsVisible = true;
+            isLoading = false;
         }
 
         #endregion
