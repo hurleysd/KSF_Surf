@@ -48,7 +48,7 @@
                Margin="0,5,0,0"/>
 
         <Image Source="hesuka_logo_alpha.png"
-               Scale="0.45"
+               Scale="0.3"
                HorizontalOptions="Center"
                VerticalOptions="EndAndExpand"/>
 

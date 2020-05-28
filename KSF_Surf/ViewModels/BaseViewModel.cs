@@ -17,7 +17,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.1.0";
+        internal readonly static string appVersionString = "1.1.32";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -31,14 +31,14 @@ namespace KSF_Surf.ViewModels
         {
             Method = Method.GET,
             RequestFormat = DataFormat.Json
-
         };
         internal IRestResponse response = null;
 
         public BaseViewModel()
         {
+            App.Current.Properties.Remove("agent"); // TODO: REMOVE once all agents have been cleared
+            client.UserAgent = AGENT;
             request.AddHeader("x-auth-token", KSF);
-            request.AddHeader("User-Agent", AGENT);
         }
 
         #region autogen
@@ -111,21 +111,22 @@ namespace KSF_Surf.ViewModels
 
         internal static string propertiesDict_getUserAgent()
         {
-            // EXAMPLE AGENT:   Phone/Apple/iOS/13.3/1.1.0/0584707f-0f7a-4a9e-8106-f7b01c6354cd
+            // EXAMPLE AGENT:   Phone/Apple/iOS/13.3 (Sean's iPhone) 0584707f-0f7a-4a9e-8106-f7b01c6354cd/1.1.0
 
-            string agent = "";
-            if (App.Current.Properties.ContainsKey("agent"))
+            string guid = "";
+            if (App.Current.Properties.ContainsKey("guid"))
             {
-                agent = App.Current.Properties["agent"] as string;
+                guid = App.Current.Properties["guid"] as string;
             }
             else
             {
-                agent = DeviceInfo.Idiom + "/" + DeviceInfo.Manufacturer + "/" + DeviceInfo.Platform + "/" + DeviceInfo.VersionString;
-                agent += "/" + appVersionString + "/" + System.Guid.NewGuid().ToString();
-
-                App.Current.Properties.Add("agent", agent);
+                guid = System.Guid.NewGuid().ToString();
+                App.Current.Properties.Add("guid", guid);
                 App.Current.SavePropertiesAsync();
             }
+
+            string agent = DeviceInfo.Idiom + "/" + DeviceInfo.Manufacturer + "/" + DeviceInfo.Platform + "/" + DeviceInfo.VersionString + " (" + DeviceInfo.Name + ")";
+            agent += " " + guid + "/" + appVersionString;
             return agent;
         }
 
