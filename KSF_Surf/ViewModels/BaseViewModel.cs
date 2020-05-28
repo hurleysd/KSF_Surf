@@ -17,7 +17,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.1.32";
+        internal readonly static string appVersionString = "1.1.33";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -763,7 +763,7 @@ namespace KSF_Surf.ViewModels
                 case "Andorra": emoji = "\U0001F1E6\U0001F1E9"; break;
                 case "United Arab Emirates": emoji = "\U0001F1E6\U0001F1EA"; break;
                 case "Afghanistan": emoji = "\U0001F1E6\U0001F1EB"; break;
-                case "Antigua & Barbuda": emoji = "\U0001F1E6\U0001F1EC"; break;
+                case "Antigua and Barbuda": emoji = "\U0001F1E6\U0001F1EC"; break;
                 case "Anguilla": emoji = "\U0001F1E6\U0001F1EE"; break;
                 case "Albania": emoji = "\U0001F1E6\U0001F1F1"; break;
                 case "Armenia": emoji = "\U0001F1E6\U0001F1F2"; break;
@@ -774,9 +774,10 @@ namespace KSF_Surf.ViewModels
                 case "Austria": emoji = "\U0001F1E6\U0001F1F9"; break;
                 case "Australia": emoji = "\U0001F1E6\U0001F1FA"; break;
                 case "Aruba": emoji = "\U0001F1E6\U0001F1FC"; break;
-                case "Ã…land Islands": emoji = "\U0001F1E6\U0001F1FD"; break;
+                case "Aland Islands": emoji = "\U0001F1E6\U0001F1FD"; break;
                 case "Azerbaijan": emoji = "\U0001F1E6\U0001F1FF"; break;
                 case "Bosnia & Herzegovina": emoji = "\U0001F1E7\U0001F1E6"; break;
+                case "Bosnia and Herzegovina": emoji = "\U0001F1E7\U0001F1E6"; break;
                 case "Barbados": emoji = "\U0001F1E7\U0001F1E7"; break;
                 case "Bangladesh": emoji = "\U0001F1E7\U0001F1E9"; break;
                 case "Belgium": emoji = "\U0001F1E7\U0001F1EA"; break;
@@ -788,8 +789,10 @@ namespace KSF_Surf.ViewModels
                 case "St. BarthÃ©lemy": emoji = "\U0001F1E7\U0001F1F1"; break;
                 case "Bermuda": emoji = "\U0001F1E7\U0001F1F2"; break;
                 case "Brunei": emoji = "\U0001F1E7\U0001F1F3"; break;
+                case "Brunei Darussalam": emoji = "\U0001F1E7\U0001F1F3"; break;
                 case "Bolivia": emoji = "\U0001F1E7\U0001F1F4"; break;
                 case "Caribbean Netherlands": emoji = "\U0001F1E7\U0001F1F6"; break;
+                case "Netherlands Antilles": emoji = "\U0001F1E7\U0001F1F6"; break;
                 case "Brazil": emoji = "\U0001F1E7\U0001F1F7"; break;
                 case "Bahamas": emoji = "\U0001F1E7\U0001F1F8"; break;
                 case "Bhutan": emoji = "\U0001F1E7\U0001F1F9"; break;
@@ -803,7 +806,7 @@ namespace KSF_Surf.ViewModels
                 case "Central African Republic": emoji = "\U0001F1E8\U0001F1EB"; break;
                 case "Congo - Brazzaville": emoji = "\U0001F1E8\U0001F1EC"; break;
                 case "Switzerland": emoji = "\U0001F1E8\U0001F1ED"; break;
-                case "CÃ´te dâ€™Ivoire": emoji = "\U0001F1E8\U0001F1EE"; break;
+                case "Cote DIvoire": emoji = "\U0001F1E8\U0001F1EE"; break;
                 case "Cook Islands": emoji = "\U0001F1E8\U0001F1F0"; break;
                 case "Chile": emoji = "\U0001F1E8\U0001F1F1"; break;
                 case "Cameroon": emoji = "\U0001F1E8\U0001F1F2"; break;
@@ -874,6 +877,7 @@ namespace KSF_Surf.ViewModels
                 case "British Indian Ocean Territory": emoji = "\U0001F1EE\U0001F1F4"; break;
                 case "Iraq": emoji = "\U0001F1EE\U0001F1F6"; break;
                 case "Iran": emoji = "\U0001F1EE\U0001F1F7"; break;
+                case "Iran, Islamic Republic of": emoji = "\U0001F1EE\U0001F1F7"; break;
                 case "Iceland": emoji = "\U0001F1EE\U0001F1F8"; break;
                 case "Italy": emoji = "\U0001F1EE\U0001F1F9"; break;
                 case "Jersey": emoji = "\U0001F1EF\U0001F1EA"; break;
@@ -893,6 +897,7 @@ namespace KSF_Surf.ViewModels
                 case "Cayman Islands": emoji = "\U0001F1F0\U0001F1FE"; break;
                 case "Kazakhstan": emoji = "\U0001F1F0\U0001F1FF"; break;
                 case "Laos": emoji = "\U0001F1F1\U0001F1E6"; break;
+                case "Lao Peoples Democratic Republic": emoji = "\U0001F1F1\U0001F1E6"; break;
                 case "Lebanon": emoji = "\U0001F1F1\U0001F1E7"; break;
                 case "St. Lucia": emoji = "\U0001F1F1\U0001F1E8"; break;
                 case "Liechtenstein": emoji = "\U0001F1F1\U0001F1EE"; break;
@@ -900,21 +905,24 @@ namespace KSF_Surf.ViewModels
                 case "Liberia": emoji = "\U0001F1F1\U0001F1F7"; break;
                 case "Lesotho": emoji = "\U0001F1F1\U0001F1F8"; break;
                 case "Lithuania": emoji = "\U0001F1F1\U0001F1F9"; break;
+                case "Republic of Lithuania": emoji = "\U0001F1F1\U0001F1F9"; break;
                 case "Luxembourg": emoji = "\U0001F1F1\U0001F1FA"; break;
                 case "Latvia": emoji = "\U0001F1F1\U0001F1FB"; break;
                 case "Libya": emoji = "\U0001F1F1\U0001F1FE"; break;
                 case "Morocco": emoji = "\U0001F1F2\U0001F1E6"; break;
                 case "Monaco": emoji = "\U0001F1F2\U0001F1E8"; break;
                 case "Moldova": emoji = "\U0001F1F2\U0001F1E9"; break;
+                case "Republic of Moldova": emoji = "\U0001F1F2\U0001F1E9"; break;
+                case "Moldova, Republic of": emoji = "\U0001F1F2\U0001F1E9"; break;
                 case "Montenegro": emoji = "\U0001F1F2\U0001F1EA"; break;
                 case "St. Martin": emoji = "\U0001F1F2\U0001F1EB"; break;
                 case "Madagascar": emoji = "\U0001F1F2\U0001F1EC"; break;
                 case "Marshall Islands": emoji = "\U0001F1F2\U0001F1ED"; break;
                 case "Macedonia": emoji = "\U0001F1F2\U0001F1F0"; break;
                 case "Mali": emoji = "\U0001F1F2\U0001F1F1"; break;
-                case "Myanmar (Burma)": emoji = "\U0001F1F2\U0001F1F2"; break;
+                case "Myanmar": emoji = "\U0001F1F2\U0001F1F2"; break;
                 case "Mongolia": emoji = "\U0001F1F2\U0001F1F3"; break;
-                case "Macau SAR China": emoji = "\U0001F1F2\U0001F1F4"; break;
+                case "Macau": emoji = "\U0001F1F2\U0001F1F4"; break;
                 case "Northern Mariana Islands": emoji = "\U0001F1F2\U0001F1F5"; break;
                 case "Martinique": emoji = "\U0001F1F2\U0001F1F6"; break;
                 case "Mauritania": emoji = "\U0001F1F2\U0001F1F7"; break;
@@ -950,11 +958,12 @@ namespace KSF_Surf.ViewModels
                 case "Pitcairn Islands": emoji = "\U0001F1F5\U0001F1F3"; break;
                 case "Puerto Rico": emoji = "\U0001F1F5\U0001F1F7"; break;
                 case "Palestinian Territories": emoji = "\U0001F1F5\U0001F1F8"; break;
+                case "Palestinian Territory": emoji = "\U0001F1F5\U0001F1F8"; break;
                 case "Portugal": emoji = "\U0001F1F5\U0001F1F9"; break;
                 case "Palau": emoji = "\U0001F1F5\U0001F1FC"; break;
                 case "Paraguay": emoji = "\U0001F1F5\U0001F1FE"; break;
                 case "Qatar": emoji = "\U0001F1F6\U0001F1E6"; break;
-                case "RÃ©union": emoji = "\U0001F1F7\U0001F1EA"; break;
+                case "Reunion": emoji = "\U0001F1F7\U0001F1EA"; break;
                 case "Romania": emoji = "\U0001F1F7\U0001F1F4"; break;
                 case "Serbia": emoji = "\U0001F1F7\U0001F1F8"; break;
                 case "Russia": emoji = "\U0001F1F7\U0001F1FA"; break;
@@ -980,6 +989,7 @@ namespace KSF_Surf.ViewModels
                 case "El Salvador": emoji = "\U0001F1F8\U0001F1FB"; break;
                 case "Sint Maarten": emoji = "\U0001F1F8\U0001F1FD"; break;
                 case "Syria": emoji = "\U0001F1F8\U0001F1FE"; break;
+                case "Syrian Arab Republic": emoji = "\U0001F1F8\U0001F1FE"; break;
                 case "Swaziland": emoji = "\U0001F1F8\U0001F1FF"; break;
                 case "Tristan da Cunha": emoji = "\U0001F1F9\U0001F1E6"; break;
                 case "Turks & Caicos Islands": emoji = "\U0001F1F9\U0001F1E8"; break;
@@ -994,7 +1004,7 @@ namespace KSF_Surf.ViewModels
                 case "Tunisia": emoji = "\U0001F1F9\U0001F1F3"; break;
                 case "Tonga": emoji = "\U0001F1F9\U0001F1F4"; break;
                 case "Turkey": emoji = "\U0001F1F9\U0001F1F7"; break;
-                case "Trinidad & Tobago": emoji = "\U0001F1F9\U0001F1F9"; break;
+                case "Trinidad and Tobago": emoji = "\U0001F1F9\U0001F1F9"; break;
                 case "Tuvalu": emoji = "\U0001F1F9\U0001F1FB"; break;
                 case "Taiwan": emoji = "\U0001F1F9\U0001F1FC"; break;
                 case "Tanzania": emoji = "\U0001F1F9\U0001F1FF"; break;
@@ -1006,10 +1016,11 @@ namespace KSF_Surf.ViewModels
                 case "Uruguay": emoji = "\U0001F1FA\U0001F1FE"; break;
                 case "Uzbekistan": emoji = "\U0001F1FA\U0001F1FF"; break;
                 case "Vatican City": emoji = "\U0001F1FB\U0001F1E6"; break;
-                case "St. Vincent & Grenadines": emoji = "\U0001F1FB\U0001F1E8"; break;
+                case "St. Vincent and the Grenadines": emoji = "\U0001F1FB\U0001F1E8"; break;
                 case "Venezuela": emoji = "\U0001F1FB\U0001F1EA"; break;
                 case "British Virgin Islands": emoji = "\U0001F1FB\U0001F1EC"; break;
                 case "U.S. Virgin Islands": emoji = "\U0001F1FB\U0001F1EE"; break;
+                case "Virgin Islands, U.S": emoji = "\U0001F1FB\U0001F1EE"; break;
                 case "Vietnam": emoji = "\U0001F1FB\U0001F1F3"; break;
                 case "Vanuatu": emoji = "\U0001F1FB\U0001F1FA"; break;
                 case "Wallis & Futuna": emoji = "\U0001F1FC\U0001F1EB"; break;
