@@ -67,7 +67,8 @@
                     </StackLayout>
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
-                       VerticalOptions="End">
+                       VerticalOptions="End"
+                       Margin="0,0,0,15">
                     <StackLayout x:Name="CountryTopButton"
                                  Style="{DynamicResource UntappedStackStyle}">
 
@@ -110,7 +111,7 @@
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}"
                        VerticalOptions="End"
-                       Margin="0,0,0,15">
+                       Margin="0,15,0,15">
                     <StackLayout x:Name="OldestRecordsButton"
                                  Style="{DynamicResource UntappedStackStyle}">
 
