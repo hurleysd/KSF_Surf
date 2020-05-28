@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
         private bool isLoading = false;
         private readonly int LIST_LIMIT = 10;
-        private readonly int CALL_LIMIT = 50;
 
         // objects used by "Oldest Records" call
         private List<PlayerOldRecord> oldRecordData;
@@ -149,7 +148,7 @@ namespace KSF_Surf.Views
                 }
             }
 
-            moreRecords = ((i == LIST_LIMIT) && list_index < CALL_LIMIT);
+            moreRecords = (i == LIST_LIMIT);
             MoreFrame.IsVisible = moreRecords;
 
             if (i == 0) // no recently broken records
