@@ -83,7 +83,8 @@ namespace KSF_Surf.Views
 
                 EFilter_MapType mapType = (EFilter_MapType)int.Parse(datum.mapType);
                 string cptype = (mapType == EFilter_MapType.linear) ? "CPs" : "Stages";
-                string rrinfo = datum.cp_count + " " + cptype + ", " + datum.b_count + " Bonuses";
+                string rrinfo = datum.cp_count + " " + cptype + ", " + datum.b_count + " Bonus";
+                if (datum.b_count != "1") rrinfo += "es";
 
                 CompletionStack.Children.Add(new Label
                 {
