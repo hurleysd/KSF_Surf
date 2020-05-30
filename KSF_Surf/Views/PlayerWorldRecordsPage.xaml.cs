@@ -133,11 +133,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeRecords(wrsType);
 
                 LoadingAnimation.IsRunning = false;
                 PlayerWorldRecordsScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

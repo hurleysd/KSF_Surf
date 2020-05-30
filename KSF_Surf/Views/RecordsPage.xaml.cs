@@ -177,11 +177,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeRecentRecords(game, recentRecordsType, mode);
 
                 LoadingAnimation.IsRunning = false;
                 RecordsPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

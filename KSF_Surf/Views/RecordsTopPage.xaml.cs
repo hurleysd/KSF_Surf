@@ -82,11 +82,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeRecords();
 
                 LoadingAnimation.IsRunning = false;
                 RecordsTopPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

@@ -250,11 +250,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeMostByType(game, mostType, mode, false);
 
                 LoadingAnimation.IsRunning = false;
                 RecordsMostPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

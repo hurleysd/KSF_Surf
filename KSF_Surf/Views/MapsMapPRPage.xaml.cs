@@ -210,11 +210,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangePR(defaultMode, playerType, playerValue);
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapPRScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

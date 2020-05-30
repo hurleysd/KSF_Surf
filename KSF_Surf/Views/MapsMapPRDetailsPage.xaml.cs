@@ -274,11 +274,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangePRDetails();
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapPRDetailsScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

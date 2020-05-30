@@ -133,11 +133,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeRecords(oldestType);
 
                 LoadingAnimation.IsRunning = false;
                 RecordsOldestPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

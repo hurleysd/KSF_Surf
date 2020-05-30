@@ -97,6 +97,7 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 country = await recordsViewModel.GetTopCountry(game, mode);
                 if (country is null || country == "")
                 {
@@ -107,7 +108,6 @@ namespace KSF_Surf.Views
 
                 LoadingAnimation.IsRunning = false;
                 RecordsCountryTopPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 
