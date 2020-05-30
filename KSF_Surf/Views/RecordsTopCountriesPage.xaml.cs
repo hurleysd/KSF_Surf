@@ -82,11 +82,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeTopCountries();
 
                 LoadingAnimation.IsRunning = false;
                 RecordsTopCountriesPageScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

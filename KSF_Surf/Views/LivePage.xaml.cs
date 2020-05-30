@@ -220,11 +220,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await LayoutDesign();
 
                 LoadingAnimation.IsRunning = false;
                 LiveScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

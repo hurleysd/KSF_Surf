@@ -171,6 +171,8 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
+
                 oldestType = EFilter_PlayerOldestType.map;
                 switch (wrsType)
                 {
@@ -195,7 +197,6 @@ namespace KSF_Surf.Views
 
                 LoadingAnimation.IsRunning = false;
                 PlayerOldestRecordsScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

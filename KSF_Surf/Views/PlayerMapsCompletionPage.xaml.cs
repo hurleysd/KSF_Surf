@@ -125,11 +125,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeCompletion();
 
                 LoadingAnimation.IsRunning = false;
                 PlayerMapsCompletionScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 

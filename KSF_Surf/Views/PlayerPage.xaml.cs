@@ -363,11 +363,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamId);
 
                 LoadingAnimation.IsRunning = false;
-                PlayerPageScrollView.IsVisible = true;
-                hasLoaded = true;
+                PlayerPageScrollView.IsVisible = true; 
             }
         }
 

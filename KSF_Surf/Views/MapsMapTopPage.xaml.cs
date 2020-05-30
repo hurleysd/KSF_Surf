@@ -126,11 +126,11 @@ namespace KSF_Surf.Views
         {
             if (!hasLoaded)
             {
+                hasLoaded = true;
                 await ChangeRecords();
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapTopScrollView.IsVisible = true;
-                hasLoaded = true;
             }
         }
 
