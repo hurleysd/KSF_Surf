@@ -33,7 +33,6 @@ namespace KSF_Surf
 
         public static void ApplyTheme()
         {
-
             if (AppInfo.RequestedTheme == AppTheme.Dark)
             {
                 ApplyDarkTheme();

@@ -15,9 +15,7 @@
                 <views:LivePage />
             </x:Arguments>
             <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_live.png"/>
-                </OnPlatform>
+                <FileImageSource File="tab_live.png"/>
             </NavigationPage.Icon>
         </NavigationPage>
 
@@ -26,9 +24,7 @@
                 <views:RecordsPage />
             </x:Arguments>
             <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_records.png"/>
-                </OnPlatform>
+                <FileImageSource File="tab_records.png"/>
             </NavigationPage.Icon>
         </NavigationPage>
 
@@ -37,9 +33,7 @@
                 <views:MapsPage />
             </x:Arguments>
             <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_maps.png"/>
-                </OnPlatform>
+                <FileImageSource File="tab_maps.png"/>
             </NavigationPage.Icon>
         </NavigationPage>
 
@@ -48,9 +42,7 @@
                 <views:PlayerPage />
             </x:Arguments>
             <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_player.png"/>
-                </OnPlatform>
+                <FileImageSource File="tab_player.png"/>
             </NavigationPage.Icon>
         </NavigationPage>
     </TabbedPage.Children>

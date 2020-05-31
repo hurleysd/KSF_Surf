@@ -1,5 +1,4 @@
-﻿using KSF_Surf.ViewModels;
-using System;
+﻿using System;
 using UIKit;
 
 using Xamarin.Forms;
