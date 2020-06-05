@@ -55,6 +55,7 @@
                    FontSize="24"
                    TextColor="{StaticResource UntappedTextColor}"
                    HorizontalOptions="End"
+                   VerticalOptions="Center"
                    Grid.Column="0"
                    Grid.Row="0">
                 <Label.GestureRecognizers>
@@ -74,6 +75,7 @@
                    FontSize="24"
                    TextColor="{StaticResource UntappedTextColor}"
                    HorizontalOptions="End"
+                   VerticalOptions="Center"
                    Grid.Column="0"
                    Grid.Row="1">
                 <Label.GestureRecognizers>
@@ -92,6 +94,7 @@
                    FontSize="24"
                    TextColor="{StaticResource UntappedTextColor}"
                    HorizontalOptions="End"
+                   VerticalOptions="Center"
                    Grid.Column="0"
                    Grid.Row="2">
                 <Label.GestureRecognizers>

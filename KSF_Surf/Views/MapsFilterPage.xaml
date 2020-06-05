@@ -182,7 +182,7 @@
                         Grid.Column="1"
                         Grid.Row="0"
                         MinimumTrackColor="{StaticResource TappedTextColor}"
-                        MaximumTrackColor="{DynamicResource UntappedTextColor}"
+                        MaximumTrackColor="{StaticResource UntappedTextColor}"
                         ValueChanged="MinTierSlider_ValueChanged"/>
 
                 <Label x:Name="MinTierLabel"
@@ -203,7 +203,7 @@
                         Minimum="1"
                         Grid.Column="1"
                         Grid.Row="1"
-                        MinimumTrackColor="{DynamicResource UntappedTextColor}"
+                        MinimumTrackColor="{StaticResource UntappedTextColor}"
                         MaximumTrackColor="{StaticResource TappedTextColor}"
                         ValueChanged="MaxTierSlider_ValueChanged"/>
 

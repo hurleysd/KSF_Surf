@@ -17,7 +17,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.1.33";
+        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.1.33" : "1.0.0";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -95,9 +95,14 @@ namespace KSF_Surf.ViewModels
                 {
                     return;
                 }
-                var impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
+                UIImpactFeedbackGenerator impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
                 impact.Prepare();
                 impact.ImpactOccurred();
+            }
+            else if (deviceString == Device.Android)
+            {
+                TimeSpan duration = TimeSpan.FromMilliseconds(75);
+                Vibration.Vibrate(duration);
             }
         }
 
@@ -132,7 +137,7 @@ namespace KSF_Surf.ViewModels
 
         internal static string propertiesDict_getSteamID()
         {
-            string id = "STEAM_0:0:47620794";  // Sean's steam ID
+            string id = "STEAM_0:0:47620794";  // Sean's steam ID (hesuka)
             if (App.Current.Properties.ContainsKey("steamid"))
             {
                 id = App.Current.Properties["steamid"] as string;
@@ -1017,10 +1022,11 @@ namespace KSF_Surf.ViewModels
                 case "Uzbekistan": emoji = "\U0001F1FA\U0001F1FF"; break;
                 case "Vatican City": emoji = "\U0001F1FB\U0001F1E6"; break;
                 case "St. Vincent and the Grenadines": emoji = "\U0001F1FB\U0001F1E8"; break;
+                case "Saint Vincent and the Grenadines": emoji = "\U0001F1FB\U0001F1E8"; break;
                 case "Venezuela": emoji = "\U0001F1FB\U0001F1EA"; break;
                 case "British Virgin Islands": emoji = "\U0001F1FB\U0001F1EC"; break;
                 case "U.S. Virgin Islands": emoji = "\U0001F1FB\U0001F1EE"; break;
-                case "Virgin Islands, U.S": emoji = "\U0001F1FB\U0001F1EE"; break;
+                case "Virgin Islands, U.S.": emoji = "\U0001F1FB\U0001F1EE"; break;
                 case "Vietnam": emoji = "\U0001F1FB\U0001F1F3"; break;
                 case "Vanuatu": emoji = "\U0001F1FB\U0001F1FA"; break;
                 case "Wallis & Futuna": emoji = "\U0001F1FC\U0001F1EB"; break;

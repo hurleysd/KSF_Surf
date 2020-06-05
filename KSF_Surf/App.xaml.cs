@@ -52,7 +52,14 @@ namespace KSF_Surf
             App.Current.Resources["BorderColor"] = Color.FromHex("#4f4f4f");
             App.Current.Resources["AppBackgroundColor"] = Color.Black;
             App.Current.Resources["BarBackgroundColor"] = Color.FromHex("#171717");
-            App.Current.Resources["TabBackgroundColor"] = Color.Black;
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                App.Current.Resources["TabBackgroundColor"] = Color.Black;
+            }
+            else if (Device.RuntimePlatform == Device.Android)
+            {
+                App.Current.Resources["TabBackgroundColor"] = Color.FromHex("#171717");
+            }
         }
 
         public static void ApplyLightTheme()
@@ -65,6 +72,8 @@ namespace KSF_Surf
             App.Current.Resources["AppBackgroundColor"] = Color.WhiteSmoke;
             App.Current.Resources["BarBackgroundColor"] = Color.FromHex("#e8e8e8");
             App.Current.Resources["TabBackgroundColor"] = Color.FromHex("#e8e8e8");
+
+
         }
 
         private void SetCultureToUSEnglish()

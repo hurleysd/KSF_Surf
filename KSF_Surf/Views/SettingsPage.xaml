@@ -36,6 +36,7 @@
                            FontSize="24"
                            TextColor="{StaticResource TappedTextColor}"
                            HorizontalOptions="End"
+                           VerticalOptions="Center"
                            Grid.Column="0">
                     </Label>
 
