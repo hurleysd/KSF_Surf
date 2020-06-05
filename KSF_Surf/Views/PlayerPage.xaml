@@ -45,11 +45,11 @@
                           BackgroundColor="{DynamicResource ViewBackgroundColor}"
                           Padding="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="108"/>
+                            <ColumnDefinition Width="107"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="48"/>
                             <RowDefinition Height="22"/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>

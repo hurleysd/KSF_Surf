@@ -27,7 +27,7 @@ namespace KSF_Surf.Droid
             Forms9Patch.Droid.Settings.Initialize(this);  // needed for Forms9Patch
 
             LoadApplication(new App());
-            App.ApplyTheme();
+            App.ApplyDarkTheme();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
