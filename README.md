@@ -23,4 +23,4 @@ Intellectual Property: The \"KSF Surf\" mobile application is the property of Se
 ## AUTHOR
 **[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *B.S. in Computer Science, JMU class of 2020* 
 
-###[Support the developer](https://paypal.me/ksfmobiledev)
+### [Support the developer](https://paypal.me/ksfmobiledev)
