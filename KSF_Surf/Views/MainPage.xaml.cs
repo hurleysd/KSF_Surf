@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using MimeSharp;
+using System;
+using System.ComponentModel;
 
 using Xamarin.Forms;
 
@@ -10,6 +12,28 @@ namespace KSF_Surf.Views
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        // Event Handler for the initial (lazy) load of tabs
+        protected override async void OnCurrentPageChanged()
+        {
+            base.OnCurrentPageChanged();
+
+            if (CurrentPage is NavigationPage navpage)
+            {
+                if (navpage.CurrentPage is RecordsPage recpage)
+                {
+                    await recpage.OnChangedTabAppearing();
+                }
+                else if (navpage.CurrentPage is MapsPage mapspage)
+                {
+                    await mapspage.OnChangedTabAppearing();
+                }
+                else if (navpage.CurrentPage is PlayerPage playerpage)
+                {
+                    await playerpage.OnChangedTabAppearing();
+                }
+            }
         }
     }
 }
