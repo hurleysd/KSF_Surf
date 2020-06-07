@@ -7,7 +7,6 @@ using Xamarin.Forms;
 
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
-using System.Linq.Expressions;
 
 namespace KSF_Surf.Views
 {
@@ -173,7 +172,7 @@ namespace KSF_Surf.Views
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
 
-        protected override async void OnAppearing()
+        internal async Task OnChangedTabAppearing()
         {
             if (!hasLoaded)
             {

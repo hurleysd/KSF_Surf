@@ -105,7 +105,7 @@ namespace KSF_Surf.Views
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
 
-        protected override async void OnAppearing()
+        internal async Task OnChangedTabAppearing()
         {
             if (!hasLoaded)
             {

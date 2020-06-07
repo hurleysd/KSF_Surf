@@ -359,7 +359,7 @@ namespace KSF_Surf.Views
         // Event Handlers ----------------------------------------------------------------------------------
         #region events
 
-        protected override async void OnAppearing()
+        internal async Task OnChangedTabAppearing()
         {
             if (!hasLoaded)
             {
@@ -367,7 +367,7 @@ namespace KSF_Surf.Views
                 await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamId);
 
                 LoadingAnimation.IsRunning = false;
-                PlayerPageScrollView.IsVisible = true; 
+                PlayerPageScrollView.IsVisible = true;
             }
         }
 
