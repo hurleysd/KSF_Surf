@@ -1,6 +1,4 @@
-﻿using MimeSharp;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Xamarin.Forms;
 
