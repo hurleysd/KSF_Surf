@@ -249,4 +249,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\ramp_alpha_inverted.png" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadWrongLinkerErrorInfoBarKSF_SurfiOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
