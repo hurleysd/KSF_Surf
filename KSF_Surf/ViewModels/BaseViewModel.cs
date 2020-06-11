@@ -572,10 +572,10 @@ namespace KSF_Surf.ViewModels
         }
 
         public static readonly string[] rankTitles = { "MASTER", "ELITE", "VETERAN", "PRO", "EXPERT", "HOTSHOT",
-            "EXCEPTIONAL", "COMPETENT", "EXPERIENCED", "SKILLED", "CASUAL", "BEGINNER", "ROOKIE"};
+            "EXCEPTIONAL", "SEASONED", "EXPERIENCED", "PROFICIENT", "SKILLED", "CASUAL", "BEGINNER", "ROOKIE"};
 
-        public static readonly Color[] rankColors = { Color.Magenta, Color.HotPink, Color.Red, Color.Orange, Color.Gold,
-            Color.LimeGreen, Color.SeaGreen, Color.RoyalBlue, Color.SkyBlue, Color.DarkSlateBlue, Color.DarkOliveGreen, Color.SaddleBrown, Color.Gray};
+        public static readonly Color[] rankColors = { Color.Magenta, Color.HotPink, Color.Red, Color.Orange, Color.Gold, Color.Lime,
+            Color.MediumSpringGreen, Color.LightSeaGreen, Color.SkyBlue, Color.RoyalBlue, Color.DarkSlateBlue, Color.DarkOliveGreen, Color.SaddleBrown, Color.Gray};
 
         public static string getRankTitle(string rankString, string pointsString)
         {
@@ -604,7 +604,7 @@ namespace KSF_Surf.ViewModels
             {
                 title = rankTitles[4];
             }
-            else if (rank <= 350)
+            else if (rank <= 300)
             {
                 title = rankTitles[5];
             }
@@ -612,29 +612,33 @@ namespace KSF_Surf.ViewModels
             {
                 title = rankTitles[6];
             }
-            else if (rank <= 1500)
+            else if (rank <= 750)
             {
                 title = rankTitles[7];
             }
-            else if (points >= 6000)
+            else if (rank <= 1500)
             {
                 title = rankTitles[8];
             }
-            else if (points >= 4000)
+            else if (points >= 6000)
             {
                 title = rankTitles[9];
             }
-            else if (points >= 2500)
+            else if (points >= 4000)
             {
                 title = rankTitles[10];
             }
-            else if (points >= 1000)
+            else if (points >= 2500)
             {
                 title = rankTitles[11];
             }
-            else
+            else if (points >= 1000)
             {
                 title = rankTitles[12];
+            }
+            else
+            {
+                title = rankTitles[13];
             }
 
             return title;

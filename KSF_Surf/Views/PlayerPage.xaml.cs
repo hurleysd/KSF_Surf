@@ -122,12 +122,13 @@ namespace KSF_Surf.Views
                 case "EXPERT": rankColor = EFilter_ToString.rankColors[4]; break;
                 case "HOTSHOT": rankColor = EFilter_ToString.rankColors[5]; break;
                 case "EXCEPTIONAL": rankColor = EFilter_ToString.rankColors[6]; break;
-                case "COMPETENT": rankColor = EFilter_ToString.rankColors[7]; break;
+                case "SEASONED": rankColor = EFilter_ToString.rankColors[7]; break;
                 case "EXPERIENCED": rankColor = EFilter_ToString.rankColors[8]; break;
-                case "SKILLED": rankColor = EFilter_ToString.rankColors[9]; break;
-                case "CASUAL": rankColor = EFilter_ToString.rankColors[10]; break;
-                case "BEGINNER": rankColor = EFilter_ToString.rankColors[11]; break;
-                case "ROOKIE": rankColor = EFilter_ToString.rankColors[12]; break;
+                case "PROFICIENT": rankColor = EFilter_ToString.rankColors[9]; break;
+                case "SKILLED": rankColor = EFilter_ToString.rankColors[10]; break;
+                case "CASUAL": rankColor = EFilter_ToString.rankColors[11]; break;
+                case "BEGINNER": rankColor = EFilter_ToString.rankColors[12]; break;
+                case "ROOKIE": rankColor = EFilter_ToString.rankColors[13]; break;
             }
             RankTitleLabel.Text = rankTitle;
             RankTitleLabel.TextColor = rankColor;
