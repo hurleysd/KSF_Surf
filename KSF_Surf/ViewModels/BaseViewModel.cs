@@ -87,23 +87,15 @@ namespace KSF_Surf.ViewModels
         #region system
         internal static void vibrate(bool allowVibrate)
         {
-            if (!allowVibrate) return;
+            if (!allowVibrate || !(deviceString == Device.iOS)) return;
 
-            if (deviceString == Device.iOS)
+            if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
             {
-                if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-                {
-                    return;
-                }
-                UIImpactFeedbackGenerator impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
-                impact.Prepare();
-                impact.ImpactOccurred();
+                return;
             }
-            else if (deviceString == Device.Android)
-            {
-                TimeSpan duration = TimeSpan.FromMilliseconds(75);
-                Vibration.Vibrate(duration);
-            }
+            UIImpactFeedbackGenerator impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
+            impact.Prepare();
+            impact.ImpactOccurred();
         }
 
         internal static bool hasConnection()
