@@ -23,7 +23,11 @@
         <ResourceDictionary>
             <Color x:Key="TwitchPurpleColor">#6441a5</Color>
             <Style x:Key = "Right2ColStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontSize">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" Android="19" iOS="20" />
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
@@ -72,8 +76,11 @@
 
                         <StackLayout x:Name="CSSServerStack" 
                                      Orientation="Vertical"
-                                     Spacing="22"
-                                     Grid.Column="0"/>
+                                     Grid.Column="0">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="CSSMapsStack" 
                                      Orientation="Vertical" 
@@ -91,8 +98,11 @@
 
                         <StackLayout x:Name="CSS100TServerStack" 
                                      Orientation="Vertical" 
-                                     Spacing="22"
-                                     Grid.Column="0"/>
+                                     Grid.Column="0">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="CSS100TMapsStack" 
                                      Orientation="Vertical"
@@ -115,8 +125,11 @@
 
                         <StackLayout x:Name="CSGOServerStack" 
                                      Orientation="Vertical"
-                                     Spacing="22"
-                                     Grid.Column="0"/>
+                                     Grid.Column="0">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="CSGOMapsStack" 
                                      Orientation="Vertical"

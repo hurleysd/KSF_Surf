@@ -13,7 +13,7 @@ namespace KSF_Surf.ViewModels
         // object for "Surfer Streams"
         internal TwitchRootObject streams;
 
-        public LiveViewModel() : base()
+        public LiveViewModel()
         {
             Title = "Live";
         }
@@ -37,6 +37,12 @@ namespace KSF_Surf.ViewModels
             }
             else
             {
+                if (BaseViewModel.client.UserAgent != "" || BaseViewModel.AGENT != "")
+                {
+                    BaseViewModel.AGENT = "";
+                    BaseViewModel.client.UserAgent = "";
+                    return await GetServers(game);
+                }
                 return null;
             }
         }
@@ -85,7 +91,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 76 out of 100 (max per twitch API call)
+            // 81 out of 100 (max per twitch API call)
             "gocnak",
             "troflecopter",
             "mariowned",
@@ -162,7 +168,12 @@ namespace KSF_Surf.ViewModels
             "AngleCS",
             "levizoom",
             "Makela_",
-            "kiro073"
+            "kiro073",
+            "donuts42",
+            "DrSqueaks",
+            "Maestr0_6",
+            "kuschhe",
+            "Nemixu"
         };
 
         #endregion

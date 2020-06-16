@@ -15,6 +15,7 @@ namespace KSF_Surf.Views
     {
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
+        private bool isRefreshing = false;
 
         // objects used by "Recent" call
         private List<RRDatum> recentRecordsData;
@@ -26,6 +27,9 @@ namespace KSF_Surf.Views
         private EFilter_Mode mode;
         private readonly EFilter_Mode defaultMode;
         private EFilter_RRType recentRecordsType;
+
+        // Date of last refresh
+        private DateTime lastRefresh = DateTime.Now;
 
         public RecordsPage()
         {
@@ -226,6 +230,39 @@ namespace KSF_Surf.Views
             else
             {
                 await DisplayNoConnectionAlert();
+            }
+        }
+
+        private async void Refresh_Pressed(object sender, EventArgs e)
+        {
+            if (isRefreshing) return;
+
+            TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
+            bool tooSoon = sinceRefresh.TotalSeconds < 10;
+
+            if (BaseViewModel.hasConnection())
+            {
+                isRefreshing = true;
+                BaseViewModel.vibrate(true);
+                LoadingAnimation.IsRunning = true;
+
+                if (tooSoon)
+                {
+                    await Task.Delay(500); // 0.5 seconds
+                }
+                else
+                {
+                    await ChangeRecentRecords(game, recentRecordsType, mode);
+                    lastRefresh = DateTime.Now;
+                }
+
+                LoadingAnimation.IsRunning = false;
+                BaseViewModel.vibrate(true);
+                isRefreshing = false;
+            }
+            else
+            {
+                await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
         }
 

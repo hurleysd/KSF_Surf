@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using RestSharp;
 using Newtonsoft.Json;
 
 using KSF_Surf.Models;
