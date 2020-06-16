@@ -17,16 +17,19 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.1.33" : "1.0.0";
+        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.2.0" : "1.0.0";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
         internal readonly static string TWITCH = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH));
         internal readonly static string TWITCH_O = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH_O));
 
-        internal readonly static string AGENT = propertiesDict_getUserAgent();
+        internal static string AGENT = propertiesDict_getUserAgent();
 
-        internal readonly RestClient client = new RestClient();
+        internal static RestClient client = new RestClient
+        {
+            CookieContainer = new System.Net.CookieContainer()
+        };
         internal readonly RestRequest request = new RestRequest
         {
             Method = Method.GET,
@@ -36,9 +39,8 @@ namespace KSF_Surf.ViewModels
 
         public BaseViewModel()
         {
-            App.Current.Properties.Remove("agent"); // TODO: REMOVE once all agents have been cleared
-            client.UserAgent = AGENT;
             request.AddHeader("x-auth-token", KSF);
+            client.UserAgent = AGENT;
         }
 
         #region autogen
@@ -100,8 +102,7 @@ namespace KSF_Surf.ViewModels
 
         internal static bool hasConnection()
         {
-            var current = Connectivity.NetworkAccess;
-            return (current == NetworkAccess.Internet);
+            return Connectivity.NetworkAccess == NetworkAccess.Internet;
         }
 
         // Properties Dicitonary --------------------------------------------------------------------------

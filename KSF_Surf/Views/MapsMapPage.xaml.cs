@@ -206,7 +206,7 @@ namespace KSF_Surf.Views
 
                 TopGroupValueStack.Children.Add(new Label
                 {
-                    Text = (i != 1) ? String_Formatter.toString_Points(points) : String_Formatter.toString_Points(mapInfoData.MapSettings.wr_points_0),
+                    Text = String_Formatter.toString_Points(points),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
                 }); ;

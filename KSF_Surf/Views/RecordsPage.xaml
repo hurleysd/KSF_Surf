@@ -9,6 +9,10 @@
              x:Name="RecordsTab"
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Refresh"
+                     IconImageSource="refresh_icon.png"
+                     Clicked="Refresh_Pressed">
+        </ToolbarItem>
         <ToolbarItem x:Name="Filter"
                      IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
