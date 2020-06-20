@@ -29,7 +29,7 @@ namespace KSF_Surf.Views
         private EFilter_RRType recentRecordsType;
 
         // Date of last refresh
-        private DateTime lastRefresh = DateTime.Now;
+        private DateTime lastRefresh;
 
         public RecordsPage()
         {
@@ -63,6 +63,7 @@ namespace KSF_Surf.Views
                 if (recentRecordsData is null) return;
                 LayoutRecentRecords(EFilter_ToString.toString2(type));
             }
+            lastRefresh = DateTime.Now;
         }
 
         // Displaying Changes --------------------------------------------------------------------------
@@ -253,7 +254,6 @@ namespace KSF_Surf.Views
                 else
                 {
                     await ChangeRecentRecords(game, recentRecordsType, mode);
-                    lastRefresh = DateTime.Now;
                 }
 
                 LoadingAnimation.IsRunning = false;

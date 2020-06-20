@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Runtime;
 using Android.OS;
 
@@ -18,8 +19,8 @@ namespace KSF_Surf.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
-            Forms.SetFlags("CollectionView_Experimental"); //needed for CollectionView
+            
+            Forms.SetFlags("CollectionView_Experimental"); // needed for CollectionView
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -29,6 +30,7 @@ namespace KSF_Surf.Droid
             LoadApplication(new App());
             App.ApplyDarkTheme();
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -36,6 +38,16 @@ namespace KSF_Surf.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        public override Resources Resources
+        {
+            get
+            {
+                var config = new Configuration();
+                config.SetToDefaults();
+
+                return CreateConfigurationContext(config).Resources;
+            }
+        }
 
     }
 }
