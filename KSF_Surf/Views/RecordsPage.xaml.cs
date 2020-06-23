@@ -224,7 +224,7 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
@@ -236,7 +236,7 @@ namespace KSF_Surf.Views
 
         private async void Refresh_Pressed(object sender, EventArgs e)
         {
-            if (isRefreshing) return;
+            if (!hasLoaded || isRefreshing) return;
 
             TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
             bool tooSoon = sinceRefresh.TotalSeconds < 10;

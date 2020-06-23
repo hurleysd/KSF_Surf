@@ -17,7 +17,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.2.0" : "1.0.0 (8)";
+        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.2.1" : "1.0.1";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -709,6 +709,8 @@ namespace KSF_Surf.ViewModels
 
         public static string toString_RankTime(string seconds)
         {
+            if (seconds == "") return "0.000";
+
             TimeSpan time = TimeSpan.FromSeconds(double.Parse(seconds));
             if (time.Minutes > 0)
             {
@@ -781,6 +783,7 @@ namespace KSF_Surf.ViewModels
                 case "Australia": emoji = "\U0001F1E6\U0001F1FA"; break;
                 case "Aruba": emoji = "\U0001F1E6\U0001F1FC"; break;
                 case "Aland Islands": emoji = "\U0001F1E6\U0001F1FD"; break;
+                case "Åland": emoji = "\U0001F1E6\U0001F1FD"; break;
                 case "Azerbaijan": emoji = "\U0001F1E6\U0001F1FF"; break;
                 case "Bosnia & Herzegovina": emoji = "\U0001F1E7\U0001F1E6"; break;
                 case "Bosnia and Herzegovina": emoji = "\U0001F1E7\U0001F1E6"; break;
@@ -889,6 +892,7 @@ namespace KSF_Surf.ViewModels
                 case "Jersey": emoji = "\U0001F1EF\U0001F1EA"; break;
                 case "Jamaica": emoji = "\U0001F1EF\U0001F1F2"; break;
                 case "Jordan": emoji = "\U0001F1EF\U0001F1F4"; break;
+                case "Hashemite Kingdom of Jordan": emoji = "\U0001F1EF\U0001F1F4"; break;
                 case "Japan": emoji = "\U0001F1EF\U0001F1F5"; break;
                 case "Kenya": emoji = "\U0001F1F0\U0001F1EA"; break;
                 case "Kyrgyzstan": emoji = "\U0001F1F0\U0001F1EC"; break;
@@ -925,6 +929,7 @@ namespace KSF_Surf.ViewModels
                 case "Madagascar": emoji = "\U0001F1F2\U0001F1EC"; break;
                 case "Marshall Islands": emoji = "\U0001F1F2\U0001F1ED"; break;
                 case "Macedonia": emoji = "\U0001F1F2\U0001F1F0"; break;
+                case "North Macedonia": emoji = "\U0001F1F2\U0001F1F0"; break;
                 case "Mali": emoji = "\U0001F1F2\U0001F1F1"; break;
                 case "Myanmar": emoji = "\U0001F1F2\U0001F1F2"; break;
                 case "Mongolia": emoji = "\U0001F1F2\U0001F1F3"; break;

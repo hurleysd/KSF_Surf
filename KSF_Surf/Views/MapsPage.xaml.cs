@@ -121,7 +121,7 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.hasConnection())
             {
                 if (currentGame == EFilter_Game.none)
                 {
