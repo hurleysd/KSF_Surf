@@ -220,7 +220,7 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRFilterPage(ApplyFilters, currentMode, playerType, 
                     playerSteamID, playerRank, defaultMode, meSteamID));
