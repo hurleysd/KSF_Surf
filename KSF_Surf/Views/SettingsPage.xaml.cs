@@ -116,6 +116,7 @@ namespace KSF_Surf.Views
                 App.Current.Properties["steamid"] = SteamIdEntry.Text;
                 App.Current.Properties["game"] = EFilter_ToString.toString(game);
                 App.Current.Properties["mode"] = EFilter_ToString.toString(mode);
+                await App.Current.SavePropertiesAsync();
 
                 await Navigation.PopAsync();
             }

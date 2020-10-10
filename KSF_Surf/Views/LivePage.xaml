@@ -14,10 +14,6 @@
                      IconImageSource="refresh_icon.png"
                      Clicked="Refresh_Pressed">
         </ToolbarItem>
-        <ToolbarItem x:Name="Settings"
-                     IconImageSource="settings_icon.png"
-                     Clicked="Settings_Pressed">
-        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -55,87 +51,97 @@
                          Padding="0"
                          Spacing="0">
 
-                <StackLayout Orientation="Vertical"
+                <StackLayout x:Name="LiveServersStack"
+                             Orientation="Vertical"
                              Padding="10,15,10,15">
 
                     <!-- Servers -->
                     <Label Text="KSFClan Servers"
+                           x:Name="LiveServersLabel"
                            Style="{DynamicResource HeaderLabel}"
                            HorizontalOptions="StartAndExpand"
                            Margin="10,0,0,0"/>
 
-                    <Label Text="CS:S"
+                    <Label x:Name ="TopGameLabel"
+                           Text="CS:S"
                            Style="{DynamicResource HeaderLabel}"
                            Margin="10,0,0,0"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid x:Name="CSSGrid"
+                          Style="{StaticResource ColumnGridStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="115"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="CSSServerStack" 
-                                     Orientation="Vertical"
-                                     Grid.Column="0">
+                                        Orientation="Vertical"
+                                        Grid.Column="0">
                             <StackLayout.Spacing>
                                 <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
                             </StackLayout.Spacing>
                         </StackLayout>
 
                         <StackLayout x:Name="CSSMapsStack" 
-                                     Orientation="Vertical" 
-                                     Spacing="3"
-                                     Grid.Column="1"/>
+                                        Orientation="Vertical" 
+                                        Spacing="3"
+                                        Grid.Column="1"/>
                     </Grid>
 
-                    <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
+                    <BoxView x:Name="CSSServerSeperator"
+                             Style="{DynamicResource MiniSeparatorStyle}"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid x:Name="CSS100TGrid"
+                          Style="{StaticResource ColumnGridStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="115"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="CSS100TServerStack" 
-                                     Orientation="Vertical" 
-                                     Grid.Column="0">
+                                        Orientation="Vertical" 
+                                        Grid.Column="0">
                             <StackLayout.Spacing>
                                 <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
                             </StackLayout.Spacing>
                         </StackLayout>
 
                         <StackLayout x:Name="CSS100TMapsStack" 
-                                     Orientation="Vertical"
-                                     Spacing="3"
-                                     Grid.Column="1"/>
+                                        Orientation="Vertical"
+                                        Spacing="3"
+                                        Grid.Column="1"/>
 
                     </Grid>
 
-                    <BoxView Style="{DynamicResource MiniSeparatorStyle}"/>
+                    <BoxView x:Name="GameServerSeperator"
+                             Style="{DynamicResource MiniSeparatorStyle}"/>
 
-                    <Label Text="CS:GO"
+                    <Label x:Name="BottomGameLabel"
+                           Text="CS:GO"
                            Style="{DynamicResource HeaderLabel}"
                            Margin="10,10,0,0"/>
 
-                    <Grid Style="{StaticResource ColumnGridStyle}">
+                    <Grid x:Name="CSGOGrid"
+                            Style="{StaticResource ColumnGridStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="115"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <StackLayout x:Name="CSGOServerStack" 
-                                     Orientation="Vertical"
-                                     Grid.Column="0">
+                                        Orientation="Vertical"
+                                        Grid.Column="0">
                             <StackLayout.Spacing>
                                 <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
                             </StackLayout.Spacing>
                         </StackLayout>
 
                         <StackLayout x:Name="CSGOMapsStack" 
-                                     Orientation="Vertical"
-                                     Spacing="3"
-                                     Grid.Column="1"/>
+                                        Orientation="Vertical"
+                                        Spacing="3"
+                                        Grid.Column="1"/>
                     </Grid>
+
                 </StackLayout>
 
                 <BoxView Style="{StaticResource Separator2Style}"

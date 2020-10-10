@@ -18,6 +18,7 @@ namespace KSF_Surf.Views
         private readonly LiveViewModel liveViewModel;
         private bool hasLoaded = false;
         private bool isRefreshing = false;
+        private readonly EFilter_Game defaultGame;
 
         // objects for "KSFClan Servers"
         private List<KSFServerDatum> css_serverData;
@@ -33,6 +34,7 @@ namespace KSF_Surf.Views
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
+            defaultGame = BaseViewModel.propertiesDict_getGame();
 
             InitializeComponent();
         }
@@ -44,7 +46,7 @@ namespace KSF_Surf.Views
         {
             if (BaseViewModel.hasConnection())
             {
-                await LoadServers();
+                await LoadServers(true);
                 await LoadStreams();
             }
             else
@@ -61,7 +63,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async Task LoadServers()
+        private async Task LoadServers(Boolean order)
         {
             var css_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css);
             var css100t_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css100t);
@@ -72,7 +74,41 @@ namespace KSF_Surf.Views
             csgo_serverData = csgos_ServerDatum?.data;
 
             if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
+
+            if (order) OrderServers();
             ChangeServers();
+        }
+
+        private void OrderServers()
+        {
+            if (defaultGame != EFilter_Game.css)
+            {
+                LiveServersStack.Children.Clear();
+                LiveServersStack.Children.Add(LiveServersLabel);
+                LiveServersStack.Children.Add(TopGameLabel);
+
+                if (defaultGame == EFilter_Game.csgo)
+                {
+                    TopGameLabel.Text = "CS:GO";
+                    BottomGameLabel.Text = "CS:S";
+
+                    LiveServersStack.Children.Add(CSGOGrid);
+                    LiveServersStack.Children.Add(GameServerSeperator);
+                    LiveServersStack.Children.Add(BottomGameLabel);
+                    LiveServersStack.Children.Add(CSSGrid);
+                    LiveServersStack.Children.Add(CSSServerSeperator);
+                    LiveServersStack.Children.Add(CSS100TGrid);
+                }
+                else // CSS100T default game
+                {
+                    LiveServersStack.Children.Add(CSS100TGrid);
+                    LiveServersStack.Children.Add(CSSServerSeperator);
+                    LiveServersStack.Children.Add(CSSGrid);
+                    LiveServersStack.Children.Add(GameServerSeperator);
+                    LiveServersStack.Children.Add(BottomGameLabel);
+                    LiveServersStack.Children.Add(CSGOGrid);
+                }
+            }
         }
 
         private void ChangeServers()
@@ -255,10 +291,10 @@ namespace KSF_Surf.Views
 
             if (BaseViewModel.hasConnection())
             {
-                isRefreshing = true; 
+                isRefreshing = true;
                 BaseViewModel.vibrate(true);
                 LoadingAnimation.IsRunning = true;
-                
+
                 if (tooSoon)
                 {
                     await Task.Delay(500); // 0.5 seconds
@@ -266,7 +302,7 @@ namespace KSF_Surf.Views
                 else
                 {
                     await LoadStreams();
-                    await LoadServers();
+                    await LoadServers(false);
                     lastRefresh = DateTime.Now;
                 }
 
@@ -278,12 +314,6 @@ namespace KSF_Surf.Views
             {
                 await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
-        }
-
-
-        private async void Settings_Pressed(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new SettingsPage());
         }
 
         #endregion

@@ -66,7 +66,7 @@ namespace KSF_Surf.Views
             string playerName = playerInfoData.basicInfo.name;
             if (playerName.Length > 18)
             {
-                playerName = playerName.Substring(0, 18) + "...";
+                playerName = playerName.Substring(0, 13) + "...";
             }
             Title = playerName + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
 
@@ -486,6 +486,11 @@ namespace KSF_Surf.Views
                 await DisplayNoConnectionAlert();
             }
             IncompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void Settings_Pressed(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
         }
 
         private async Task DisplayNoConnectionAlert()
