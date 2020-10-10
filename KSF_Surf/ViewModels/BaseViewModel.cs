@@ -17,7 +17,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = (Device.RuntimePlatform == Device.iOS)? "1.2.1" : "1.0.1";
+        internal readonly static string appVersionString = "1.3.1";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));

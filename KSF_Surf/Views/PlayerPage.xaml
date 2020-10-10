@@ -15,6 +15,10 @@
                      IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
         </ToolbarItem>
+        <ToolbarItem x:Name="Settings"
+                     IconImageSource="settings_icon.png"
+                     Clicked="Settings_Pressed">
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>

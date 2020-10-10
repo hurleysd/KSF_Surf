@@ -91,7 +91,7 @@ namespace KSF_Surf.ViewModels
 
         private readonly string[] streamers =
         {
-            // 81 out of 100 (max per twitch API call)
+            // 96 out of 100 (max per twitch API call)
             "gocnak",
             "troflecopter",
             "mariowned",
@@ -99,7 +99,6 @@ namespace KSF_Surf.ViewModels
             "silverthingtg",
             "caffrey",
             "sneak_it",
-            "rickzter",
             "draaph",
             "olivernb",
             "ignis_au",
@@ -125,7 +124,6 @@ namespace KSF_Surf.ViewModels
             "itsasteral",
             "theshoxter",
             "recoilsurf",
-            "sensemcsweggense",
             "illxjoey",
             "lordsyfo",
             "pignucss",
@@ -141,9 +139,8 @@ namespace KSF_Surf.ViewModels
             "txcks",
             "kiiru",
             "marblesurfs",
-            "virgn4life",
             "zacki9",
-            "simexi",
+            "emilSurf",
             "louieismyname",
             "konga",
             "mbnlol",
@@ -151,10 +148,9 @@ namespace KSF_Surf.ViewModels
             "taiikii",
             "benowy",
             "melinder",
-            "idkdreams",
+            "idkDREAMS",
             "weazr",
             "usernamesurf",
-            "dangersurfs",
             "Bas_Kahvo",
             "snosnowyyyy_y",
             "andrusken",
@@ -168,12 +164,31 @@ namespace KSF_Surf.ViewModels
             "AngleCS",
             "levizoom",
             "Makela_",
-            "kiro073",
             "donuts42",
             "DrSqueaks",
             "Maestr0_6",
             "kuschhe",
-            "Nemixu"
+            "Nemixu",
+            "fizzcs",
+            "playjack14",
+            "phaaraoh",
+            "lucitlm",
+            "drippiin_",
+            "shox1e",
+            "flycakelol",
+            "longmo8",
+            "chipzy",
+            "merkycinq",
+            "SaganTV",
+            "tricksurf",
+            "r0n1n420",
+            "riqbic",
+            "spooderlol",
+            "hsk1903",
+            "bamtna",
+            "Koga73",
+            "pedroknz",
+            "wherearetheavocados2001"
         };
 
         #endregion
