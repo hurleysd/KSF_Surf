@@ -14,9 +14,9 @@ This video is an example of what surfing is.
 [![](http://img.youtube.com/vi/tn67W-nsi9M/0.jpg)](http://www.youtube.com/watch?v=tn67W-nsi9M "")
 
 ## LEGAL
-KSF data provided with permission from the owner, unt0uch4bl3. Twitch data provided in accordance with the Twitch Developer Services Agreement. Steam data provided in accordance with the Steam Web API Terms of Use.
+KSF data provided with permission from the owner, unt0uch4bl3. Steam data provided in accordance with the Steam Web API Terms of Use.
 
-__Privacy Policy__: No user data is collected, stored, or shared, nor do users rely on an account to use this software. Software preferences such as user Steam ID are stored locally (on device) and not on a server. Data from KSF, Steam, and Twitch is requested on behalf of the user by this software and no user information is shared with these services by this software, with the exception of device information for logging purposes. If you have any questions, please email seandhurley@live.com. Changes to this policy will be shown here.
+__Privacy Policy__: No user data is collected, stored, or shared, nor do users rely on an account to use this software. Software preferences such as user Steam ID are stored locally (on device) and not on a server. Data from KSF and Steam is requested on behalf of the user by this software and no user information is shared with these services by this software, with the exception of device information for logging purposes. If you have any questions, please email seandhurley@live.com. Changes to this policy will be shown here.
 
 __Intellectual Property__: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. Copyright © 2020 Sean Hurley. All rights reserved.
 
