@@ -3,7 +3,7 @@
 ### DESCRIPTION
 A .NET mobile application for KSF surf news, information, and statistics. Developed using Visual Studio with Xamarin.Forms, NewtonSoft, and Forms9Patch. This app has been publicly released and available at (iOS) https://apps.apple.com/us/app/ksf-surf/id1512810675 and (Android) https://play.google.com/store/apps/details?id=com.seanhurley.KSFSurf&hl=en_US.
 
-This application interfaces the APIs of KSF, Twitch, and Steam to gather data about players, maps, records, and live streams. KSF data has been previously only available in-game or on Discord, but this application will provide access to KSF data to anyone with an Android or iOS mobile phone.
+This application interfaces the APIs of KSF and Steam to gather data about players, maps, servers, and records. KSF data has been previously only available in-game or on Discord, but this application will provide access to KSF data to anyone with an Android or iOS mobile phone.
 
 ### WHAT IS "SURF"?
 
