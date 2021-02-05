@@ -17,12 +17,10 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.3.1";
+        internal readonly static string appVersionString = "1.3.2";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
-        internal readonly static string TWITCH = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH));
-        internal readonly static string TWITCH_O = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.TWITCH_O));
 
         internal static string AGENT = propertiesDict_getUserAgent();
 

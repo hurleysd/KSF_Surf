@@ -25,6 +25,7 @@ namespace KSF_Surf.Models
 
     public class KSFServerDatum 
     {
+        public string serverID { get; set; }
         public string hostname { get; set; }
         public string surftimer_servername { get; set; }
         public string ipport { get; set; }

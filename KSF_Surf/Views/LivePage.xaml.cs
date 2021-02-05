@@ -25,9 +25,6 @@ namespace KSF_Surf.Views
         private List<KSFServerDatum> css100t_serverData;
         private List<KSFServerDatum> csgo_serverData;
 
-        // object for "Surfer Streams"
-        private ObservableCollection<TwitchDatum> streamData;
-
         // Date of last refresh
         private DateTime lastRefresh = DateTime.Now;
 
@@ -47,7 +44,6 @@ namespace KSF_Surf.Views
             if (BaseViewModel.hasConnection())
             {
                 await LoadServers(true);
-                await LoadStreams();
             }
             else
             {
@@ -124,7 +120,11 @@ namespace KSF_Surf.Views
             int len = css_serverData.Count;
             foreach (KSFServerDatum datum in css_serverData)
             {
-                if (datum.surftimer_servername.Contains("test")) continue;
+                if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
+                {
+                    --len;
+                    continue;
+                }
 
                 CSSServerStack.Children.Add(new Label
                 {
@@ -156,7 +156,11 @@ namespace KSF_Surf.Views
             len = css100t_serverData.Count;
             foreach (KSFServerDatum datum in css100t_serverData)
             {
-                if (datum.surftimer_servername.Contains("TEST")) continue;
+                if (datum.surftimer_servername.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    --len;
+                    continue;
+                }
 
                 CSS100TServerStack.Children.Add(new Label
                 {
@@ -188,7 +192,12 @@ namespace KSF_Surf.Views
             len = csgo_serverData.Count;
             foreach (KSFServerDatum datum in csgo_serverData)
             {
-                if (datum.surftimer_servername.Contains("TEST")) continue;
+                if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
+                {
+                    --len;
+                    continue;
+                }
+
                 if (datum.surftimer_servername == "EasySurf Europe")
                 {
                     datum.surftimer_servername = "EasySurf EU";
@@ -221,33 +230,6 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async Task LoadStreams()
-        {
-            await liveViewModel.twitchRefresh();
-
-            TwitchRootObject tro = liveViewModel.streams;
-            if (tro == null)
-            {
-                // no handling (no streams online or Twitch query failed)
-                StreamsCollectionView.ItemsSource = new ObservableCollection<TwitchDatum>();
-                return;
-            }
-            streamData = tro.data;
-
-            if (streamData.Count > 0)
-            {
-                foreach (TwitchDatum datum in streamData) // applying image sizes to stream thumbnails
-                {
-                    if (datum.thumbnail_url != null)
-                    {
-                        datum.thumbnail_url = datum.thumbnail_url.Replace("{height}", "72");
-                        datum.thumbnail_url = datum.thumbnail_url.Replace("{width}", "128");
-                    }
-                }
-                StreamsCollectionView.ItemsSource = streamData;
-            }
-        }
-
         #endregion
         // Event Handlers -------------------------------------------------------------------------------------------------------------------------
         #region events
@@ -261,24 +243,6 @@ namespace KSF_Surf.Views
 
                 LoadingAnimation.IsRunning = false;
                 LiveScrollView.IsVisible = true;
-            }
-        }
-
-        private async void Stream_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.CurrentSelection.Count == 0) return;
-
-            TwitchDatum datum = (TwitchDatum)StreamsCollectionView.SelectedItem;
-            StreamsCollectionView.SelectedItem = null;
-
-            if (BaseViewModel.hasConnection())
-            {
-                Uri link = new Uri("https://www.twitch.tv/" + datum.user_name);
-                if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
-            }
-            else
-            {
-                await DisplayAlert("Could not open Twitch stream", "Please connect to the Internet.", "OK");
             }
         }
 
@@ -301,7 +265,6 @@ namespace KSF_Surf.Views
                 }
                 else
                 {
-                    await LoadStreams();
                     await LoadServers(false);
                     lastRefresh = DateTime.Now;
                 }
