@@ -6,8 +6,6 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
-using UIKit;
-
 using RestSharp;
 
 using KSF_Surf.Models;
@@ -17,7 +15,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.3.2";
+        internal readonly static string appVersionString = "1.3.3";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -87,15 +85,8 @@ namespace KSF_Surf.ViewModels
         #region system
         internal static void vibrate(bool allowVibrate)
         {
-            if (!allowVibrate || !(deviceString == Device.iOS)) return;
-
-            if (Device.Idiom != TargetIdiom.Phone || !UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
-            {
-                return;
-            }
-            UIImpactFeedbackGenerator impact = new UIImpactFeedbackGenerator(UIImpactFeedbackStyle.Light);
-            impact.Prepare();
-            impact.ImpactOccurred();
+            // Issues with Xamarin.iOS.dll
+            return;
         }
 
         internal static bool hasConnection()

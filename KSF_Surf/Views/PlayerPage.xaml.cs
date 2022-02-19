@@ -72,7 +72,6 @@ namespace KSF_Surf.Views
 
             var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamId);
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
-            if (playerSteamProfile is null) return;
 
             wrsType = EFilter_PlayerWRsType.none;
             LayoutPlayerInfo();
@@ -84,7 +83,9 @@ namespace KSF_Surf.Views
 
         private void LayoutPlayerProfile()
         {
-            PlayerImage.Source = playerSteamProfile.avatarfull;
+            if (playerSteamProfile is null) PlayerImage.Source = "failed_steam_profile.png";
+            else PlayerImage.Source = playerSteamProfile.avatarfull;
+
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
             PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 

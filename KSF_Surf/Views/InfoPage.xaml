@@ -21,36 +21,111 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="20,15,20,0" Spacing="3">
+    <ScrollView Orientation="Vertical">
+        <StackLayout Padding="20,15,20,15" Spacing="3">
 
-        <Label x:Name="KSFThanksLabel"
-               Style="{DynamicResource CreditLabelStyle}"/>
+            <Label x:Name="VersionLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,0"/>
 
-        <Label x:Name="IconThanksLabel"
-               Style="{DynamicResource CreditLabelStyle}"
-               Margin="0,5,0,0"/>
+            <Image Source="hesuka_logo_alpha.png"
+                   Scale="0.5"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"/>
 
-        <Label x:Name="CopyrightsLabel"
-               Style="{DynamicResource SmallCreditLabelStyle}"
-               Margin="0,15,0,0"/>
+            <Label x:Name="KSFThanksLabel"
+                   Style="{DynamicResource CreditLabelStyle}"
+                   Margin="0,0,0,0"/>
 
-        <Label x:Name="PrivacyLabel"
-               Style="{DynamicResource SmallCreditLabelStyle}"
-               Margin="0,5,0,0"/>
+            <Label x:Name="IconThanksLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,0"/>
 
-        <Label x:Name="CopyrightLabel"
-               Style="{DynamicResource SmallCreditLabelStyle}"
-               Margin="0,5,0,0"/>
+            <Label x:Name="CopyrightLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,0"/>
 
-        <Label x:Name="VersionLabel"
-               Style="{DynamicResource SmallCreditLabelStyle}"
-               HorizontalOptions="Center"
-               Margin="0,5,0,0"/>
+            <Label x:Name="CopyrightsLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,0"/>
 
-        <Image Source="hesuka_logo_alpha.png"
-               Scale="0.3"
-               HorizontalOptions="Center"
-               VerticalOptions="EndAndExpand"/>
+            <Label x:Name="PrivacyLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
 
-    </StackLayout>
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="Forms9PatchLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="NETStandardLibraryLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="NewtonsoftJsonLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="RestSharpLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinAndroidXAppCombatResources"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinAndroidXBrowserLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinAndroidXLegacyLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinAndroidXLifecycleLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinAndroidXMediaRouterLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinEssentialsLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinFormsLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="XamarinGoogleAndroidMaterialLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
