@@ -25,7 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>Apple Development: Sean Hurley (DDT5J75TWU)</CodesignKey>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
@@ -41,6 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
+    <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,7 +78,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchFloat32>true</MtouchFloat32>
-    <CodesignProvision>KSF Surf distribution</CodesignProvision>
+    <CodesignProvision>ksfsurf_appstore_2022</CodesignProvision>
     <BuildIpa>false</BuildIpa>
     <MtouchExtraArgs>--optimize=experimental-xforms-product-type</MtouchExtraArgs>
   </PropertyGroup>
@@ -248,6 +249,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ramp_alpha_inverted.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\failed_steam_profile.png" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
