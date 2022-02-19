@@ -18,7 +18,7 @@ KSF data provided with permission from the owner, unt0uch4bl3. Steam data provid
 
 __Privacy Policy__: No user data is collected, stored, or shared, nor do users rely on an account to use this software. Software preferences such as user Steam ID are stored locally (on device) and not on a server. Data from KSF and Steam is requested on behalf of the user by this software and no user information is shared with these services by this software, with the exception of device information for logging purposes. If you have any questions, please email seandhurley@live.com. Changes to this policy will be shown here.
 
-__Intellectual Property__: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. Copyright © 2021 Sean Hurley. All rights reserved.
+__Intellectual Property__: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. Copyright © 2022 Sean Hurley. All rights reserved.
 
 ## AUTHOR
 **[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *B.S. in Computer Science, JMU class of 2020* 
