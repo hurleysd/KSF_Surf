@@ -20,102 +20,93 @@
     </ContentPage.Resources>
 
     <AbsoluteLayout>
-        <ScrollView x:Name="MapsMapTopScrollView"
-                    Orientation="Vertical"
-                    AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    IsVisible="False">
-            <StackLayout Padding="10,15,10,15"
-                         Orientation="Vertical">
+        <StackLayout x:Name="MapsMapTopStack"
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
 
-                <!-- Map top 10  -->
-                <StackLayout Orientation="Horizontal"
-                             Spacing="14">
-                    <Label Text="Map Top"
-                           Style="{DynamicResource HeaderLabel}"
-                           Padding="10,0,0,10"/>
+            <!-- Map top 10  -->
+            <StackLayout Orientation="Horizontal"
+                         Padding="20,15,10,15">
+                <Label Text="Map Top"
+                           Style="{DynamicResource HeaderLabel}"/>
 
-                    <Label x:Name="ZoneOptionLabel"
+                <Label x:Name="ZoneOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
-                    <Label x:Name="StyleOptionLabel"
+                <Label x:Name="StyleOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="End">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
-                    <Picker x:Name="ZonePicker"
+                <Picker x:Name="ZonePicker"
                             IsVisible="False"
                             Unfocused="ZonePicker_Unfocused"/>
 
-                </StackLayout>
+            </StackLayout>
 
-                <Frame Style="{StaticResource FrameStyle}">
-                    <Grid HorizontalOptions="FillAndExpand"
-                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                          Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="1"/>
-                            <ColumnDefinition Width="150"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackLayout x:Name="TopRankStack" 
-                                     Orientation="Vertical" 
-                                     Grid.Column="0"
-                                     MinimumWidthRequest="50">
-                            <Label x:Name="TopColLabel1"
-                                   Text="Rank" 
-                                   TextColor="{DynamicResource HeaderTextColor}"
-                                   FontSize="20"/>
-                        </StackLayout>
-
-                        <BoxView Color="{DynamicResource BorderColor}"
-                             Grid.Column="1"/>
-
-                        <StackLayout x:Name="TopTimeStack" 
-                                     Orientation="Vertical" 
-                                     Grid.Column="2">
-                            <Label x:Name="TopColLabel2"
-                                   Text="Time" 
-                                   TextColor="{DynamicResource HeaderTextColor}"
-                                   FontSize="20"/>
-                        </StackLayout>
-                    </Grid>
-                </Frame>
-
-                <Frame x:Name="MoreFrame"
-                       Style="{DynamicResource MoreFrameStyle}">
-                    <StackLayout x:Name="MoreButton"
-                                 Style="{DynamicResource UntappedStackStyle}"
-                                 Padding="0">
-                        <Grid HorizontalOptions="CenterAndExpand">
+            <CollectionView x:Name="MapsMapTopCollectionView"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
+                        VerticalScrollBarVisibility="Default"
+                        ItemsSource="{Binding .}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReached="MapsMapTop_ThresholdReached"
+                        SelectionMode="Single"
+                        SelectionChanged="MapsMapTop_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
-                            <Label x:Name="MoreLabel"
-                                   Style="{StaticResource MoreLabelStyle}"
-                                   Grid.Row="0"/>
-                            <ActivityIndicator x:Name="MoreLoadingAnimation"
-                                               Style="{DynamicResource MoreLoadingStyle}"
-                                               Grid.Row="0"/>
-
+                            <Label Text="{Binding Item1}"
+                                   Style="{DynamicResource RRLabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="0"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item2}"
+                                   Style="{DynamicResource Time2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="1"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <BoxView HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    Grid.Row="2"
+                                    Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label Text="Could not reach KSF servers :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="20"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
 
-            </StackLayout>
-        </ScrollView>
+        </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"

@@ -42,7 +42,7 @@ namespace KSF_Surf.ViewModels
         }
 
         internal async Task<PlayerRecordsRootObject> GetPlayerRecords(EFilter_Game game, EFilter_Mode mode, EFilter_PlayerRecordsType recordsType, 
-            EFilter_PlayerType playerType, string playerValue)
+            EFilter_PlayerType playerType, string playerValue, int startIndex)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -53,7 +53,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || playerValue == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/" 
-                + recordsString + "/1,10/" + modeString);
+                + recordsString + "/" + startIndex + ",10/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

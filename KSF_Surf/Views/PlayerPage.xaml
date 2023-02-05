@@ -11,13 +11,13 @@
              x:Name="PlayerTab"  
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Filter"
-                     IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
         <ToolbarItem x:Name="Settings"
                      IconImageSource="settings_icon.png"
                      Clicked="Settings_Pressed">
+        </ToolbarItem>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
@@ -31,6 +31,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <RefreshView x:Name="PlayerRefreshView">
     <AbsoluteLayout>
         <ScrollView x:Name="PlayerPageScrollView"
                     Orientation="Vertical"
@@ -115,19 +116,32 @@
                     </StackLayout>
                 </Frame>
                 <Frame Style="{DynamicResource SelectableFrameStyle}">
-                    <StackLayout x:Name="RecentRecordsButton"
+                    <StackLayout x:Name="RecentRecordsSetButton"
                                  Style="{DynamicResource UntappedStackStyle}">
 
-                        <Label Text="Recent Records"
+                        <Label Text="Recent Records Set"
                                Style="{DynamicResource NewPageLabelStyle}"/>
                         <Label Style="{DynamicResource RightArrowStyle}"/>
 
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="RecentRecords_Tapped"/>
+                            <TapGestureRecognizer Tapped="RecentRecordsSet_Tapped"/>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Frame>
-                <Frame Style="{DynamicResource SelectableFrameStyle}">
+                    <Frame Style="{DynamicResource SelectableFrameStyle}">
+                        <StackLayout x:Name="RecentRecordsBrokenButton"
+                                 Style="{DynamicResource UntappedStackStyle}">
+
+                            <Label Text="Recent Records Lost"
+                               Style="{DynamicResource NewPageLabelStyle}"/>
+                            <Label Style="{DynamicResource RightArrowStyle}"/>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="RecentRecordsBroken_Tapped"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Style="{DynamicResource SelectableFrameStyle}">
                     <StackLayout x:Name="OldestRecordsButton"
                                  Style="{DynamicResource UntappedStackStyle}">
 
@@ -528,4 +542,5 @@
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
                            Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
+    </RefreshView>
 </ContentPage>

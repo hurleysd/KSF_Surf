@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.PlayerRecentBrokenRecordsPage"
+             Title="Player Recent Broken Records"
+             x:Name="PlayerRecentBrokenRecordsTab"  
+             Style="{DynamicResource ContentPageStyle}">
+
+    <AbsoluteLayout>
+        <StackLayout x:Name="RecentBrokenRecordsStack"
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
+
+            <!-- Recently Broken -->
+            <Label Text="Recent Records Lost"
+                       Style="{DynamicResource HeaderLabel}"
+                       Padding="20,15,10,15"/>
+            
+            <CollectionView x:Name="RecentBrokenRecordsCollectionView"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
+                        VerticalScrollBarVisibility="Default"
+                        ItemsSource="{Binding .}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReached="RecentBrokenRecords_ThresholdReached"
+                        SelectionMode="Single"
+                        SelectionChanged="RecentBrokenRecords_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Item1}"
+                                   Style="{DynamicResource RRLabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="0"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item2}"
+                                   Style="{DynamicResource RR2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="1"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item3}"
+                                   Style="{DynamicResource Time2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="2"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <BoxView HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    Grid.Row="3"
+                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label x:Name="RecentBrokenRecordsCollectionViewEmptyLabel"
+                        Text="Could not reach KSF servers :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="20"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
+</ContentPage>

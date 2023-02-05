@@ -203,6 +203,15 @@
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
+            <Style x:Key="Time2LabelStyle" TargetType="Label">
+                <Setter Property="FontSize">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" Android="14" iOS="15" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
             <Style x:Key="MoreLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="35"/>
                 <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
@@ -219,6 +228,10 @@
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="Text" Value="&#8250;"/>
                 <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+            </Style>
+            <Style x:Key="RangeSliderTextStyle" TargetType="Label">
+                <Setter Property="Font" Value="25"/>
+                <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

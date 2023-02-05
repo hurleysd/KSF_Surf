@@ -19,11 +19,7 @@ namespace KSF_Surf.Views
 
             if (CurrentPage is NavigationPage navpage)
             {
-                if (navpage.CurrentPage is RecordsPage recpage)
-                {
-                    await recpage.OnChangedTabAppearing();
-                }
-                else if (navpage.CurrentPage is MapsPage mapspage)
+                if (navpage.CurrentPage is MapsPage mapspage)
                 {
                     await mapspage.OnChangedTabAppearing();
                 }

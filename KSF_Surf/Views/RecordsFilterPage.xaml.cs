@@ -52,7 +52,6 @@ namespace KSF_Surf.Views
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-
         private void ChangeGameFilter(EFilter_Game newGame)
         {
             if (game == newGame) return;

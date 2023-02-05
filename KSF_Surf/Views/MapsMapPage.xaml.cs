@@ -33,13 +33,12 @@ namespace KSF_Surf.Views
         private int stageCount;
         private int bonusCount;
 
-        public MapsMapPage(string mapName, EFilter_Game gameFilter)
+        public MapsMapPage(string mapName, EFilter_Game game)
         {
-            mapsViewModel = new MapsViewModel();
-            
             map = mapName;
-            game = gameFilter;
+            this.game = game;
 
+            mapsViewModel = new MapsViewModel();
             zonePickerList = new List<string>() { "Main" };
             stageCount = 0;
             bonusCount = 0;
@@ -139,6 +138,7 @@ namespace KSF_Surf.Views
 
         private void LayoutStats()
         {
+            CreatedLabel.Text = String_Formatter.toString_KSFDate(mapSettings.created);
             CompletionsLabel.Text = String_Formatter.toString_Int(pointsData.TotalPlayers);
             TimesPlayedLabel.Text = String_Formatter.toString_Int(mapSettings.totalplaytimes);
             PlayTimeLabel.Text = String_Formatter.toString_PlayTime(mapSettings.playtime, true);
@@ -261,11 +261,11 @@ namespace KSF_Surf.Views
             TopButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new MapsMapTopPage(Title, mapsViewModel, game, map, stageCount, bonusCount, zonePickerList));
+                await Navigation.PushAsync(new MapsMapTopPage(Title, game, map, stageCount, bonusCount, zonePickerList));
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             TopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -275,14 +275,19 @@ namespace KSF_Surf.Views
             PRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), mapsViewModel, game, map, 
+                await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), game, map, 
                     (stageCount + bonusCount > 0), (mapType == EFilter_MapType.staged)));
             }
             else
             {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+                await DisplayNoConnectionAlert();
             }
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async Task DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
     }
 

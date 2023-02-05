@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -16,38 +17,48 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int LIST_LIMIT = 25;
         private readonly int CALL_LIMIT = 250;
 
         // objects used by "SurfTop" call
         private List<CountryPoints> topCountriesData;
         private int list_index = 1;
-        private bool moreRecords = false;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
+        private readonly EFilter_Game defaultGame;
+        private readonly EFilter_Mode defaultMode;
+        private EFilter_Game game;
+        private EFilter_Mode mode;
 
-        public RecordsTopCountriesPage(string title, RecordsViewModel recordsViewModel, EFilter_Game game, EFilter_Mode mode)
+        // collection view
+        public ObservableCollection<Tuple<string, string>> recordsTopCountriesCollectionViewItemsSource { get; }
+                = new ObservableCollection<Tuple<string, string>>();
+
+        public RecordsTopCountriesPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
         {
-            this.recordsViewModel = recordsViewModel;
             this.game = game;
             this.mode = mode;
+            this.defaultGame = defaultGame;
+            this.defaultMode = defaultMode;
+
+            recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = title;
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            RecordsTopCountriesCollectionView.ItemsSource = recordsTopCountriesCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeTopCountries()
+        private async Task ChangeTopCountries(bool clearPrev)
         {
             var topCountriesDatum = await recordsViewModel.GetTopCountries(game, mode, list_index);
             topCountriesData = topCountriesDatum?.data;
             if (topCountriesData is null) return;
 
+            if (clearPrev) recordsTopCountriesCollectionViewItemsSource.Clear();
             LayoutTopCountries();
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
@@ -56,22 +67,13 @@ namespace KSF_Surf.Views
         {
             foreach (CountryPoints datum in topCountriesData)
             {
-                RankStack.Children.Add(new Label
-                {
-                    Text = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.country,
-                    Style = App.Current.Resources["GridLabelStyle"] as Style
-                });
-                PointsStack.Children.Add(new Label
-                {
-                    Text = String_Formatter.toString_Points(datum.points),
-                    Style = App.Current.Resources["GridLabelStyle"] as Style
-                });
+                string countryString = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.country;
+                string pointsString = String_Formatter.toString_Points(datum.points);
+
+                recordsTopCountriesCollectionViewItemsSource.Add(new Tuple<string, string>(countryString, pointsString));
 
                 list_index++;
             }
-
-            moreRecords = (((list_index - 1) % LIST_LIMIT == 0) && ((list_index - 1) < CALL_LIMIT));
-            MoreFrame.IsVisible = moreRecords;
         }
 
         #endregion
@@ -83,37 +85,64 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangeTopCountries();
+                await ChangeTopCountries(false);
 
                 LoadingAnimation.IsRunning = false;
-                RecordsTopCountriesPageScrollView.IsVisible = true;
+                RecordsTopCountriesStack.IsVisible = true;
             }
         }
 
-        private async void MoreButton_Tapped(object sender, EventArgs e)
+        private async void RecordsTopCoutries_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            
             isLoading = true;
+            LoadingAnimation.IsRunning = true;
 
-            MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            MoreLabel.IsVisible = false;
-            MoreLoadingAnimation.IsRunning = true;
-
-            var topCountriesDatum = await recordsViewModel.GetTopCountries(game, mode, list_index);
-            topCountriesData = topCountriesDatum?.data;
-
-            if (topCountriesData is null || topCountriesData.Count < 1)
-            {
-                MoreFrame.IsVisible = false;
-                return;
-            }
-
-            LayoutTopCountries();
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-            MoreLoadingAnimation.IsRunning = false;
-            MoreLabel.IsVisible = true;
+            await ChangeTopCountries(false);
+            
+            LoadingAnimation.IsRunning = false;
             isLoading = false;
+        }
+
+        private async void Filter_Pressed(object sender, EventArgs e)
+        {
+            if (hasLoaded && BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
+            }
+            else
+            {
+                await DisplayNoConnectionAlert();
+            }
+        }
+
+        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        {
+            if (newGame == game && newMode == mode) return;
+            if (BaseViewModel.hasConnection())
+            {
+                game = newGame;
+                mode = newMode;
+                list_index = 1;
+
+                LoadingAnimation.IsRunning = true;
+                isLoading = true;
+
+                await ChangeTopCountries(true);
+
+                LoadingAnimation.IsRunning = false;
+                isLoading = false;
+            }
+            else
+            {
+                await DisplayNoConnectionAlert();
+            }
+        }
+
+        private async Task DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion
