@@ -25,14 +25,14 @@ namespace KSF_Surf.Views
         private readonly string map;
         private readonly string playerSteamID;
 
-        public MapsMapCCPPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, EFilter_Mode mode, 
-            string map, string playerSteamID)
+        public MapsMapCCPPage(string title, EFilter_Game game, EFilter_Mode mode, string map, string playerSteamID)
         {
-            this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.mode = mode;
             this.map = map;
             this.playerSteamID = playerSteamID;
+
+            mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
             Title = title;

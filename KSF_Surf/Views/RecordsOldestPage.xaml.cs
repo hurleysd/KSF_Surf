@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -16,112 +17,91 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int LIST_LIMIT = 10;
-        private readonly int CALL_LIMIT = 50;
+        private readonly int CALL_LIMIT = 250;
 
         // objects used by "Oldest Records" call
         private List<OldRecord> oldRecordData;
         private int list_index = 1;
-        private bool moreRecords = false;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
+        private readonly EFilter_Game defaultGame;
+        private readonly EFilter_Mode defaultMode;
+        private EFilter_Game game;
+        private EFilter_Mode mode;
         private EFilter_ORType oldestType;
 
-        public RecordsOldestPage(string title, RecordsViewModel recordsViewModel, EFilter_Game game, EFilter_Mode mode)
+        // collection view
+        public ObservableCollection<Tuple<string, string, string, string>> recordsOldestCollectionViewItemsSource { get; }
+                = new ObservableCollection<Tuple<string, string, string, string>>();
+
+        public RecordsOldestPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
         {
-            this.recordsViewModel = recordsViewModel;
             this.game = game;
             this.mode = mode;
-            this.oldestType = EFilter_ORType.map;
+            this.defaultGame = defaultGame;
+            this.defaultMode = defaultMode;
+            oldestType = EFilter_ORType.map;
+
+            recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = title;
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            RecordsOldestCollectionView.ItemsSource = recordsOldestCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeRecords(EFilter_ORType type)
+        private async Task ChangeRecords(bool clearPrev)
         {
-            var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, type, mode, list_index);
+            var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, oldestType, mode, list_index);
             oldRecordData = oldRecordDatum?.data;
             if (oldRecordData is null) return;
 
-            ORTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(type);
-            if (list_index == 1) ORStack.Children.Clear();
+            if (clearPrev) recordsOldestCollectionViewItemsSource.Clear();
             LayoutRecords();
+            ORTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(oldestType);
+            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
-            if (list_index != 1)
-            {
-                ORStack.Children.Add(new BoxView
-                {
-                    Style = App.Current.Resources["SeparatorStyle"] as Style
-                });
-            }
-
-            int i = 0;
-            int length = oldRecordData.Count;
             foreach (OldRecord datum in oldRecordData)
             {
-                string rrstring = datum.mapName;
+                string rrString = list_index + ". " + datum.mapName;
                 if (datum.zoneID != null)
                 {
-                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
+                    rrString += EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
-                ORStack.Children.Add(new Label
-                {
-                    Text = rrstring,
-                    Style = App.Current.Resources["RRLabelStyle"] as Style
 
-                });
+                string playerString = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
 
-                ORStack.Children.Add(new Label
-                {
-                    Text = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName,
-                    Style = App.Current.Resources["RR2LabelStyle"] as Style
-                });
-
-                string rrtime = "in " + String_Formatter.toString_RankTime(datum.surfTime);
+                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime);
                 if (!(datum.r2Diff is null))
                 {
                     if (datum.r2Diff != "0")
                     {
-                        rrtime += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
+                        rrtimeString += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
                     }
                     else
                     {
-                        rrtime += " (RETAKEN)";
+                        rrtimeString += " (RETAKEN)";
                     }
                 }
                 else
                 {
-                    rrtime += " (WR N/A)";
+                    rrtimeString += " (WR N/A)";
                 }
-                rrtime += " (" + String_Formatter.toString_LastOnline(datum.date) + ")";
-                ORStack.Children.Add(new Label
-                {
-                    Text = rrtime,
-                    Style = App.Current.Resources["TimeLabelStyle"] as Style
-                });
+                rrtimeString += " (" + String_Formatter.toString_LastOnline(datum.date) + ")";
 
-                if (++i != length)
-                {
-                    ORStack.Children.Add(new BoxView
-                    {
-                        Style = App.Current.Resources["SeparatorStyle"] as Style
-                    });
-                }
+
+                recordsOldestCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
+                    rrString, playerString, rrtimeString, datum.mapName));
+                
+                list_index++;
             }
-
-            moreRecords = ((i == LIST_LIMIT) && list_index < CALL_LIMIT);
-            MoreFrame.IsVisible = moreRecords;
         }
 
 
@@ -134,10 +114,10 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangeRecords(oldestType);
+                await ChangeRecords(false);
 
                 LoadingAnimation.IsRunning = false;
-                RecordsOldestPageScrollView.IsVisible = true;
+                RecordsOldestStack.IsVisible = true;
             }
         }
 
@@ -154,49 +134,92 @@ namespace KSF_Surf.Views
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
-
-            EFilter_ORType newType = EFilter_ORType.map;
             switch (newTypeString)
             {
-                case "Cancel": return;
-                case "Stage": newType = EFilter_ORType.stage; break;
-                case "Bonus": newType = EFilter_ORType.bonus; break;
+                case "Stage": oldestType = EFilter_ORType.stage; break;
+                case "Bonus": oldestType = EFilter_ORType.bonus; break;
+                case "Map": oldestType = EFilter_ORType.map; break;
+                default: return;
             }
 
-            oldestType = newType;
             list_index = 1;
 
+            isLoading = true;
             LoadingAnimation.IsRunning = true;
-            await ChangeRecords(newType);
+
+            await ChangeRecords(true);
+
             LoadingAnimation.IsRunning = false;
+            isLoading = false;
         }
 
-        private async void MoreButton_Tapped(object sender, EventArgs e)
+        private async void RecordsOldest_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
-            isLoading = true;
+            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            
+            isLoading = true; 
+            LoadingAnimation.IsRunning = true;
 
-            MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            MoreLabel.IsVisible = false;
-            MoreLoadingAnimation.IsRunning = true;
-
-            list_index += LIST_LIMIT;
-
-            var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, oldestType, mode, list_index);
-            oldRecordData = oldRecordDatum?.data;
-
-            if (oldRecordData is null || oldRecordData.Count < 1)
-            {
-                MoreFrame.IsVisible = false;
-                return;
-            }
-
-            LayoutRecords();
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-            MoreLoadingAnimation.IsRunning = false;
-            MoreLabel.IsVisible = true;
+            await ChangeRecords(false);
+            
+            LoadingAnimation.IsRunning = false;
             isLoading = false;
+        }
+
+        private async void RecordsOldest_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.Count == 0) return;
+
+            Tuple<string, string, string, string> selectedMap = 
+                (Tuple<string, string, string, string>)RecordsOldestCollectionView.SelectedItem;
+            RecordsOldestCollectionView.SelectedItem = null;
+
+            string mapName = selectedMap.Item4;
+
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new MapsMapPage(mapName, game));
+            }
+            else
+            {
+                await DisplayNoConnectionAlert();
+            }
+        }
+
+        private async void Filter_Pressed(object sender, EventArgs e)
+        {
+            if (hasLoaded)
+            {
+                await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
+            }
+        }
+
+        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        {
+            if (newGame == game && newMode == mode) return;
+            if (BaseViewModel.hasConnection())
+            {
+                game = newGame;
+                mode = newMode;
+                list_index = 1;
+
+                LoadingAnimation.IsRunning = true;
+                isLoading = true;
+
+                await ChangeRecords(false);
+
+                LoadingAnimation.IsRunning = false;
+                isLoading = false;
+            }
+            else
+            {
+                await DisplayNoConnectionAlert();
+            }
+        }
+
+        private async Task DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

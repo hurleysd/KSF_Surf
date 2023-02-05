@@ -147,6 +147,8 @@
 
                         <StackLayout Orientation="Vertical" 
                                      Grid.Column="0">
+                            <Label Text="Created"
+                                   Style="{DynamicResource LeftColStyle}"/>
                             <Label Text="Completions"
                                    Style="{DynamicResource LeftColStyle}"/>
                             <Label Text="Times played"
@@ -157,6 +159,8 @@
 
                         <StackLayout Orientation="Vertical" 
                                      Grid.Column="1">
+                            <Label x:Name="CreatedLabel"
+                                   Style="{DynamicResource RightColStyle}"/>
                             <Label x:Name="CompletionsLabel"
                                    Style="{DynamicResource RightColStyle}"/>
                             <Label x:Name="TimesPlayedLabel"

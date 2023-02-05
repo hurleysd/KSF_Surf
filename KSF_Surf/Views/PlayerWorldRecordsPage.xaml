@@ -10,63 +10,83 @@
              Style="{DynamicResource ContentPageStyle}">
 
     <AbsoluteLayout>
-        <ScrollView x:Name="PlayerWorldRecordsScrollView"
-                    Orientation="Vertical"
-                    AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    IsVisible="False">
-            <StackLayout Padding="10,15,10,15"
-                         Orientation="Vertical">
+        <StackLayout x:Name="WorldRecordsStack"
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
 
-                <!-- World Records -->
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="World Records"
+            <!-- World Records -->
+            <StackLayout Orientation="Horizontal"
+                         Padding="20,15,10,15">
+                <Label Text="World Records"
                            Style="{DynamicResource HeaderLabel}"
-                           Padding="10,0,0,10"
                            HorizontalOptions="StartAndExpand"/>
 
-                    <Label x:Name="WRTypeOptionLabel"
+                <Label x:Name="WRTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="WRTypeOptionLabel_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="WRTypeOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
 
-                <Frame Style="{StaticResource FrameStyle}">
-                    <StackLayout x:Name="WRsStack" 
-                                 Orientation="Vertical"
-                                 BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                                 Padding="15"
-                                 Spacing="10"/>
-                </Frame>
-
-                <Frame x:Name="MoreFrame"
-                       Style="{DynamicResource MoreFrameStyle}">
-                    <StackLayout x:Name="MoreButton"
-                                 Style="{DynamicResource UntappedStackStyle}"
-                                 Padding="0">
-                        <Grid HorizontalOptions="CenterAndExpand">
+            <CollectionView x:Name="WorldRecordsCollectionView"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
+                        VerticalScrollBarVisibility="Default"
+                        ItemsSource="{Binding .}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReached="WorldRecords_ThresholdReached"
+                        SelectionMode="Single"
+                        SelectionChanged="WorldRecords_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
-                            <Label x:Name="MoreLabel"
-                                   Style="{StaticResource MoreLabelStyle}"
-                                   Grid.Row="0"/>
-                            <ActivityIndicator x:Name="MoreLoadingAnimation"
-                                               Style="{DynamicResource MoreLoadingStyle}"
-                                               Grid.Row="0"/>
-
+                            <Label Text="{Binding Item1}"
+                                   Style="{DynamicResource RRLabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="0"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item2}"
+                                   Style="{DynamicResource Time2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="1"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <BoxView HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    Grid.Row="2"
+                                    Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label x:Name="WorldRecordsCollectionViewEmptyLabel"
+                        Text="Could not reach KSF servers :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="20"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
 
-            </StackLayout>
-        </ScrollView>
+
+        </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"

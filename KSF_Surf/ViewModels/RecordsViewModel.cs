@@ -39,7 +39,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal async Task<RRRootObject> GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode)
+        internal async Task<RRRootObject> GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode, int start_index)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -49,7 +49,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/1,10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/" + start_index + ",10/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -62,7 +62,7 @@ namespace KSF_Surf.ViewModels
             }
         }
 
-        internal async Task<RR10RootObject> GetRecentRecords10(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<RR10RootObject> GetRecentRecords10(EFilter_Game game, EFilter_Mode mode, int start_index)
         {
             if (!BaseViewModel.hasConnection()) return null;
 
@@ -71,7 +71,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/1,10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/" + start_index + ",10/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

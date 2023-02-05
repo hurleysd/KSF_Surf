@@ -8,92 +8,98 @@
              Title="Most by Type"
              x:Name="MostRecordsTab"  
              Style="{DynamicResource ContentPageStyle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
 
     <AbsoluteLayout>
-        <ScrollView x:Name="RecordsMostPageScrollView"
-                    Orientation="Vertical"
-                    AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    IsVisible="False">
-            <StackLayout Padding="10,15,10,15"
-                         Orientation="Vertical">
-            
-                <!-- Most by type -->
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Most"
-                           Style="{DynamicResource HeaderLabel}"
-                           Padding="10,0,0,10"/>
+        <StackLayout x:Name="RecordsMostStack"
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
 
-                    <Label x:Name="MostTypeOptionLabel"
+            <!-- Most by type -->
+            <StackLayout Orientation="Horizontal"
+                         Padding="20,15,10,15">
+                <Label Text="Most"
+                           Style="{DynamicResource HeaderLabel}"/>
+
+                <Label x:Name="MostTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
                            HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Picker x:Name="MostTypePicker"
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Picker x:Name="MostTypePicker"
                             IsVisible="False"
                             Unfocused="MostTypePicker_Unfocused"/>
-                </StackLayout>
+            </StackLayout>
 
-                <Frame Style="{StaticResource FrameStyle}">
-                    <Grid HorizontalOptions="FillAndExpand"
-                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                          Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="1"/>
-                            <ColumnDefinition Width="90"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackLayout x:Name="MostPlayerStack" 
-                                     Orientation="Vertical" 
-                                     Grid.Column="0">
-                            <Label x:Name="MostPlayerLabel"
-                                   Text="Player" 
-                                   TextColor="{DynamicResource HeaderTextColor}"
-                                   FontSize="20"/>
-                        </StackLayout>
-
-                        <BoxView Color="{DynamicResource BorderColor}"
-                                 Grid.Column="1"/>
-
-                        <StackLayout x:Name="MostValueStack"
-                                     Orientation="Vertical" 
-                                     Grid.Column="2">
-                            <Label x:Name="MostValueLabel"
-                                   Text = "Total"
-                                   TextColor="{DynamicResource HeaderTextColor}"
-                                   FontSize="20"/>
-                        </StackLayout>
-                    </Grid>
-                </Frame>
-
-                <Frame x:Name="MoreFrame"
-                       Style="{DynamicResource MoreFrameStyle}">
-                    <StackLayout x:Name="MoreButton"
-                                 Style="{DynamicResource UntappedStackStyle}"
-                                 Padding="0">
-                        <Grid HorizontalOptions="CenterAndExpand">
+            <CollectionView x:Name="RecordsMostCollectionView"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
+                        VerticalScrollBarVisibility="Default"
+                        ItemsSource="{Binding .}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReached="RecordsMost_ThresholdReached"
+                        SelectionMode="Single"
+                        SelectionChanged="RecordsMost_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
-                            <Label x:Name="MoreLabel"
-                                   Style="{StaticResource MoreLabelStyle}"
-                                   Grid.Row="0"/>
-                            <ActivityIndicator x:Name="MoreLoadingAnimation"
-                                               Style="{DynamicResource MoreLoadingStyle}"
-                                               Grid.Row="0"/>
-                            
+                            <Label Text="{Binding Item1}"
+                                   TextColor="{DynamicResource HeaderTextColor}"
+                                   FontSize ="20"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item2}"
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize ="18"
+                                   HorizontalTextAlignment="End"
+                                   Padding="0, 0, 10, 0"
+                                   Grid.Column="1"
+                                   Grid.Row="0"
+                                   HorizontalOptions="EndAndExpand"/>
+                            <BoxView HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="MoreButton_Tapped"/>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-
-                </Frame>
-            </StackLayout>
-        </ScrollView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label Text="Could not reach KSF servers :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="20"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
+            
+        </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
                            AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"

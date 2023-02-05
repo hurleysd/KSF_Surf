@@ -26,15 +26,15 @@ namespace KSF_Surf.Views
         
         private string playerSteamID;
 
-        public MapsMapPRDetailsPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, EFilter_Mode mode,
-            EFilter_Mode defaultMode, string map, string playerSteamID)
+        public MapsMapPRDetailsPage(string title, EFilter_Game game, EFilter_Mode mode,EFilter_Mode defaultMode, string map, string playerSteamID)
         {
             mapsMapTitle = title;
-            this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.mode = (mode == EFilter_Mode.none)? defaultMode : mode;
             this.map = map;
             this.playerSteamID = playerSteamID;
+
+            mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
             Title = title;

@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -16,12 +17,11 @@ namespace KSF_Surf.Views
         private readonly PlayerViewModel playerViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int LIST_LIMIT = 10;
+        private readonly int CALL_LIMIT = 999;
 
         // objects used by "(In)Complete Maps" call
         private List<PlayerCompletionRecord> recordsData;
         private int list_index = 1;
-        private bool moreRecords = false;
 
         // variables for filters
         private readonly EFilter_Game game;
@@ -30,19 +30,25 @@ namespace KSF_Surf.Views
         private readonly string playerValue;
         private readonly EFilter_PlayerCompletionType completionType;
 
-        public PlayerMapsCompletionPage(string title, PlayerViewModel playerViewModel, EFilter_Game game, EFilter_Mode mode,
+        // collection view
+        public ObservableCollection<Tuple<string, string, string>> mapsCompletionCollectionViewItemsSource { get; }
+                = new ObservableCollection<Tuple<string, string, string>>();
+
+        public PlayerMapsCompletionPage(string title, EFilter_Game game, EFilter_Mode mode,
             EFilter_PlayerCompletionType completionType, EFilter_PlayerType playerType, string playerValue)
         {
-            this.playerViewModel = playerViewModel;
             this.game = game;
             this.mode = mode;
             this.playerType = playerType;
             this.playerValue = playerValue;
             this.completionType = completionType;
 
+            playerViewModel = new PlayerViewModel();
+
             InitializeComponent();
             Title = title;
             HeaderLabel.Text = EFilter_ToString.toString2(completionType);
+            MapsCompletionCollectionView.ItemsSource = mapsCompletionCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
@@ -61,61 +67,30 @@ namespace KSF_Surf.Views
 
         private void LayoutRecords()
         {
-            if (list_index != 1)
-            {
-                CompletionStack.Children.Add(new BoxView
-                {
-                    Style = App.Current.Resources["SeparatorStyle"] as Style
-                });
-            }
-
-            int i = 0;
-            int length = recordsData.Count;
             foreach (PlayerCompletionRecord datum in recordsData)
             {
                 if (datum.completedZones is null) datum.completedZones = "0";
-                CompletionStack.Children.Add(new Label
-                {
-                    Text = datum.mapName + " (" + datum.completedZones + "/" + datum.totalZones + ")",
-                    Style = App.Current.Resources["RRLabelStyle"] as Style
+                string mapCompletionString = datum.mapName + " (" + datum.completedZones + "/" + datum.totalZones + ")";
 
-                });
 
                 EFilter_MapType mapType = (EFilter_MapType)int.Parse(datum.mapType);
-                string cptype = (mapType == EFilter_MapType.linear) ? "CPs" : "Stages";
-                string rrinfo = datum.cp_count + " " + cptype + ", " + datum.b_count + " Bonus";
-                if (datum.b_count != "1") rrinfo += "es";
+                string cptypeString = (mapType == EFilter_MapType.linear) ? "CPs" : "Stages";
+                string rrinfoString = datum.cp_count + " " + cptypeString + ", " + datum.b_count + " Bonus";
+                if (datum.b_count != "1") rrinfoString += "es";
+                string mapSummaryString = "Tier " + datum.tier + " " + EFilter_ToString.toString(mapType) + " - " + rrinfoString;
 
-                CompletionStack.Children.Add(new Label
-                {
-                    Text = "Tier " + datum.tier + " " + EFilter_ToString.toString(mapType) + " - " + rrinfo,
-                    Style = App.Current.Resources["TimeLabelStyle"] as Style
-                });
+                mapsCompletionCollectionViewItemsSource.Add(new Tuple<string, string, string>(
+                    mapCompletionString, mapSummaryString, datum.mapName));
 
-                if (++i != length)
-                {
-                    CompletionStack.Children.Add(new BoxView
-                    {
-                        Style = App.Current.Resources["SeparatorStyle"] as Style
-                    });
-                }
+                list_index++;
             }
 
-            moreRecords = (i == LIST_LIMIT);
-            MoreFrame.IsVisible = moreRecords;
-
-            if (i == 0) // no (in)complete maps
+            if (list_index == 0) // no (in)complete maps
             {
-                string text = "None ! " + ((completionType == EFilter_PlayerCompletionType.complete) ? ":(" :  ":)");
-                CompletionStack.Children.Add(new Label
-                {
-                    Text = text,
-                    Style = App.Current.Resources["LeftColStyle"] as Style,
-                    HorizontalOptions = LayoutOptions.Center
-                });
+                MapsCompletionCollectionViewEmptyLabel.Text = "None ! "
+                    + ((completionType == EFilter_PlayerCompletionType.complete) ? ":(" :  ":)");
             }
         }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -129,36 +104,42 @@ namespace KSF_Surf.Views
                 await ChangeCompletion();
 
                 LoadingAnimation.IsRunning = false;
-                PlayerMapsCompletionScrollView.IsVisible = true;
+                MapsCompletionStack.IsVisible = true;
             }
         }
 
-        private async void MoreButton_Tapped(object sender, EventArgs e)
+        private async void MapsCompletion_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            if ((list_index - 1) % 10 != 0) return; // avoid loading more when there weren't enough before
+
             isLoading = true;
+            LoadingAnimation.IsRunning = true;
 
-            MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            MoreLabel.IsVisible = false;
-            MoreLoadingAnimation.IsRunning = true;
+            await ChangeCompletion();
 
-            list_index += LIST_LIMIT;
-
-            var completionDatum = await playerViewModel.GetPlayerMapsCompletion(game, mode, completionType, playerType, playerValue, list_index);
-            recordsData = completionDatum?.data.records;
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-
-            if (recordsData is null || recordsData.Count < 1)
-            {
-                MoreFrame.IsVisible = false;
-                return;
-            }
-
-            LayoutRecords();
-            MoreLoadingAnimation.IsRunning = false;
-            MoreLabel.IsVisible = true;
+            LoadingAnimation.IsRunning = false;
             isLoading = false;
+        }
+
+        private async void MapsCompletion_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.Count == 0) return;
+
+            Tuple<string, string, string> selectedMap =
+                (Tuple<string, string, string>)MapsCompletionCollectionView.SelectedItem;
+            MapsCompletionCollectionView.SelectedItem = null;
+
+            string mapName = selectedMap.Item3;
+
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new MapsMapPage(mapName, game));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
         }
 
         #endregion

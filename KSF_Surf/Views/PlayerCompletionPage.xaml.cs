@@ -24,14 +24,15 @@ namespace KSF_Surf.Views
         private readonly EFilter_PlayerType playerType;
         private readonly string playerValue;
 
-        public PlayerCompletionPage(string title, PlayerViewModel playerViewModel, EFilter_Game game, EFilter_Mode mode, 
+        public PlayerCompletionPage(string title, EFilter_Game game, EFilter_Mode mode, 
             EFilter_PlayerType playerType, string playerValue)
         {
-            this.playerViewModel = playerViewModel;
             this.game = game;
             this.mode = mode;
             this.playerType = playerType;
             this.playerValue = playerValue;
+
+            playerViewModel = new PlayerViewModel();
 
             InitializeComponent();
             Title = title;

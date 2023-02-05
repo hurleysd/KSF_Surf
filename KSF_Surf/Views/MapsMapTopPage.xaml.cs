@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -16,13 +17,11 @@ namespace KSF_Surf.Views
         private readonly MapsViewModel mapsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int LIST_LIMIT = 25;
-        private readonly int CALL_LIMIT = 250;
+        private readonly int CALL_LIMIT = 100;
 
         // objects used by "SurfTop" call
         private List<TopDatum> topData;
         private int list_index = 1;
-        private bool moreRecords = false;
 
         // variables for filters
         private readonly EFilter_Game game;
@@ -36,9 +35,12 @@ namespace KSF_Surf.Views
         private int stageCount;
         private int bonusCount;
 
-        public MapsMapTopPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, string map, int stageCount, int bonusCount, List<string> zonePickerList)
+        // collection view
+        public ObservableCollection<Tuple<string, string, string>> mapsMapTopCollectionViewItemsSource { get; }
+                = new ObservableCollection<Tuple<string, string, string>>();
+
+        public MapsMapTopPage(string title, EFilter_Game game, string map, int stageCount, int bonusCount, List<string> zonePickerList)
         {
-            this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.map = map;
             currentMode = BaseViewModel.propertiesDict_getMode();
@@ -48,74 +50,68 @@ namespace KSF_Surf.Views
             this.zonePickerList = zonePickerList;
             currentZone = 0;
             currentZoneString = "Main";
-            
 
+            mapsViewModel = new MapsViewModel();
+            
             InitializeComponent();
             Title = title;
             ZonePicker.ItemsSource = zonePickerList;
+            MapsMapTopCollectionView.ItemsSource = mapsMapTopCollectionViewItemsSource;
+            StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
+            ZoneOptionLabel.Text = "Zone: " + currentZoneString;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeRecords()
+        private async Task ChangeRecords(EFilter_Mode mode, int zone)
         {
-            var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone, list_index);
+            int temp_list_index = list_index;
+            if (mode != currentMode || zone != currentZone) temp_list_index = 1;
+
+            var topDatum = await mapsViewModel.GetMapTop(game, map, mode, zone, temp_list_index);
             topData = topDatum?.data;
             if (topData is null)
             {
-                StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
-                ZoneOptionLabel.Text = "Zone: " + currentZoneString;
-                await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " Main completions.", "Be the first!", "OK");
+                await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " zone completions.", "Be the first!", "OK");
                 return;
             };
 
-            LayoutTop(EFilter_ToString.toString(currentMode), "Main");
+            currentMode = mode;
+            currentZone = zone;
+            list_index = temp_list_index;
+
+            if (temp_list_index == 1) mapsMapTopCollectionViewItemsSource.Clear();
+            LayoutTop();
+            StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
+            ZoneOptionLabel.Text = "Zone: " + currentZoneString;
         }
 
         // Displaying Changes ---------------------------------------------------------------------------------
 
-        private void LayoutTop(string modeString, string zone)
+        private void LayoutTop()
         {
-            StyleOptionLabel.Text = "Style: " + modeString;
-            ZoneOptionLabel.Text = "Zone: " + zone;
-
             foreach (TopDatum datum in topData)
             {
-                TopRankStack.Children.Add(new Label
-                {
-                    Text = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name + " (" + datum.count + ")",
-                    Style = Resources["TopStyle"] as Style
-                });
+                string playerString = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name;
+                string attemptsString = " in " + datum.count + " completions";
+                string timeString = String_Formatter.toString_RankTime(datum.time);
 
-                Label TimeLabel = new Label
-                {
-                    Text = String_Formatter.toString_RankTime(datum.time),
-                    Style = Resources["TopStyle"] as Style
-                };
+
                 if (list_index != 1)
                 {
-                    TimeLabel.Text += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
+                    timeString += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
                 }
                 else
                 {
-                    TimeLabel.Text += " (WR)";
+                    timeString += " (WR)";
                 }
-                TopTimeStack.Children.Add(TimeLabel);
+
+                mapsMapTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
+                    playerString, timeString + attemptsString, datum.steamID));
 
                 list_index++;
             }
-            
-            moreRecords = (((list_index - 1) % LIST_LIMIT == 0) && ((list_index - 1) < CALL_LIMIT));
-            MoreFrame.IsVisible = moreRecords;
-        }
-
-        private void ClearTopGrid()
-        {
-            TopRankStack.Children.Clear();
-            TopRankStack.Children.Add(TopColLabel1);
-            TopTimeStack.Children.Clear();
-            TopTimeStack.Children.Add(TopColLabel2);
         }
 
         #endregion
@@ -127,10 +123,10 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangeRecords();
+                await ChangeRecords(currentMode, currentZone);
 
                 LoadingAnimation.IsRunning = false;
-                MapsMapTopScrollView.IsVisible = true;
+                MapsMapTopStack.IsVisible = true;
             }
         }
 
@@ -147,35 +143,25 @@ namespace KSF_Surf.Views
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-
-            EFilter_Mode newCurrentMode = EFilter_Mode.fw;
+            EFilter_Mode newMode = EFilter_Mode.none;
             switch (newStyle)
             {
-                case "Cancel": return;
-                case "HSW": newCurrentMode = EFilter_Mode.hsw; break;
-                case "SW": newCurrentMode = EFilter_Mode.sw; break;
-                case "BW": newCurrentMode = EFilter_Mode.bw; break;
+                case "HSW": newMode = EFilter_Mode.hsw; break;
+                case "SW": newMode = EFilter_Mode.sw; break;
+                case "BW": newMode = EFilter_Mode.bw; break;
+                case "FW": newMode = EFilter_Mode.fw; break;
+                default: return;
             }
-            
+
+            // don't reset list index yet
+
+            isLoading = true;
             LoadingAnimation.IsRunning = true;
 
-            var newTopDatum = await mapsViewModel.GetMapTop(game, map, newCurrentMode, currentZone, 1);
-            List<TopDatum> newTopData = newTopDatum?.data;
-            if (newTopData is null)
-            {
-                LoadingAnimation.IsRunning = false;
-                await DisplayAlert("No " + newStyle + " " + currentZoneString + " completions.", "Be the first!", "OK");
-                return;
-            }
-            topData = newTopData;
-            currentMode = newCurrentMode;
+            await ChangeRecords(newMode, currentZone);
 
-            list_index = 1;
-            ClearTopGrid();
-
-            
-            LayoutTop(newStyle, currentZoneString);
             LoadingAnimation.IsRunning = false;
+            isLoading = false;
         }
 
         private void ZoneOptionLabel_Tapped(object sender, EventArgs e)
@@ -187,11 +173,7 @@ namespace KSF_Surf.Views
         private async void ZonePicker_Unfocused(object sender, FocusEventArgs e)
         {
             string selected = (string)ZonePicker.SelectedItem;
-            if (selected == currentZoneString)
-            {
-                return;
-            }
-            LoadingAnimation.IsRunning = true;
+            if (selected == currentZoneString)return;
 
             int newZoneNum = -1;
             switch (selected[0])
@@ -203,51 +185,50 @@ namespace KSF_Surf.Views
 
             if (newZoneNum != -1)
             {
-                var newTopDatum = await mapsViewModel.GetMapTop(game, map, currentMode, newZoneNum, 1);
-                List<TopDatum> newTopData = newTopDatum?.data;
-                if (newTopData is null)
-                {
-                    LoadingAnimation.IsRunning = false;
-                    await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " " + selected + " completions.", "Be the first!", "OK");
-                    return;
-                }
+                // don't reset list index yet
 
-                topData = newTopData;
-                currentZone = newZoneNum;
-                currentZoneString = selected;
+                isLoading = true;
+                LoadingAnimation.IsRunning = true;
 
-                list_index = 1;
-                ClearTopGrid();
+                await ChangeRecords(currentMode, newZoneNum);
 
-                LayoutTop(EFilter_ToString.toString(currentMode), currentZoneString);
                 LoadingAnimation.IsRunning = false;
+                isLoading = false;
             }
         }
 
-        private async void MoreButton_Tapped(object sender, EventArgs e)
+        private async void MapsMapTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            if ((list_index - 1) % 25 != 0) return; // avoid loading more when there weren't enough before
+
             isLoading = true;
+            LoadingAnimation.IsRunning = true;
 
-            MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            MoreLabel.IsVisible = false;
-            MoreLoadingAnimation.IsRunning = true;
+            await ChangeRecords(currentMode, currentZone);
 
-            var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone, list_index);
-            topData = topDatum?.data;
-
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-
-            if (topData is null || topData.Count < 1)
-            {
-                MoreFrame.IsVisible = false;
-                return;
-            }
-
-            LayoutTop(EFilter_ToString.toString(currentMode), currentZoneString);
-            MoreLoadingAnimation.IsRunning = false;
-            MoreLabel.IsVisible = true;
+            LoadingAnimation.IsRunning = false;
             isLoading = false;
+        }
+
+        private async void MapsMapTop_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.Count == 0) return;
+
+            Tuple<string, string, string> selectedPlayer =
+                (Tuple<string, string, string>)MapsMapTopCollectionView.SelectedItem;
+            MapsMapTopCollectionView.SelectedItem = null;
+
+            string playerSteamId = selectedPlayer.Item3;
+
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new RecordsPlayerPage(game, currentMode, playerSteamId));
+            }
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
         }
 
         #endregion

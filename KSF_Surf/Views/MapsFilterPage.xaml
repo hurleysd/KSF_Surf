@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsFilterPage"
              Title="Filters"
@@ -162,58 +163,25 @@
             <Grid Padding ="10"
                   HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="65"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="Min"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="0"
-                       Grid.Row="0"/>
-
-                <Slider x:Name="MinTierSlider"
-                        Maximum="8" 
-                        Minimum="1"
-                        Grid.Column="1"
+                <xct:RangeSlider x:Name="TierRangeSlider"
+                        MaximumValue="8" 
+                        MinimumValue="1"
+                        StepValue="1"
+                        UpperValue="8"
+                        LowerValue="1"
+                        Grid.Column="0"
                         Grid.Row="0"
-                        MinimumTrackColor="{StaticResource TappedTextColor}"
-                        MaximumTrackColor="{StaticResource UntappedTextColor}"
-                        ValueChanged="MinTierSlider_ValueChanged"/>
-
-                <Label x:Name="MinTierLabel"
-                       Text="1"
-                       FontSize="26"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="Center"
-                       Grid.Column="2"
-                       Grid.Row="0"/>
-
-                <Label Text="Max"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="0"
-                       Grid.Row="1"/>
-
-                <Slider x:Name="MaxTierSlider"
-                        Maximum="8" 
-                        Minimum="1"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        MinimumTrackColor="{StaticResource UntappedTextColor}"
-                        MaximumTrackColor="{StaticResource TappedTextColor}"
-                        ValueChanged="MaxTierSlider_ValueChanged"/>
-
-                <Label x:Name="MaxTierLabel"
-                       Text="1"
-                       FontSize="26"
-                       TextColor="{StaticResource TappedTextColor}"
-                       HorizontalOptions="Center"
-                       Grid.Column="2"
-                       Grid.Row="1"/>
+                        ValueLabelStyle="{StaticResource RangeSliderTextStyle}"
+                        TrackColor="{StaticResource UntappedTextColor}"
+                        TrackHighlightColor="{StaticResource TappedTextColor}"
+                        UpperValueChanged="TierRangeSlider_UpperValueChanged"
+                        LowerValueChanged="TierRangeSlider_LowerValueChanged"/>
             </Grid>
 
             <BoxView Style="{DynamicResource Separator2Style}"/>

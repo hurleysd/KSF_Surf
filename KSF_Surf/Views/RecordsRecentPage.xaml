@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="KSF_Surf.Views.RecordsRecentPage"
+             Title="Recent Records"
+             x:Name="RecentRecordsTab"  
+             Style="{DynamicResource ContentPageStyle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="Filter"
+                     IconImageSource="filter_icon.png"
+                     Clicked="Filter_Pressed">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <AbsoluteLayout>
+        <StackLayout x:Name="RecordsRecentStack"
+                     Orientation="Vertical"
+                     Spacing="0"
+                     Margin="0"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     IsVisible="False">
+
+            <!-- Map Recent Records -->
+            <StackLayout Orientation="Horizontal"
+                         Padding="20,15,10,15">
+                <Label Text="Recent"
+                               Style="{DynamicResource HeaderLabel}"
+                               HorizontalOptions="StartAndExpand"/>
+                <Label x:Name="RRTypeOptionLabel"
+                               Style="{StaticResource TypeLabelStyle}"
+                               HorizontalOptions="EndAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <CollectionView x:Name="RecordsRecentCollectionView"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource SeparatorColor}"
+                        VerticalScrollBarVisibility="Default"
+                        ItemsSource="{Binding .}"
+                        RemainingItemsThreshold="2"
+                        RemainingItemsThresholdReached="RecordsRecent_ThresholdReached"
+                        SelectionMode="Single"
+                        SelectionChanged="RecordsRecent_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="15, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Item1}"
+                                   Style="{DynamicResource RRLabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="0"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item2}"
+                                   Style="{DynamicResource RR2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="1"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Item3}"
+                                   Style="{DynamicResource Time2LabelStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   Grid.Row="2"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <BoxView HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    Grid.Row="3"
+                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label Text="Could not reach KSF servers :("
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="20"
+                                   HorizontalOptions="Fill"
+                                   HorizontalTextAlignment="Center"
+                                   Padding="20"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+
+
+        </StackLayout>
+        <ActivityIndicator x:Name="LoadingAnimation"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           Style="{DynamicResource LoadingStyle}"/>
+    </AbsoluteLayout>
+</ContentPage>

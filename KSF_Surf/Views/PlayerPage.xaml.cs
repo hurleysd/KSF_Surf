@@ -35,10 +35,42 @@ namespace KSF_Surf.Views
         private EFilter_PlayerWRsType wrsType;
         private bool hasTop;
 
+        // date of last refresh
+        private DateTime lastRefresh;
+
         public PlayerPage()
         {
             playerViewModel = new PlayerViewModel();
             InitializeComponent();
+
+            // Refresh command
+            PlayerRefreshView.Command = new Command(async () =>
+            {
+                if (hasLoaded)
+                {
+                    if (BaseViewModel.hasConnection())
+                    {
+                        TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
+                        bool tooSoon = sinceRefresh.TotalSeconds < 10;
+
+                        if (tooSoon)
+                        {
+                            await Task.Delay(500); // 0.5 seconds
+                        }
+                        else
+                        {
+                            await ChangePlayerInfo(game, mode, playerType, playerValue);
+                            lastRefresh = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
+                    }
+                }
+
+                PlayerRefreshView.IsRefreshing = false;
+            });
         }
 
         // UI -----------------------------------------------------------------------------------------------
@@ -46,8 +78,6 @@ namespace KSF_Surf.Views
 
         private async Task ChangePlayerInfo(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
         {
-            if (newGame == game && newMode == mode && newPlayerValue == playerValue) return;
-
             var playerInfoDatum = await playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
             playerInfoData = playerInfoDatum?.data;
             if (playerInfoData is null || playerInfoData.basicInfo is null)
@@ -125,11 +155,13 @@ namespace KSF_Surf.Views
                 case "EXCEPTIONAL": rankColor = EFilter_ToString.rankColors[6]; break;
                 case "SEASONED": rankColor = EFilter_ToString.rankColors[7]; break;
                 case "EXPERIENCED": rankColor = EFilter_ToString.rankColors[8]; break;
-                case "PROFICIENT": rankColor = EFilter_ToString.rankColors[9]; break;
-                case "SKILLED": rankColor = EFilter_ToString.rankColors[10]; break;
-                case "CASUAL": rankColor = EFilter_ToString.rankColors[11]; break;
-                case "BEGINNER": rankColor = EFilter_ToString.rankColors[12]; break;
-                case "ROOKIE": rankColor = EFilter_ToString.rankColors[13]; break;
+                case "ACCOMPLISHED": rankColor = EFilter_ToString.rankColors[9]; break;
+                case "ADEPT": rankColor = EFilter_ToString.rankColors[10]; break;
+                case "PROFICIENT": rankColor = EFilter_ToString.rankColors[11]; break;
+                case "SKILLED": rankColor = EFilter_ToString.rankColors[12]; break;
+                case "CASUAL": rankColor = EFilter_ToString.rankColors[13]; break;
+                case "BEGINNER": rankColor = EFilter_ToString.rankColors[14]; break;
+                case "ROOKIE": rankColor = EFilter_ToString.rankColors[15]; break;
             }
             RankTitleLabel.Text = rankTitle;
             RankTitleLabel.TextColor = rankColor;
@@ -403,18 +435,32 @@ namespace KSF_Surf.Views
             await PlayerPageScrollView.ScrollToAsync(0, 0, true);
         }
 
-        private async void RecentRecords_Tapped(object sender, EventArgs e)
+        private async void RecentRecordsSet_Tapped(object sender, EventArgs e)
         {
-            RecentRecordsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            RecentRecordsSetButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerRecentRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue));
+                await Navigation.PushAsync(new PlayerRecentSetRecordsPage(Title, game, mode, playerType, playerValue));
             }
             else
             {
                 await DisplayNoConnectionAlert();
             }
-            RecentRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+            RecentRecordsSetButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+        }
+
+        private async void RecentRecordsBroken_Tapped(object sender, EventArgs e)
+        {
+            RecentRecordsBrokenButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+            if (BaseViewModel.hasConnection())
+            {
+                await Navigation.PushAsync(new PlayerRecentBrokenRecordsPage(Title, game, mode, playerType, playerValue));
+            }
+            else
+            {
+                await DisplayNoConnectionAlert();
+            }
+            RecentRecordsBrokenButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void OldestRecords_Tapped(object sender, EventArgs e)
@@ -422,7 +468,7 @@ namespace KSF_Surf.Views
             OldestRecordsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerOldestRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue, wrsType, hasTop));
+                await Navigation.PushAsync(new PlayerOldestRecordsPage(Title, game, mode, playerType, playerValue, wrsType, hasTop));
             }
             else
             {
@@ -436,7 +482,7 @@ namespace KSF_Surf.Views
             WRsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerWorldRecordsPage(Title, playerViewModel, game, mode, playerType, playerValue, wrsType));
+                await Navigation.PushAsync(new PlayerWorldRecordsPage(Title, game, mode, playerType, playerValue, wrsType));
             }
             else
             {
@@ -450,7 +496,7 @@ namespace KSF_Surf.Views
             TierCompletionButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerCompletionPage(Title, playerViewModel, game, mode, playerType, playerValue));
+                await Navigation.PushAsync(new PlayerCompletionPage(Title, game, mode, playerType, playerValue));
             }
             else
             {
@@ -464,7 +510,7 @@ namespace KSF_Surf.Views
             CompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, playerViewModel, game, mode, EFilter_PlayerCompletionType.complete, 
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, EFilter_PlayerCompletionType.complete, 
                     playerType, playerValue));
             }
             else
@@ -479,7 +525,7 @@ namespace KSF_Surf.Views
             IncompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
             if (BaseViewModel.hasConnection())
             {
-                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, playerViewModel, game, mode, EFilter_PlayerCompletionType.incomplete,
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, EFilter_PlayerCompletionType.incomplete,
                     playerType, playerValue));
             }
             else

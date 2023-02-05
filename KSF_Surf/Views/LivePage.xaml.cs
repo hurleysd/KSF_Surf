@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
     {
         private readonly LiveViewModel liveViewModel;
         private bool hasLoaded = false;
-        private bool isRefreshing = false;
         private readonly EFilter_Game defaultGame;
 
         // objects for "KSFClan Servers"
@@ -34,6 +33,35 @@ namespace KSF_Surf.Views
             defaultGame = BaseViewModel.propertiesDict_getGame();
 
             InitializeComponent();
+
+            // Refresh command
+            LiveRefreshView.Command = new Command(async () =>
+            {
+                if (hasLoaded)
+                {
+                    if (BaseViewModel.hasConnection())
+                    {
+                        TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
+                        bool tooSoon = sinceRefresh.TotalSeconds < 10;
+
+                        if (tooSoon)
+                        {
+                            await Task.Delay(500); // 0.5 seconds
+                        }
+                        else
+                        {
+                            await LoadServers(false);
+                            lastRefresh = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
+                    }
+                }
+
+                LiveRefreshView.IsRefreshing = false;
+            });
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -131,11 +159,19 @@ namespace KSF_Surf.Views
                     Text = datum.surftimer_servername,
                     Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                CSSMapsStack.Children.Add(new Label
+
+                Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
-                });
+                };
+                var tapMapGestureRecognizer = new TapGestureRecognizer();
+                tapMapGestureRecognizer.Tapped += async (s, e) => {
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.css));
+                };
+                mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
+                CSSMapsStack.Children.Add(mapLabel);
+
                 CSSMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
@@ -167,11 +203,19 @@ namespace KSF_Surf.Views
                     Text = datum.surftimer_servername,
                     Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                CSS100TMapsStack.Children.Add(new Label
+
+                Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
-                });
+                };
+                var tapMapGestureRecognizer = new TapGestureRecognizer();
+                tapMapGestureRecognizer.Tapped += async (s, e) => {
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.css100t));
+                };
+                mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
+                CSS100TMapsStack.Children.Add(mapLabel);
+
                 CSS100TMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
@@ -208,11 +252,19 @@ namespace KSF_Surf.Views
                     Text = datum.surftimer_servername,
                     Style = App.Current.Resources["LeftColStyle"] as Style,
                 });
-                CSGOMapsStack.Children.Add(new Label
+
+                Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
                     Style = Resources["Right2ColStyle"] as Style
-                });
+                };
+                var tapMapGestureRecognizer = new TapGestureRecognizer();
+                tapMapGestureRecognizer.Tapped += async (s, e) => {
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.csgo));
+                };
+                mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
+                CSGOMapsStack.Children.Add(mapLabel);
+
                 CSGOMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
@@ -240,42 +292,10 @@ namespace KSF_Surf.Views
             {
                 hasLoaded = true;
                 await LayoutDesign();
+                lastRefresh = DateTime.Now;
 
                 LoadingAnimation.IsRunning = false;
                 LiveScrollView.IsVisible = true;
-            }
-        }
-
-        private async void Refresh_Pressed(object sender, EventArgs e)
-        {
-            if (!hasLoaded || isRefreshing) return;
-
-            TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
-            bool tooSoon = sinceRefresh.TotalSeconds < 10;
-
-            if (BaseViewModel.hasConnection())
-            {
-                isRefreshing = true;
-                BaseViewModel.vibrate(true);
-                LoadingAnimation.IsRunning = true;
-
-                if (tooSoon)
-                {
-                    await Task.Delay(500); // 0.5 seconds
-                }
-                else
-                {
-                    await LoadServers(false);
-                    lastRefresh = DateTime.Now;
-                }
-
-                LoadingAnimation.IsRunning = false;
-                BaseViewModel.vibrate(true);
-                isRefreshing = false;
-            }
-            else
-            {
-                await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
             }
         }
 

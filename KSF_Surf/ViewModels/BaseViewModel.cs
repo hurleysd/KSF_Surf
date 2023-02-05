@@ -15,7 +15,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "1.3.3";
+        internal readonly static string appVersionString = "2.0.0";
 
         internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
         internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
@@ -554,10 +554,11 @@ namespace KSF_Surf.ViewModels
         }
 
         public static readonly string[] rankTitles = { "MASTER", "ELITE", "VETERAN", "PRO", "EXPERT", "HOTSHOT",
-            "EXCEPTIONAL", "SEASONED", "EXPERIENCED", "PROFICIENT", "SKILLED", "CASUAL", "BEGINNER", "ROOKIE"};
+            "EXCEPTIONAL", "SEASONED", "EXPERIENCED", "ACCOMPLISHED", "ADEPT", "PROFICIENT", "SKILLED", "CASUAL", "BEGINNER", "ROOKIE"};
 
-        public static readonly Color[] rankColors = { Color.Magenta, Color.HotPink, Color.Red, Color.Orange, Color.Gold, Color.Lime,
-            Color.MediumSpringGreen, Color.LightSeaGreen, Color.SkyBlue, Color.RoyalBlue, Color.DarkSlateBlue, Color.DarkOliveGreen, Color.SaddleBrown, Color.Gray};
+        public static readonly Color[] rankColors = { Color.Magenta, Color.HotPink, Color.Red, Color.Orange, Color.Gold, Color.GreenYellow,
+            Color.LimeGreen, Color.MediumSpringGreen, Color.LightSeaGreen, Color.SkyBlue, Color.RoyalBlue, Color.DarkSlateBlue,
+            Color.DarkOliveGreen, Color.DarkGoldenrod, Color.SaddleBrown, Color.Gray};
 
         public static string getRankTitle(string rankString, string pointsString)
         {
@@ -602,25 +603,33 @@ namespace KSF_Surf.ViewModels
             {
                 title = rankTitles[8];
             }
-            else if (points >= 6000)
+            else if (points >= 13000)
             {
                 title = rankTitles[9];
             }
-            else if (points >= 4000)
+            else if (points >= 9000)
             {
                 title = rankTitles[10];
             }
-            else if (points >= 2500)
+            else if (points >= 6000)
             {
                 title = rankTitles[11];
             }
-            else if (points >= 1000)
+            else if (points >= 4000)
             {
                 title = rankTitles[12];
             }
-            else
+            else if (points >= 2500)
             {
                 title = rankTitles[13];
+            }
+            else if (points >= 1000)
+            {
+                title = rankTitles[14];
+            }
+            else
+            {
+                title = rankTitles[15];
             }
 
             return title;

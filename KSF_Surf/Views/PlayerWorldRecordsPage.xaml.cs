@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -15,12 +16,12 @@ namespace KSF_Surf.Views
     {
         private readonly PlayerViewModel playerViewModel;
         private bool hasLoaded = false;
-        private readonly int LIST_LIMIT = 10;
+        private bool isLoading = false;
+        private readonly int CALL_LIMIT = 200;
 
         // objects used by "World Records" call
         private List<PlayerWorldRecords> worldRecordsData;
         private int list_index = 1;
-        private bool moreRecords = false;
 
         // variables for filters
         private readonly EFilter_Game game;
@@ -29,101 +30,74 @@ namespace KSF_Surf.Views
         private readonly string playerValue;
         private EFilter_PlayerWRsType wrsType;
 
-        public PlayerWorldRecordsPage(string title, PlayerViewModel playerViewModel, EFilter_Game game, EFilter_Mode mode, 
+        // collection view
+        public ObservableCollection<Tuple<string, string, string>> worldRecordsCollectionViewItemsSource { get; }
+                = new ObservableCollection<Tuple<string, string, string>>();
+
+        public PlayerWorldRecordsPage(string title, EFilter_Game game, EFilter_Mode mode, 
             EFilter_PlayerType playerType, string playerValue, EFilter_PlayerWRsType wrsType)
         {
-            this.playerViewModel = playerViewModel;
             this.game = game;
             this.mode = mode;
             this.playerType = playerType;
             this.playerValue = playerValue;
             this.wrsType = wrsType;
 
+            playerViewModel = new PlayerViewModel();
+
             InitializeComponent();
             Title = title;
+            WorldRecordsCollectionView.ItemsSource = worldRecordsCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeRecords(EFilter_PlayerWRsType type)
+        private async Task ChangeRecords(bool clearPrev)
         {
-            var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, type, playerType, playerValue, list_index);
+            var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, wrsType, playerType, playerValue, list_index);
             worldRecordsData = worldRecordsDatum?.data.records;
             if (worldRecordsData is null) return;
 
-            WRTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(type);
-            if (list_index == 1) WRsStack.Children.Clear();
+            if (clearPrev) worldRecordsCollectionViewItemsSource.Clear();
             LayoutRecords();
+            WRTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(wrsType);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
-            if (list_index != 1)
-            {
-                WRsStack.Children.Add(new BoxView
-                {
-                    Style = App.Current.Resources["SeparatorStyle"] as Style
-                });
-            }
-
-            int i = 0;
-            int length = worldRecordsData.Count;
             foreach (PlayerWorldRecords datum in worldRecordsData)
             {
-                string rrstring = datum.mapName;
+                string mapZoneString = datum.mapName;
                 if (wrsType != EFilter_PlayerWRsType.wr)
                 {
-                    rrstring += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
+                    mapZoneString += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
-                WRsStack.Children.Add(new Label
-                {
-                    Text = rrstring,
-                    Style = App.Current.Resources["RRLabelStyle"] as Style
 
-                });
-
-                string rrtime = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
+                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
                 if (datum.r2Diff is null)
                 {
-                    rrtime += "WR N/A";
+                    rrtimeString += "WR N/A";
                 }
                 else
                 {
-                    rrtime += "WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1));
+                    rrtimeString += "WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1));
                 }
-                rrtime += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
-                WRsStack.Children.Add(new Label
-                {
-                    Text = rrtime,
-                    Style = App.Current.Resources["TimeLabelStyle"] as Style
-                });
+                rrtimeString += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
 
-                if (++i != length)
-                {
-                    WRsStack.Children.Add(new BoxView
-                    {
-                        Style = App.Current.Resources["SeparatorStyle"] as Style
-                    });
-                }
+                worldRecordsCollectionViewItemsSource.Add(new Tuple<string, string, string>(
+                    mapZoneString, rrtimeString, datum.mapName));
+
+                list_index++;
             }
 
-            moreRecords = (i == LIST_LIMIT);
-            MoreFrame.IsVisible = moreRecords;
-
-            if (i == 0) // no recently broken records
+            if (list_index == 1) // no world records
             {
-                WRsStack.Children.Add(new Label
-                {
-                    Text = "None! :(",
-                    Style = App.Current.Resources["LeftColStyle"] as Style,
-                    HorizontalOptions = LayoutOptions.Center
-                });
+                WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
             }
         }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -134,10 +108,10 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangeRecords(wrsType);
+                await ChangeRecords(false);
 
                 LoadingAnimation.IsRunning = false;
-                PlayerWorldRecordsScrollView.IsVisible = true;
+                WorldRecordsStack.IsVisible = true;
             }
         }
 
@@ -154,47 +128,57 @@ namespace KSF_Surf.Views
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
-
-            EFilter_PlayerWRsType newType = EFilter_PlayerWRsType.wr;
             switch (newTypeString)
             {
-                case "Cancel": return;
-                case "WRCP": newType = EFilter_PlayerWRsType.wrcp; break;
-                case "WRB": newType = EFilter_PlayerWRsType.wrb; break;
+                case "WRCP": wrsType = EFilter_PlayerWRsType.wrcp; break;
+                case "WRB": wrsType = EFilter_PlayerWRsType.wrb; break;
+                case "WR": wrsType = EFilter_PlayerWRsType.wr; break;
+                default: return;
             }
 
-            wrsType = newType;
             list_index = 1;
 
             LoadingAnimation.IsRunning = true;
-            await ChangeRecords(newType);
+            isLoading = true;
+
+            await ChangeRecords(true);
+
             LoadingAnimation.IsRunning = false;
+            isLoading = false;
         }
 
-        private async void MoreButton_Tapped(object sender, EventArgs e)
+        private async void WorldRecords_ThresholdReached(object sender, EventArgs e)
         {
-            if (!BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            if ((list_index - 1) % 10 != 0) return; // avoid loading more when there weren't enough before
 
-            MoreButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            MoreLabel.IsVisible = false;
-            MoreLoadingAnimation.IsRunning = true;
+            isLoading = true;
+            LoadingAnimation.IsRunning = true;
 
-            list_index += LIST_LIMIT;
+            await ChangeRecords(false);
 
-            var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, wrsType, playerType, playerValue, list_index);
-            worldRecordsData = worldRecordsDatum?.data.records;
-            
-            MoreButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
+            LoadingAnimation.IsRunning = false;
+            isLoading = false;
+        }
 
-            if (worldRecordsData is null || worldRecordsData.Count < 1)
+        private async void WorldRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.Count == 0) return;
+
+            Tuple<string, string, string> selectedMap =
+                (Tuple<string, string, string>)WorldRecordsCollectionView.SelectedItem;
+            WorldRecordsCollectionView.SelectedItem = null;
+
+            string mapName = selectedMap.Item3;
+
+            if (BaseViewModel.hasConnection())
             {
-                MoreFrame.IsVisible = false;
-                return;
+                await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-
-            LayoutRecords();
-            MoreLoadingAnimation.IsRunning = false;
-            MoreLabel.IsVisible = true;
+            else
+            {
+                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            }
         }
 
         #endregion

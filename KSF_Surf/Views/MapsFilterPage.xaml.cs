@@ -55,8 +55,8 @@ namespace KSF_Surf.Views
 
             minTier = currentMinTier;
             maxTier = currentMaxTier;
-            MaxTierSlider.Value = maxTier;
-            MinTierSlider.Value = minTier;
+            TierRangeSlider.UpperValue = maxTier;
+            TierRangeSlider.LowerValue = minTier;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -174,32 +174,16 @@ namespace KSF_Surf.Views
         private void LinearMapTypeFilter_Tapped(object sender, EventArgs e) => ChangeMapTypeFilter(EFilter_MapType.linear);
         private void StagedMapTypeFilter_Tapped(object sender, EventArgs e) => ChangeMapTypeFilter(EFilter_MapType.staged);
 
-        private void MinTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
+        private void TierRangeSlider_LowerValueChanged(object sender, EventArgs e)
         {
-            int newValue = (int)Math.Round(e.NewValue);
-            MinTierSlider.Value = newValue;
-            MinTierLabel.Text = newValue.ToString();
-            if (newValue > MaxTierSlider.Value)
-            {
-                MaxTierSlider.Value = newValue;
-            }
-            minTier = newValue;
-
+            minTier = (int)TierRangeSlider.LowerValue;
             resetMin = (minTier != 1);
             checkReset();
         }
 
-        private void MaxTierSlider_ValueChanged(object sender, ValueChangedEventArgs e)
+        private void TierRangeSlider_UpperValueChanged(object sender, EventArgs e)
         {
-            int newValue = (int)Math.Round(e.NewValue);
-            MaxTierSlider.Value = newValue;
-            MaxTierLabel.Text = newValue.ToString();
-            if (newValue < MinTierSlider.Value)
-            {
-                MinTierSlider.Value = newValue;
-            }
-            maxTier = newValue;
-
+            maxTier = (int)TierRangeSlider.UpperValue;
             resetMax = (maxTier != 8);
             checkReset();
         }
@@ -224,12 +208,12 @@ namespace KSF_Surf.Views
             if (minTier != 1)
             {
                 minTier = 1;
-                MinTierSlider.Value = minTier;
+                TierRangeSlider.LowerValue = minTier;
             }
             if (maxTier != 8)
             {
                 maxTier = 8;
-                MaxTierSlider.Value = maxTier;
+                TierRangeSlider.UpperValue = maxTier;
             }
 
             allowVibrate = oldAllowVibrate;

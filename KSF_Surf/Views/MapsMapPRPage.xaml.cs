@@ -33,10 +33,9 @@ namespace KSF_Surf.Views
         private string playerRank;
         private readonly string meSteamID  = BaseViewModel.propertiesDict_getSteamID();
 
-        public MapsMapPRPage(string title, MapsViewModel mapsViewModel, EFilter_Game game, string map, bool hasZones, bool hasStages)
+        public MapsMapPRPage(string title, EFilter_Game game, string map, bool hasZones, bool hasStages)
         {
             mapsMapTitle = title;
-            this.mapsViewModel = mapsViewModel;
             this.game = game;
             this.map = map;
             this.hasZones = hasZones;
@@ -45,6 +44,8 @@ namespace KSF_Surf.Views
             playerValue = meSteamID;
             playerSteamID = meSteamID;
             playerType = EFilter_PlayerType.me;
+
+            mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
             Title = mapsMapTitle + " " + EFilter_ToString.toString(defaultMode) + "]";
@@ -245,7 +246,7 @@ namespace KSF_Surf.Views
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRDetailsPage(Title,
-                    mapsViewModel, game, currentMode, defaultMode, map, playerSteamID));
+                    game, currentMode, defaultMode, map, playerSteamID));
             }
             else
             {
@@ -260,7 +261,7 @@ namespace KSF_Surf.Views
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new MapsMapCPRPage(Title,
-                    mapsViewModel, game, currentMode, map, playerSteamID));
+                    game, currentMode, map, playerSteamID));
             }
             else
             {
@@ -275,7 +276,7 @@ namespace KSF_Surf.Views
             if (BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new MapsMapCCPPage(Title,
-                    mapsViewModel, game, currentMode, map, playerSteamID));
+                    game, currentMode, map, playerSteamID));
             }
             else
             {
