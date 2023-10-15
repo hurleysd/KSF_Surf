@@ -15,10 +15,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "2.0.0";
-
-        internal readonly static string KSF = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.KSF));
-        internal readonly static string STEAM = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Precondition.STEAM));
+        internal readonly static string appVersionString = "2.0.1";
 
         internal static string AGENT = propertiesDict_getUserAgent();
 
@@ -35,7 +32,7 @@ namespace KSF_Surf.ViewModels
 
         public BaseViewModel()
         {
-            request.AddHeader("x-auth-token", KSF);
+            request.AddHeader("x-auth-token", Precondition.KSF);
             client.UserAgent = AGENT;
         }
 
@@ -643,7 +640,7 @@ namespace KSF_Surf.ViewModels
             "Egypt", "Estonia",
             "Finland", "France",
             "Germany", "Greece", "Greenland",
-            "Hungary",
+            "Hong Kong", "Hungary",
             "Iceland", "Ireland", "Israel", "Italy",
             "Japan",
             "Kazakhstan", "Korea, Republic of", "Kuwait",

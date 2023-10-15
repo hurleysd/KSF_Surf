@@ -73,7 +73,7 @@ namespace KSF_Surf.Views
                 string rrString = list_index + ". " + datum.mapName;
                 if (datum.zoneID != null)
                 {
-                    rrString += EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
+                    rrString += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
                 }
 
                 string playerString = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;

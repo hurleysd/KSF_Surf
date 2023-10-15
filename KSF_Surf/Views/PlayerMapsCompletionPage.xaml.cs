@@ -111,7 +111,7 @@ namespace KSF_Surf.Views
         private async void MapsCompletion_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-            if ((list_index - 1) % 10 != 0) return; // avoid loading more when there weren't enough before
+            if ((list_index - 1) % 15 != 0) return; // avoid loading more when there weren't enough before
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

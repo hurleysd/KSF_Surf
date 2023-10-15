@@ -127,7 +127,7 @@ namespace KSF_Surf.ViewModels
             if (gameString == "" || playerValue == "") return null;
 
             client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue
-                + "/" + completionString + "/" + startIndex + ",10/" + modeString);
+                + "/" + completionString + "/" + startIndex + ",15/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -182,7 +182,7 @@ namespace KSF_Surf.ViewModels
             };
             srequest.RequestFormat = DataFormat.Json;
 
-            client.BaseUrl = new Uri("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + BaseViewModel.STEAM + "&steamids=" + steamid64);
+            client.BaseUrl = new Uri("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + Precondition.STEAM + "&steamids=" + steamid64);
             await Task.Run(() => response = client.Execute(srequest));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

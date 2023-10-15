@@ -94,9 +94,8 @@ namespace KSF_Surf.Views
             foreach (TopDatum datum in topData)
             {
                 string playerString = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name;
-                string attemptsString = " in " + datum.count + " completions";
-                string timeString = String_Formatter.toString_RankTime(datum.time);
-
+                string timeString = "in " + String_Formatter.toString_RankTime(datum.time);
+                string dateString = " (" + String_Formatter.toString_KSFDate(datum.date) + ")";
 
                 if (list_index != 1)
                 {
@@ -108,7 +107,7 @@ namespace KSF_Surf.Views
                 }
 
                 mapsMapTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
-                    playerString, timeString + attemptsString, datum.steamID));
+                    playerString, timeString + dateString, datum.steamID));
 
                 list_index++;
             }
