@@ -9,6 +9,22 @@ namespace KSF_Surf.ViewModels
 {
     public class RecordsViewModel : BaseViewModel
     {
+        // query size limits
+        internal readonly static int SURF_TOP_QLIMIT = 25;
+        internal readonly static int RECENT_RECORDS_QLIMIT = 10;
+        internal readonly static int OLDEST_RECORDS_QLIMIT = 10;
+        internal readonly static int MOST_QLIMIT = 25;
+        internal readonly static int TOP_COUNTRIES_QLIMIT = 25;
+        internal readonly static int COUNTRY_TOP_QLIMIT = 25;
+
+        // call size limits
+        internal readonly static int SURF_TOP_CLIMIT = 500;
+        internal readonly static int RECENT_RECORDS_CLIMIT = 100;
+        internal readonly static int OLDEST_RECORDS_CLIMIT = 250;
+        internal readonly static int MOST_CLIMIT = 500;
+        internal readonly static int TOP_COUNTRIES_CLIMIT = 200;
+        internal readonly static int COUNTRY_TOP_CLIMIT = 500;
+
         public RecordsViewModel()
         {
             Title = "Records";
@@ -26,7 +42,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/server/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/server/" + start_index + "," + SURF_TOP_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -49,7 +65,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/" + start_index + ",10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -71,7 +87,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/" + start_index + ",10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -94,7 +110,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/oldestrecords/server/" + typeString + "/" + start_index + ",10/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/oldestrecords/server/" + typeString + "/" + start_index + "," + OLDEST_RECORDS_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -116,7 +132,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" ) return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/pc/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/pc/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -139,7 +155,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -161,7 +177,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/top10/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/top10/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -183,7 +199,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/group/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/group/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -205,7 +221,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/mostcontestedwr/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/mostcontestedwr/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -228,7 +244,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -251,7 +267,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || typeString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -273,7 +289,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/countries/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/countries/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -318,7 +334,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || country == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/country/" + country + "/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/country/" + country + "/" + start_index + "," + COUNTRY_TOP_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

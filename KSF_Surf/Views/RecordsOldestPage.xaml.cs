@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 250;
 
         // objects used by "Oldest Records" call
         private List<OldRecord> oldRecordData;
@@ -155,8 +154,10 @@ namespace KSF_Surf.Views
 
         private async void RecordsOldest_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-            
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % RecordsViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= RecordsViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
+
             isLoading = true; 
             LoadingAnimation.IsRunning = true;
 

@@ -18,7 +18,6 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 500;
 
         // objects used by "SurfTop" call
         private List<CountryPlayer> countryTopData;
@@ -128,8 +127,10 @@ namespace KSF_Surf.Views
 
         private async void CountryRecordsTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-           
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % RecordsViewModel.COUNTRY_TOP_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= RecordsViewModel.COUNTRY_TOP_CLIMIT) return; // at call limit
+
             isLoading = true;
             LoadingAnimation.IsRunning = true;
 

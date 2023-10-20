@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 500;
 
         // objects possibly used by "Most By Type" calls
         private List<MostPCDatum> mostPCData;
@@ -257,11 +256,14 @@ namespace KSF_Surf.Views
 
         private async void RecordsMost_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
             if (mostType == EFilter_MostType.playtimeday
                 || mostType == EFilter_MostType.playtimeweek
                 || mostType == EFilter_MostType.playtimemonth) return;
             // calling with these ^ types again leads to JSON deserialization errors 
+
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % RecordsViewModel.MOST_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= RecordsViewModel.MOST_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

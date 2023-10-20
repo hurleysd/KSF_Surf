@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 100;
 
         // objects used by "Recent" call
         private List<RRDatum> recentRecordsData;
@@ -192,7 +191,9 @@ namespace KSF_Surf.Views
 
         private async void RecordsRecent_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % RecordsViewModel.RECENT_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= RecordsViewModel.RECENT_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

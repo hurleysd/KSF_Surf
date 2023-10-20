@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly PlayerViewModel playerViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 50;
 
         // object used by "Records Broken" calls
         private List<RecentPlayerRecords> recordsBrokenData;
@@ -128,8 +127,9 @@ namespace KSF_Surf.Views
 
         private async void RecentBrokenRecords_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-            if ((list_index - 1) % 10 != 0) return; // avoid loading more when there weren't enough before
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

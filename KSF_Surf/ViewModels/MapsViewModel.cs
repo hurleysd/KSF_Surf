@@ -10,6 +10,12 @@ namespace KSF_Surf.ViewModels
 {
     public class MapsViewModel : BaseViewModel
     {
+        // query size limits
+        internal readonly static int TOP_QLIMIT = 25;
+
+        // call size limits
+        internal readonly static int TOP_CLIMIT = 100;
+
         public MapsViewModel()
         {
             Title = "Maps";
@@ -70,8 +76,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || zone < 0) return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/map/" + map + "/zone/" + zone 
-                + "/" + start_index + ",25/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/map/" + map + "/zone/" + zone  + "/" + start_index + "," + TOP_QLIMIT + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -115,8 +120,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || playerValue == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/map/" + map + "/zone/0/" 
-                + playerTypeString + "/" + playerValue + "/recordinfo/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/map/" + map + "/zone/0/" + playerTypeString + "/" + playerValue + "/recordinfo/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -139,8 +143,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || playerValue == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString 
-                + "/" + playerValue + "/prinfo/map/" + map + "/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/prinfo/map/" + map + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -163,8 +166,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || playerValue == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString
-                + "/" + playerValue + "/cpr/map/" + map + "/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/cpr/map/" + map + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -187,8 +189,7 @@ namespace KSF_Surf.ViewModels
 
             if (gameString == "" || map == "" || playerValue == "") return null;
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString
-                + "/" + playerValue + "/ccp/map/" + map + "/" + modeString);
+            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/" + playerTypeString + "/" + playerValue + "/ccp/map/" + map + "/" + modeString);
             await Task.Run(() => response = client.Execute(request));
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

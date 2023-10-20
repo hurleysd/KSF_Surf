@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly RecordsViewModel recordsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 500;
 
         // objects used by "SurfTop" call
         private List<SurfTopDatum> surfTopData;
@@ -94,7 +93,9 @@ namespace KSF_Surf.Views
 
         private async void RecordsTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % RecordsViewModel.SURF_TOP_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= RecordsViewModel.SURF_TOP_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

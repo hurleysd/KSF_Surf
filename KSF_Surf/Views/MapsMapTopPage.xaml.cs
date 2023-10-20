@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly MapsViewModel mapsViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 100;
 
         // objects used by "SurfTop" call
         private List<TopDatum> topData;
@@ -198,8 +197,9 @@ namespace KSF_Surf.Views
 
         private async void MapsMapTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-            if ((list_index - 1) % 25 != 0) return; // avoid loading more when there weren't enough before
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % MapsViewModel.TOP_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= MapsViewModel.TOP_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

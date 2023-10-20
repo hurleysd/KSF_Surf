@@ -17,7 +17,6 @@ namespace KSF_Surf.Views
         private readonly PlayerViewModel playerViewModel;
         private bool hasLoaded = false;
         private bool isLoading = false;
-        private readonly int CALL_LIMIT = 999;
 
         // objects used by "(In)Complete Maps" call
         private List<PlayerCompletionRecord> recordsData;
@@ -110,8 +109,9 @@ namespace KSF_Surf.Views
 
         private async void MapsCompletion_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection() || list_index == CALL_LIMIT) return;
-            if ((list_index - 1) % 15 != 0) return; // avoid loading more when there weren't enough before
+            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (((list_index - 1) % PlayerViewModel.MAPS_COMPLETION_QLIMIT) != 0) return; // didn't get full results
+            if (list_index >= PlayerViewModel.MAPS_COMPLETION_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
