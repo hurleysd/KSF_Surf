@@ -73,7 +73,7 @@ namespace KSF_Surf.Views
             topData = topDatum?.data;
             if (topData is null)
             {
-                await DisplayAlert("No " + EFilter_ToString.toString(currentMode) + " zone completions.", "Be the first!", "OK");
+                await DisplayAlert("No " + EFilter_ToString.toString(mode) + " zone completions.", "Be the first!", "OK");
                 return;
             };
 
