@@ -18,7 +18,7 @@ namespace KSF_Surf.ViewModels
         internal readonly static string appVersionString = "2.0.1";
 
         internal static string AGENT = propertiesDict_getUserAgent();
-        internal static string DEFAULT_ME_STEAM_ID = "STEAM_0:0:47620794";  // Sean's steam ID (hesuka)
+        internal static string DEFAULT_ME_STEAM_ID = "STEAM_0:0:47620794"; // Sean's steam ID (hesuka)
 
         internal static RestClient client = new RestClient
         {
@@ -81,11 +81,6 @@ namespace KSF_Surf.ViewModels
 
         // System wide static methods ------------------------------------------------------
         #region system
-        internal static void vibrate(bool allowVibrate)
-        {
-            // Issues with Xamarin.iOS.dll
-            return;
-        }
 
         internal static bool hasConnection()
         {

@@ -28,9 +28,6 @@ namespace KSF_Surf.Views
         private bool resetMode = false;
         private bool resetPlayer = false;
 
-        // vibration
-        private bool allowVibrate = false;
-
         // colors
         private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
         private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
@@ -60,8 +57,6 @@ namespace KSF_Surf.Views
 
             playerSteamId = currentPlayerSteamId;
             SteamIdEntry.Text = playerSteamId;
-
-            allowVibrate = true;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -90,7 +85,6 @@ namespace KSF_Surf.Views
             resetPlayer = (newPlayerType != EFilter_PlayerType.me);
             checkReset();
 
-            BaseViewModel.vibrate(allowVibrate);
             playerType = newPlayerType;
         }
 
@@ -119,7 +113,6 @@ namespace KSF_Surf.Views
             resetMode = (newMode != defaultMode);
             checkReset();
 
-            BaseViewModel.vibrate(allowVibrate);
             mode = newMode;
         }
 
@@ -162,9 +155,6 @@ namespace KSF_Surf.Views
 
         private void ResetLabel_Tapped(object sender, EventArgs e)
         {
-            bool oldAllowVibrate = allowVibrate;
-            allowVibrate = false;
-
             if (playerType != EFilter_PlayerType.me)
             {
                 ChangePlayerFilter(EFilter_PlayerType.me);
@@ -173,9 +163,6 @@ namespace KSF_Surf.Views
             {
                 ChangeModeFilter(defaultMode);
             }
-
-            allowVibrate = oldAllowVibrate;
-            BaseViewModel.vibrate(allowVibrate);
 
             ResetLabel.IsVisible = false;
         }

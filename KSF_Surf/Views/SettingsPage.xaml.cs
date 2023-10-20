@@ -19,9 +19,6 @@ namespace KSF_Surf.Views
         private EFilter_Mode mode = EFilter_Mode.none;
         private string playerSteamID;
 
-        // vibration
-        private bool allowVibrate = false;
-
         // colors
         private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
         private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
@@ -38,13 +35,10 @@ namespace KSF_Surf.Views
             ChangeGameFilter(currentGame);
             ChangeModeFilter(currentMode);
             SteamIdEntry.Text = playerSteamID;
-
-            allowVibrate = true;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
-
 
         private void ChangeGameFilter(EFilter_Game newGame)
         {
@@ -65,7 +59,6 @@ namespace KSF_Surf.Views
                 case EFilter_Game.csgo:GameCSGOLabel.TextColor = tappedTextColor; break;
             }
 
-            BaseViewModel.vibrate(allowVibrate);
             game = newGame;
         }
 
@@ -91,7 +84,6 @@ namespace KSF_Surf.Views
                 default: break;
             }
 
-            BaseViewModel.vibrate(allowVibrate);
             mode = newMode;
         }
 

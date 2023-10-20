@@ -31,9 +31,6 @@ namespace KSF_Surf.Views
         // method to apply filters
         private readonly Action<EFilter_Game, EFilter_Sort, int, int, EFilter_MapType> FilterApplier;
 
-        // vibration
-        private bool allowVibrate = false;
-
         // colors
         private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
         private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
@@ -51,7 +48,6 @@ namespace KSF_Surf.Views
             ChangeGameFilter(currentGame);
             ChangeSortFilter(currentSort);
             ChangeMapTypeFilter(currentMapType);
-            allowVibrate = true;
 
             minTier = currentMinTier;
             maxTier = currentMaxTier;
@@ -85,7 +81,6 @@ namespace KSF_Surf.Views
             resetGame = (newGame != defaultGame);
             checkReset();
 
-            BaseViewModel.vibrate(allowVibrate);
             game = newGame;
         }
 
@@ -115,7 +110,6 @@ namespace KSF_Surf.Views
             resetSort = newSort != (EFilter_Sort.name);
             checkReset();
 
-            BaseViewModel.vibrate(allowVibrate);
             sort = newSort;
         }
 
@@ -141,7 +135,6 @@ namespace KSF_Surf.Views
             resetType = (newMapType != EFilter_MapType.any);
             checkReset();
 
-            BaseViewModel.vibrate(allowVibrate);
             mapType = newMapType;
         }
 
@@ -190,9 +183,6 @@ namespace KSF_Surf.Views
 
         private void ResetLabel_Tapped(object sender, EventArgs e)
         {
-            bool oldAllowVibrate = allowVibrate;
-            allowVibrate = false;
-
             if (game != defaultGame)
             {
                 ChangeGameFilter(defaultGame);
@@ -215,9 +205,6 @@ namespace KSF_Surf.Views
                 maxTier = 8;
                 TierRangeSlider.UpperValue = maxTier;
             }
-
-            allowVibrate = oldAllowVibrate;
-            BaseViewModel.vibrate(allowVibrate);
         }
     }
 
