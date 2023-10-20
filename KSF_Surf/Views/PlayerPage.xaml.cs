@@ -27,10 +27,10 @@ namespace KSF_Surf.Views
         private EFilter_Mode mode = EFilter_Mode.none;
         private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
 
-        private readonly string meSteamId = BaseViewModel.propertiesDict_getSteamID();
+        private string meSteamID = BaseViewModel.propertiesDict_getSteamID();
         private EFilter_PlayerType playerType = EFilter_PlayerType.none;
         private string playerValue = "";
-        private string playerSteamId;
+        private string playerSteamID;
         private string playerRank;
         private EFilter_PlayerWRsType wrsType;
         private bool hasTop;
@@ -90,7 +90,7 @@ namespace KSF_Surf.Views
             playerValue = newPlayerValue;
             game = newGame;
             mode = newMode;
-            playerSteamId = playerInfoData.basicInfo.steamID;
+            playerSteamID = playerInfoData.basicInfo.steamID;
             playerRank = playerInfoData.SurfRank;
 
             string playerName = playerInfoData.basicInfo.name;
@@ -100,7 +100,7 @@ namespace KSF_Surf.Views
             }
             Title = playerName + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
 
-            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamId);
+            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
 
             wrsType = EFilter_PlayerWRsType.none;
@@ -399,7 +399,9 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamId);
+
+                meSteamID = BaseViewModel.propertiesDict_getSteamID(); // get the player steam ID again in case they set it for the first time
+                await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamID);
 
                 LoadingAnimation.IsRunning = false;
                 PlayerPageScrollView.IsVisible = true;
@@ -411,8 +413,8 @@ namespace KSF_Surf.Views
             if (hasLoaded && BaseViewModel.hasConnection())
             {
                 await Navigation.PushAsync(new PlayerFilterPage(ApplyFilters,
-                    game, mode, playerType, playerSteamId, playerRank,
-                    defaultGame, defaultMode, meSteamId));
+                    game, mode, playerType, playerSteamID, playerRank,
+                    defaultGame, defaultMode, meSteamID));
             }
             else
             {

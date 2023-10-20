@@ -99,14 +99,15 @@ namespace KSF_Surf.Views
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
 
-        private async void Apply_Clicked(object sender, System.EventArgs e)
+        private async void Apply_Clicked(object sender, EventArgs e)
         {
             if (BaseViewModel.hasConnection())
             {
                 if (playerSteamID != SteamIdEntry.Text)
                 {
+                    // Check new Steam ID is valid
                     var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIdEntry.Text);
-                    if (steamProfileDatum?.response.players.Count == 0)
+                    if (steamProfileDatum is null || steamProfileDatum?.response.players.Count == 0)
                     {
                         await DisplayAlert("Could not find player profile!", "Invalid SteamID.", "OK");
                         return;

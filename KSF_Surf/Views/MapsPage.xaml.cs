@@ -56,8 +56,6 @@ namespace KSF_Surf.Views
                     DetailedMapsRootObject dmro = await mapsViewModel.GetDetailedMapsList(game, sort);
                     if (dmro == null)
                     {
-                        Console.WriteLine("KSF Server Request returned NULL (MapsPage)");
-
                         MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
                         return maps_list;
                     }
@@ -95,7 +93,6 @@ namespace KSF_Surf.Views
             }
             catch (FormatException)
             {
-                Console.WriteLine("Problem parsing KSFDetailedMapDatum.data field (MapsPage)");
             }
 
             return maps_list;
@@ -112,7 +109,7 @@ namespace KSF_Surf.Views
                 hasLoaded = true;
 
                 MapsCollectionView.VerticalOptions = LayoutOptions.FillAndExpand;
-                ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+                ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
 
                 LoadingAnimation.IsRunning = false;
                 MapsStack.IsVisible = true;
@@ -125,7 +122,7 @@ namespace KSF_Surf.Views
             {
                 if (currentGame == EFilter_Game.none)
                 {
-                    ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); //initial load of maps
+                    ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
                 }
 
                 await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
@@ -200,6 +197,13 @@ namespace KSF_Surf.Views
         private void ChangeDisplayList(List<string> list)
         {
             MapsCollectionView.ItemsSource = list;
+        }
+
+        private async void RetryLabel_Tapped(object sender, EventArgs e)
+        {
+            LoadingAnimation.IsRunning = true;
+            ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
+            LoadingAnimation.IsRunning = false;
         }
 
         #endregion

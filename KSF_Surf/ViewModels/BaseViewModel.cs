@@ -18,6 +18,7 @@ namespace KSF_Surf.ViewModels
         internal readonly static string appVersionString = "2.0.1";
 
         internal static string AGENT = propertiesDict_getUserAgent();
+        internal static string DEFAULT_ME_STEAM_ID = "STEAM_0:0:47620794";  // Sean's steam ID (hesuka)
 
         internal static RestClient client = new RestClient
         {
@@ -96,8 +97,8 @@ namespace KSF_Surf.ViewModels
         internal static string propertiesDict_getUserAgent()
         {
             // EXAMPLE AGENT:   Phone/Apple/iOS/13.3 (Sean's iPhone) 0584707f-0f7a-4a9e-8106-f7b01c6354cd/1.1.0
+            string guid = string.Empty;
 
-            string guid = "";
             if (App.Current.Properties.ContainsKey("guid"))
             {
                 guid = App.Current.Properties["guid"] as string;
@@ -116,16 +117,14 @@ namespace KSF_Surf.ViewModels
 
         internal static string propertiesDict_getSteamID()
         {
-            string id = "STEAM_0:0:47620794";  // Sean's steam ID (hesuka)
+            string id = string.Empty;
+
             if (App.Current.Properties.ContainsKey("steamid"))
             {
                 id = App.Current.Properties["steamid"] as string;
             }
-            else
-            {
-                App.Current.Properties.Add("steamid", id);
-                App.Current.SavePropertiesAsync();
-            }
+            // don't set a default
+
             return id;
         }
 
