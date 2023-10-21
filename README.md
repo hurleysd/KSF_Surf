@@ -11,7 +11,7 @@ Surfing is a physics-based gamemode available within Source Engine games due to 
 
 This video is an example of what surfing is. 
 
-[![](http://img.youtube.com/vi/tn67W-nsi9M/0.jpg)](http://www.youtube.com/watch?v=tn67W-nsi9M "")
+[![](http://img.youtube.com/vi/pKkduQMVyYA/0.jpg)](https://www.youtube.com/watch?v=pKkduQMVyYA&ab_channel=KSFrecords "")
 
 ## LEGAL
 KSF data provided with permission from the owner, unt0uch4bl3. Steam data provided in accordance with the Steam Web API Terms of Use.
@@ -21,6 +21,6 @@ __Privacy Policy__: No user data is collected, stored, or shared, nor do users r
 __Intellectual Property__: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. Copyright © 2023 Sean Hurley. All rights reserved.
 
 ## AUTHOR
-**[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *B.S. in Computer Science, JMU* 
+**[Sean Hurley](https://www.linkedin.com/in/sean-hurley-a147bb1a0/)** - *B.S. Computer Science* 
 
 ### [Support the developer](https://paypal.me/ksfmobiledev)
