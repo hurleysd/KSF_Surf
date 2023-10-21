@@ -10,7 +10,12 @@
              Title="Player"
              x:Name="RecordPlayer"  
              Style="{DynamicResource ContentPageStyle}">
-    <!--No toolbar items-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="copy_icon.png"
+                     Clicked="Copy_Pressed">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key = "ProfileLabelStyle" TargetType="Label">

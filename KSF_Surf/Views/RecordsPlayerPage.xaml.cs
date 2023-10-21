@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
@@ -405,6 +406,12 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 RecordsPlayerPageScrollView.IsVisible = true;
             }
+        }
+
+        private async void Copy_Pressed(object sender, EventArgs e)
+        {
+            await Clipboard.SetTextAsync(playerSteamId);
+            await DisplayAlert("Steam ID copied to clipboard.", "", "OK");
         }
 
         private async void RecentRecordsSet_Tapped(object sender, EventArgs e)

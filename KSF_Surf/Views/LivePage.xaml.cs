@@ -320,7 +320,7 @@ namespace KSF_Surf.Views
                     // Set it to default (protect from just switching tabs to PlayerPage without saving settings edits)
                     if (!App.Current.Properties.ContainsKey("steamid")) App.Current.Properties.Add("steamid", BaseViewModel.DEFAULT_ME_STEAM_ID);
                     else App.Current.Properties["steamid"] = BaseViewModel.DEFAULT_ME_STEAM_ID;
-                    App.Current.SavePropertiesAsync(); // NO AWAIT
+                    _ = App.Current.SavePropertiesAsync(); // NO AWAIT
 
                     bool setMeSteamID = await DisplayAlert("Your Steam ID has not been set.", "Would you like to set it?", "Yes", "No");
                     if (setMeSteamID) await Navigation.PushAsync(new SettingsPage());
