@@ -23,9 +23,8 @@ namespace KSF_Surf.iOS.Renderers
             {
                 App.ApplyTheme();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                System.Diagnostics.Debug.WriteLine($"\t\t\tERROR: {ex.Message}");
             }
         }
 

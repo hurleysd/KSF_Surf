@@ -146,9 +146,6 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <BundleResource Include="Resources\tab_about.png" />
-    <BundleResource Include="Resources\tab_about%402x.png" />
-    <BundleResource Include="Resources\tab_about%403x.png" />
     <ImageAsset Include="Assets.xcassets\LogoSplash.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -261,6 +258,15 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\failed_steam_profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\copy_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\copy_icon%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\copy_icon%403x.png" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>

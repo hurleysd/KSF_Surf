@@ -11,12 +11,10 @@
              x:Name="PlayerTab"  
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Settings"
-                     IconImageSource="settings_icon.png"
+        <ToolbarItem IconImageSource="settings_icon.png"
                      Clicked="Settings_Pressed">
         </ToolbarItem>
-        <ToolbarItem x:Name="Filter"
-                     IconImageSource="filter_icon.png"
+        <ToolbarItem IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
         </ToolbarItem>
     </ContentPage.ToolbarItems>
@@ -67,21 +65,26 @@
                                Grid.Column="0"
                                Grid.Row="0"
                                Margin="5,5,10,5">
-                            <Image x:Name ="PlayerImage"
-                                   Source="failed_steam_profile.png"/>
+                            <Frame CornerRadius="5"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   Margin="2,2,2,2">
+                                <Image x:Name ="PlayerImage"
+                                       Source="failed_steam_profile.png"/>
+                            </Frame>
                         </Frame>
 
                         <Forms9Patch:Label x:Name ="PlayerNameLabel"
-                                           HorizontalOptions="FillAndExpand"
-                                           Style="{StaticResource ProfileLabelStyle}"
-                                           TextColor="{DynamicResource HeaderTextColor}"
-                                           FontSize="32"
-                                           FontAttributes="Bold"
-                                           Lines="1"
-                                           AutoFit="Width"
-                                           MinFontSize="14"
-                                           Grid.Column="1"
-                                           Grid.Row="0"/>
+                                    HorizontalOptions="FillAndExpand"
+                                    Style="{StaticResource ProfileLabelStyle}"
+                                    TextColor="{DynamicResource HeaderTextColor}"
+                                    FontSize="32"
+                                    FontAttributes="Bold"
+                                    Lines="1"
+                                    AutoFit="Width"
+                                    MinFontSize="14"
+                                    Grid.Column="1"
+                                    Grid.Row="0"/>
 
                         <Label x:Name ="PlayerCountryLabel"
                                Style="{StaticResource ProfileLabelStyle}"
@@ -133,7 +136,7 @@
                                  Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Recent Records Lost"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>

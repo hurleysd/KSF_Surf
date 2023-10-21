@@ -6,7 +6,7 @@
              xmlns:Forms9Patch="clr-namespace:Forms9Patch;assembly=Forms9Patch"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.LivePage"
-             Title="Live"
+             Title="KSF Surf Servers"
              x:Name="LiveTab"
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.Resources>
@@ -50,14 +50,8 @@
                              Padding="10,15,10,15">
 
                         <!-- Servers -->
-                        <Label Text="KSFClan Servers"
-                           x:Name="LiveServersLabel"
-                           Style="{DynamicResource HeaderLabel}"
-                           HorizontalOptions="StartAndExpand"
-                           Margin="10,0,0,0"/>
-
                         <Label x:Name ="TopGameLabel"
-                           Text="CS:S"
+                           Text="Counter-Strike: Source"
                            Style="{DynamicResource HeaderLabel}"
                            Margin="10,0,0,0"/>
 
@@ -111,7 +105,7 @@
                              Style="{DynamicResource MiniSeparatorStyle}"/>
 
                         <Label x:Name="BottomGameLabel"
-                           Text="CS:GO"
+                           Text="Counter-Strike: GO"
                            Style="{DynamicResource HeaderLabel}"
                            Margin="10,10,0,0"/>
 

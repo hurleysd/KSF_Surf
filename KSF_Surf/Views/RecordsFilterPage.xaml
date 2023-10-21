@@ -10,8 +10,7 @@
              Style="{DynamicResource ContentPageStyle}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Apply" 
-                     Text="Apply"
+        <ToolbarItem Text="Apply"
                      Clicked="Apply_Clicked"/>
     </ContentPage.ToolbarItems>
 

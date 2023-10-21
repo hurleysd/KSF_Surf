@@ -165,7 +165,7 @@ namespace KSF_Surf.Views
             }
             RankTitleLabel.Text = rankTitle;
             RankTitleLabel.TextColor = rankColor;
-            PlayerImageFrame.BorderColor = rankColor;
+            PlayerImageFrame.BackgroundColor = rankColor;
         }
 
         private void LayoutPlayerInfo()

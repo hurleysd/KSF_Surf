@@ -10,8 +10,7 @@
              x:Name="MapsMapPRTab"  
              Style="{DynamicResource ContentPageStyle}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="Filter"
-                     IconImageSource="filter_icon.png"
+        <ToolbarItem IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
         </ToolbarItem>
     </ContentPage.ToolbarItems>

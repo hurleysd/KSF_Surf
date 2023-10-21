@@ -14,7 +14,6 @@ namespace KSF_Surf.Views
             InitializeComponent();
 
             KSFThanksLabel.Text = "Thanks to Hardex for the app icon inspiration, Sam for being Sam, unt0uch4bl3 for letting me make this app, and KSF for its dedication to surf!";
-            IconThanksLabel.Text = "In-app icons courtesy of Phillip Reilly (reillypd@dukes.jmu.edu).";
 
             CopyrightLabel.Text = "Intellectual Property: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. " +
                 "Copyright \U000000A9 2023 Sean Hurley. All rights reserved.";

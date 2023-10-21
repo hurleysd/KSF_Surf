@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Essentials;
 
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
@@ -108,13 +106,12 @@ namespace KSF_Surf.Views
             if (defaultGame != EFilter_Game.css)
             {
                 LiveServersStack.Children.Clear();
-                LiveServersStack.Children.Add(LiveServersLabel);
                 LiveServersStack.Children.Add(TopGameLabel);
 
                 if (defaultGame == EFilter_Game.csgo)
                 {
-                    TopGameLabel.Text = "CS:GO";
-                    BottomGameLabel.Text = "CS:S";
+                    TopGameLabel.Text = "Counter-Strike: GO";
+                    BottomGameLabel.Text = "Counter-Strike: Source";
 
                     LiveServersStack.Children.Add(CSGOGrid);
                     LiveServersStack.Children.Add(GameServerSeperator);
@@ -148,16 +145,25 @@ namespace KSF_Surf.Views
             int len = css_serverData.Count;
             foreach (KSFServerDatum datum in css_serverData)
             {
-                if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
+                if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase)
+                   || datum.surftimer_servername.Equals("Map Contest", StringComparison.OrdinalIgnoreCase))
                 {
-                    --len;
-                    continue;
+                    if (i == len - 1)
+                    {
+                        CSSMapsStack.Children.RemoveAt(CSSMapsStack.Children.Count - 1); // remove separator added at the end of the previous map label
+                        break;
+                    }
+                    else
+                    {
+                        --len;
+                        continue;
+                    }  
                 }
 
                 CSSServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = App.Current.Resources["LeftColStyle"] as Style,
+                    Style = App.Current.Resources["LeftColStyle"] as Style
                 });
 
                 Label mapLabel = new Label
@@ -194,14 +200,22 @@ namespace KSF_Surf.Views
             {
                 if (datum.surftimer_servername.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    --len;
-                    continue;
+                    if (i == len - 1)
+                    {
+                        CSS100TMapsStack.Children.RemoveAt(CSS100TMapsStack.Children.Count - 1); // remove separator added at the end of the previous map label
+                        break;
+                    }
+                    else
+                    {
+                        --len;
+                        continue;
+                    }
                 }
 
                 CSS100TServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = App.Current.Resources["LeftColStyle"] as Style,
+                    Style = App.Current.Resources["LeftColStyle"] as Style
                 });
 
                 Label mapLabel = new Label
@@ -238,8 +252,16 @@ namespace KSF_Surf.Views
             {
                 if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
                 {
-                    --len;
-                    continue;
+                    if (i == len - 1)
+                    {
+                        CSGOMapsStack.Children.RemoveAt(CSGOMapsStack.Children.Count - 1); // remove separator added at the end of the previous map label
+                        break;
+                    }
+                    else
+                    {
+                        --len;
+                        continue;
+                    }
                 }
 
                 if (datum.surftimer_servername == "EasySurf Europe")
@@ -250,7 +272,7 @@ namespace KSF_Surf.Views
                 CSGOServerStack.Children.Add(new Label
                 {
                     Text = datum.surftimer_servername,
-                    Style = App.Current.Resources["LeftColStyle"] as Style,
+                    Style = App.Current.Resources["LeftColStyle"] as Style
                 });
 
                 Label mapLabel = new Label
