@@ -134,7 +134,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void SearchTextChanged(object sender, TextChangedEventArgs e)
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (e.NewTextValue == "")
             {
@@ -148,12 +148,12 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void SearchBarFocused(object sender, EventArgs e)
+        private void SearchBar_Focused(object sender, EventArgs e)
         {
             if (MapsSearchBar.Text == null || MapsSearchBar.Text == "") ChangeDisplayList(new List<string>());
         }
 
-        private void SearchBarUnfocused(object sender, EventArgs e)
+        private void SearchBar_Unfocused(object sender, EventArgs e)
         {
             
             if (MapsSearchBar.Text == null || MapsSearchBar.Text == "") ChangeDisplayList(maps_list);

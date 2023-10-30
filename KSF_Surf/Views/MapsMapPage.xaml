@@ -30,7 +30,6 @@
 
                 <!-- Map General Info -->
                 <Frame Style="{StaticResource FrameStyle}"
-                       IsClippedToBounds="True"
                        Margin="10,15,10,15">
                     <Grid HorizontalOptions="FillAndExpand"
                           BackgroundColor="{DynamicResource ViewBackgroundColor}"

@@ -25,12 +25,13 @@
                      IsVisible="False">
             <SearchBar x:Name="MapsSearchBar"
                        Placeholder="Search maps..."
+                       PlaceholderColor="{DynamicResource GrayTextColor}"
                        FontSize="20"
                        TextColor="{DynamicResource HeaderTextColor}"
                        BackgroundColor="{DynamicResource AppBackgroundColor}"
-                       TextChanged="SearchTextChanged"
-                       Focused="SearchBarFocused"
-                       Unfocused="SearchBarUnfocused"/>
+                       TextChanged="SearchBar_TextChanged"
+                       Focused="SearchBar_Focused"
+                       Unfocused="SearchBar_Unfocused"/>
 
             <BoxView Color="{DynamicResource ViewBackgroundColor}"
                      HeightRequest="1"

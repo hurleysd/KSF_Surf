@@ -15,7 +15,7 @@ namespace KSF_Surf.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         internal readonly static string deviceString = Device.RuntimePlatform;
-        internal readonly static string appVersionString = "2.1.0";
+        internal readonly static string appVersionString = "2.1.1";
 
         internal static string AGENT = propertiesDict_getUserAgent();
         internal static string DEFAULT_ME_STEAM_ID = "STEAM_0:0:47620794"; // Sean's steam ID (hesuka)

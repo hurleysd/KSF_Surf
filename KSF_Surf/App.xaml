@@ -37,6 +37,7 @@
             <!-- Frame Styles -->
             <Style x:Key="FrameStyle" TargetType="Frame">
                 <Setter Property="CornerRadius" Value ="10"/>
+                <Setter Property="IsClippedToBounds" Value ="True"/>
                 <Setter Property="HasShadow" Value="False"/>
                 <Setter Property="BorderColor" Value ="{DynamicResource BorderColor}"/>
                 <Setter Property="Padding" Value="0"/>
@@ -48,16 +49,6 @@
                 <Setter Property="HasShadow" Value ="False"/>
                 <Setter Property="BorderColor" Value ="{DynamicResource ViewBackgroundColor}"/>
                 <Setter Property="Padding" Value ="0"/>
-            </Style>
-            <Style x:Key="MoreFrameStyle" TargetType="Frame">
-                <Setter Property="CornerRadius" Value ="10"/>
-                <Setter Property="HasShadow" Value ="False"/>
-                <Setter Property="BorderColor" Value ="{DynamicResource ViewBackgroundColor}"/>
-                <Setter Property="Padding" Value ="0"/>
-                <Setter Property="Margin" Value ="0,10,0,0"/>
-                <Setter Property="HorizontalOptions" Value ="FillAndExpand"/>
-                <Setter Property="HeightRequest" Value ="47"/>
-                <Setter Property="IsVisible" Value ="False"/>
             </Style>
 
             <!-- ActivityIndicator Style -->

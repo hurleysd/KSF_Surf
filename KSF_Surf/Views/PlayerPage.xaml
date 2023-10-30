@@ -21,7 +21,7 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key = "ProfileLabelStyle" TargetType="Label">
+            <Style x:Key="ProfileLabelStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="FillAndExpand"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
@@ -59,6 +59,7 @@
 
                         <Frame x:Name="PlayerImageFrame"
                                CornerRadius="5"
+                               IsClippedToBounds="True"
                                HasShadow="False"
                                Padding="0"
                                Grid.RowSpan="3"
@@ -66,6 +67,7 @@
                                Grid.Row="0"
                                Margin="5,5,10,5">
                             <Frame CornerRadius="5"
+                                   IsClippedToBounds="True"
                                    HasShadow="False"
                                    Padding="0"
                                    Margin="2,2,2,2">

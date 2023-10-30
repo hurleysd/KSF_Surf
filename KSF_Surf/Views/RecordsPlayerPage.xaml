@@ -18,7 +18,7 @@
     
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style x:Key = "ProfileLabelStyle" TargetType="Label">
+            <Style x:Key="ProfileLabelStyle" TargetType="Label">
                 <Setter Property="VerticalOptions" Value="FillAndExpand"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
@@ -40,7 +40,7 @@
 
                     <!-- Profile -->
                     <Frame Style="{StaticResource FrameStyle}"
-                       Margin="10,15,10,20">
+                           Margin="10,15,10,20">
                         <Grid HorizontalOptions="FillAndExpand"
                           BackgroundColor="{DynamicResource ViewBackgroundColor}"
                           Padding="10">
@@ -62,8 +62,13 @@
                                Grid.Column="0"
                                Grid.Row="0"
                                Margin="5,5,10,5">
-                                <Image x:Name ="PlayerImage"
-                                   Source="failed_steam_profile.png"/>
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       Padding="0"
+                                       Margin="2,2,2,2">
+                                    <Image x:Name ="PlayerImage"
+                                       Source="failed_steam_profile.png"/>
+                                </Frame>
                             </Frame>
 
                             <Forms9Patch:Label x:Name ="PlayerNameLabel"
