@@ -55,14 +55,16 @@
                             </Grid.RowDefinitions>
 
                             <Frame x:Name="PlayerImageFrame"
-                               CornerRadius="5"
-                               HasShadow="False"
-                               Padding="0"
-                               Grid.RowSpan="3"
-                               Grid.Column="0"
-                               Grid.Row="0"
-                               Margin="5,5,10,5">
+                                   CornerRadius="5"
+                                   IsClippedToBounds="True"
+                                   HasShadow="False"
+                                   Padding="0"
+                                   Grid.RowSpan="3"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Margin="5,5,10,5">
                                 <Frame CornerRadius="5"
+                                       IsClippedToBounds="True"
                                        HasShadow="False"
                                        Padding="0"
                                        Margin="2,2,2,2">
