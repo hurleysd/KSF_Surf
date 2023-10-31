@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -19,22 +17,22 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "(In)Complete Maps" call
-        private List<PlayerCompletionRecord> recordsData;
+        private List<PlayerMapCompletionDatum> recordsData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
-        private readonly EFilter_PlayerType playerType;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
+        private readonly PlayerTypeEnum playerType;
         private readonly string playerValue;
-        private readonly EFilter_PlayerCompletionType completionType;
+        private readonly PlayerCompletionTypeEnum completionType;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> mapsCompletionCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public PlayerMapsCompletionPage(string title, EFilter_Game game, EFilter_Mode mode,
-            EFilter_PlayerCompletionType completionType, EFilter_PlayerType playerType, string playerValue)
+        public PlayerMapsCompletionPage(string title, GameEnum game, ModeEnum mode,
+            PlayerCompletionTypeEnum completionType, PlayerTypeEnum playerType, string playerValue)
         {
             this.game = game;
             this.mode = mode;
@@ -46,7 +44,7 @@ namespace KSF_Surf.Views
 
             InitializeComponent();
             Title = title;
-            HeaderLabel.Text = EFilter_ToString.toString2(completionType);
+            HeaderLabel.Text = EnumToString.NameString(completionType);
             MapsCompletionCollectionView.ItemsSource = mapsCompletionCollectionViewItemsSource;
         }
 
@@ -66,17 +64,17 @@ namespace KSF_Surf.Views
 
         private void LayoutRecords()
         {
-            foreach (PlayerCompletionRecord datum in recordsData)
+            foreach (PlayerMapCompletionDatum datum in recordsData)
             {
                 if (datum.completedZones is null) datum.completedZones = "0";
                 string mapCompletionString = datum.mapName + " (" + datum.completedZones + "/" + datum.totalZones + ")";
 
 
-                EFilter_MapType mapType = (EFilter_MapType)int.Parse(datum.mapType);
-                string cptypeString = (mapType == EFilter_MapType.linear) ? "CPs" : "Stages";
+                MapTypeEnum mapType = (MapTypeEnum)int.Parse(datum.mapType);
+                string cptypeString = (mapType == MapTypeEnum.LINEAR) ? "CPs" : "Stages";
                 string rrinfoString = datum.cp_count + " " + cptypeString + ", " + datum.b_count + " Bonus";
                 if (datum.b_count != "1") rrinfoString += "es";
-                string mapSummaryString = "Tier " + datum.tier + " " + EFilter_ToString.toString(mapType) + " - " + rrinfoString;
+                string mapSummaryString = "Tier " + datum.tier + " " + EnumToString.NameString(mapType) + " - " + rrinfoString;
 
                 mapsCompletionCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapCompletionString, mapSummaryString, datum.mapName));
@@ -87,7 +85,7 @@ namespace KSF_Surf.Views
             if (list_index == 0) // no (in)complete maps
             {
                 MapsCompletionCollectionViewEmptyLabel.Text = "None ! "
-                    + ((completionType == EFilter_PlayerCompletionType.complete) ? ":(" :  ":)");
+                    + ((completionType == PlayerCompletionTypeEnum.COMPLETE) ? ":(" :  ":)");
             }
         }
 
@@ -109,7 +107,7 @@ namespace KSF_Surf.Views
 
         private async void MapsCompletion_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % PlayerViewModel.MAPS_COMPLETION_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= PlayerViewModel.MAPS_COMPLETION_CLIMIT) return; // at call limit
 
@@ -132,14 +130,11 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

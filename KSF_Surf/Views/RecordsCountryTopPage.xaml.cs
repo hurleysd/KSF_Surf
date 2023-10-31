@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -20,21 +17,21 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "SurfTop" call
-        private List<CountryPlayer> countryTopData;
+        private List<CountryTopDatum> countryTopData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game defaultGame;
-        private readonly EFilter_Mode defaultMode;
-        private EFilter_Game game;
-        private EFilter_Mode mode;
+        private readonly GameEnum defaultGame;
+        private readonly ModeEnum defaultMode;
+        private GameEnum game;
+        private ModeEnum mode;
         private string country;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> recordsCountryTopCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public RecordsCountryTopPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsCountryTopPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.game = game;
             this.mode = mode;
@@ -44,8 +41,8 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
-            CountryPicker.ItemsSource = EFilter_ToString.ctopCountries;
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            CountryPicker.ItemsSource = StringFormatter.CountryTopCountries;
             RecordsCountryTopCollectionView.ItemsSource = recordsCountryTopCollectionViewItemsSource;
         }
 
@@ -60,18 +57,18 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsCountryTopCollectionViewItemsSource.Clear();
             LayoutCountryTop();
-            CountryOptionLabel.Text = "Country: " + String_Formatter.toEmoji_Country(country);
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            CountryOptionLabel.Text = "Country: " + StringFormatter.CountryEmoji(country);
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutCountryTop()
         {
-            foreach (CountryPlayer datum in countryTopData)
+            foreach (CountryTopDatum datum in countryTopData)
             {
                 string nameString = list_index + ". " + datum.playerName;
-                string pointsString = String_Formatter.toString_Points(datum.points);
+                string pointsString = StringFormatter.PointsString(datum.points);
 
                 recordsCountryTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     nameString, pointsString, datum.steamID));
@@ -92,7 +89,7 @@ namespace KSF_Surf.Views
                 country = await recordsViewModel.GetTopCountry(game, mode);
                 if (country is null || country == "")
                 {
-                    country = EFilter_ToString.ctopCountries[58]; // USA
+                    country = StringFormatter.CountryTopCountries[58]; // USA
                 }
 
                 await ChangeCountryTop(false);
@@ -127,7 +124,7 @@ namespace KSF_Surf.Views
 
         private async void CountryRecordsTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % RecordsViewModel.COUNTRY_TOP_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= RecordsViewModel.COUNTRY_TOP_CLIMIT) return; // at call limit
 
@@ -149,32 +146,27 @@ namespace KSF_Surf.Views
 
             string playerSteamId = selectedPlayer.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamId));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
         {
             if (newGame == game && newMode == mode) return;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 game = newGame;
                 mode = newMode;
@@ -188,10 +180,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async Task DisplayNoConnectionAlert()

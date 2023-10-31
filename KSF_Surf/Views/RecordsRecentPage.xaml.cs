@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -19,33 +17,33 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "Recent" call
-        private List<RRDatum> recentRecordsData;
-        private List<RR10Datum> recentRecords10Data;
+        private List<RecentRecordDatum> recentRecordsData;
+        private List<RecentRecord10Datum> recentRecords10Data;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game defaultGame;
-        private readonly EFilter_Mode defaultMode;
-        private EFilter_Game game;
-        private EFilter_Mode mode;
-        private EFilter_RRType recentRecordsType;
+        private readonly GameEnum defaultGame;
+        private readonly ModeEnum defaultMode;
+        private GameEnum game;
+        private ModeEnum mode;
+        private RecentRecordsTypeEnum recentRecordsType;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string, string>> RecordsRecentCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string, string>>();
 
-        public RecordsRecentPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsRecentPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.game = game;
             this.mode = mode;
             this.defaultGame = defaultGame;
             this.defaultMode = defaultMode;
-            recentRecordsType = EFilter_RRType.map;
+            recentRecordsType = RecentRecordsTypeEnum.MAP;
 
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title =  "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            Title =  "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
             RecordsRecentCollectionView.ItemsSource = RecordsRecentCollectionViewItemsSource;
         }
 
@@ -54,7 +52,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecentRecords(bool clearPrev)
         {
-            if (recentRecordsType == EFilter_RRType.top)
+            if (recentRecordsType == RecentRecordsTypeEnum.TOP)
             {
                 var recentRecords10Datum = await recordsViewModel.GetRecentRecords10(game, mode, list_index);
                 recentRecords10Data = recentRecords10Datum?.data;
@@ -71,39 +69,30 @@ namespace KSF_Surf.Views
                 if (recentRecordsData is null) return;
 
                 if (clearPrev) RecordsRecentCollectionViewItemsSource.Clear();
-                RRTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(recentRecordsType);
-                LayoutRecentRecords(EFilter_ToString.toString2(recentRecordsType));
+                RRTypeOptionLabel.Text = "Type: " + EnumToString.NameString(recentRecordsType);
+                LayoutRecentRecords(EnumToString.NameString(recentRecordsType));
             }
 
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecentRecords(string typeString)
         {
-            foreach (RRDatum datum in recentRecordsData)
+            foreach (RecentRecordDatum datum in recentRecordsData)
             {
-                string mapZoneString = datum.mapName + " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
-                string playerServerString = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName + " on " + datum.server + " server";
+                string mapZoneString = datum.mapName + " " + StringFormatter.ZoneString(datum.zoneID, false, false);
+                string playerServerString = StringFormatter.CountryEmoji(datum.country) + " " + datum.playerName + " on " + datum.server + " server";
 
-                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
+                string rrtimeString = "in " + StringFormatter.RankTimeString(datum.surfTime) + " (";
                 if (datum.wrDiff == "0")
                 {
-                    if (datum.r2Diff is null)
-                    {
-                        rrtimeString += "WR N/A";
-                    }
-                    else
-                    {
-                        rrtimeString += "WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1));
-                    }
+                    if (datum.r2Diff is null) rrtimeString += "WR N/A";
+                    else rrtimeString += "WR-" + StringFormatter.RankTimeString(datum.r2Diff.Substring(1));
                 }
-                else
-                {
-                    rrtimeString += "now WR+" + String_Formatter.toString_RankTime(datum.wrDiff);
-                }
-                rrtimeString += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                else rrtimeString += "now WR+" + StringFormatter.RankTimeString(datum.wrDiff);
+                rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, playerServerString, rrtimeString, datum.mapName));
@@ -114,22 +103,16 @@ namespace KSF_Surf.Views
 
         private void LayoutRecentRecords10()
         {
-            foreach (RR10Datum datum in recentRecords10Data)
+            foreach (RecentRecord10Datum datum in recentRecords10Data)
             {
                 int rank = int.Parse(datum.newRank);
                 string mapZoneString = datum.mapName + " [R" + rank + "]";
-                string playerServerString = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName + " on " + datum.server + " server";
+                string playerServerString = StringFormatter.CountryEmoji(datum.country) + " " + datum.playerName + " on " + datum.server + " server";
 
-                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
-                if (datum.wrDiff == "0")
-                {
-                    rrtimeString += "WR";
-                }
-                else
-                {
-                    rrtimeString += "WR+" + String_Formatter.toString_RankTime(datum.wrDiff);
-                }
-                rrtimeString += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                string rrtimeString = "in " + StringFormatter.RankTimeString(datum.surfTime) + " (";
+                if (datum.wrDiff == "0") rrtimeString += "WR";
+                else rrtimeString += "WR+" + StringFormatter.RankTimeString(datum.wrDiff);
+                rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                    mapZoneString, playerServerString, rrtimeString, datum.mapName));
@@ -137,7 +120,6 @@ namespace KSF_Surf.Views
                 list_index++;
             }
         }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -158,23 +140,20 @@ namespace KSF_Surf.Views
         private async void RRTypeOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
-            string currentTypeString = EFilter_ToString.toString2(recentRecordsType);
-            foreach (string type in EFilter_ToString.rrtype_arr)
+            string currentTypeString = EnumToString.NameString(recentRecordsType);
+            foreach (string type in EnumToString.RecentRecordsTypeNames)
             {
-                if (type != currentTypeString)
-                {
-                    types.Add(type);
-                }
+                if (type != currentTypeString) types.Add(type);
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
             switch (newTypeString)
             {
-                case "Top10": recentRecordsType = EFilter_RRType.top; break;
-                case "Stage": recentRecordsType = EFilter_RRType.stage; break;
-                case "Bonus": recentRecordsType = EFilter_RRType.bonus; break;
-                case "All WRs": recentRecordsType = EFilter_RRType.all; break;
-                case "Map": recentRecordsType = EFilter_RRType.map; break;
+                case "Top10": recentRecordsType = RecentRecordsTypeEnum.TOP; break;
+                case "Stage": recentRecordsType = RecentRecordsTypeEnum.STAGE; break;
+                case "Bonus": recentRecordsType = RecentRecordsTypeEnum.BONUS; break;
+                case "All WRs": recentRecordsType = RecentRecordsTypeEnum.ALL; break;
+                case "Map": recentRecordsType = RecentRecordsTypeEnum.MAP; break;
                 default: return;
             }
 
@@ -191,7 +170,7 @@ namespace KSF_Surf.Views
 
         private async void RecordsRecent_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % RecordsViewModel.RECENT_RECORDS_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= RecordsViewModel.RECENT_RECORDS_CLIMIT) return; // at call limit
 
@@ -214,32 +193,26 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item4;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
         {
             if (newGame == game && newMode == mode) return;
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 game = newGame;
                 mode = newMode;
@@ -253,10 +226,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async Task DisplayNoConnectionAlert()

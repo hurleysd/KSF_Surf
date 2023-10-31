@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -17,15 +15,15 @@ namespace KSF_Surf.Views
         private readonly int GRIDFONT = 18;
 
         // objects used by "Compare to World Record by Checkpoints" call
-        private List<MapCCPDetails> CCPDetails;
+        private List<MapComapreCheckPointsDetails> CCPDetails;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
         private readonly string map;
         private readonly string playerSteamID;
 
-        public MapsMapCCPPage(string title, EFilter_Game game, EFilter_Mode mode, string map, string playerSteamID)
+        public MapsMapCCPPage(string title, GameEnum game, ModeEnum mode, string map, string playerSteamID)
         {
             this.game = game;
             this.mode = mode;
@@ -43,11 +41,11 @@ namespace KSF_Surf.Views
 
         private async Task ChangePRDetails()
         {
-            var ccpDatum = await mapsViewModel.GetMapCCP(game, mode, map, EFilter_PlayerType.steamid, playerSteamID);
+            var ccpDatum = await mapsViewModel.GetMapCCP(game, mode, map, PlayerTypeEnum.STEAM_ID, playerSteamID);
             CCPDetails = ccpDatum?.data.CCP;
             if (CCPDetails is null || CCPDetails.Count < 1) return;
 
-            WRPlayer.Text = "PRCP vs " + String_Formatter.toEmoji_Country(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
+            WRPlayer.Text = "PRCP vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
             LayoutPRDetails();
         }
 
@@ -58,11 +56,11 @@ namespace KSF_Surf.Views
             string units = " u/s";
             int i = 0;
 
-            foreach (MapCCPDetails zoneCCP in CCPDetails)
+            foreach (MapComapreCheckPointsDetails zoneCCP in CCPDetails)
             {
                 CCPStack.Children.Add(new Label
                 {
-                    Text = EFilter_ToString.zoneFormatter(zoneCCP.zoneID, true, true),
+                    Text = StringFormatter.ZoneString(zoneCCP.zoneID, true, true),
                     Style = App.Current.Resources["HeaderLabel"] as Style,
                     Margin = new Thickness(10, 0, 0, 0)
                 });
@@ -85,7 +83,7 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = String_Formatter.toString_RankTime(zoneCCP.cpTimePlayer),
+                            Text = StringFormatter.RankTimeString(zoneCCP.cpTimePlayer),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
                             FontSize = GRIDFONT,
                         },
@@ -101,7 +99,7 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = String_Formatter.toString_RankTime(zoneCCP.cpTimeWR),
+                            Text = StringFormatter.RankTimeString(zoneCCP.cpTimeWR),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
                             FontSize = GRIDFONT,
                         },
@@ -120,7 +118,7 @@ namespace KSF_Surf.Views
                 string timePrefix = (timeDiff > 0) ? "+" : "";
                 string velPrefix = (diffVel > 0) ? "+" : "";
 
-                string timeString = String_Formatter.toString_RankTime(timeDiff.ToString());
+                string timeString = StringFormatter.RankTimeString(timeDiff.ToString());
                 if (timeString.Contains("-"))
                 {
                     timeString = timeString.Replace("-", "");

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
@@ -15,12 +13,12 @@ namespace KSF_Surf.Views
     {
         private readonly LiveViewModel liveViewModel;
         private bool hasLoaded = false;
-        private readonly EFilter_Game defaultGame;
+        private readonly GameEnum defaultGame;
 
         // objects for "KSFClan Servers"
-        private List<KSFServerDatum> css_serverData;
-        private List<KSFServerDatum> css100t_serverData;
-        private List<KSFServerDatum> csgo_serverData;
+        private List<ServerDatum> css_serverData;
+        private List<ServerDatum> css100t_serverData;
+        private List<ServerDatum> csgo_serverData;
 
         // Date of last refresh
         private DateTime lastRefresh = DateTime.Now;
@@ -28,7 +26,7 @@ namespace KSF_Surf.Views
         public LivePage()
         {
             liveViewModel = new LiveViewModel();
-            defaultGame = BaseViewModel.propertiesDict_getGame();
+            defaultGame = PropertiesDict.GetGame();
 
             InitializeComponent();
 
@@ -37,25 +35,19 @@ namespace KSF_Surf.Views
             {
                 if (hasLoaded)
                 {
-                    if (BaseViewModel.hasConnection())
+                    if (BaseViewModel.HasConnection())
                     {
                         TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
                         bool tooSoon = sinceRefresh.TotalSeconds < 10;
 
-                        if (tooSoon)
-                        {
-                            await Task.Delay(500); // 0.5 seconds
-                        }
+                        if (tooSoon) await Task.Delay(500); // 0.5 seconds
                         else
                         {
                             await LoadServers(false);
                             lastRefresh = DateTime.Now;
                         }
                     }
-                    else
-                    {
-                        await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
-                    }
+                    else await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
                 }
 
                 LiveRefreshView.IsRefreshing = false;
@@ -67,29 +59,20 @@ namespace KSF_Surf.Views
 
         private async Task LayoutDesign()
         {
-            if (BaseViewModel.hasConnection())
-            {
-                await LoadServers(true);
-            }
+            if (BaseViewModel.HasConnection()) await LoadServers(true);
             else
             {
                 bool tryAgain = await DisplayAlert("Could not connect to KSF servers :(", "Would you like to retry?", "Retry", "Cancel");
-                if (tryAgain)
-                {
-                    await LayoutDesign();
-                }
-                else
-                {
-                    System.Environment.Exit(0); // exit the app (no WIFI)
-                }
+                if (tryAgain) await LayoutDesign();
+                else System.Environment.Exit(0); // exit the app (no WIFI)
             }
         }
 
         private async Task LoadServers(Boolean order)
         {
-            var css_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css);
-            var css100t_ServerDatum = await liveViewModel.GetServers(EFilter_Game.css100t);
-            var csgos_ServerDatum = await liveViewModel.GetServers(EFilter_Game.csgo);
+            var css_ServerDatum = await liveViewModel.GetServers(GameEnum.CSS);
+            var css100t_ServerDatum = await liveViewModel.GetServers(GameEnum.CSS100T);
+            var csgos_ServerDatum = await liveViewModel.GetServers(GameEnum.CSGO);
             
             css_serverData = css_ServerDatum?.data;
             css100t_serverData = css100t_ServerDatum?.data;
@@ -103,12 +86,12 @@ namespace KSF_Surf.Views
 
         private void OrderServers()
         {
-            if (defaultGame != EFilter_Game.css)
+            if (defaultGame != GameEnum.CSS)
             {
                 LiveServersStack.Children.Clear();
                 LiveServersStack.Children.Add(TopGameLabel);
 
-                if (defaultGame == EFilter_Game.csgo)
+                if (defaultGame == GameEnum.CSGO)
                 {
                     TopGameLabel.Text = "Counter-Strike: GO";
                     BottomGameLabel.Text = "Counter-Strike: Source";
@@ -143,7 +126,7 @@ namespace KSF_Surf.Views
 
             int i = 1;
             int len = css_serverData.Count;
-            foreach (KSFServerDatum datum in css_serverData)
+            foreach (ServerDatum datum in css_serverData)
             {
                 if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase)
                    || datum.surftimer_servername.Equals("Map Contest", StringComparison.OrdinalIgnoreCase))
@@ -173,14 +156,14 @@ namespace KSF_Surf.Views
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
-                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.css));
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, GameEnum.CSS));
                 };
                 mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
                 CSSMapsStack.Children.Add(mapLabel);
 
                 CSSMapsStack.Children.Add(new Label
                 {
-                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+                    Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
 
                     Style = Resources["Right3ColStyle"] as Style
                 });
@@ -196,7 +179,7 @@ namespace KSF_Surf.Views
 
             i = 1;
             len = css100t_serverData.Count;
-            foreach (KSFServerDatum datum in css100t_serverData)
+            foreach (ServerDatum datum in css100t_serverData)
             {
                 if (datum.surftimer_servername.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -225,14 +208,14 @@ namespace KSF_Surf.Views
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
-                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.css100t));
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, GameEnum.CSS100T));
                 };
                 mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
                 CSS100TMapsStack.Children.Add(mapLabel);
 
                 CSS100TMapsStack.Children.Add(new Label
                 {
-                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+                    Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
 
                     Style = Resources["Right3ColStyle"] as Style
                 });
@@ -248,7 +231,7 @@ namespace KSF_Surf.Views
 
             i = 1;
             len = csgo_serverData.Count;
-            foreach (KSFServerDatum datum in csgo_serverData)
+            foreach (ServerDatum datum in csgo_serverData)
             {
                 if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
                 {
@@ -282,14 +265,14 @@ namespace KSF_Surf.Views
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
-                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, EFilter_Game.csgo));
+                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, GameEnum.CSGO));
                 };
                 mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
                 CSGOMapsStack.Children.Add(mapLabel);
 
                 CSGOMapsStack.Children.Add(new Label
                 {
-                    Text = datum.playersonline + " players, " + String_Formatter.toString_PlayTime(datum.timeleft, true) + " left",
+                    Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
 
                     Style = Resources["Right3ColStyle"] as Style
                 });
@@ -315,7 +298,7 @@ namespace KSF_Surf.Views
                 hasLoaded = true;
 
                 // Check player steam ID has been set
-                if (string.IsNullOrEmpty(BaseViewModel.propertiesDict_getSteamID()))
+                if (string.IsNullOrEmpty(PropertiesDict.GetSteamID()))
                 {
                     // Set it to default (protect from just switching tabs to PlayerPage without saving settings edits)
                     if (!App.Current.Properties.ContainsKey("steamid")) App.Current.Properties.Add("steamid", BaseViewModel.DEFAULT_ME_STEAM_ID);

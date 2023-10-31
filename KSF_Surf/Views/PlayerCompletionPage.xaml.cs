@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -16,16 +14,16 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // objects used by "Completion By Tier" call
-        private List<PlayerTierCompletion> recordsData;
+        private List<PlayerTierCompletionDatum> recordsData;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
-        private readonly EFilter_PlayerType playerType;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
+        private readonly PlayerTypeEnum playerType;
         private readonly string playerValue;
 
-        public PlayerCompletionPage(string title, EFilter_Game game, EFilter_Mode mode, 
-            EFilter_PlayerType playerType, string playerValue)
+        public PlayerCompletionPage(string title, GameEnum game, ModeEnum mode, 
+            PlayerTypeEnum playerType, string playerValue)
         {
             this.game = game;
             this.mode = mode;
@@ -58,13 +56,13 @@ namespace KSF_Surf.Views
         {
             string[] labelTexts = new string[48];
             int i = 0;
-            foreach (PlayerTierCompletion datum in recordsData)
+            foreach (PlayerTierCompletionDatum datum in recordsData)
             {
-                labelTexts[i++] = datum.map + "/" + datum.mapTotal + " (" + String_Formatter.toString_CompletionPercent(datum.map, datum.mapTotal) + ")";
-                labelTexts[i++] = String_Formatter.toString_Points(datum.stage) + "/" + String_Formatter.toString_Points(datum.stageTotal) 
-                    + " (" + String_Formatter.toString_CompletionPercent(datum.stage, datum.stageTotal) + ")";
-                labelTexts[i++] = String_Formatter.toString_Points(datum.bonus) + "/" + String_Formatter.toString_Points(datum.bonusTotal) 
-                    + " (" + String_Formatter.toString_CompletionPercent(datum.bonus, datum.bonusTotal) + ")";
+                labelTexts[i++] = datum.map + "/" + datum.mapTotal + " (" + StringFormatter.CompletionPercentString(datum.map, datum.mapTotal) + ")";
+                labelTexts[i++] = StringFormatter.PointsString(datum.stage) + "/" + StringFormatter.PointsString(datum.stageTotal) 
+                    + " (" + StringFormatter.CompletionPercentString(datum.stage, datum.stageTotal) + ")";
+                labelTexts[i++] = StringFormatter.PointsString(datum.bonus) + "/" + StringFormatter.PointsString(datum.bonusTotal) 
+                    + " (" + StringFormatter.CompletionPercentString(datum.bonus, datum.bonusTotal) + ")";
             }
 
             applyLabelTexts(labelTexts);
@@ -73,6 +71,7 @@ namespace KSF_Surf.Views
         private void applyLabelTexts(string[] texts)
         {
             int i = 0;
+
             T1MapsValueLabel.Text = texts[i++];
             T1StagesValueLabel.Text = texts[i++];
             T1BonusesValueLabel.Text = texts[i++];
@@ -84,7 +83,6 @@ namespace KSF_Surf.Views
             T3MapsValueLabel.Text = texts[i++];
             T3StagesValueLabel.Text = texts[i++];
             T3BonusesValueLabel.Text = texts[i++];
-
 
             T4MapsValueLabel.Text = texts[i++];
             T4StagesValueLabel.Text = texts[i++];
@@ -122,7 +120,6 @@ namespace KSF_Surf.Views
                 PlayerCompletionScrollView.IsVisible = true;
             }
         }
-
 
         #endregion
     }

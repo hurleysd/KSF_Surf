@@ -1,76 +1,104 @@
-﻿using System;
-
-using Xamarin.Forms;
-
-namespace KSF_Surf.Models
+﻿namespace KSF_Surf.Models
 {
-    // FILTER ENUMS -------------------------------------------------------------------------
-    #region filters
-    public enum EFilter_Game
+    public enum GameEnum
     {
-        none, css, css100t, csgo
+        NONE,
+        CSS,
+        CSS100T,
+        CSGO
     }
 
-    public enum EFilter_Sort
+    public enum SortEnum
     {
-        none, name, created, lastplayed, playtime, popularity
+        NONE,
+        NAME,
+        CREATED,
+        LAST_PLAYED,
+        PLAYTIME,
+        POPULARITY
     }
 
-    public enum EFilter_MapType
+    public enum MapTypeEnum
     {
-        none = -1, any = 0, linear = 1, staged = 2
+        NODE = -1,
+        ANY = 0,
+        LINEAR = 1,
+        STAGED = 2
     }
 
-    public enum EFilter_Mode
+    public enum ModeEnum
     {
-        none = -1, fw = 0, sw = 1, hsw = 2, bw = 3
+        NONE = -1,
+        FW = 0,
+        SW = 1,
+        HSW = 2,
+        BW = 3
     }
 
-    public enum EFilter_RRType
+    public enum RecentRecordsTypeEnum
     {
-        all, map, top, stage, bonus
+        ALL,
+        MAP,
+        TOP,
+        STAGE,
+        BONUS
     }
 
-    public enum EFilter_MostType
+    public enum MostTypeEnum
     {
-        pc,                                                 // uses MostPC
-        wr, wrcp, wrb, mostwr, mostwrcp, mostwrb ,          // uses MostCount 
-        top10,                                              // uses MostTop
-        group,                                              // uses MostGroup
-        mostcontestedwr,                                    // uses MostContWr
-        mostcontestedwrcp, mostcontestedwrb,                // uses MostContZone
-        playtimeday, playtimeweek, playtimemonth            // uses MostTime
+        PC,                                                 // uses MostPC
+        WR, WRCP, WRB, MOST_WR, MOST_WRCP, MOST_WRB,        // uses MostCount 
+        TOP10,                                              // uses MostTop
+        GROUP,                                              // uses MostGroup
+        MOST_CONTESTED_WR,                                  // uses MostContWr
+        MOST_CONTESTED_WRCP, MOST_CONTESTED_WRB,            // uses MostContZone
+        PLAYTIME_DAY, PLAYTIME_WEEK, PLAYTIME_MONTH         // uses MostTime
     }
 
-    public enum EFilter_ORType
+    public enum OldestRecordsTypeEnum
     {
-        map, stage, bonus
+        MAP,
+        STAGE,
+        BONUS
     }
 
-    public enum EFilter_PlayerType
+    public enum PlayerTypeEnum
     { 
-        none, steamid, rank, me
+        NONE,
+        STEAM_ID,
+        RANK,
+        ME
     }
 
-    public enum EFilter_PlayerRecordsType
+    public enum PlayerRecordsTypeEnum
     {
-        set, broken
+        SET,
+        BROKEN
     }
 
-    public enum EFilter_PlayerWRsType
+    public enum PlayerWorldRecordsTypeEnum
     {
-        none, wr, wrcp, wrb
+        NONE,
+        WR,
+        WRCP,
+        WRB
     }
 
-    public enum EFilter_PlayerCompletionType
+    public enum PlayerCompletionTypeEnum
     {
-        complete, incomplete, completionbytier
+        COMPLETE,
+        INCOMPLETE,
+        COMPLETION_BY_TIER
     }
 
-    public enum EFilter_PlayerOldestType
+    public enum PlayerOldestRecordsTypeEnum
     {
-        wr, wrcp, wrb, top10, map, stage, bonus
+        WR,
+        WRCP,
+        WRB,
+        TOP10,
+        MAP,
+        STAGE,
+        BONUS
     }
-
-    #endregion
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -19,22 +17,22 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "World Records" call
-        private List<PlayerWorldRecords> worldRecordsData;
+        private List<PlayerWorldRecordDatum> worldRecordsData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
-        private readonly EFilter_PlayerType playerType;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
+        private readonly PlayerTypeEnum playerType;
         private readonly string playerValue;
-        private EFilter_PlayerWRsType wrsType;
+        private PlayerWorldRecordsTypeEnum wrsType;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> worldRecordsCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public PlayerWorldRecordsPage(string title, EFilter_Game game, EFilter_Mode mode, 
-            EFilter_PlayerType playerType, string playerValue, EFilter_PlayerWRsType wrsType)
+        public PlayerWorldRecordsPage(string title, GameEnum game, ModeEnum mode, 
+            PlayerTypeEnum playerType, string playerValue, PlayerWorldRecordsTypeEnum wrsType)
         {
             this.game = game;
             this.mode = mode;
@@ -60,31 +58,22 @@ namespace KSF_Surf.Views
 
             if (clearPrev) worldRecordsCollectionViewItemsSource.Clear();
             LayoutRecords();
-            WRTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(wrsType);
+            WRTypeOptionLabel.Text = "Type: " + EnumToString.NameString(wrsType);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
-            foreach (PlayerWorldRecords datum in worldRecordsData)
+            foreach (PlayerWorldRecordDatum datum in worldRecordsData)
             {
                 string mapZoneString = datum.mapName;
-                if (wrsType != EFilter_PlayerWRsType.wr)
-                {
-                    mapZoneString += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
-                }
+                if (wrsType != PlayerWorldRecordsTypeEnum.WR) mapZoneString += " " + StringFormatter.ZoneString(datum.zoneID, false, false);
 
-                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime) + " (";
-                if (datum.r2Diff is null)
-                {
-                    rrtimeString += "WR N/A";
-                }
-                else
-                {
-                    rrtimeString += "WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1));
-                }
-                rrtimeString += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                string rrtimeString = "in " + StringFormatter.RankTimeString(datum.surfTime) + " (";
+                if (datum.r2Diff is null) rrtimeString += "WR N/A";
+                else rrtimeString += "WR-" + StringFormatter.RankTimeString(datum.r2Diff.Substring(1));
+                rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 worldRecordsCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapZoneString, rrtimeString, datum.mapName));
@@ -92,10 +81,8 @@ namespace KSF_Surf.Views
                 list_index++;
             }
 
-            if (list_index == 1) // no world records
-            {
-                WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
-            }
+            // no world records
+            if (list_index == 1) WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
         }
 
         #endregion
@@ -117,8 +104,8 @@ namespace KSF_Surf.Views
         private async void WRTypeOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
-            string currentTypeString = EFilter_ToString.toString2(wrsType);
-            foreach (string type in EFilter_ToString.wrtype_arr2)
+            string currentTypeString = EnumToString.NameString(wrsType);
+            foreach (string type in EnumToString.WorldRecordsTypeNames)
             {
                 if (type != currentTypeString)
                 {
@@ -129,9 +116,9 @@ namespace KSF_Surf.Views
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
             switch (newTypeString)
             {
-                case "WRCP": wrsType = EFilter_PlayerWRsType.wrcp; break;
-                case "WRB": wrsType = EFilter_PlayerWRsType.wrb; break;
-                case "WR": wrsType = EFilter_PlayerWRsType.wr; break;
+                case "WRCP": wrsType = PlayerWorldRecordsTypeEnum.WRCP; break;
+                case "WRB": wrsType = PlayerWorldRecordsTypeEnum.WRB; break;
+                case "WR": wrsType = PlayerWorldRecordsTypeEnum.WR; break;
                 default: return;
             }
 
@@ -148,7 +135,7 @@ namespace KSF_Surf.Views
 
         private async void WorldRecords_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % PlayerViewModel.WORLD_RECORDS_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= PlayerViewModel.WORLD_RECORDS_CLIMIT) return; // at call limit
 
@@ -171,14 +158,11 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

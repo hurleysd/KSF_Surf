@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-
 using Xamarin.Essentials;
 using Xamarin.Forms;
-
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
@@ -12,11 +10,11 @@ namespace KSF_Surf.Views
     [DesignTimeVisible(false)]
     public partial class SettingsPage : ContentPage
     {
-        private readonly PlayerViewModel playerViewModel = new PlayerViewModel();
+        private readonly PlayerViewModel playerViewModel;
 
         // variables for filters
-        private EFilter_Game game = EFilter_Game.none;
-        private EFilter_Mode mode = EFilter_Mode.none;
+        private GameEnum game = GameEnum.NONE;
+        private ModeEnum mode = ModeEnum.NONE;
         private string playerSteamID;
 
         // colors
@@ -26,11 +24,13 @@ namespace KSF_Surf.Views
 
         public SettingsPage()
         {
+            playerViewModel = new PlayerViewModel();
+
             InitializeComponent();
 
-            EFilter_Game currentGame = BaseViewModel.propertiesDict_getGame();
-            EFilter_Mode currentMode = BaseViewModel.propertiesDict_getMode();
-            playerSteamID = BaseViewModel.propertiesDict_getSteamID();
+            GameEnum currentGame = PropertiesDict.GetGame();
+            ModeEnum currentMode = PropertiesDict.GetMode();
+            playerSteamID = PropertiesDict.GetSteamID();
 
             ChangeGameFilter(currentGame);
             ChangeModeFilter(currentMode);
@@ -40,47 +40,47 @@ namespace KSF_Surf.Views
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-        private void ChangeGameFilter(EFilter_Game newGame)
+        private void ChangeGameFilter(GameEnum newGame)
         {
             if (game == newGame) return;
 
             switch (game)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = untappedTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = untappedTextColor; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSS: GameCSSLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSS100T: GameCSS100TLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSGO: GameCSGOLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newGame)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.csgo:GameCSGOLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSS: GameCSSLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSS100T: GameCSS100TLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSGO:GameCSGOLabel.TextColor = tappedTextColor; break;
             }
 
             game = newGame;
         }
 
-        private void ChangeModeFilter(EFilter_Mode newMode)
+        private void ChangeModeFilter(ModeEnum newMode)
         {
-            if(mode == newMode) return;           
+            if (mode == newMode) return;           
 
             switch (mode)
             {
-                case EFilter_Mode.fw: ModeFWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.hsw: ModeHSWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.sw: ModeSWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.bw: ModeBWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.FW: ModeFWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.HSW: ModeHSWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.SW: ModeSWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.BW: ModeBWLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newMode)
             {
-                case EFilter_Mode.fw: ModeFWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.hsw: ModeHSWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.sw: ModeSWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.bw: ModeBWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.FW: ModeFWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.HSW: ModeHSWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.SW: ModeSWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.BW: ModeBWLabel.TextColor = tappedTextColor; break;
                 default: break;
             }
 
@@ -93,7 +93,7 @@ namespace KSF_Surf.Views
 
         private async void Apply_Clicked(object sender, EventArgs e)
         {
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 if (playerSteamID != SteamIdEntry.Text)
                 {
@@ -106,48 +106,41 @@ namespace KSF_Surf.Views
                     }
                 }
 
-                App.Current.Properties["steamid"] = SteamIdEntry.Text;
-                App.Current.Properties["game"] = EFilter_ToString.toString(game);
-                App.Current.Properties["mode"] = EFilter_ToString.toString(mode);
-                await App.Current.SavePropertiesAsync();
-
+                await PropertiesDict.SetAll(SteamIdEntry.Text, game, mode);
                 await Navigation.PopAsync();
             }
-            else
-            {
-                await DisplayAlert("Could not connect to Steam!", "Please connect to the Internet.", "OK");
-            }
-            
+            else await DisplayAlert("Could not connect to Steam!", "Please connect to the Internet.", "OK"); 
         }
 
-        private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css);
-        private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css100t);
-        private void CSGOGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.csgo);
+        private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS);
+        private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS100T);
+        private void CSGOGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSGO);
 
-        private void FWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.fw);
-        private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.hsw);
-        private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.sw);
-        private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.bw);
+        private void FWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.FW);
+        private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.HSW);
+        private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.SW);
+        private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.BW);
 
         private async void Info_Tapped(object sender, EventArgs e)
         {
             InfoButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
+
             await Navigation.PushAsync(new InfoPage());
+
             InfoButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void Donate_Tapped(object sender, EventArgs e)
         {
             DonateButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 Uri link = new Uri("https://paypal.me/ksfmobiledev");
                 if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
             }
-            else
-            {
-                await DisplayAlert("Could not open web page", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not open web page", "Please connect to the Internet.", "OK");
+
             DonateButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
     }

@@ -2,9 +2,7 @@
 using System.ComponentModel;
 using System;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -17,22 +15,22 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // object used by "Info" call
-        private SteamProfile playerSteamProfile;
+        private SteamProfileDatum playerSteamProfile;
         private PlayerInfoDatum playerInfoData;
 
         // variables for current filters
-        private EFilter_Game game = EFilter_Game.none;
-        private readonly EFilter_Game defaultGame = BaseViewModel.propertiesDict_getGame();
+        private GameEnum game = GameEnum.NONE;
+        private readonly GameEnum defaultGame = PropertiesDict.GetGame();
 
-        private EFilter_Mode mode = EFilter_Mode.none;
-        private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
+        private ModeEnum mode = ModeEnum.NONE;
+        private readonly ModeEnum defaultMode = PropertiesDict.GetMode();
 
-        private string meSteamID = BaseViewModel.propertiesDict_getSteamID();
-        private EFilter_PlayerType playerType = EFilter_PlayerType.none;
+        private string meSteamID = PropertiesDict.GetSteamID();
+        private PlayerTypeEnum playerType = PlayerTypeEnum.NONE;
         private string playerValue = "";
         private string playerSteamID;
         private string playerRank;
-        private EFilter_PlayerWRsType wrsType;
+        private PlayerWorldRecordsTypeEnum wrsType;
         private bool hasTop;
 
         // date of last refresh
@@ -48,25 +46,17 @@ namespace KSF_Surf.Views
             {
                 if (hasLoaded)
                 {
-                    if (BaseViewModel.hasConnection())
+                    if (BaseViewModel.HasConnection())
                     {
                         TimeSpan sinceRefresh = DateTime.Now - lastRefresh;
-                        bool tooSoon = sinceRefresh.TotalSeconds < 10;
-
-                        if (tooSoon)
-                        {
-                            await Task.Delay(500); // 0.5 seconds
-                        }
+                        if (sinceRefresh.TotalSeconds < 10) await Task.Delay(500); // 0.5 seconds
                         else
                         {
                             await ChangePlayerInfo(game, mode, playerType, playerValue);
                             lastRefresh = DateTime.Now;
                         }
                     }
-                    else
-                    {
-                        await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
-                    }
+                    else await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
                 }
 
                 PlayerRefreshView.IsRefreshing = false;
@@ -76,7 +66,7 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangePlayerInfo(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        private async Task ChangePlayerInfo(GameEnum newGame, ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
             var playerInfoDatum = await playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
             playerInfoData = playerInfoDatum?.data;
@@ -94,16 +84,13 @@ namespace KSF_Surf.Views
             playerRank = playerInfoData.SurfRank;
 
             string playerName = playerInfoData.basicInfo.name;
-            if (playerName.Length > 18)
-            {
-                playerName = playerName.Substring(0, 13) + "...";
-            }
-            Title = playerName + " [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            if (playerName.Length > 18) playerName = playerName.Substring(0, 13) + "...";
+            Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
 
             var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
 
-            wrsType = EFilter_PlayerWRsType.none;
+            wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();
             LayoutPlayerProfile();
         }
@@ -117,52 +104,39 @@ namespace KSF_Surf.Views
             else PlayerImage.Source = playerSteamProfile.avatarfull;
 
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
-            PlayerCountryLabel.Text = String_Formatter.toEmoji_Country(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
+            PlayerCountryLabel.Text = StringFormatter.CountryEmoji(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 
             List<string> attributes = new List<string>();
-            if (!(playerInfoData.banStatus is bool))
-            {
-                attributes.Add("BANNED");
-            }
-            if (playerInfoData.KSFStatus != null)
-            {
-                attributes.Add("KSF");
-            }
-            if (playerInfoData.vipStatus != null)
-            {
-                attributes.Add("VIP");
-            }
-            if (playerInfoData.adminStatus != null)
-            {
-                attributes.Add("Admin");
-            }
-            if (playerInfoData.mapperID != null)
-            {
-                attributes.Add("Mapper");
-            }
+            if (playerInfoData.banStatus) attributes.Add("BANNED");
+            if (playerInfoData.muteStatus) attributes.Add("MUTED");
+            if (playerInfoData.KSFStatus != null) attributes.Add("KSF");
+            if (playerInfoData.vipStatus != null) attributes.Add("VIP");
+            if (playerInfoData.adminStatus != null) attributes.Add("Admin");
+            if (playerInfoData.mapperID != null) attributes.Add("Mapper");
             PlayerAttributesLabel.Text = string.Join(" | ", attributes);
 
-            string rankTitle = EFilter_ToString.getRankTitle(playerInfoData.SurfRank, playerInfoData.playerPoints.points);
+            string rankTitle = StringFormatter.RankTitleString(playerInfoData.SurfRank, playerInfoData.playerPoints.points);
             Color rankColor = new Color();
             switch (rankTitle)
             {
-                case "MASTER": rankColor = EFilter_ToString.rankColors[0]; break;
-                case "ELITE": rankColor = EFilter_ToString.rankColors[1]; break;
-                case "VETERAN": rankColor = EFilter_ToString.rankColors[2]; break;
-                case "PRO": rankColor = EFilter_ToString.rankColors[3]; break;
-                case "EXPERT": rankColor = EFilter_ToString.rankColors[4]; break;
-                case "HOTSHOT": rankColor = EFilter_ToString.rankColors[5]; break;
-                case "EXCEPTIONAL": rankColor = EFilter_ToString.rankColors[6]; break;
-                case "SEASONED": rankColor = EFilter_ToString.rankColors[7]; break;
-                case "EXPERIENCED": rankColor = EFilter_ToString.rankColors[8]; break;
-                case "ACCOMPLISHED": rankColor = EFilter_ToString.rankColors[9]; break;
-                case "ADEPT": rankColor = EFilter_ToString.rankColors[10]; break;
-                case "PROFICIENT": rankColor = EFilter_ToString.rankColors[11]; break;
-                case "SKILLED": rankColor = EFilter_ToString.rankColors[12]; break;
-                case "CASUAL": rankColor = EFilter_ToString.rankColors[13]; break;
-                case "BEGINNER": rankColor = EFilter_ToString.rankColors[14]; break;
-                case "ROOKIE": rankColor = EFilter_ToString.rankColors[15]; break;
+                case "MASTER": rankColor = StringFormatter.RankColors[0]; break;
+                case "ELITE": rankColor = StringFormatter.RankColors[1]; break;
+                case "VETERAN": rankColor = StringFormatter.RankColors[2]; break;
+                case "PRO": rankColor = StringFormatter.RankColors[3]; break;
+                case "EXPERT": rankColor = StringFormatter.RankColors[4]; break;
+                case "HOTSHOT": rankColor = StringFormatter.RankColors[5]; break;
+                case "EXCEPTIONAL": rankColor = StringFormatter.RankColors[6]; break;
+                case "SEASONED": rankColor = StringFormatter.RankColors[7]; break;
+                case "EXPERIENCED": rankColor = StringFormatter.RankColors[8]; break;
+                case "ACCOMPLISHED": rankColor = StringFormatter.RankColors[9]; break;
+                case "ADEPT": rankColor = StringFormatter.RankColors[10]; break;
+                case "PROFICIENT": rankColor = StringFormatter.RankColors[11]; break;
+                case "SKILLED": rankColor = StringFormatter.RankColors[12]; break;
+                case "CASUAL": rankColor = StringFormatter.RankColors[13]; break;
+                case "BEGINNER": rankColor = StringFormatter.RankColors[14]; break;
+                case "ROOKIE": rankColor = StringFormatter.RankColors[15]; break;
             }
+
             RankTitleLabel.Text = rankTitle;
             RankTitleLabel.TextColor = rankColor;
             PlayerImageFrame.BackgroundColor = rankColor;
@@ -171,46 +145,36 @@ namespace KSF_Surf.Views
         private void LayoutPlayerInfo()
         {
             // Info -----------------------------------------------------------
-            RankLabel.Text = String_Formatter.toString_Int(playerInfoData.SurfRank);
-            PointsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.points);
+            RankLabel.Text = StringFormatter.IntString(playerInfoData.SurfRank);
+            PointsLabel.Text = StringFormatter.PointsString(playerInfoData.playerPoints.points);
             CompletionLabel.Text = playerInfoData.percentCompletion + "%";
             
             WRsLabel.Text = playerInfoData.WRZones.wr;
-            WRCPsLabel.Text = String_Formatter.toString_Int(playerInfoData.WRZones.wrcp);
-            WRBsLabel.Text = String_Formatter.toString_Points(playerInfoData.WRZones.wrb);
+            WRCPsLabel.Text = StringFormatter.IntString(playerInfoData.WRZones.wrcp);
+            WRBsLabel.Text = StringFormatter.PointsString(playerInfoData.WRZones.wrb);
 
-            if (int.Parse(playerInfoData.WRZones.wr) > 0)
-            {
-                wrsType = EFilter_PlayerWRsType.wr;
-            }
-            else if (int.Parse(playerInfoData.WRZones.wrcp) > 0)
-            {
-                wrsType = EFilter_PlayerWRsType.wrcp;
-            }
-            else if (int.Parse(playerInfoData.WRZones.wrb) > 0)
-            {
-                wrsType = EFilter_PlayerWRsType.wrb;
-            }
-            WRsFrame.IsVisible = (wrsType != EFilter_PlayerWRsType.none);
+            if (int.Parse(playerInfoData.WRZones.wr) > 0) wrsType = PlayerWorldRecordsTypeEnum.WR;
+            else if (int.Parse(playerInfoData.WRZones.wrcp) > 0) wrsType = PlayerWorldRecordsTypeEnum.WRCP;
+            else if (int.Parse(playerInfoData.WRZones.wrb) > 0) wrsType = PlayerWorldRecordsTypeEnum.WRB;
+            WRsFrame.IsVisible = (wrsType != PlayerWorldRecordsTypeEnum.NONE);
 
-            FirstOnlineLabel.Text = String_Formatter.toString_KSFDate(playerInfoData.basicInfo.firstOnline);
-            LastSeenLabel.Text = String_Formatter.toString_LastOnline(playerInfoData.basicInfo.lastOnline);
+            FirstOnlineLabel.Text = StringFormatter.KSFDateString(playerInfoData.basicInfo.firstOnline);
+            LastSeenLabel.Text = StringFormatter.LastOnlineString(playerInfoData.basicInfo.lastOnline);
 
-
-            SurfTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.aliveTime, true);
-            SpecTimeLabel.Text = String_Formatter.toString_PlayTime(playerInfoData.basicInfo.deadTime, true);
+            SurfTimeLabel.Text = StringFormatter.PlayTimeString(playerInfoData.basicInfo.aliveTime, true);
+            SpecTimeLabel.Text = StringFormatter.PlayTimeString(playerInfoData.basicInfo.deadTime, true);
 
             // Completion -----------------------------------------------------
             MapsValueLabel.Text = playerInfoData.CompletedZones.map + "/" + playerInfoData.TotalZones.TotalMaps;
-            MapsValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.map, playerInfoData.TotalZones.TotalMaps) + ")";
+            MapsValueLabel.Text += " (" + StringFormatter.CompletionPercentString(playerInfoData.CompletedZones.map, playerInfoData.TotalZones.TotalMaps) + ")";
 
-            StagesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.stage) 
-                + "/" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalStages);
-            StagesValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.stage, playerInfoData.TotalZones.TotalStages) + ")";
+            StagesValueLabel.Text = StringFormatter.PointsString(playerInfoData.CompletedZones.stage) 
+                + "/" + StringFormatter.PointsString(playerInfoData.TotalZones.TotalStages);
+            StagesValueLabel.Text += " (" + StringFormatter.CompletionPercentString(playerInfoData.CompletedZones.stage, playerInfoData.TotalZones.TotalStages) + ")";
 
-            BonusesValueLabel.Text = String_Formatter.toString_Points(playerInfoData.CompletedZones.bonus) 
-                + "/" + String_Formatter.toString_Points(playerInfoData.TotalZones.TotalBonuses);
-            BonusesValueLabel.Text += " (" + String_Formatter.toString_CompletionPercent(playerInfoData.CompletedZones.bonus, playerInfoData.TotalZones.TotalBonuses) + ")";
+            BonusesValueLabel.Text = StringFormatter.PointsString(playerInfoData.CompletedZones.bonus) 
+                + "/" + StringFormatter.PointsString(playerInfoData.TotalZones.TotalBonuses);
+            BonusesValueLabel.Text += " (" + StringFormatter.CompletionPercentString(playerInfoData.CompletedZones.bonus, playerInfoData.TotalZones.TotalBonuses) + ")";
 
             // Groups ---------------------------------------------------------
             Top10sLabel.Text = playerInfoData.Top10Groups.top10;
@@ -370,23 +334,23 @@ namespace KSF_Surf.Views
             GroupsLabel.Text = playerInfoData.Top10Groups.groups;
 
             // Points Stack ------------------------------------------------------
-            Top10PtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.top10);
-            GroupsPtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.groups);
-            MapsPtsLabel.Text = String_Formatter.toString_Points(playerInfoData.playerPoints.map);
+            Top10PtsLabel.Text = StringFormatter.PointsString(playerInfoData.playerPoints.top10);
+            GroupsPtsLabel.Text = StringFormatter.PointsString(playerInfoData.playerPoints.groups);
+            MapsPtsLabel.Text = StringFormatter.PointsString(playerInfoData.playerPoints.map);
 
             string wrcpPoints = "";
             if (playerInfoData.playerPoints.wrcp != "0")
             {
-                wrcpPoints = "[+" + String_Formatter.toString_Points(playerInfoData.playerPoints.wrcp) + "] ";
+                wrcpPoints = "[+" + StringFormatter.PointsString(playerInfoData.playerPoints.wrcp) + "] ";
             }
-            StagesPtsLabel.Text = wrcpPoints + String_Formatter.toString_Points(playerInfoData.playerPoints.stage);
+            StagesPtsLabel.Text = wrcpPoints + StringFormatter.PointsString(playerInfoData.playerPoints.stage);
 
             string wrbPoints = "";
             if (playerInfoData.playerPoints.wrb != "0")
             {
-                wrbPoints = "[+" + String_Formatter.toString_Points(playerInfoData.playerPoints.wrb) + "] ";
+                wrbPoints = "[+" + StringFormatter.PointsString(playerInfoData.playerPoints.wrb) + "] ";
             }
-            BonusesPtsLabel.Text = wrbPoints + String_Formatter.toString_Points(playerInfoData.playerPoints.bonus);
+            BonusesPtsLabel.Text = wrbPoints + StringFormatter.PointsString(playerInfoData.playerPoints.bonus);
         }
 
 
@@ -400,8 +364,8 @@ namespace KSF_Surf.Views
             {
                 hasLoaded = true;
 
-                meSteamID = BaseViewModel.propertiesDict_getSteamID(); // get the player steam ID again in case they set it for the first time
-                await ChangePlayerInfo(defaultGame, defaultMode, EFilter_PlayerType.me, meSteamID);
+                meSteamID = PropertiesDict.GetSteamID(); // get the player steam ID again in case they set it for the first time
+                await ChangePlayerInfo(defaultGame, defaultMode, PlayerTypeEnum.ME, meSteamID);
 
                 LoadingAnimation.IsRunning = false;
                 PlayerPageScrollView.IsVisible = true;
@@ -410,130 +374,118 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerFilterPage(ApplyFilters,
                     game, mode, playerType, playerSteamID, playerRank,
                     defaultGame, defaultMode, meSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 LoadingAnimation.IsRunning = true;
                 await ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
                 LoadingAnimation.IsRunning = false;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             await PlayerPageScrollView.ScrollToAsync(0, 0, true);
         }
 
         private async void RecentRecordsSet_Tapped(object sender, EventArgs e)
         {
             RecentRecordsSetButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerRecentSetRecordsPage(Title, game, mode, playerType, playerValue));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             RecentRecordsSetButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void RecentRecordsBroken_Tapped(object sender, EventArgs e)
         {
             RecentRecordsBrokenButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerRecentBrokenRecordsPage(Title, game, mode, playerType, playerValue));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             RecentRecordsBrokenButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void OldestRecords_Tapped(object sender, EventArgs e)
         {
             OldestRecordsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerOldestRecordsPage(Title, game, mode, playerType, playerValue, wrsType, hasTop));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void WorldRecords_Tapped(object sender, EventArgs e)
         {
             WRsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerWorldRecordsPage(Title, game, mode, playerType, playerValue, wrsType));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             WRsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void TierCompletion_Tapped(object sender, EventArgs e)
         {
             TierCompletionButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new PlayerCompletionPage(Title, game, mode, playerType, playerValue));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             TierCompletionButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void CompleteMaps_Tapped(object sender, EventArgs e)
         {
             CompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, EFilter_PlayerCompletionType.complete, 
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, PlayerCompletionTypeEnum.COMPLETE, 
                     playerType, playerValue));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             CompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void IncompleteMaps_Tapped(object sender, EventArgs e)
         {
             IncompleteMapsButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, EFilter_PlayerCompletionType.incomplete,
+                await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, PlayerCompletionTypeEnum.INCOMPLETE,
                     playerType, playerValue));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             IncompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 

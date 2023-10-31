@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -23,9 +21,9 @@ namespace KSF_Surf.Views
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game game;
+        private readonly GameEnum game;
         private readonly string map;
-        private EFilter_Mode currentMode;
+        private ModeEnum currentMode;
 
         private int currentZone;
         private string currentZoneString;
@@ -38,11 +36,11 @@ namespace KSF_Surf.Views
         public ObservableCollection<Tuple<string, string, string>> mapsMapTopCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public MapsMapTopPage(string title, EFilter_Game game, string map, int stageCount, int bonusCount, List<string> zonePickerList)
+        public MapsMapTopPage(string title, GameEnum game, string map, int stageCount, int bonusCount, List<string> zonePickerList)
         {
             this.game = game;
             this.map = map;
-            currentMode = BaseViewModel.propertiesDict_getMode();
+            currentMode = PropertiesDict.GetMode();
 
             this.stageCount = stageCount;
             this.bonusCount = bonusCount;
@@ -56,14 +54,14 @@ namespace KSF_Surf.Views
             Title = title;
             ZonePicker.ItemsSource = zonePickerList;
             MapsMapTopCollectionView.ItemsSource = mapsMapTopCollectionViewItemsSource;
-            StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
+            StyleOptionLabel.Text = "Style: " + EnumToString.NameString(currentMode);
             ZoneOptionLabel.Text = "Zone: " + currentZoneString;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeRecords(EFilter_Mode mode, int zone)
+        private async Task ChangeRecords(ModeEnum mode, int zone)
         {
             int temp_list_index = list_index;
             if (mode != currentMode || zone != currentZone) temp_list_index = 1;
@@ -72,7 +70,7 @@ namespace KSF_Surf.Views
             topData = topDatum?.data;
             if (topData is null)
             {
-                await DisplayAlert("No " + EFilter_ToString.toString(mode) + " zone completions.", "Be the first!", "OK");
+                await DisplayAlert("No " + EnumToString.NameString(mode) + " zone completions.", "Be the first!", "OK");
                 return;
             };
 
@@ -82,7 +80,7 @@ namespace KSF_Surf.Views
 
             if (temp_list_index == 1) mapsMapTopCollectionViewItemsSource.Clear();
             LayoutTop();
-            StyleOptionLabel.Text = "Style: " + EFilter_ToString.toString(currentMode);
+            StyleOptionLabel.Text = "Style: " + EnumToString.NameString(currentMode);
             ZoneOptionLabel.Text = "Zone: " + currentZoneString;
         }
 
@@ -92,18 +90,12 @@ namespace KSF_Surf.Views
         {
             foreach (TopDatum datum in topData)
             {
-                string playerString = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name;
-                string timeString = "in " + String_Formatter.toString_RankTime(datum.time);
-                string dateString = " (" + String_Formatter.toString_KSFDate(datum.date) + ")";
+                string playerString = list_index + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.name;
+                string timeString = "in " + StringFormatter.RankTimeString(datum.time);
+                string dateString = " (" + StringFormatter.KSFDateString(datum.date) + ")";
 
-                if (list_index != 1)
-                {
-                    timeString += " (+" + String_Formatter.toString_RankTime(datum.wrDiff) + ")";
-                }
-                else
-                {
-                    timeString += " (WR)";
-                }
+                if (list_index != 1) timeString += " (+" + StringFormatter.RankTimeString(datum.wrDiff) + ")";
+                else timeString += " (WR)";
 
                 mapsMapTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     playerString, timeString + dateString, datum.steamID));
@@ -131,8 +123,8 @@ namespace KSF_Surf.Views
         private async void StyleOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> modes = new List<string>();
-            string currentModeString = EFilter_ToString.toString(currentMode);
-            foreach (string mode in EFilter_ToString.modes_arr)
+            string currentModeString = EnumToString.NameString(currentMode);
+            foreach (string mode in EnumToString.ModeNames)
             {
                 if (mode != currentModeString)
                 {
@@ -141,13 +133,13 @@ namespace KSF_Surf.Views
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-            EFilter_Mode newMode = EFilter_Mode.none;
+            ModeEnum newMode = ModeEnum.NONE;
             switch (newStyle)
             {
-                case "HSW": newMode = EFilter_Mode.hsw; break;
-                case "SW": newMode = EFilter_Mode.sw; break;
-                case "BW": newMode = EFilter_Mode.bw; break;
-                case "FW": newMode = EFilter_Mode.fw; break;
+                case "HSW": newMode = ModeEnum.HSW; break;
+                case "SW": newMode = ModeEnum.SW; break;
+                case "BW": newMode = ModeEnum.BW; break;
+                case "FW": newMode = ModeEnum.FW; break;
                 default: return;
             }
 
@@ -197,7 +189,7 @@ namespace KSF_Surf.Views
 
         private async void MapsMapTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % MapsViewModel.TOP_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= MapsViewModel.TOP_CLIMIT) return; // at call limit
 
@@ -220,14 +212,11 @@ namespace KSF_Surf.Views
 
             string playerSteamId = selectedPlayer.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsPlayerPage(game, currentMode, playerSteamId));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -19,42 +17,41 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects possibly used by "Most By Type" calls
-        private List<MostPCDatum> mostPCData;
+        private List<MostPercentCompletionDatum> mostPCData;
         private List<MostCountDatum> mostCountData;
         private List<MostTopDatum> mostTopData;
         private List<MostGroupDatum> mostGroupData;
-        private List<MostContWrDatum> mostContWrData;
-        private List<MostContZoneDatum> mostContZoneData;
+        private List<MostContestedWorldRecordDatum> mostContWrData;
+        private List<MostContestedZoneDatum> mostContZoneData;
         private List<MostTimeDatum> mostTimeData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game defaultGame;
-        private readonly EFilter_Mode defaultMode;
-        private EFilter_Game game;
-        private EFilter_Mode mode;
-        private EFilter_MostType mostType;
+        private readonly GameEnum defaultGame;
+        private readonly ModeEnum defaultMode;
+        private GameEnum game;
+        private ModeEnum mode;
+        private MostTypeEnum mostType;
         private string mostTypeString;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> recordsMostCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-
-        public RecordsMostPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsMostPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.game = game;
             this.mode = mode;
             this.defaultGame = defaultGame;
             this.defaultMode = defaultMode;
-            mostType = EFilter_MostType.wr;
+            mostType = MostTypeEnum.WR;
             mostTypeString = "Current WRs";
 
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
-            MostTypePicker.ItemsSource = EFilter_ToString.mosttype_arr;
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            MostTypePicker.ItemsSource = EnumToString.MostTypeNames;
             RecordsMostCollectionView.ItemsSource = recordsMostCollectionViewItemsSource;
         }
 
@@ -69,26 +66,26 @@ namespace KSF_Surf.Views
 
             switch (mostType)
             {
-                case EFilter_MostType.pc:
+                case MostTypeEnum.PC:
                     {
                         var mostPCDatum = await recordsViewModel.GetMostPC(game, mode, list_index);
                         mostPCData = mostPCDatum?.data;
                         if (mostPCData is null || mostPCData.Count < 1) return;
 
-                        foreach (MostPCDatum datum in mostPCData)
+                        foreach (MostPercentCompletionDatum datum in mostPCData)
                         {
-                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
+                            players.Add(StringFormatter.CountryEmoji(datum.country) + " " + datum.name);
                             values.Add((double.Parse(datum.percentCompletion) * 100).ToString("0.00") + "%");
                             links.Add(datum.steamID);
                         }
                         break;
                     }
-                case EFilter_MostType.wr:
-                case EFilter_MostType.wrcp:
-                case EFilter_MostType.wrb:
-                case EFilter_MostType.mostwr:
-                case EFilter_MostType.mostwrcp:
-                case EFilter_MostType.mostwrb:
+                case MostTypeEnum.WR:
+                case MostTypeEnum.WRCP:
+                case MostTypeEnum.WRB:
+                case MostTypeEnum.MOST_WR:
+                case MostTypeEnum.MOST_WRCP:
+                case MostTypeEnum.MOST_WRB:
                     {
                         var mostCountDatum = await recordsViewModel.GetMostCount(game, mostType, mode, list_index);
                         mostCountData = mostCountDatum?.data;
@@ -96,13 +93,13 @@ namespace KSF_Surf.Views
 
                         foreach (MostCountDatum datum in mostCountData)
                         {
-                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
-                            values.Add(String_Formatter.toString_Int(datum.total));
+                            players.Add(StringFormatter.CountryEmoji(datum.country) + " " + datum.name);
+                            values.Add(StringFormatter.IntString(datum.total));
                             links.Add(datum.steamID);
                         }
                         break;
                     }
-                case EFilter_MostType.top10:
+                case MostTypeEnum.TOP10:
                     {
                         var mostTopDatum = await recordsViewModel.GetMostTop(game, mode, list_index);
                         mostTopData = mostTopDatum?.data;
@@ -110,13 +107,13 @@ namespace KSF_Surf.Views
 
                         foreach (MostTopDatum datum in mostTopData)
                         {
-                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
-                            values.Add(String_Formatter.toString_Points(datum.top10Points));
+                            players.Add(StringFormatter.CountryEmoji(datum.country) + " " + datum.name);
+                            values.Add(StringFormatter.PointsString(datum.top10Points));
                             links.Add(datum.steamID);
                         }
                         break;
                     }
-                case EFilter_MostType.group:
+                case MostTypeEnum.GROUP:
                     {
                         var mostGroupDatum = await recordsViewModel.GetMostGroup(game, mode, list_index);
                         mostGroupData = mostGroupDatum?.data;
@@ -124,45 +121,45 @@ namespace KSF_Surf.Views
 
                         foreach (MostGroupDatum datum in mostGroupData)
                         {
-                            players.Add(String_Formatter.toEmoji_Country(datum.country) + " " + datum.name);
-                            values.Add(String_Formatter.toString_Points(datum.groupPoints));
+                            players.Add(StringFormatter.CountryEmoji(datum.country) + " " + datum.name);
+                            values.Add(StringFormatter.PointsString(datum.groupPoints));
                             links.Add(datum.steamID);
                         }
                         break;
                     }
-                case EFilter_MostType.mostcontestedwr:
+                case MostTypeEnum.MOST_CONTESTED_WR:
                     {
                         var mostContWrDatum = await recordsViewModel.GetMostContWr(game, mode, list_index);
                         mostContWrData = mostContWrDatum?.data;
                         if (mostContWrData is null || mostContWrData.Count < 1) return;
 
-                        foreach (MostContWrDatum datum in mostContWrData)
+                        foreach (MostContestedWorldRecordDatum datum in mostContWrData)
                         {
                             players.Add(datum.mapName);
-                            values.Add(String_Formatter.toString_Int(datum.total));
+                            values.Add(StringFormatter.IntString(datum.total));
                             links.Add(datum.mapName);
                         }
                         break;
                     }
-                case EFilter_MostType.mostcontestedwrcp:
-                case EFilter_MostType.mostcontestedwrb:
+                case MostTypeEnum.MOST_CONTESTED_WRCP:
+                case MostTypeEnum.MOST_CONTESTED_WRB:
                     {
                         var mostContZoneDatum = await recordsViewModel.GetMostContZone(game, mostType, mode, list_index);
                         mostContZoneData = mostContZoneDatum?.data;
                         if (mostContZoneData is null || mostContZoneData.Count < 1) return;
 
-                        foreach (MostContZoneDatum datum in mostContZoneData)
+                        foreach (MostContestedZoneDatum datum in mostContZoneData)
                         {
-                            string zoneString = EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
+                            string zoneString = StringFormatter.ZoneString(datum.zoneID, false, false);
                             players.Add(datum.mapName + " " + zoneString);
-                            values.Add(String_Formatter.toString_Int(datum.total));
+                            values.Add(StringFormatter.IntString(datum.total));
                             links.Add(datum.mapName);
                         }
                         break;
                     }
-                case EFilter_MostType.playtimeday:
-                case EFilter_MostType.playtimeweek:
-                case EFilter_MostType.playtimemonth:
+                case MostTypeEnum.PLAYTIME_DAY:
+                case MostTypeEnum.PLAYTIME_WEEK:
+                case MostTypeEnum.PLAYTIME_MONTH:
                     {
                         var mostTimeDatum = await recordsViewModel.GetMostTime(game, mostType, mode, list_index);
                         mostTimeData = mostTimeDatum?.data;
@@ -171,7 +168,7 @@ namespace KSF_Surf.Views
                         foreach (MostTimeDatum datum in mostTimeData)
                         {
                             players.Add(datum.mapName);
-                            values.Add(String_Formatter.toString_PlayTime(datum.totalplaytime.ToString(), true));
+                            values.Add(StringFormatter.PlayTimeString(datum.totalplaytime.ToString(), true));
                             links.Add(datum.mapName);
                         }
                         break;
@@ -181,8 +178,8 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsMostCollectionViewItemsSource.Clear();
             LayoutMostByType(players, values, links);
-            MostTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(mostType);
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            MostTypeOptionLabel.Text = "Type: " + EnumToString.NameString(mostType);
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
@@ -224,21 +221,21 @@ namespace KSF_Surf.Views
 
             switch (selected)
             {
-                case "Completion": mostType = EFilter_MostType.pc; break;
-                case "Current WRs": mostType = EFilter_MostType.wr; break;
-                case "Current WRCPs": mostType = EFilter_MostType.wrcp; break;
-                case "Current WRBs": mostType = EFilter_MostType.wrb; break;
-                case "Top10 Points": mostType = EFilter_MostType.top10; break;
-                case "Group Points": mostType = EFilter_MostType.group; break;
-                case "Broken WRs": mostType = EFilter_MostType.mostwr; break;
-                case "Broken WRCPs": mostType = EFilter_MostType.mostwrcp; break;
-                case "Broken WRBs": mostType = EFilter_MostType.mostwrb; break;
-                case "Contested WR": mostType = EFilter_MostType.mostcontestedwr; break;
-                case "Contested WRCP": mostType = EFilter_MostType.mostcontestedwrcp; break;
-                case "Contested WRB": mostType = EFilter_MostType.mostcontestedwrb; break;
-                case "Play Time Day": mostType = EFilter_MostType.playtimeday; break;
-                case "Play Time Week": mostType = EFilter_MostType.playtimeweek; break;
-                case "Play Time Month": mostType = EFilter_MostType.playtimemonth; break;
+                case "Completion": mostType = MostTypeEnum.PC; break;
+                case "Current WRs": mostType = MostTypeEnum.WR; break;
+                case "Current WRCPs": mostType = MostTypeEnum.WRCP; break;
+                case "Current WRBs": mostType = MostTypeEnum.WRB; break;
+                case "Top10 Points": mostType = MostTypeEnum.TOP10; break;
+                case "Group Points": mostType = MostTypeEnum.GROUP; break;
+                case "Broken WRs": mostType = MostTypeEnum.MOST_WR; break;
+                case "Broken WRCPs": mostType = MostTypeEnum.MOST_WRCP; break;
+                case "Broken WRBs": mostType = MostTypeEnum.MOST_WRB; break;
+                case "Contested WR": mostType = MostTypeEnum.MOST_CONTESTED_WR; break;
+                case "Contested WRCP": mostType = MostTypeEnum.MOST_CONTESTED_WRCP; break;
+                case "Contested WRB": mostType = MostTypeEnum.MOST_CONTESTED_WRB; break;
+                case "Play Time Day": mostType = MostTypeEnum.PLAYTIME_DAY; break;
+                case "Play Time Week": mostType = MostTypeEnum.PLAYTIME_WEEK; break;
+                case "Play Time Month": mostType = MostTypeEnum.PLAYTIME_MONTH; break;
                 default: return;
             }
 
@@ -256,12 +253,12 @@ namespace KSF_Surf.Views
 
         private async void RecordsMost_ThresholdReached(object sender, EventArgs e)
         {
-            if (mostType == EFilter_MostType.playtimeday
-                || mostType == EFilter_MostType.playtimeweek
-                || mostType == EFilter_MostType.playtimemonth) return;
+            if (mostType == MostTypeEnum.PLAYTIME_DAY
+                || mostType == MostTypeEnum.PLAYTIME_WEEK
+                || mostType == MostTypeEnum.PLAYTIME_MONTH) return;
             // calling with these ^ types again leads to JSON deserialization errors 
 
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % RecordsViewModel.MOST_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= RecordsViewModel.MOST_CLIMIT) return; // at call limit
 
@@ -284,33 +281,27 @@ namespace KSF_Surf.Views
             string linkValue = selection.Item3;
             bool linkIsSteamId = linkValue.StartsWith("STEAM");
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 if (linkIsSteamId) await Navigation.PushAsync(new RecordsPlayerPage(game, mode, linkValue));
-                else  await Navigation.PushAsync(new MapsMapPage(linkValue, game));
+                else await Navigation.PushAsync(new MapsMapPage(linkValue, game));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
         {
             if (newGame == game && newMode == mode) return;
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 game = newGame;
                 mode = newMode;
@@ -324,10 +315,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = true;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async Task DisplayNoConnectionAlert()

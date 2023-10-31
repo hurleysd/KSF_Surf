@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -23,16 +21,16 @@ namespace KSF_Surf.Views
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game defaultGame;
-        private readonly EFilter_Mode defaultMode;
-        private EFilter_Game game;
-        private EFilter_Mode mode;
+        private readonly GameEnum defaultGame;
+        private readonly ModeEnum defaultMode;
+        private GameEnum game;
+        private ModeEnum mode;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> recordsTopCollectionViewItemsSource { get; } 
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public RecordsTopPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsTopPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.game = game;
             this.mode = mode;
@@ -42,7 +40,7 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
             RecordsTopCollectionView.ItemsSource = recordsTopCollectionViewItemsSource;
         }
 
@@ -57,7 +55,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsTopCollectionViewItemsSource.Clear();
             LayoutSurfTop();
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
@@ -66,8 +64,8 @@ namespace KSF_Surf.Views
         {
             foreach (SurfTopDatum datum in surfTopData)
             {
-                string nameString = list_index + ". " + String_Formatter.toEmoji_Country(datum.country) + " " + datum.name;
-                string pointsString = String_Formatter.toString_Points(datum.points);
+                string nameString = list_index + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.name;
+                string pointsString = StringFormatter.PointsString(datum.points);
 
                 recordsTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(nameString, pointsString, datum.steamID));
 
@@ -93,7 +91,7 @@ namespace KSF_Surf.Views
 
         private async void RecordsTop_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % RecordsViewModel.SURF_TOP_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= RecordsViewModel.SURF_TOP_CLIMIT) return; // at call limit
 
@@ -115,7 +113,7 @@ namespace KSF_Surf.Views
 
             string playerSteamId = selectedPlayer.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamId));
             }
@@ -127,7 +125,7 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
@@ -137,10 +135,10 @@ namespace KSF_Surf.Views
             }
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
         {
             if (newGame == game && newMode == mode) return;
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 game = newGame;
                 mode = newMode;

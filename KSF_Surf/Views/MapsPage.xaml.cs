@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
@@ -23,18 +21,18 @@ namespace KSF_Surf.Views
         private List<DetailedMapDatum> detailed_mapData;
 
         // search filter vars used in API call used to minimize new calls
-        private EFilter_Game currentGame = EFilter_Game.none;
-        private readonly EFilter_Game defaultGame;
-        private EFilter_Sort currentSort = EFilter_Sort.none;
+        private GameEnum currentGame = GameEnum.NONE;
+        private readonly GameEnum defaultGame;
+        private SortEnum currentSort = SortEnum.NONE;
         // other search filter vars
         private int currentMinTier = 1;
         private int currentMaxTier = 8;
-        private EFilter_MapType currentMapType = EFilter_MapType.any;
+        private MapTypeEnum currentMapType = MapTypeEnum.ANY;
 
         public MapsPage()
         {
             mapsViewModel = new MapsViewModel();
-            defaultGame = BaseViewModel.propertiesDict_getGame();
+            defaultGame = PropertiesDict.GetGame();
 
             InitializeComponent(); 
         }
@@ -42,7 +40,7 @@ namespace KSF_Surf.Views
         // Loading KSF map list --------------------------------------------------------------------------------------------------------------------
         #region ksf
 
-        private async Task<List<string>> LoadMaps(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
+        private async Task<List<string>> LoadMaps(GameEnum game, SortEnum sort, int minTier, int maxTier, MapTypeEnum mapType)
         {
             // minTier options: 1-8
             // maxTier options: 1-8
@@ -53,14 +51,14 @@ namespace KSF_Surf.Views
             {
                 if (game != currentGame || sort != currentSort)
                 {
-                    DetailedMapsRootObject dmro = await mapsViewModel.GetDetailedMapsList(game, sort);
+                    DetailedMapsRoot dmro = await mapsViewModel.GetDetailedMapsList(game, sort);
                     if (dmro == null)
                     {
                         MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
                         return maps_list;
                     }
                     MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
-                    MapsTab.Title = "Maps [" + EFilter_ToString.toString2(game) + "]";
+                    MapsTab.Title = "Maps [" + EnumToString.NameString(game) + "]";
 
                     detailed_mapData = new List<DetailedMapDatum>(dmro.data);
                     currentGame = game;
@@ -76,18 +74,10 @@ namespace KSF_Surf.Views
                     int tier = int.Parse(datum.tier);
                     int type = int.Parse(datum.maptype);
 
-                    if (mapType != EFilter_MapType.any && type != (int)mapType)
-                    {
-                        continue;
-                    }
-                    else if (tier < minTier)
-                    {
-                        continue;
-                    }
-                    else if (tier > maxTier)
-                    {
-                        continue;
-                    }
+                    if (mapType != MapTypeEnum.ANY && type != (int)mapType) continue;
+                    else if (tier < minTier) continue;
+                    else if (tier > maxTier) continue;
+
                     maps_list.Add(datum.name);
                 }
             }
@@ -109,7 +99,7 @@ namespace KSF_Surf.Views
                 hasLoaded = true;
 
                 MapsCollectionView.VerticalOptions = LayoutOptions.FillAndExpand;
-                ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
+                ChangeDisplayList(await LoadMaps(defaultGame, SortEnum.NAME, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
 
                 LoadingAnimation.IsRunning = false;
                 MapsStack.IsVisible = true;
@@ -118,20 +108,17 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
-                if (currentGame == EFilter_Game.none)
+                if (currentGame == GameEnum.NONE)
                 {
-                    ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
+                    ChangeDisplayList(await LoadMaps(defaultGame, SortEnum.NAME, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
                 }
 
                 await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
                     currentGame, currentSort, currentMinTier, currentMaxTier, currentMapType, defaultGame));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
@@ -166,19 +153,16 @@ namespace KSF_Surf.Views
             string selectedMap = (string)MapsCollectionView.SelectedItem;
             MapsCollectionView.SelectedItem = null;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(selectedMap, currentGame));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF servers :(", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayNoConnectionAlert();
         }
 
-        internal async void ApplyFilters(EFilter_Game game, EFilter_Sort sort, int minTier, int maxTier, EFilter_MapType mapType)
+        internal async void ApplyFilters(GameEnum game, SortEnum sort, int minTier, int maxTier, MapTypeEnum mapType)
         {
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 MapsSearchBar.Text = "";
 
@@ -188,10 +172,7 @@ namespace KSF_Surf.Views
 
                 MapsCollectionView.ScrollTo(0);
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF servers :(", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private void ChangeDisplayList(List<string> list)
@@ -202,8 +183,13 @@ namespace KSF_Surf.Views
         private async void RetryLabel_Tapped(object sender, EventArgs e)
         {
             LoadingAnimation.IsRunning = true;
-            ChangeDisplayList(await LoadMaps(defaultGame, EFilter_Sort.name, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
+            ChangeDisplayList(await LoadMaps(defaultGame, SortEnum.NAME, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
             LoadingAnimation.IsRunning = false;
+        }
+
+        private async Task DisplayNoConnectionAlert()
+        {
+            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

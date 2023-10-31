@@ -1,9 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -17,23 +15,23 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // objects used by "Personal Record" call
-        private MapPRInfoDatum prInfoData;
+        private MapPersonalRecordInfoDatum prInfoData;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private EFilter_Mode currentMode = EFilter_Mode.none;
-        private readonly EFilter_Mode defaultMode = BaseViewModel.propertiesDict_getMode();
+        private readonly GameEnum game;
+        private ModeEnum currentMode = ModeEnum.NONE;
+        private readonly ModeEnum defaultMode = PropertiesDict.GetMode();
         private readonly string map;
         private readonly bool hasZones;
         private readonly bool hasStages;
         
-        private EFilter_PlayerType playerType;
+        private PlayerTypeEnum playerType;
         private string playerValue;
         private string playerSteamID;
         private string playerRank;
-        private readonly string meSteamID  = BaseViewModel.propertiesDict_getSteamID();
+        private readonly string meSteamID = PropertiesDict.GetSteamID();
 
-        public MapsMapPRPage(string title, EFilter_Game game, string map, bool hasZones, bool hasStages)
+        public MapsMapPRPage(string title, GameEnum game, string map, bool hasZones, bool hasStages)
         {
             mapsMapTitle = title;
             this.game = game;
@@ -43,12 +41,12 @@ namespace KSF_Surf.Views
             
             playerValue = meSteamID;
             playerSteamID = meSteamID;
-            playerType = EFilter_PlayerType.me;
+            playerType = PlayerTypeEnum.ME;
 
             mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
-            Title = mapsMapTitle + " " + EFilter_ToString.toString(defaultMode) + "]";
+            Title = mapsMapTitle + " " + EnumToString.NameString(defaultMode) + "]";
             if (!hasZones) ZoneRecordsOption.IsVisible = false;
             if (!hasStages) CCPOption.IsVisible = false;
         }
@@ -56,7 +54,7 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangePR(EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        private async Task ChangePR(ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
             if (currentMode == newMode && newPlayerType == playerType && newPlayerValue == playerValue) return;
 
@@ -73,8 +71,8 @@ namespace KSF_Surf.Views
             playerType = newPlayerType;
             playerValue = newPlayerValue;
             playerSteamID = prInfoData.basicInfo.steamID;
-            Title = mapsMapTitle + " " + EFilter_ToString.toString(currentMode) + "]";
-            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prInfoData.basicInfo.country) + " " + prInfoData.basicInfo.name;
+            Title = mapsMapTitle + " " + EnumToString.NameString(currentMode) + "]";
+            PRTitleLabel.Text = StringFormatter.CountryEmoji(prInfoData.basicInfo.country) + " " + prInfoData.basicInfo.name;
 
             if (prInfoData.time is null || prInfoData.time == "0") // no main completion
             {
@@ -98,67 +96,46 @@ namespace KSF_Surf.Views
             PagesStack.IsVisible = !(!hasZones && isR1);
 
             // Info -----------------------------------------------------------------
-            string time = String_Formatter.toString_RankTime(prInfoData.time) + " (WR";
+            string time = StringFormatter.RankTimeString(prInfoData.time) + " (WR";
             if (isR1)
             {
                 if (prInfoData.r2Diff is null || prInfoData.r2Diff == "0")
                 {
                     time += " N/A";
                 }
-                else
-                {
-                    time += "-" + String_Formatter.toString_RankTime(prInfoData.r2Diff.Substring(1));
-                }
+                else time += "-" + StringFormatter.RankTimeString(prInfoData.r2Diff.Substring(1));
             }
-            else
-            {
-                time += "+" + String_Formatter.toString_RankTime(prInfoData.wrDiff);
-            }
+            else time += "+" + StringFormatter.RankTimeString(prInfoData.wrDiff);
             TimeLabel.Text = time + ")";
 
             string rank = prInfoData.rank + "/" + prInfoData.totalRanks;
             if (!(prInfoData.group is null))
             {
-                if (isR1)
-                {
-                    rank = "[WR] " + rank;
-                }
-                else if (prInfoData.rank <= 10)
-                {
-                    rank = "[Top10] " + rank;
-                }
-                else
-                {
-                    rank = "[G" + prInfoData.group + "] " + rank;
-                } 
+                if (isR1) rank = "[WR] " + rank;
+                else if (prInfoData.rank <= 10) rank = "[Top10] " + rank;
+                else rank = "[G" + prInfoData.group + "] " + rank;
             }
             RankLabel.Text = rank;
 
             CompletionsLabel.Text = prInfoData.count;
             if (!(prInfoData.attempts is null))
             {
-                string percent = String_Formatter.toString_CompletionPercent(prInfoData.count, prInfoData.attempts);
+                string percent = StringFormatter.CompletionPercentString(prInfoData.count, prInfoData.attempts);
                 CompletionsLabel.Text += "/" + prInfoData.attempts + " (" + percent + ")";
             }
 
             if (!(prInfoData.total_time is null))
             {
-                ZoneTimeLabel.Text = String_Formatter.toString_PlayTime(prInfoData.total_time, true);
+                ZoneTimeLabel.Text = StringFormatter.PlayTimeString(prInfoData.total_time, true);
             }
-            else 
-            {
-                ZoneTimeLabel.Text = "";
-            }
+            else ZoneTimeLabel.Text = "";
 
-            DateSetLabel.Text = String_Formatter.toString_KSFDate(prInfoData.date);
+            DateSetLabel.Text = StringFormatter.KSFDateString(prInfoData.date);
             if (!(prInfoData.date_lastplayed is null))
             {
-                LastPlayedLabel.Text = String_Formatter.toString_LastOnline(prInfoData.date_lastplayed);
+                LastPlayedLabel.Text = StringFormatter.LastOnlineString(prInfoData.date_lastplayed);
             }
-            else
-            {
-                LastPlayedLabel.Text = "";
-            }
+            else LastPlayedLabel.Text = "";
 
             // Velocity -------------------------------------------------------------
             string units = " u/s";
@@ -169,8 +146,8 @@ namespace KSF_Surf.Views
             // First Completion  -----------------------------------------------------
             if (!(prInfoData.first_date is null))
             {
-                FirstDateLabel.Text = String_Formatter.toString_KSFDate(prInfoData.first_date);
-                FirstTimeLabel.Text = String_Formatter.toString_PlayTime(prInfoData.first_timetaken, true);
+                FirstDateLabel.Text = StringFormatter.KSFDateString(prInfoData.first_date);
+                FirstTimeLabel.Text = StringFormatter.PlayTimeString(prInfoData.first_timetaken, true);
                 FirstAttemptsLabel.Text = prInfoData.first_attempts;
             }
             else
@@ -222,19 +199,17 @@ namespace KSF_Surf.Views
 
         private async void Filter_Pressed(object sender, EventArgs e)
         {
-            if (hasLoaded && BaseViewModel.hasConnection())
+            if (hasLoaded && BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRFilterPage(ApplyFilters, currentMode, playerType, 
                     playerSteamID, playerRank, defaultMode, meSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             await MapsMapPRScrollView.ScrollToAsync(0, 0, true);
         }
 
-        internal async void ApplyFilters(EFilter_Mode newMode, EFilter_PlayerType newPlayerType, string newPlayerValue)
+        internal async void ApplyFilters(ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
             LoadingAnimation.IsRunning = true;
             await ChangePR(newMode, newPlayerType, newPlayerValue);
@@ -244,45 +219,41 @@ namespace KSF_Surf.Views
         private async void PR_Tapped(object sender, EventArgs e)
         {
             PRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRDetailsPage(Title,
                     game, currentMode, defaultMode, map, playerSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void CPR_Tapped(object sender, EventArgs e)
         {
             CPRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapCPRPage(Title,
                     game, currentMode, map, playerSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             CPRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void CCP_Tapped(object sender, EventArgs e)
         {
             CCPButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapCCPPage(Title,
                     game, currentMode, map, playerSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+ 
             CCPButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
@@ -290,6 +261,7 @@ namespace KSF_Surf.Views
         {
             await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
+
         #endregion
     }
 }

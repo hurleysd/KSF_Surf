@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
 
 namespace KSF_Surf.Views
 {
@@ -19,32 +17,32 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "Oldest Records" call
-        private List<OldRecord> oldRecordData;
+        private List<OldestRecordDatum> oldRecordData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game defaultGame;
-        private readonly EFilter_Mode defaultMode;
-        private EFilter_Game game;
-        private EFilter_Mode mode;
-        private EFilter_ORType oldestType;
+        private readonly GameEnum defaultGame;
+        private readonly ModeEnum defaultMode;
+        private GameEnum game;
+        private ModeEnum mode;
+        private OldestRecordsTypeEnum oldestType;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string, string>> recordsOldestCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string, string>>();
 
-        public RecordsOldestPage(EFilter_Game game, EFilter_Mode mode, EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsOldestPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.game = game;
             this.mode = mode;
             this.defaultGame = defaultGame;
             this.defaultMode = defaultMode;
-            oldestType = EFilter_ORType.map;
+            oldestType = OldestRecordsTypeEnum.MAP;
 
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
             RecordsOldestCollectionView.ItemsSource = recordsOldestCollectionViewItemsSource;
         }
 
@@ -59,42 +57,32 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsOldestCollectionViewItemsSource.Clear();
             LayoutRecords();
-            ORTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(oldestType);
-            Title = "Records [" + EFilter_ToString.toString2(game) + ", " + EFilter_ToString.toString(mode) + "]";
+            ORTypeOptionLabel.Text = "Type: " + EnumToString.NameString(oldestType);
+            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
-            foreach (OldRecord datum in oldRecordData)
+            foreach (OldestRecordDatum datum in oldRecordData)
             {
                 string rrString = list_index + ". " + datum.mapName;
                 if (datum.zoneID != null)
                 {
-                    rrString += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
+                    rrString += " " + StringFormatter.ZoneString(datum.zoneID, false, false);
                 }
 
-                string playerString = String_Formatter.toEmoji_Country(datum.country) + " " + datum.playerName;
+                string playerString = StringFormatter.CountryEmoji(datum.country) + " " + datum.playerName;
 
-                string rrtimeString = "in " + String_Formatter.toString_RankTime(datum.surfTime);
+                string rrtimeString = "in " + StringFormatter.RankTimeString(datum.surfTime);
                 if (!(datum.r2Diff is null))
                 {
-                    if (datum.r2Diff != "0")
-                    {
-                        rrtimeString += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
-                    }
-                    else
-                    {
-                        rrtimeString += " (RETAKEN)";
-                    }
+                    if (datum.r2Diff != "0") rrtimeString += " (WR-" + StringFormatter.RankTimeString(datum.r2Diff.Substring(1)) + ")";
+                    else rrtimeString += " (RETAKEN)";
                 }
-                else
-                {
-                    rrtimeString += " (WR N/A)";
-                }
-                rrtimeString += " (" + String_Formatter.toString_LastOnline(datum.date) + ")";
-
+                else rrtimeString += " (WR N/A)";
+                rrtimeString += " (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 recordsOldestCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     rrString, playerString, rrtimeString, datum.mapName));
@@ -102,7 +90,6 @@ namespace KSF_Surf.Views
                 list_index++;
             }
         }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -123,8 +110,8 @@ namespace KSF_Surf.Views
         private async void ORTypeOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
-            string currentTypeString = EFilter_ToString.toString2(oldestType);
-            foreach (string type in EFilter_ToString.otype_arr)
+            string currentTypeString = EnumToString.NameString(oldestType);
+            foreach (string type in EnumToString.OldestRecordsTypeNames)
             {
                 if (type != currentTypeString)
                 {
@@ -135,9 +122,9 @@ namespace KSF_Surf.Views
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
             switch (newTypeString)
             {
-                case "Stage": oldestType = EFilter_ORType.stage; break;
-                case "Bonus": oldestType = EFilter_ORType.bonus; break;
-                case "Map": oldestType = EFilter_ORType.map; break;
+                case "Stage": oldestType = OldestRecordsTypeEnum.STAGE; break;
+                case "Bonus": oldestType = OldestRecordsTypeEnum.BONUS; break;
+                case "Map": oldestType = OldestRecordsTypeEnum.MAP; break;
                 default: return;
             }
 
@@ -154,7 +141,7 @@ namespace KSF_Surf.Views
 
         private async void RecordsOldest_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % RecordsViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= RecordsViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
 
@@ -177,14 +164,11 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item4;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
@@ -195,10 +179,10 @@ namespace KSF_Surf.Views
             }
         }
 
-        internal async void ApplyFilters(EFilter_Game newGame, EFilter_Mode newMode)
+        internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
         {
             if (newGame == game && newMode == mode) return;
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 game = newGame;
                 mode = newMode;
@@ -212,10 +196,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async Task DisplayNoConnectionAlert()

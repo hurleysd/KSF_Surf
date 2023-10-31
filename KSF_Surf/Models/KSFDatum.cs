@@ -1,11 +1,10 @@
-﻿
-using System.Collections.Generic;
-
-// Classes for KSF API response JSON deserialization
+﻿using System.Collections.Generic;
 
 namespace KSF_Surf.Models
 {
-    // LivePage ----------------------------------------------------------------------
+    // Classes for KSF API response JSON deserialization
+
+    // LivePage -------------------------------------------------------------------------------
     #region LivePage
 
     // SERVER LIST
@@ -22,8 +21,7 @@ namespace KSF_Surf.Models
         public string timeinzone { get; set; }
     }
 
-
-    public class KSFServerDatum 
+    public class ServerDatum 
     {
         public string serverID { get; set; }
         public string hostname { get; set; }
@@ -40,14 +38,14 @@ namespace KSF_Surf.Models
         public List<ServerPlayerDatum> players { get; set; }
     }
 
-    public class KSFServerRootObject
+    public class ServersRoot
     {
         public string status { get; set; }
-        public List<KSFServerDatum> data { get; set; }
+        public List<ServerDatum> data { get; set; }
     }
 
     #endregion  
-    // MapsPage ----------------------------------------------------------------------
+    // MapsPage -------------------------------------------------------------------------------
     #region MapsPage
 
     // MAPS LIST
@@ -68,7 +66,7 @@ namespace KSF_Surf.Models
         public string popularity { get; set; }
     }
 
-    public class DetailedMapsRootObject
+    public class DetailedMapsRoot
     {
         public string status { get; set; }
         public List<DetailedMapDatum> data { get; set; }
@@ -76,7 +74,7 @@ namespace KSF_Surf.Models
 
     // MAP INFO
 
-    public class MapSettings
+    public class MapSettingsDatum
     {
         public string created { get; set; }
         public string lastplayed { get; set; }
@@ -98,7 +96,7 @@ namespace KSF_Surf.Models
         public string enabled { get; set; }
     }
 
-    public class Mapper
+    public class MapperDatum
     {
         public string mapperName { get; set; }
         public string mapperID { get; set; }
@@ -110,11 +108,11 @@ namespace KSF_Surf.Models
     public class MapInfoData
     {
         public string MapID { get; set; }
-        public MapSettings MapSettings { get; set; }
-        public List<Mapper> Mappers { get; set; }
+        public MapSettingsDatum MapSettings { get; set; }
+        public List<MapperDatum> Mappers { get; set; }
     }
 
-    public class MapInfoRootObject
+    public class MapInfoRoot
     {
         public string status { get; set; }
         public MapInfoData data { get; set; }
@@ -135,7 +133,7 @@ namespace KSF_Surf.Models
         public string wrDiff { get; set; }
     }
 
-    public class MapTopRootObject
+    public class MapTopsRoot
     {
         public string status { get; set; }
         public List<TopDatum> data { get; set; }
@@ -162,21 +160,21 @@ namespace KSF_Surf.Models
 
     // PERSONAL RECORD INFO
 
-    public class MapPRInfoDatum
+    public class MapPersonalRecordInfoDatum
     {
         public string mapID { get; set; }
         public string tier { get; set; }
         public string stageID { get; set; }
         public int zoneID { get; set; }
         public string playerID { get; set; }
-        public BasicInfo basicInfo { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
         public string recordID { get; set; }
-        public int? rank { get; set; }               // 0 or null
+        public int? rank { get; set; }                  // 0 or null
         public string totalRanks { get; set; }
-        public int? group { get; set; }             // null if none, 0 if top10
+        public int? group { get; set; }                 // null if none, 0 if top10
         public string time { get; set; }            
         public string wrDiff { get; set; }          
-        public string r2Diff { get; set; }          // null if no r2
+        public string r2Diff { get; set; }              // null if no r2
         public string count { get; set; }          
         public string date { get; set; }          
         public string avgvel { get; set; }          
@@ -190,15 +188,15 @@ namespace KSF_Surf.Models
         public string date_lastplayed { get; set; }     // none for other styles besides FW     
     }
 
-    public class MapPRInfoRootObject
+    public class MapPersonalRecordInfoRoot
     {
         public string status { get; set; }
-        public MapPRInfoDatum data { get; set; }
+        public MapPersonalRecordInfoDatum data { get; set; }
     }
 
     // PERSONAL RECORD
 
-    public class MapPRDetails
+    public class MapPersonalRecordDetails
     {
         public string zoneID { get; set; }
         public string stageID { get; set; }
@@ -219,24 +217,23 @@ namespace KSF_Surf.Models
         public int? group { get; set; }              // null if none, 0 if top10
     }
 
-    public class MapPRDatum
+    public class MapPersonalRecordDatum
     {
         public string mapID { get; set; }
         public string tier { get; set; }
-        public BasicInfo basicInfo { get; set; }
-        public List<MapPRDetails> PRInfo { get; set; }
-        
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<MapPersonalRecordDetails> PRInfo { get; set; }
     }
 
-    public class MapPRRootObject
+    public class MapPersonalRecordRoot
     {
         public string status { get; set; }
-        public MapPRDatum data { get; set; }
+        public MapPersonalRecordDatum data { get; set; }
     }
 
     // CPR
 
-    public class MapCPRDetails
+    public class MapComparePersonalRecordDetails
     {
         public string zoneID { get; set; }
         public string WRTime { get; set; }
@@ -248,26 +245,26 @@ namespace KSF_Surf.Models
 
     }
 
-    public class MapCPRDatum
+    public class MapComparePersonalRecordDatum
     {
         public string mapID { get; set; }
         public string stageID { get; set; }
         public string mapType { get; set; }
-        public BasicInfo basicInfo { get; set; }
-        public BasicInfo basicInfoWR { get; set; }
-        public List<MapCPRDetails> CPR { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public BasicInfoDatum basicInfoWR { get; set; }
+        public List<MapComparePersonalRecordDetails> CPR { get; set; }
 
     }
 
-    public class MapCPRRootObject
+    public class MapComparePersonalRecordRoot
     {
         public string status { get; set; }
-        public MapCPRDatum data { get; set; }
+        public MapComparePersonalRecordDatum data { get; set; }
     }
 
     // CCP
 
-    public class MapCCPDetails
+    public class MapComapreCheckPointsDetails
     {
         public string zoneID { get; set; }
         public string cpTimeWR { get; set; }
@@ -281,25 +278,25 @@ namespace KSF_Surf.Models
 
     }
 
-    public class MapCCPDatum
+    public class MapCompareCheckPointsDatum
     {
         public string mapID { get; set; }
         public string stageID { get; set; }
         public string mapType { get; set; }
-        public BasicInfo basicInfo { get; set; }
-        public BasicInfo basicInfoWR { get; set; }
-        public List<MapCCPDetails> CCP { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public BasicInfoDatum basicInfoWR { get; set; }
+        public List<MapComapreCheckPointsDetails> CCP { get; set; }
 
     }
 
-    public class MapCCPRootObject
+    public class MapCompareCheckPointsRoot
     {
         public string status { get; set; }
-        public MapCCPDatum data { get; set; }
+        public MapCompareCheckPointsDatum data { get; set; }
     }
 
     #endregion
-    // RecordsPage -------------------------------------------------------------------
+    // RecordsPage ----------------------------------------------------------------------------
     #region RecordsPage
 
     // SURF TOP
@@ -314,7 +311,7 @@ namespace KSF_Surf.Models
         public string lastOnline { get; set; }
     }
 
-    public class SurfTopRootObject
+    public class SurfTopRoot
     {
         public string status { get; set; }
         public List<SurfTopDatum> data { get; set; }
@@ -322,7 +319,7 @@ namespace KSF_Surf.Models
 
     // RECENT RECORDS
 
-    public class RRDatum
+    public class RecentRecordDatum
     {
         public string date { get; set; }
         public string mapName { get; set; }
@@ -339,14 +336,14 @@ namespace KSF_Surf.Models
         public string steamid { get; set; }
     }
 
-    public class RRRootObject
+    public class RecentRecordsRoot
     {
         public string status { get; set; }
-        public List<RRDatum> data { get; set; }
+        public List<RecentRecordDatum> data { get; set; }
     }
 
     // RECENT TOP 10
-    public class RR10Datum
+    public class RecentRecord10Datum
     {
         public string date { get; set; }
         public string mapName { get; set; }
@@ -364,10 +361,10 @@ namespace KSF_Surf.Models
         public string steamid { get; set; }
     }
 
-    public class RR10RootObject
+    public class RecentRecords10Root
     {
         public string status { get; set; }
-        public List<RR10Datum> data { get; set; }
+        public List<RecentRecord10Datum> data { get; set; }
     }
 
     // MOST BY TYPE (COUNT)
@@ -382,7 +379,7 @@ namespace KSF_Surf.Models
         public string total { get; set; }
     }
 
-    public class MostCountRootObject
+    public class MostCountRoot
     {
         public string status { get; set; }
         public List<MostCountDatum> data { get; set; }
@@ -390,7 +387,7 @@ namespace KSF_Surf.Models
 
     // MOST BY TYPE (CONTESTED ZONE)
 
-    public class MostContZoneDatum
+    public class MostContestedZoneDatum
     {
         public string mapID { get; set; }
         public string mapName { get; set; }
@@ -400,10 +397,10 @@ namespace KSF_Surf.Models
         public string date { get; set; }
     }
 
-    public class MostContZoneRootObject
+    public class MostContestedZoneRoot
     {
         public string status { get; set; }
-        public List<MostContZoneDatum> data { get; set; }
+        public List<MostContestedZoneDatum> data { get; set; }
     }
 
     // MOST BY TYPE (GROUP)
@@ -418,7 +415,7 @@ namespace KSF_Surf.Models
         public string groupPoints { get; set; }
     }
 
-    public class MostGroupRootObject
+    public class MostGroupRoot
     {
         public string status { get; set; }
         public List<MostGroupDatum> data { get; set; }
@@ -426,7 +423,7 @@ namespace KSF_Surf.Models
 
     // MOST BY TYPE (PC)
 
-    public class MostPCDatum
+    public class MostPercentCompletionDatum
     {
         public string name { get; set; }
         public string playerID { get; set; }
@@ -436,10 +433,10 @@ namespace KSF_Surf.Models
         public string percentCompletion { get; set; }
     }
 
-    public class MostPCRootObject
+    public class MostPercentCompletionRoot
     {
         public string status { get; set; }
-        public List<MostPCDatum> data { get; set; }
+        public List<MostPercentCompletionDatum> data { get; set; }
     }
 
     // MOST BY TYPE (TOP)
@@ -454,7 +451,7 @@ namespace KSF_Surf.Models
         public string top10Points { get; set; }
     }
 
-    public class MostTopRootObject
+    public class MostTopsRoot
     {
         public string status { get; set; }
         public List<MostTopDatum> data { get; set; }
@@ -462,7 +459,7 @@ namespace KSF_Surf.Models
 
     // MOST BY TYPE (CONTESTED WR)
 
-    public class MostContWrDatum
+    public class MostContestedWorldRecordDatum
     {
         public string mapID { get; set; }
         public string mapName { get; set; }
@@ -470,10 +467,10 @@ namespace KSF_Surf.Models
         public string date { get; set; }
     }
 
-    public class MostContWrRootObject
+    public class MostContestedWorldRecordsRoot
     {
         public string status { get; set; }
-        public List<MostContWrDatum> data { get; set; }
+        public List<MostContestedWorldRecordDatum> data { get; set; }
     }
 
     // MOST BY TYPE (TIME)
@@ -485,7 +482,7 @@ namespace KSF_Surf.Models
         public int totalplaytime { get; set; }
     }
 
-    public class MostTimeRootObject
+    public class MostTimeRoot
     {
         public string status { get; set; }
         public List<MostTimeDatum> data { get; set; }
@@ -493,7 +490,7 @@ namespace KSF_Surf.Models
 
     // OLDEST RECORDS
 
-    public class OldRecord
+    public class OldestRecordDatum
     {
         public string mapName { get; set; }
         public string mapID { get; set; }
@@ -511,29 +508,29 @@ namespace KSF_Surf.Models
         public string steamID { get; set; }
     }
 
-    public class OldestRecordsRootObject
+    public class OldestRecordsRoot
     {
         public string status { get; set; }
-        public List<OldRecord> data { get; set; }
+        public List<OldestRecordDatum> data { get; set; }
     }
 
     // TOP COUNTRIES
 
-    public class CountryPoints
+    public class TopCountryDatum
     {
         public string country { get; set; }
         public string points { get; set; }
     }
 
-    public class TopCountriesRootObject
+    public class TopCountriesRoot
     {
         public string status { get; set; }
-        public List<CountryPoints> data { get; set; }
+        public List<TopCountryDatum> data { get; set; }
     }
 
     // COUNTRY TOP
 
-    public class CountryPlayer
+    public class CountryTopDatum
     {
         public string playerName { get; set; }
         public string points { get; set; }
@@ -542,33 +539,33 @@ namespace KSF_Surf.Models
         public string lastonline { get; set; }
     }
 
-    public class CountryTopRootObject
+    public class CountryTopsObject
     {
         public string status { get; set; }
-        public List<CountryPlayer> data { get; set; }
+        public List<CountryTopDatum> data { get; set; }
     }
 
     #endregion
-    // PlayerPage --------------------------------------------------------------------
+    // PlayerPage -----------------------------------------------------------------------------
     #region PlayerPage
 
     // PLAYER INFO
 
-    public class TotalZones
+    public class TotalZonesDatum
     {
         public string TotalMaps { get; set; }
         public string TotalStages { get; set; }
         public string TotalBonuses { get; set; }
     }
 
-    public class WRZones
+    public class WorldRecordZonesDatum
     {
         public string wr { get; set; }
         public string wrcp { get; set; }
         public string wrb { get; set; }
     }
 
-    public class Top10Groups
+    public class Top10GroupsDatum
     {
         public string top10 { get; set; }
         public string groups { get; set; }
@@ -590,14 +587,14 @@ namespace KSF_Surf.Models
         public string g6 { get; set; }
     }
 
-    public class CompletedZones
+    public class CompletedZonesDatum
     {
         public string map { get; set; }
         public string stage { get; set; }
         public string bonus { get; set; }
     }
 
-    public class PlayerPoints
+    public class PlayerPointsDatum
     {
         public string points { get; set; }
         public string top10 { get; set; }
@@ -609,7 +606,7 @@ namespace KSF_Surf.Models
         public string bonus { get; set; }
     }
 
-    public class BasicInfo
+    public class BasicInfoDatum
     {
         public string steamID { get; set; }
         public string name { get; set; }
@@ -625,24 +622,25 @@ namespace KSF_Surf.Models
 
     public class PlayerInfoDatum
     {
-        public object banStatus { get; set; }
-        public BasicInfo basicInfo { get; set; }
+        public bool banStatus { get; set; }
+        public bool muteStatus { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
         
-        public string KSFStatus { get; set; } // "member" or null
-        public string vipStatus { get; set; } // "active" or null
-        public string adminStatus { get; set; } // "active" or null
-        public string mapperID { get; set; } // "<number>" or null
-        public PlayerPoints playerPoints { get; set; }
-        public CompletedZones CompletedZones { get; set; }
-        public Top10Groups Top10Groups { get; set; }
-        public WRZones WRZones { get; set; }
+        public string KSFStatus { get; set; }           // "member" or null
+        public string vipStatus { get; set; }           // "active" or null
+        public string adminStatus { get; set; }         // "active" or null
+        public string mapperID { get; set; }            // "<number>" or null
+        public PlayerPointsDatum playerPoints { get; set; }
+        public CompletedZonesDatum CompletedZones { get; set; }
+        public Top10GroupsDatum Top10Groups { get; set; }
+        public WorldRecordZonesDatum WRZones { get; set; }
         public string SurfRank { get; set; }
         public string SurfTotalRank { get; set; }
         public string percentCompletion { get; set; }
-        public TotalZones TotalZones { get; set; }
+        public TotalZonesDatum TotalZones { get; set; }
     }
 
-    public class PlayerInfoRootObject
+    public class PlayerInfoRoot
     {
         public string status { get; set; }
         public PlayerInfoDatum data { get; set; }
@@ -650,7 +648,7 @@ namespace KSF_Surf.Models
 
     // PLAYER RECENT RECORDS
 
-    public class RecentPlayerRecords
+    public class PlayerRecentRecordDatum
     {
         public string date { get; set; }
         public string mapName { get; set; }
@@ -666,21 +664,21 @@ namespace KSF_Surf.Models
         public string recordType { get; set; }
     }
 
-    public class PlayerRecordsDatum
+    public class PlayerRecentRecordsDatum
     {
-        public BasicInfo basicInfo { get; set; }
-        public List<RecentPlayerRecords> recentRecords { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<PlayerRecentRecordDatum> recentRecords { get; set; }
     }
 
-    public class PlayerRecordsRootObject
+    public class PlayerRecentRecordsRoot
     {
         public string status { get; set; }
-        public PlayerRecordsDatum data { get; set; }
+        public PlayerRecentRecordsDatum data { get; set; }
     }
 
     // PLAYER WORLD RECORDS
 
-    public class PlayerWorldRecords
+    public class PlayerWorldRecordDatum
     {
         public string mapName { get; set; }
         public string mapID { get; set; }
@@ -693,21 +691,21 @@ namespace KSF_Surf.Models
         public string r2Diff { get; set; }
     }
 
-    public class PlayerWRsDatum
+    public class PlayerWorldRecordsDatum
     {
-        public BasicInfo basicInfo { get; set; }
-        public List<PlayerWorldRecords> records { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<PlayerWorldRecordDatum> records { get; set; }
     }
 
-    public class PlayerWRsRootObject
+    public class PlayerWorldRecordsRoot
     {
         public string status { get; set; }
-        public PlayerWRsDatum data { get; set; }
+        public PlayerWorldRecordsDatum data { get; set; }
     }
 
     // PLAYER COMPLETION BY TIER
 
-    public class PlayerTierCompletion
+    public class PlayerTierCompletionDatum
     {
         public string tier { get; set; }
         public string map { get; set; }
@@ -718,47 +716,47 @@ namespace KSF_Surf.Models
         public string bonusTotal { get; set; }
     }
 
-    public class PlayerTierCompletionDatum
+    public class PlayerTierCompletionsDatum
     {
-        public BasicInfo basicInfo { get; set; }
-        public List<PlayerTierCompletion> records { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<PlayerTierCompletionDatum> records { get; set; }
     }
 
-    public class PlayerTierCompletionRootObject
+    public class PlayerTierCompletionRoot
     {
         public string status { get; set; }
-        public PlayerTierCompletionDatum data { get; set; }
+        public PlayerTierCompletionsDatum data { get; set; }
     }
 
-    // PLAYER COMPLETION BY TIER
+    // PLAYER OLDEST RECORDS
 
-    public class PlayerOldRecord
+    public class PlayerOldestRecordDatum
     {
         public string mapName { get; set; }
         public string mapID { get; set; }
-        public string zoneID { get; set; }                  // wrcp/wrb stage/bonus
+        public string zoneID { get; set; }              // wrcp/wrb stage/bonus
         public string stageID { get; set; }
         public string finishType { get; set; }
-        public string rank { get; set; }                    // top10
-        public string top10Points { get; set; }             // top10
-        public string groupPoints { get; set; }             // top10
-        public string points { get; set; }                  // map
-        public string top10Group { get; set; }              // map
+        public string rank { get; set; }                // top10
+        public string top10Points { get; set; }         // top10
+        public string groupPoints { get; set; }         // top10
+        public string points { get; set; }              // map
+        public string top10Group { get; set; }          // map
         public string date { get; set; }
         public string dateNow { get; set; }
         public string surfTime { get; set; }
-        public string count { get; set; }                   // map/stage/bonus
-        public string wrdiff { get; set; }                  // top10
-        public string r2Diff { get; set; }                  // wr/wrcp/wrb/top10
+        public string count { get; set; }               // map/stage/bonus
+        public string wrdiff { get; set; }              // top10
+        public string r2Diff { get; set; }              // wr/wrcp/wrb/top10
     }
 
     public class PlayerOldestRecordsDatum
     {
-        public BasicInfo basicInfo { get; set; }
-        public List<PlayerOldRecord> records { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<PlayerOldestRecordDatum> records { get; set; }
     }
 
-    public class PlayerOldestRecordsRootObject
+    public class PlayerOldestRecordsRoot
     {
         public string status { get; set; }
         public PlayerOldestRecordsDatum data { get; set; }
@@ -766,7 +764,7 @@ namespace KSF_Surf.Models
 
     // PLAYER COMPLETIONS
 
-    public class PlayerCompletionRecord
+    public class PlayerMapCompletionDatum
     {
         public string mapName { get; set; }
         public string mapID { get; set; }
@@ -778,16 +776,16 @@ namespace KSF_Surf.Models
         public string totalZones { get; set; }
     }
 
-    public class PlayerMapCompletionDatum
+    public class PlayerMapCompletionsDatum
     {
-        public BasicInfo basicInfo { get; set; }
-        public List<PlayerCompletionRecord> records { get; set; }
+        public BasicInfoDatum basicInfo { get; set; }
+        public List<PlayerMapCompletionDatum> records { get; set; }
     }
 
-    public class PlayerMapsCompletionRootObject
+    public class PlayerMapCompletionsRoot
     {
         public string status { get; set; }
-        public PlayerMapCompletionDatum data { get; set; }
+        public PlayerMapCompletionsDatum data { get; set; }
     }
 
     #endregion

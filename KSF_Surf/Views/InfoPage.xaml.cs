@@ -1,8 +1,6 @@
 ﻿using KSF_Surf.ViewModels;
 using System.ComponentModel;
-
 using Xamarin.Forms;
-
 
 namespace KSF_Surf.Views
 {
@@ -17,7 +15,7 @@ namespace KSF_Surf.Views
 
             CopyrightLabel.Text = "Intellectual Property: The \"KSF Surf\" mobile application is the property of Sean Hurley, and subject to his intellectual property rights. " +
                 "Copyright \U000000A9 2023 Sean Hurley. All rights reserved.";
-            VersionLabel.Text = "Version " + BaseViewModel.appVersionString;
+            VersionLabel.Text = "Version " + BaseViewModel.APP_VERSION;
 
             CopyrightsLabel.Text = "KSF data provided with permission from the owner, unt0uch4bl3. Steam data provided in accordance with the Steam Web API Terms of Use.";
             PrivacyLabel.Text = "Privacy Policy: No user data is collected, stored, or shared, nor do users rely on an account to use this software. Software preferences such as " +
@@ -33,7 +31,6 @@ namespace KSF_Surf.Views
 
             Forms9PatchLabel.Text = "Forms9Patch\n\nThe MIT License (MIT)\n\nCopyright(c) 42nd Parallel\n\nAll rights reserved.\n\n" + MITcontent;
             NETStandardLibraryLabel.Text = ".NET Runtime\n\nThe MIT License (MIT)\n\nCopyright(c) .NET Foundation and Contributors\n\nAll rights reserved.\n\n" + MITcontent;
-            NewtonsoftJsonLabel.Text = "Netwonsoft.json\n\nThe MIT License (MIT)\n\nCopyright(c) 2007 James Newton-King\n\nAll rights reserved.\n\n" + MITcontent;
             RestSharpLabel.Text = "Restsharp\n\nCopyright 2009-2021 John Sheehan, Andrew Young, Alexey Zimarev and RestSharp community\n\nSPDX - License - Identifier: Apache - 2.0";
             XamarinAndroidXCore.Text = "Xamarin.AndroidX.Core\n\nThe MIT License (MIT)\n\nCopyright(c) .NET Foundation Contributors\n\n" + MITcontent;
             XamarinAndroidXAppCombatResources.Text = "Xamarin.AndroidX.AppCombat.Resources\n\nThe MIT License (MIT)\n\nCopyright(c) .NET Foundation Contributors\n\n" + MITcontent;

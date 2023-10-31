@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -17,16 +15,16 @@ namespace KSF_Surf.Views
         private readonly int GRIDFONT = 18;
 
         // objects used by "Compare to World Record" call
-        private List<MapCPRDetails> CPRDetails;
+        private List<MapComparePersonalRecordDetails> CPRDetails;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
         private readonly string map;
-        private EFilter_MapType mapType = EFilter_MapType.none;
+        private MapTypeEnum mapType = MapTypeEnum.NODE;
         private readonly string playerSteamID;
 
-        public MapsMapCPRPage(string title, EFilter_Game game, EFilter_Mode mode, string map, string playerSteamID)
+        public MapsMapCPRPage(string title, GameEnum game, ModeEnum mode, string map, string playerSteamID)
         {
             this.game = game;
             this.mode = mode;
@@ -44,13 +42,13 @@ namespace KSF_Surf.Views
 
         private async Task ChangePRDetails()
         {
-            var cprDatum = await mapsViewModel.GetMapCPR(game, mode, map, EFilter_PlayerType.steamid, playerSteamID);
+            var cprDatum = await mapsViewModel.GetMapCPR(game, mode, map, PlayerTypeEnum.STEAM_ID, playerSteamID);
             CPRDetails = cprDatum?.data.CPR;
             if (CPRDetails is null || CPRDetails.Count < 1) return;
 
-            mapType = (EFilter_MapType)int.Parse(cprDatum.data.mapType);
+            mapType = (MapTypeEnum)int.Parse(cprDatum.data.mapType);
 
-            WRPlayer.Text = "PR vs " + String_Formatter.toEmoji_Country(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
+            WRPlayer.Text = "PR vs " + StringFormatter.CountryEmoji(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
             LayoutPRDetails();
         }
 
@@ -61,11 +59,11 @@ namespace KSF_Surf.Views
             string units = " u/s";
             int i = 0;
 
-            foreach (MapCPRDetails zoneCPR in CPRDetails)
+            foreach (MapComparePersonalRecordDetails zoneCPR in CPRDetails)
             {
                 CPRStack.Children.Add(new Label
                 {
-                    Text = EFilter_ToString.CPRZoneFormatter(zoneCPR.zoneID, mapType),
+                    Text = StringFormatter.CPRZoneString(zoneCPR.zoneID, mapType),
                     Style = App.Current.Resources["HeaderLabel"] as Style,
                     Margin = new Thickness(10, 0, 0, 0)
                 });
@@ -88,7 +86,7 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = String_Formatter.toString_RankTime(zoneCPR.playerTime),
+                            Text = StringFormatter.RankTimeString(zoneCPR.playerTime),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
                             FontSize = GRIDFONT,
                             IsVisible = i != 0
@@ -105,7 +103,7 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = String_Formatter.toString_RankTime(zoneCPR.WRTime),
+                            Text = StringFormatter.RankTimeString(zoneCPR.WRTime),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
                             FontSize = GRIDFONT,
                             IsVisible = i != 0
@@ -130,7 +128,7 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = "(" + timePrefix + String_Formatter.toString_RankTime(zoneCPR.timeDiff) + ")",
+                            Text = "(" + timePrefix + StringFormatter.RankTimeString(zoneCPR.timeDiff) + ")",
                             Style = App.Current.Resources["RightColStyle"] as Style,
                             FontSize = GRIDFONT,
                             IsVisible = i != 0

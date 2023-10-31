@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace KSF_Surf.Models
 {
-    // Classes for Steam API response JSON deserialization --------------------------------
+    // Classes for Steam API response JSON deserialization ------------------------------------
 
-    public class SteamProfile
+    public class SteamProfileDatum
     {
         public string steamid { get; set; }
         public int communityvisibilitystate { get; set; }
@@ -24,37 +24,13 @@ namespace KSF_Surf.Models
         public string loccountrycode { get; set; }
     }
 
-    public class SteamProfileResponse
+    public class SteamProfilesDatum
     {
-        public List<SteamProfile> players { get; set; }
+        public List<SteamProfileDatum> players { get; set; }
     }
 
-    public class SteamProfileRootObject
+    public class SteamProfilesRoot
     {
-        public SteamProfileResponse response { get; set; }
+        public SteamProfilesDatum response { get; set; }
     }
-
-    public static class SteamIDConverter
-    { 
-        public static string Steam32to64(string steam32)
-        {
-            string[] steam32_arr = steam32.Split(':');
-            if (steam32_arr.Length != 3) return "";
-
-            long convertedTo64Bit;
-            try
-            {
-                convertedTo64Bit = long.Parse(steam32_arr[2]) * 2;
-                convertedTo64Bit += 76561197960265728; // Valve's magic constant
-                convertedTo64Bit += long.Parse(steam32_arr[1]);
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-
-            return convertedTo64Bit.ToString();
-        }
-    }
-
 }

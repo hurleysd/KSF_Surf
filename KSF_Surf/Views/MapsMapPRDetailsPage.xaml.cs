@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -17,20 +15,20 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // objects used by "Personal Zone Records" call
-        private List<MapPRDetails> mapPRDetails;
+        private List<MapPersonalRecordDetails> mapPRDetails;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
         private readonly string map;
         
         private string playerSteamID;
 
-        public MapsMapPRDetailsPage(string title, EFilter_Game game, EFilter_Mode mode,EFilter_Mode defaultMode, string map, string playerSteamID)
+        public MapsMapPRDetailsPage(string title, GameEnum game, ModeEnum mode,ModeEnum defaultMode, string map, string playerSteamID)
         {
             mapsMapTitle = title;
             this.game = game;
-            this.mode = (mode == EFilter_Mode.none)? defaultMode : mode;
+            this.mode = (mode == ModeEnum.NONE)? defaultMode : mode;
             this.map = map;
             this.playerSteamID = playerSteamID;
 
@@ -45,11 +43,11 @@ namespace KSF_Surf.Views
 
         private async Task ChangePRDetails()
         {
-            var prDatum = await mapsViewModel.GetMapPR(game, mode, map, EFilter_PlayerType.steamid, playerSteamID);
+            var prDatum = await mapsViewModel.GetMapPR(game, mode, map, PlayerTypeEnum.STEAM_ID, playerSteamID);
             mapPRDetails = prDatum?.data.PRInfo;
             if (mapPRDetails is null) return;
 
-            PRTitleLabel.Text = String_Formatter.toEmoji_Country(prDatum.data.basicInfo.country) + " " + prDatum.data.basicInfo.name;
+            PRTitleLabel.Text = StringFormatter.CountryEmoji(prDatum.data.basicInfo.country) + " " + prDatum.data.basicInfo.name;
             LayoutPRDetails();
         }
 
@@ -60,7 +58,7 @@ namespace KSF_Surf.Views
             string units = " u/s";
             int i = 0;
 
-            foreach (MapPRDetails zonePR in mapPRDetails)
+            foreach (MapPersonalRecordDetails zonePR in mapPRDetails)
             {
                 if (zonePR.zoneID == "0") continue;
                 bool noTime = (zonePR.surfTime is null || zonePR.surfTime == "0");
@@ -74,7 +72,7 @@ namespace KSF_Surf.Views
                 }
 
                 ZoneRecordStack.Children.Add(new Label {
-                    Text = EFilter_ToString.zoneFormatter(zonePR.zoneID, false, true),
+                    Text = StringFormatter.ZoneString(zonePR.zoneID, false, true),
                     Style = App.Current.Resources["HeaderLabel"] as Style,
                     Margin = new Thickness(10, 0, 0, 0)
                 });
@@ -134,7 +132,7 @@ namespace KSF_Surf.Views
                     {
                         Children = {
                             new Label {
-                                Text = String_Formatter.toString_RankTime(zonePR.surfTime),
+                                Text = StringFormatter.RankTimeString(zonePR.surfTime),
                                 Style = App.Current.Resources["RightColStyle"] as Style
                             },
                             new Label {
@@ -213,14 +211,14 @@ namespace KSF_Surf.Views
                 string completion = zonePR.count;
                 if (!(zonePR.attempts is null))
                 {
-                    string percent = String_Formatter.toString_CompletionPercent(zonePR.count, zonePR.attempts);
+                    string percent = StringFormatter.CompletionPercentString(zonePR.count, zonePR.attempts);
                     completion += "/" + zonePR.attempts + " (" + percent + ")";
                 }
 
                 string time = "";
                 if (!(zonePR.totalSurfTime is null))
                 {
-                    time = String_Formatter.toString_PlayTime(zonePR.totalSurfTime, true);
+                    time = StringFormatter.PlayTimeString(zonePR.totalSurfTime, true);
                 }
 
                 Grid compGrid = new Grid

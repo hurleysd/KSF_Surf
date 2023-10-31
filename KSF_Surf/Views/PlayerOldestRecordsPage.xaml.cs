@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
+
 
 namespace KSF_Surf.Views
 {
@@ -19,25 +18,25 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // objects used by "Oldest Records" call
-        private List<PlayerOldRecord> oldRecordData;
+        private List<PlayerOldestRecordDatum> oldRecordData;
         private List<string> oldRecordsOptionStrings;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
-        private readonly EFilter_PlayerType playerType;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
+        private readonly PlayerTypeEnum playerType;
         private readonly string playerValue;
-        private EFilter_PlayerWRsType wrsType;
+        private PlayerWorldRecordsTypeEnum wrsType;
         private bool hasTop;
-        private EFilter_PlayerOldestType oldestType;
+        private PlayerOldestRecordsTypeEnum oldestType;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> oldestRecordsCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string>>();
 
-        public PlayerOldestRecordsPage(string title, EFilter_Game game, EFilter_Mode mode, 
-            EFilter_PlayerType playerType, string playerValue, EFilter_PlayerWRsType wrsType, bool hasTop)
+        public PlayerOldestRecordsPage(string title, GameEnum game, ModeEnum mode, 
+            PlayerTypeEnum playerType, string playerValue, PlayerWorldRecordsTypeEnum wrsType, bool hasTop)
         {
             this.game = game;
             this.mode = mode;
@@ -47,7 +46,7 @@ namespace KSF_Surf.Views
             this.hasTop = hasTop;
 
             playerViewModel = new PlayerViewModel();
-            oldRecordsOptionStrings = new List<string>(EFilter_ToString.ortype_arr);
+            oldRecordsOptionStrings = new List<string>(EnumToString.PlayerOldestRecordsTypeNames);
 
             InitializeComponent();
             Title = title;
@@ -66,63 +65,45 @@ namespace KSF_Surf.Views
             
             if (clearPrev) oldestRecordsCollectionViewItemsSource.Clear();
             LayoutRecords();
-            ORTypeOptionLabel.Text = "Type: " + EFilter_ToString.toString2(oldestType);
+            ORTypeOptionLabel.Text = "Type: " + EnumToString.NameString(oldestType);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
         private void LayoutRecords()
         {
-            foreach (PlayerOldRecord datum in oldRecordData)
+            foreach (PlayerOldestRecordDatum datum in oldRecordData)
             {
                 string mapZoneString = datum.mapName;
-                if (datum.zoneID != null)
-                {
-                    mapZoneString += " " + EFilter_ToString.zoneFormatter(datum.zoneID, false, false);
-                }
-
+                if (datum.zoneID != null) mapZoneString += " " + StringFormatter.ZoneString(datum.zoneID, false, false);
                 
                 string rrtimeString = "";
                 string rrdiffString = "";
-                if (oldestType == EFilter_PlayerOldestType.top10)
+                if (oldestType == PlayerOldestRecordsTypeEnum.TOP10)
                 {
                     rrtimeString += "[R" + datum.rank + "] ";
-                    if (datum.wrdiff == "0")
-                    {
-                        rrdiffString += " (WR)";
-                    }
-                    else
-                    {
-                        rrdiffString += " (WR+" + String_Formatter.toString_RankTime(datum.wrdiff) + ")";
-                    }
+
+                    if (datum.wrdiff == "0") rrdiffString += " (WR)";
+                    else rrdiffString += " (WR+" + StringFormatter.RankTimeString(datum.wrdiff) + ")";
                 }
-                else if (oldestType == EFilter_PlayerOldestType.map)
+                else if (oldestType == PlayerOldestRecordsTypeEnum.MAP)
                 {
                     if (datum.top10Group != "0") rrtimeString += "[G" + datum.top10Group.Substring(1) + "] ";
                 }
-                else if (oldestType == EFilter_PlayerOldestType.wr ||
-                    oldestType == EFilter_PlayerOldestType.wrcp ||
-                    oldestType == EFilter_PlayerOldestType.wrb)
+                else if (oldestType == PlayerOldestRecordsTypeEnum.WR
+                    || oldestType == PlayerOldestRecordsTypeEnum.WRCP
+                    || oldestType == PlayerOldestRecordsTypeEnum.WRB)
                 {
                     if (!(datum.r2Diff is null))
                     {
-                        if (datum.r2Diff != "0")
-                        {
-                            rrdiffString += " (WR-" + String_Formatter.toString_RankTime(datum.r2Diff.Substring(1)) + ")";
-                        }
-                        else
-                        {
-                            rrdiffString += " (RETAKEN)";
-                        }
+                        if (datum.r2Diff != "0") rrdiffString += " (WR-" + StringFormatter.RankTimeString(datum.r2Diff.Substring(1)) + ")";
+                        else rrdiffString += " (RETAKEN)";
                     }
-                    else
-                    {
-                        rrdiffString += " (WR N/A)";
-                    }
+                    else rrdiffString += " (WR N/A)";
                 }
 
-                rrtimeString += "in " + String_Formatter.toString_RankTime(datum.surfTime) + rrdiffString;
-                rrtimeString += " (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                rrtimeString += "in " + StringFormatter.RankTimeString(datum.surfTime) + rrdiffString;
+                rrtimeString += " (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 oldestRecordsCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapZoneString, rrtimeString, datum.mapName));
@@ -130,10 +111,8 @@ namespace KSF_Surf.Views
                 list_index++;
             }
 
-            if (list_index == 1) // no records
-            {
-                OldestRecordsCollectionViewEmptyLabel.Text = "None! :(";
-            }
+            // no records
+            if (list_index == 1) OldestRecordsCollectionViewEmptyLabel.Text = "None! :(";
         }
 
 
@@ -147,23 +126,17 @@ namespace KSF_Surf.Views
             {
                 hasLoaded = true;
 
-                oldestType = EFilter_PlayerOldestType.map;
+                oldestType = PlayerOldestRecordsTypeEnum.MAP;
                 switch (wrsType)
                 {
-                    case EFilter_PlayerWRsType.wr: oldestType = EFilter_PlayerOldestType.wr; break;
-                    case EFilter_PlayerWRsType.wrcp: oldestType = EFilter_PlayerOldestType.wrcp;break;
-                    case EFilter_PlayerWRsType.wrb: oldestType = EFilter_PlayerOldestType.wrb; break;
+                    case PlayerWorldRecordsTypeEnum.WR: oldestType = PlayerOldestRecordsTypeEnum.WR; break;
+                    case PlayerWorldRecordsTypeEnum.WRCP: oldestType = PlayerOldestRecordsTypeEnum.WRCP;break;
+                    case PlayerWorldRecordsTypeEnum.WRB: oldestType = PlayerOldestRecordsTypeEnum.WRB; break;
                     default: 
                         {
                             oldRecordsOptionStrings.RemoveRange(0, 3);
-                            if (hasTop)
-                            {
-                                oldestType = EFilter_PlayerOldestType.top10;
-                            }
-                            else
-                            {
-                                oldRecordsOptionStrings.Remove("Top10");
-                            }
+                            if (hasTop) oldestType = PlayerOldestRecordsTypeEnum.TOP10;
+                            else oldRecordsOptionStrings.Remove("Top10");
                             break; 
                         }
                 }
@@ -177,25 +150,22 @@ namespace KSF_Surf.Views
         private async void ORTypeOptionLabel_Tapped(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
-            string currentTypeString = EFilter_ToString.toString2(oldestType);
+            string currentTypeString = EnumToString.NameString(oldestType);
             foreach (string type in oldRecordsOptionStrings)
             {
-                if (type != currentTypeString)
-                {
-                    types.Add(type);
-                }
+                if (type != currentTypeString) types.Add(type);
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());
             switch (newTypeString)
             {
-                case "Stage": oldestType = EFilter_PlayerOldestType.stage; break;
-                case "Bonus": oldestType = EFilter_PlayerOldestType.bonus; break;
-                case "WR": oldestType = EFilter_PlayerOldestType.wr; break;
-                case "WRCP": oldestType = EFilter_PlayerOldestType.wrcp; break;
-                case "WRB": oldestType = EFilter_PlayerOldestType.wrb; break;
-                case "Top10": oldestType = EFilter_PlayerOldestType.top10; break;
-                case "Map": oldestType = EFilter_PlayerOldestType.map; break;
+                case "Stage": oldestType = PlayerOldestRecordsTypeEnum.STAGE; break;
+                case "Bonus": oldestType = PlayerOldestRecordsTypeEnum.BONUS; break;
+                case "WR": oldestType = PlayerOldestRecordsTypeEnum.WR; break;
+                case "WRCP": oldestType = PlayerOldestRecordsTypeEnum.WRCP; break;
+                case "WRB": oldestType = PlayerOldestRecordsTypeEnum.WRB; break;
+                case "Top10": oldestType = PlayerOldestRecordsTypeEnum.TOP10; break;
+                case "Map": oldestType = PlayerOldestRecordsTypeEnum.MAP; break;
                 default: return;
             }
 
@@ -213,7 +183,7 @@ namespace KSF_Surf.Views
 
         private async void OldestRecords_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % PlayerViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= PlayerViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
 
@@ -236,14 +206,11 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item3;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

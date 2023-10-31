@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
@@ -19,21 +17,21 @@ namespace KSF_Surf.Views
 
         // objects for map information
         private MapInfoData mapInfoData;
-        private MapSettings mapSettings;
-        private List<Mapper> mappers;
+        private MapSettingsDatum mapSettings;
+        private List<MapperDatum> mappers;
 
         private PointsData pointsData;
 
         // variables for this map
         private readonly string map;
-        private readonly EFilter_Game game;
-        private EFilter_MapType mapType;
+        private readonly GameEnum game;
+        private MapTypeEnum mapType;
 
         private List<string> zonePickerList;
         private int stageCount;
         private int bonusCount;
 
-        public MapsMapPage(string mapName, EFilter_Game game)
+        public MapsMapPage(string mapName, GameEnum game)
         {
             map = mapName;
             this.game = game;
@@ -56,7 +54,7 @@ namespace KSF_Surf.Views
             {
                 mapName = mapName.Substring(0, 18) + "...";
             }
-            MapsMap.Title = mapName + " [" + EFilter_ToString.toString2(game) + "]";
+            MapsMap.Title = mapName + " [" + EnumToString.NameString(game) + "]";
 
             // running query and assigning to map information objects
             var mapInfoDatum = await mapsViewModel.GetMapInfo(game, map);
@@ -69,7 +67,7 @@ namespace KSF_Surf.Views
 
             mapSettings = mapInfoData.MapSettings;
             mappers = mapInfoData.Mappers;
-            mapType = (EFilter_MapType)int.Parse(mapSettings.maptype);
+            mapType = (MapTypeEnum)int.Parse(mapSettings.maptype);
 
             // filling in UI and setting zone options
             LayoutGeneralMapInfo();
@@ -78,21 +76,14 @@ namespace KSF_Surf.Views
 
             stageCount = int.Parse(mapSettings.cp_count);
             bonusCount = int.Parse(mapSettings.b_count);
-            if ((int)mapType == 1)
-            {
-                stageCount = 0;
-            }
+
+            if ((int)mapType == 1) stageCount = 0;
             else
             {
-                for (int i = 1; i <= stageCount; i++)
-                {
-                    zonePickerList.Add("S" + i);
-                }
+                for (int i = 1; i <= stageCount; i++) zonePickerList.Add("S" + i);
             }
-            for (int i = 1; i <= bonusCount; i++)
-            {
-                zonePickerList.Add("B" + i);
-            }
+
+            for (int i = 1; i <= bonusCount; i++) zonePickerList.Add("B" + i);
 
             LayoutPoints();
         }
@@ -101,8 +92,8 @@ namespace KSF_Surf.Views
         {    
             switch (mapType)
             {
-                case EFilter_MapType.linear: MapTypeLabel.Text = "CPs"; break;
-                case EFilter_MapType.staged: MapTypeLabel.Text = "Stages"; break;
+                case MapTypeEnum.LINEAR: MapTypeLabel.Text = "CPs"; break;
+                case MapTypeEnum.STAGED: MapTypeLabel.Text = "Stages"; break;
             }
             
             TierLabel.Text = mapSettings.tier;
@@ -121,7 +112,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                foreach (Mapper mapper in mappers)
+                foreach (MapperDatum mapper in mappers)
                 {
                     MapperTypeStack.Children.Add(new Label {
                         Text = mapper.typeName,
@@ -138,10 +129,10 @@ namespace KSF_Surf.Views
 
         private void LayoutStats()
         {
-            CreatedLabel.Text = String_Formatter.toString_KSFDate(mapSettings.created);
-            CompletionsLabel.Text = String_Formatter.toString_Int(pointsData.TotalPlayers);
-            TimesPlayedLabel.Text = String_Formatter.toString_Int(mapSettings.totalplaytimes);
-            PlayTimeLabel.Text = String_Formatter.toString_PlayTime(mapSettings.playtime, true);
+            CreatedLabel.Text = StringFormatter.KSFDateString(mapSettings.created);
+            CompletionsLabel.Text = StringFormatter.IntString(pointsData.TotalPlayers);
+            TimesPlayedLabel.Text = StringFormatter.IntString(mapSettings.totalplaytimes);
+            PlayTimeLabel.Text = StringFormatter.PlayTimeString(mapSettings.playtime, true);
         }
 
         private void LayoutPoints()
@@ -156,7 +147,7 @@ namespace KSF_Surf.Views
 
             CompletionValueStack.Children.Add(new Label
             {
-                Text = String_Formatter.toString_Points(mapSettings.map_finish),
+                Text = StringFormatter.PointsString(mapSettings.map_finish),
                 Style = App.Current.Resources["RightColStyle"] as Style,
                 FontSize = fontsize
             });
@@ -170,7 +161,7 @@ namespace KSF_Surf.Views
 
                 CompletionValueStack.Children.Add(new Label
                 {
-                    Text = String_Formatter.toString_Points(mapSettings.stage_finish),
+                    Text = StringFormatter.PointsString(mapSettings.stage_finish),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
                 });
@@ -186,7 +177,7 @@ namespace KSF_Surf.Views
 
                 CompletionValueStack.Children.Add(new Label
                 {
-                    Text = String_Formatter.toString_Points(mapSettings.bonus_finish),
+                    Text = StringFormatter.PointsString(mapSettings.bonus_finish),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
                 });
@@ -206,7 +197,7 @@ namespace KSF_Surf.Views
 
                 TopGroupValueStack.Children.Add(new Label
                 {
-                    Text = String_Formatter.toString_Points(points),
+                    Text = StringFormatter.PointsString(points),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
                 }); ;
@@ -224,14 +215,14 @@ namespace KSF_Surf.Views
                 int groupEnd = 10 + pointsData.GroupRanks[i];
 
                 GroupStack.Children.Add(new Label {
-                    Text = "G" + i + " (" + String_Formatter.toString_Points(rank + 1) + "-" + String_Formatter.toString_Points(groupEnd) + ")",
+                    Text = "G" + i + " (" + StringFormatter.PointsString(rank + 1) + "-" + StringFormatter.PointsString(groupEnd) + ")",
                     Style = Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
                 GroupValueStack.Children.Add(new Label
                 {
-                    Text = String_Formatter.toString_Points(points),
+                    Text = StringFormatter.PointsString(points),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
                 }); ;
@@ -259,29 +250,27 @@ namespace KSF_Surf.Views
         private async void Top_Tapped(object sender, EventArgs e)
         {
             TopButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapTopPage(Title, game, map, stageCount, bonusCount, zonePickerList));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             TopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 
         private async void PR_Tapped(object sender, EventArgs e)
         {
             PRButton.Style = App.Current.Resources["TappedStackStyle"] as Style;
-            if (BaseViewModel.hasConnection())
+
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPRPage(Title.Replace(']', ','), game, map, 
-                    (stageCount + bonusCount > 0), (mapType == EFilter_MapType.staged)));
+                    (stageCount + bonusCount > 0), (mapType == MapTypeEnum.STAGED)));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
+
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
 

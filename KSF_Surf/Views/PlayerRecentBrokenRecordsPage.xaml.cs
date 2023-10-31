@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using System.Collections.ObjectModel;
-using System;
 
 namespace KSF_Surf.Views
 {
@@ -19,20 +17,20 @@ namespace KSF_Surf.Views
         private bool isLoading = false;
 
         // object used by "Records Broken" calls
-        private List<RecentPlayerRecords> recordsBrokenData;
+        private List<PlayerRecentRecordDatum> recordsBrokenData;
         private int list_index = 1;
 
         // variables for filters
-        private readonly EFilter_Game game;
-        private readonly EFilter_Mode mode;
-        private readonly EFilter_PlayerType playerType;
+        private readonly GameEnum game;
+        private readonly ModeEnum mode;
+        private readonly PlayerTypeEnum playerType;
         private readonly string playerValue;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string, string>> recentRecordsBrokenCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string, string>>();
 
-        public PlayerRecentBrokenRecordsPage(string title, EFilter_Game game, EFilter_Mode mode, EFilter_PlayerType playerType, string playerValue)
+        public PlayerRecentBrokenRecordsPage(string title, GameEnum game, ModeEnum mode, PlayerTypeEnum playerType, string playerValue)
         {
             this.game = game;
             this.mode = mode;
@@ -51,7 +49,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords()
         {
-            var recordsBrokenDatum = await playerViewModel.GetPlayerRecords(game, mode, EFilter_PlayerRecordsType.broken, playerType, playerValue, list_index);
+            var recordsBrokenDatum = await playerViewModel.GetPlayerRecords(game, mode, PlayerRecordsTypeEnum.BROKEN, playerType, playerValue, list_index);
             recordsBrokenData = recordsBrokenDatum?.data.recentRecords;
             if (recordsBrokenData is null) return;
 
@@ -62,52 +60,34 @@ namespace KSF_Surf.Views
 
         private void LayoutRecords()
         {
-            foreach (RecentPlayerRecords datum in recordsBrokenData)
+            foreach (PlayerRecentRecordDatum datum in recordsBrokenData)
             {
                 string mapZoneString = datum.mapName + " ";
-                if (datum.zoneID != "0")
-                {
-                    mapZoneString += EFilter_ToString.zoneFormatter(datum.zoneID, false, false) + " ";
-                }
-
+                if (datum.zoneID != "0") mapZoneString += StringFormatter.ZoneString(datum.zoneID, false, false) + " ";
 
                 if (datum.recordType.Contains("Top10"))
                 {
-                    if (datum.prevRank != "10")
-                    {
-                        datum.recordType = "[R" + datum.prevRank + "]";
-                    }
-                    else
-                    {
-                        datum.recordType = "Top10";
-                    }
+                    if (datum.prevRank != "10") datum.recordType = "[R" + datum.prevRank + "]";
+                    else datum.recordType = "Top10";
                 }
                 string recordString = datum.recordType + " lost on " + datum.server + " server";
 
                 string rrtimeString = "now [R" + datum.newRank + "] (";
-                if (datum.wrDiff == "0")
-                {
-                    rrtimeString += "RETAKEN";
-                }
-                else
-                {
-                    rrtimeString += "WR+" + String_Formatter.toString_RankTime(datum.wrDiff);
-                }
-                rrtimeString += ") (" + String_Formatter.toString_LastOnline(datum.date) + ")";
+                if (datum.wrDiff == "0") rrtimeString += "RETAKEN";
+                else rrtimeString += "WR+" + StringFormatter.RankTimeString(datum.wrDiff);
+                rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
                 recentRecordsBrokenCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, recordString, rrtimeString, datum.mapName));
 
                 list_index++;
             }
-                
 
             if (list_index == 1) // no recently broken records
             {
                 RecentBrokenRecordsCollectionViewEmptyLabel.Text = "None! :)";
             }
         }
-
 
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
@@ -127,7 +107,7 @@ namespace KSF_Surf.Views
 
         private async void RecentBrokenRecords_ThresholdReached(object sender, EventArgs e)
         {
-            if (isLoading || !BaseViewModel.hasConnection()) return;
+            if (isLoading || !BaseViewModel.HasConnection()) return;
             if (((list_index - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
             if (list_index >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
 
@@ -150,14 +130,11 @@ namespace KSF_Surf.Views
 
             string mapName = selectedMap.Item4;
 
-            if (BaseViewModel.hasConnection())
+            if (BaseViewModel.HasConnection())
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else
-            {
-                await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
-            }
+            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

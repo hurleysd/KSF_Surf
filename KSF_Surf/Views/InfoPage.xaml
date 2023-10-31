@@ -64,12 +64,6 @@
 
             <BoxView Style="{DynamicResource SeparatorStyle}"/>
 
-            <Label x:Name="NewtonsoftJsonLabel"
-                   Style="{DynamicResource SmallCreditLabelStyle}"
-                   Margin="0,5,0,5"/>
-
-            <BoxView Style="{DynamicResource SeparatorStyle}"/>
-
             <Label x:Name="RestSharpLabel"
                    Style="{DynamicResource SmallCreditLabelStyle}"
                    Margin="0,5,0,5"/>

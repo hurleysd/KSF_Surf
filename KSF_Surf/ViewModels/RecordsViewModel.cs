@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Newtonsoft.Json;
-
+﻿using System.Threading.Tasks;
+using System.Text.Json;
+using RestSharp;
 using KSF_Surf.Models;
 
 namespace KSF_Surf.ViewModels
@@ -27,324 +25,270 @@ namespace KSF_Surf.ViewModels
 
         public RecordsViewModel()
         {
-            Title = "Records";
         }
 
         // KSF API calls -------------------------------------------------------------------------------------------
         #region ksf
 
-        internal async Task<SurfTopRootObject> GetSurfTop(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<SurfTopRoot> GetSurfTop(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/server/" + start_index + "," + SURF_TOP_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/server/" + start_index + "," + SURF_TOP_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<SurfTopRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<SurfTopRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<RRRootObject> GetRecentRecords(EFilter_Game game, EFilter_RRType type, EFilter_Mode mode, int start_index)
+        internal async Task<RecentRecordsRoot> GetRecentRecords(GameEnum game, RecentRecordsTypeEnum type, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
-            string typeString = EFilter_ToString.toString(type);
+            string gameString = EnumToString.APIString(game);
+            string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || typeString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/" + type + "/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/recentrecords/server/" + type + "/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<RRRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<RecentRecordsRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<RR10RootObject> GetRecentRecords10(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<RecentRecords10Root> GetRecentRecords10(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/recentrecords/server/top10/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/recentrecords/server/top10/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<RR10RootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<RecentRecords10Root>(response.Content);
+            else return null;
         }
 
-        internal async Task<OldestRecordsRootObject> GetOldestRecords(EFilter_Game game, EFilter_ORType type, EFilter_Mode mode, int start_index)
+        internal async Task<OldestRecordsRoot> GetOldestRecords(GameEnum game, OldestRecordsTypeEnum type, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
-            string typeString = EFilter_ToString.toString(type);
+            string gameString = EnumToString.APIString(game);
+            string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || typeString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/oldestrecords/server/" + typeString + "/" + start_index + "," + OLDEST_RECORDS_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/oldestrecords/server/" + typeString + "/" + start_index + "," + OLDEST_RECORDS_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<OldestRecordsRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<OldestRecordsRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostPCRootObject> GetMostPC(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<MostPercentCompletionRoot> GetMostPC(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" ) return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/pc/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/pc/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostPCRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostPercentCompletionRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostCountRootObject> GetMostCount(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode, int start_index)
+        internal async Task<MostCountRoot> GetMostCount(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
-            string typeString = EFilter_ToString.toString(type);
+            string gameString = EnumToString.APIString(game);
+            string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || typeString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostCountRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostCountRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostTopRootObject> GetMostTop(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<MostTopsRoot> GetMostTop(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/top10/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/top10/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostTopRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostTopsRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostGroupRootObject> GetMostGroup(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<MostGroupRoot> GetMostGroup(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/group/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/group/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostGroupRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostGroupRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostContWrRootObject> GetMostContWr(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<MostContestedWorldRecordsRoot> GetMostContWr(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/mostcontestedwr/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/mostcontestedwr/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostContWrRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostContestedWorldRecordsRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostContZoneRootObject> GetMostContZone(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode, int start_index)
+        internal async Task<MostContestedZoneRoot> GetMostContZone(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
-            string typeString = EFilter_ToString.toString(type);
+            string gameString = EnumToString.APIString(game);
+            string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || typeString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostContZoneRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostContestedZoneRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<MostTimeRootObject> GetMostTime(EFilter_Game game, EFilter_MostType type, EFilter_Mode mode, int start_index)
+        internal async Task<MostTimeRoot> GetMostTime(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
-            string typeString = EFilter_ToString.toString(type);
+            string gameString = EnumToString.APIString(game);
+            string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || typeString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<MostTimeRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<MostTimeRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<TopCountriesRootObject> GetTopCountries(EFilter_Game game, EFilter_Mode mode, int start_index)
+        internal async Task<TopCountriesRoot> GetTopCountries(GameEnum game, ModeEnum mode, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/countries/" + start_index + "," + MOST_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/countries/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<TopCountriesRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<TopCountriesRoot>(response.Content);
+            else return null;
         }
 
-        internal async Task<string> GetTopCountry(EFilter_Game game, EFilter_Mode mode)
+        internal async Task<string> GetTopCountry(GameEnum game, ModeEnum mode)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "") return null;
+            RestRequest request = new RestRequest(gameString + "/top/countries/1,1/" + modeString)
+            {
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
 
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/countries/1,1/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
+            RestResponse response = await KSFClient.ExecuteAsync(request);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                TopCountriesRootObject tcro = JsonConvert.DeserializeObject<TopCountriesRootObject>(response.Content);
+                TopCountriesRoot tcro = JsonSerializer.Deserialize<TopCountriesRoot>(response.Content);
                 return tcro.data[0]?.country;
             }
-            else
-            {
-                return null;
-            }
+            else return null;
         }
 
-        internal async Task<CountryTopRootObject> GetCountryTop(EFilter_Game game, EFilter_Mode mode, string country, int start_index)
+        internal async Task<CountryTopsObject> GetCountryTop(GameEnum game, ModeEnum mode, string country, int start_index)
         {
-            if (!BaseViewModel.hasConnection()) return null;
+            if (!BaseViewModel.HasConnection()) return null;
 
-            string gameString = EFilter_ToString.toString(game);
+            string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            if (gameString == "" || country == "") return null;
-
-            client.BaseUrl = new Uri("http://surf.ksfclan.com/api2/" + gameString + "/top/country/" + country + "/" + start_index + "," + COUNTRY_TOP_QLIMIT + "/" + modeString);
-            await Task.Run(() => response = client.Execute(request));
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            RestRequest request = new RestRequest(gameString + "/top/country/" + country + "/" + start_index + "," + COUNTRY_TOP_QLIMIT + "/" + modeString)
             {
-                return JsonConvert.DeserializeObject<CountryTopRootObject>(response.Content);
-            }
-            else
-            {
-                return null;
-            }
+                Method = Method.Get,
+                RequestFormat = DataFormat.Json
+            }.AddHeader("x-auth-token", Precondition.KSF);
+
+            RestResponse response = await KSFClient.ExecuteAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<CountryTopsObject>(response.Content);
+            else return null;
         }
         #endregion
     }

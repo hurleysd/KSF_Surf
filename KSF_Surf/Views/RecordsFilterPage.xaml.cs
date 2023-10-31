@@ -1,11 +1,7 @@
-﻿using KSF_Surf.Models;
-using KSF_Surf.ViewModels;
-
-using System;
+﻿using System;
 using System.ComponentModel;
-
 using Xamarin.Forms;
-
+using KSF_Surf.Models;
 
 namespace KSF_Surf.Views
 {
@@ -13,13 +9,13 @@ namespace KSF_Surf.Views
     public partial class RecordsFilterPage : ContentPage
     {
         // variables for filters
-        private EFilter_Game game = EFilter_Game.none;
-        private readonly EFilter_Game defaultGame;
-        private EFilter_Mode mode = EFilter_Mode.none;
-        private readonly EFilter_Mode defaultMode;
+        private GameEnum game = GameEnum.NONE;
+        private readonly GameEnum defaultGame;
+        private ModeEnum mode = ModeEnum.NONE;
+        private readonly ModeEnum defaultMode;
 
         // method to apply filters
-        private readonly Action<EFilter_Game, EFilter_Mode> FilterApplier;
+        private readonly Action<GameEnum, ModeEnum> FilterApplier;
 
         // booleans for reset
         private bool resetGame = false;
@@ -29,10 +25,9 @@ namespace KSF_Surf.Views
         private readonly Color untappedTextColor = (Color)App.Current.Resources["UntappedTextColor"];
         private readonly Color tappedTextColor = (Color)App.Current.Resources["TappedTextColor"];
 
-
-        public RecordsFilterPage(Action<EFilter_Game, EFilter_Mode> FilterApplier,
-            EFilter_Game currentGame, EFilter_Mode currentMode,
-            EFilter_Game defaultGame, EFilter_Mode defaultMode)
+        public RecordsFilterPage(Action<GameEnum, ModeEnum> FilterApplier,
+            GameEnum currentGame, ModeEnum currentMode,
+            GameEnum defaultGame, ModeEnum defaultMode)
         {
             this.FilterApplier = FilterApplier;
             this.defaultGame = defaultGame;
@@ -47,23 +42,23 @@ namespace KSF_Surf.Views
         // UI -------------------------------------------------------------------------------------------------------------------------------------
         #region UI
 
-        private void ChangeGameFilter(EFilter_Game newGame)
+        private void ChangeGameFilter(GameEnum newGame)
         {
             if (game == newGame) return;
 
             switch (game)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = untappedTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = untappedTextColor; break;
-                case EFilter_Game.csgo: GameCSGOLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSS: GameCSSLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSS100T: GameCSS100TLabel.TextColor = untappedTextColor; break;
+                case GameEnum.CSGO: GameCSGOLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newGame)
             {
-                case EFilter_Game.css: GameCSSLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.css100t: GameCSS100TLabel.TextColor = tappedTextColor; break;
-                case EFilter_Game.csgo:GameCSGOLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSS: GameCSSLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSS100T: GameCSS100TLabel.TextColor = tappedTextColor; break;
+                case GameEnum.CSGO:GameCSGOLabel.TextColor = tappedTextColor; break;
             }
 
             resetGame = (newGame != defaultGame);
@@ -72,25 +67,25 @@ namespace KSF_Surf.Views
             game = newGame;
         }
 
-        private void ChangeModeFilter(EFilter_Mode newMode)
+        private void ChangeModeFilter(ModeEnum newMode)
         {
             if(mode == newMode) return;           
 
             switch (mode)
             {
-                case EFilter_Mode.fw: ModeFWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.hsw: ModeHSWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.sw: ModeSWLabel.TextColor = untappedTextColor; break;
-                case EFilter_Mode.bw: ModeBWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.FW: ModeFWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.HSW: ModeHSWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.SW: ModeSWLabel.TextColor = untappedTextColor; break;
+                case ModeEnum.BW: ModeBWLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
             switch (newMode)
             {
-                case EFilter_Mode.fw: ModeFWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.hsw: ModeHSWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.sw: ModeSWLabel.TextColor = tappedTextColor; break;
-                case EFilter_Mode.bw: ModeBWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.FW: ModeFWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.HSW: ModeHSWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.SW: ModeSWLabel.TextColor = tappedTextColor; break;
+                case ModeEnum.BW: ModeBWLabel.TextColor = tappedTextColor; break;
                 default: break;
             }
 
@@ -116,25 +111,19 @@ namespace KSF_Surf.Views
             await Navigation.PopAsync();
         }
 
-        private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css);
-        private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.css100t);
-        private void CSGOGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(EFilter_Game.csgo);
+        private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS);
+        private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS100T);
+        private void CSGOGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSGO);
 
-        private void FWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.fw);
-        private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.hsw);
-        private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.sw);
-        private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(EFilter_Mode.bw);
+        private void FWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.FW);
+        private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.HSW);
+        private void SWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.SW);
+        private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.BW);
 
         private void ResetLabel_Tapped(object sender, EventArgs e)
         {
-            if (game != defaultGame)
-            {
-                ChangeGameFilter(defaultGame);
-            }
-            if (mode != defaultMode)
-            {
-                ChangeModeFilter(defaultMode);
-            }
+            if (game != defaultGame) ChangeGameFilter(defaultGame);
+            if (mode != defaultMode) ChangeModeFilter(defaultMode);
 
             ResetLabel.IsVisible = false;
         }
