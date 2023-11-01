@@ -40,8 +40,14 @@
 
                             <StackLayout x:Name="CSSServerStack" 
                                          Orientation="Vertical"
-                                         Grid.Column="0"
-                                         Spacing="22"/>
+                                         Grid.Column="0">
+                                <StackLayout.Spacing>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android">23.5</On>
+                                        <On Platform="iOS">22</On>
+                                    </OnPlatform>
+                                </StackLayout.Spacing>
+                            </StackLayout>
 
                             <StackLayout x:Name="CSSMapsStack" 
                                          Orientation="Vertical" 
@@ -61,8 +67,14 @@
 
                             <StackLayout x:Name="CSS100TServerStack" 
                                          Orientation="Vertical" 
-                                         Grid.Column="0"
-                                         Spacing="22"/>
+                                         Grid.Column="0">
+                                <StackLayout.Spacing>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android">23.5</On>
+                                        <On Platform="iOS">22</On>
+                                    </OnPlatform>
+                                </StackLayout.Spacing>
+                            </StackLayout>
 
                             <StackLayout x:Name="CSS100TMapsStack" 
                                          Orientation="Vertical"
@@ -87,8 +99,14 @@
 
                             <StackLayout x:Name="CSGOServerStack" 
                                          Orientation="Vertical"
-                                         Grid.Column="0"
-                                         Spacing="22"/>
+                                         Grid.Column="0">
+                                <StackLayout.Spacing>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android">23.5</On>
+                                        <On Platform="iOS">22</On>
+                                    </OnPlatform>
+                                </StackLayout.Spacing>
+                            </StackLayout>
 
                             <StackLayout x:Name="CSGOMapsStack" 
                                          Orientation="Vertical"

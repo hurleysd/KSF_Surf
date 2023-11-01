@@ -187,13 +187,27 @@
                                      Orientation="Vertical" 
                                      Grid.Column="0"
                                      Grid.Row="0"
-                                     Grid.RowSpan="2"/>
+                                     Grid.RowSpan="2">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="TopGroupValueStack" 
                                      Orientation="Vertical" 
                                      Grid.Column="1"
                                      Grid.Row="0"
-                                     Grid.RowSpan="2"/>
+                                     Grid.RowSpan="2">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <BoxView VerticalOptions="FillAndExpand"
                                  WidthRequest="1"
@@ -207,22 +221,50 @@
                         <StackLayout x:Name = "CompletionStack"
                                      Orientation="Vertical"
                                      Grid.Column="3"
-                                     Grid.Row="0"/>
+                                     Grid.Row="0">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="GroupStack" 
                                      Orientation="Vertical"
                                      Grid.Column="3"
-                                     Grid.Row="1"/>
+                                     Grid.Row="1">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name = "CompletionValueStack"
                                      Orientation="Vertical"
                                      Grid.Column="4"
-                                     Grid.Row="0"/>
+                                     Grid.Row="0">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
 
                         <StackLayout x:Name="GroupValueStack" 
                                      Orientation="Vertical"
                                      Grid.Column="4"
-                                     Grid.Row="1"/>
+                                     Grid.Row="1">
+                            <StackLayout.Spacing>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android">4</On>
+                                    <On Platform="iOS">6</On>
+                                </OnPlatform>
+                            </StackLayout.Spacing>
+                        </StackLayout>
                     </Grid>
 
                 </StackLayout>
