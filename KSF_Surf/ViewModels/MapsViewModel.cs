@@ -57,14 +57,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MapTopsRoot> GetMapTop(GameEnum game, string map, ModeEnum mode, int zone, int start_index)
+        internal async Task<MapTopsRoot> GetMapTop(GameEnum game, string map, ModeEnum mode, int zone, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/map/" + map + "/zone/" + zone + "/" + start_index + "," + TOP_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/map/" + map + "/zone/" + zone + "/" + startIndex + "," + TOP_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json

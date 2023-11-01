@@ -30,14 +30,14 @@ namespace KSF_Surf.ViewModels
         // KSF API calls -------------------------------------------------------------------------------------------
         #region ksf
 
-        internal async Task<SurfTopRoot> GetSurfTop(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<SurfTopRoot> GetSurfTop(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/server/" + start_index + "," + SURF_TOP_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/server/" + startIndex + "," + SURF_TOP_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -48,7 +48,7 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<RecentRecordsRoot> GetRecentRecords(GameEnum game, RecentRecordsTypeEnum type, ModeEnum mode, int start_index)
+        internal async Task<RecentRecordsRoot> GetRecentRecords(GameEnum game, RecentRecordsTypeEnum type, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
@@ -56,7 +56,7 @@ namespace KSF_Surf.ViewModels
             string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/recentrecords/server/" + type + "/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/recentrecords/server/" + typeString + "/" + startIndex + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -67,14 +67,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<RecentRecords10Root> GetRecentRecords10(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<RecentRecords10Root> GetRecentRecords10(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/recentrecords/server/top10/" + start_index + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/recentrecords/server/top10/" + startIndex + "," + RECENT_RECORDS_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -85,7 +85,7 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<OldestRecordsRoot> GetOldestRecords(GameEnum game, OldestRecordsTypeEnum type, ModeEnum mode, int start_index)
+        internal async Task<OldestRecordsRoot> GetOldestRecords(GameEnum game, OldestRecordsTypeEnum type, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
@@ -93,7 +93,7 @@ namespace KSF_Surf.ViewModels
             string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/oldestrecords/server/" + typeString + "/" + start_index + "," + OLDEST_RECORDS_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/oldestrecords/server/" + typeString + "/" + startIndex + "," + OLDEST_RECORDS_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -104,14 +104,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostPercentCompletionRoot> GetMostPC(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<MostPercentCompletionRoot> GetMostPC(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/pc/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/pc/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -122,7 +122,7 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostCountRoot> GetMostCount(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
+        internal async Task<MostCountRoot> GetMostCount(GameEnum game, MostTypeEnum type, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
@@ -130,7 +130,7 @@ namespace KSF_Surf.ViewModels
             string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -141,14 +141,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostTopsRoot> GetMostTop(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<MostTopsRoot> GetMostTop(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/top10/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/top10/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -159,14 +159,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostGroupRoot> GetMostGroup(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<MostGroupRoot> GetMostGroup(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/group/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/group/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -177,14 +177,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostContestedWorldRecordsRoot> GetMostContWr(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<MostContestedWorldRecordsRoot> GetMostContWr(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/mostcontestedwr/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/mostcontestedwr/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -195,7 +195,7 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostContestedZoneRoot> GetMostContZone(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
+        internal async Task<MostContestedZoneRoot> GetMostContZone(GameEnum game, MostTypeEnum type, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
@@ -203,7 +203,7 @@ namespace KSF_Surf.ViewModels
             string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -214,7 +214,7 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<MostTimeRoot> GetMostTime(GameEnum game, MostTypeEnum type, ModeEnum mode, int start_index)
+        internal async Task<MostTimeRoot> GetMostTime(GameEnum game, MostTypeEnum type, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
@@ -222,7 +222,7 @@ namespace KSF_Surf.ViewModels
             string typeString = EnumToString.APIString(type);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/" + typeString + "/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -233,14 +233,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<TopCountriesRoot> GetTopCountries(GameEnum game, ModeEnum mode, int start_index)
+        internal async Task<TopCountriesRoot> GetTopCountries(GameEnum game, ModeEnum mode, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/countries/" + start_index + "," + MOST_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/countries/" + startIndex + "," + MOST_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
@@ -273,14 +273,14 @@ namespace KSF_Surf.ViewModels
             else return null;
         }
 
-        internal async Task<CountryTopsObject> GetCountryTop(GameEnum game, ModeEnum mode, string country, int start_index)
+        internal async Task<CountryTopsObject> GetCountryTop(GameEnum game, ModeEnum mode, string country, int startIndex)
         {
             if (!BaseViewModel.HasConnection()) return null;
 
             string gameString = EnumToString.APIString(game);
             string modeString = ((int)mode).ToString();
 
-            RestRequest request = new RestRequest(gameString + "/top/country/" + country + "/" + start_index + "," + COUNTRY_TOP_QLIMIT + "/" + modeString)
+            RestRequest request = new RestRequest(gameString + "/top/country/" + country + "/" + startIndex + "," + COUNTRY_TOP_QLIMIT + "/" + modeString)
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
