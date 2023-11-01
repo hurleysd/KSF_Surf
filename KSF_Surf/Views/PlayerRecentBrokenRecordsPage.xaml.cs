@@ -70,12 +70,10 @@ namespace KSF_Surf.Views
                     if (datum.prevRank != "10") datum.recordType = "[R" + datum.prevRank + "]";
                     else datum.recordType = "Top10";
                 }
-                string recordString = datum.recordType + " lost on " + datum.server + " server";
+                string recordString = datum.recordType + " lost from " + datum.server + " server";
 
-                string rrtimeString = "now [R" + datum.newRank + "] (";
-                if (datum.wrDiff == "0") rrtimeString += "RETAKEN";
-                else rrtimeString += "WR+" + StringFormatter.RankTimeString(datum.wrDiff);
-                rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
+                string rrtimeString = "fell to [R" + datum.newRank + "] (" + StringFormatter.LastOnlineString(datum.date) + ")";
+                // not displaying pr time for consistency with PlayerRecentSetRecordsPage
 
                 recentRecordsBrokenCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, recordString, rrtimeString, datum.mapName));

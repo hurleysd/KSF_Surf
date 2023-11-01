@@ -67,13 +67,8 @@ namespace KSF_Surf.Views
 
                 string recordString = datum.recordType + " set on " + datum.server + " server";
 
-                string rrtimeString = "[R" + datum.newRank + "] in " + StringFormatter.RankTimeString(datum.surfTime) + " (";
-                if (datum.wrDiff != "0")
-                {
-                    if (datum.newRank == "1") rrtimeString += "now ";
-                    rrtimeString += "WR+" + StringFormatter.RankTimeString(datum.wrDiff) + ") (";
-                }
-                rrtimeString += StringFormatter.LastOnlineString(datum.date) + ")";
+                string rrtimeString = "achieved [R" + datum.newRank + "] (" + StringFormatter.LastOnlineString(datum.date) + ")";
+                // not displaying pr time because API retrieves current pr time, not the set pr time
 
                 recentRecordsSetCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, recordString, rrtimeString, datum.mapName));
