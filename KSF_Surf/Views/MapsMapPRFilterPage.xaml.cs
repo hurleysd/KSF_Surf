@@ -14,8 +14,8 @@ namespace KSF_Surf.Views
         private readonly ModeEnum defaultMode;
 
         private PlayerTypeEnum playerType = PlayerTypeEnum.NONE;
-        private readonly string meSteamId;
-        private string playerSteamId;
+        private readonly string meSteamID;
+        private string playerSteamID;
         private string playerRank;
 
         // method to apply filters
@@ -36,7 +36,7 @@ namespace KSF_Surf.Views
         {
             this.FilterApplier = FilterApplier;
             this.defaultMode = defaultMode;
-            this.meSteamId = meSteamId;
+            this.meSteamID = meSteamId;
 
             InitializeComponent();
 
@@ -52,8 +52,8 @@ namespace KSF_Surf.Views
             playerRank = currentPlayerRank;
             RankEntry.Text = playerRank;
 
-            playerSteamId = currentPlayerSteamId;
-            SteamIdEntry.Text = playerSteamId;
+            playerSteamID = currentPlayerSteamId;
+            SteamIdEntry.Text = playerSteamID;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace KSF_Surf.Views
 
         private async void Apply_Clicked(object sender, System.EventArgs e)
         {
-            string playerValue = meSteamId;
+            string playerValue = meSteamID;
 
             if (playerType == PlayerTypeEnum.RANK) playerValue = RankEntry.Text;
             else if (playerType == PlayerTypeEnum.STEAM_ID) playerValue = SteamIdEntry.Text;

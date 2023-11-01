@@ -125,7 +125,6 @@ namespace KSF_Surf.Views
                     timePrefix = "-";
                 }
 
-
                 recordGrid.Children.Add(new StackLayout
                 {
                     Children = {
@@ -151,8 +150,7 @@ namespace KSF_Surf.Views
                         Style = App.Current.Resources["Separator2Style"] as Style
                     });
                 }
-            }
-                
+            }     
         }
 
         #endregion

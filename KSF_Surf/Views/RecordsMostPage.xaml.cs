@@ -24,7 +24,7 @@ namespace KSF_Surf.Views
         private List<MostContestedWorldRecordDatum> mostContWrData;
         private List<MostContestedZoneDatum> mostContZoneData;
         private List<MostTimeDatum> mostTimeData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum defaultGame;
@@ -68,7 +68,7 @@ namespace KSF_Surf.Views
             {
                 case MostTypeEnum.PC:
                     {
-                        var mostPCDatum = await recordsViewModel.GetMostPC(game, mode, list_index);
+                        var mostPCDatum = await recordsViewModel.GetMostPC(game, mode, listIndex);
                         mostPCData = mostPCDatum?.data;
                         if (mostPCData is null || mostPCData.Count < 1) return;
 
@@ -87,7 +87,7 @@ namespace KSF_Surf.Views
                 case MostTypeEnum.MOST_WRCP:
                 case MostTypeEnum.MOST_WRB:
                     {
-                        var mostCountDatum = await recordsViewModel.GetMostCount(game, mostType, mode, list_index);
+                        var mostCountDatum = await recordsViewModel.GetMostCount(game, mostType, mode, listIndex);
                         mostCountData = mostCountDatum?.data;
                         if (mostCountData is null || mostCountData.Count < 1) return;
 
@@ -101,7 +101,7 @@ namespace KSF_Surf.Views
                     }
                 case MostTypeEnum.TOP10:
                     {
-                        var mostTopDatum = await recordsViewModel.GetMostTop(game, mode, list_index);
+                        var mostTopDatum = await recordsViewModel.GetMostTop(game, mode, listIndex);
                         mostTopData = mostTopDatum?.data;
                         if (mostTopData is null || mostTopData.Count < 1) return;
 
@@ -115,7 +115,7 @@ namespace KSF_Surf.Views
                     }
                 case MostTypeEnum.GROUP:
                     {
-                        var mostGroupDatum = await recordsViewModel.GetMostGroup(game, mode, list_index);
+                        var mostGroupDatum = await recordsViewModel.GetMostGroup(game, mode, listIndex);
                         mostGroupData = mostGroupDatum?.data;
                         if (mostGroupData is null || mostGroupData.Count < 1) return;
 
@@ -129,7 +129,7 @@ namespace KSF_Surf.Views
                     }
                 case MostTypeEnum.MOST_CONTESTED_WR:
                     {
-                        var mostContWrDatum = await recordsViewModel.GetMostContWr(game, mode, list_index);
+                        var mostContWrDatum = await recordsViewModel.GetMostContWr(game, mode, listIndex);
                         mostContWrData = mostContWrDatum?.data;
                         if (mostContWrData is null || mostContWrData.Count < 1) return;
 
@@ -144,7 +144,7 @@ namespace KSF_Surf.Views
                 case MostTypeEnum.MOST_CONTESTED_WRCP:
                 case MostTypeEnum.MOST_CONTESTED_WRB:
                     {
-                        var mostContZoneDatum = await recordsViewModel.GetMostContZone(game, mostType, mode, list_index);
+                        var mostContZoneDatum = await recordsViewModel.GetMostContZone(game, mostType, mode, listIndex);
                         mostContZoneData = mostContZoneDatum?.data;
                         if (mostContZoneData is null || mostContZoneData.Count < 1) return;
 
@@ -161,7 +161,7 @@ namespace KSF_Surf.Views
                 case MostTypeEnum.PLAYTIME_WEEK:
                 case MostTypeEnum.PLAYTIME_MONTH:
                     {
-                        var mostTimeDatum = await recordsViewModel.GetMostTime(game, mostType, mode, list_index);
+                        var mostTimeDatum = await recordsViewModel.GetMostTime(game, mostType, mode, listIndex);
                         mostTimeData = mostTimeDatum?.data;
                         if (mostTimeData is null || mostTimeData.Count < 1) return;
 
@@ -186,9 +186,9 @@ namespace KSF_Surf.Views
 
         private void LayoutMostByType(List<string> players, List<string> values, List<string> links)
         {
-            for (int i = 0; i < players.Count && i < values.Count && i < links.Count; i++, list_index++)
+            for (int i = 0; i < players.Count && i < values.Count && i < links.Count; i++, listIndex++)
             {
-                recordsMostCollectionViewItemsSource.Add(new Tuple<string, string, string>(list_index + ". " + players[i], values[i], links[i]));
+                recordsMostCollectionViewItemsSource.Add(new Tuple<string, string, string>(listIndex + ". " + players[i], values[i], links[i]));
             }
         }
 
@@ -240,7 +240,7 @@ namespace KSF_Surf.Views
             }
 
             mostTypeString = selected;
-            list_index = 1;
+            listIndex = 1;
 
             LoadingAnimation.IsRunning = true;
             isLoading = true;
@@ -259,8 +259,8 @@ namespace KSF_Surf.Views
             // calling with these ^ types again leads to JSON deserialization errors 
 
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % RecordsViewModel.MOST_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= RecordsViewModel.MOST_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % RecordsViewModel.MOST_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= RecordsViewModel.MOST_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
@@ -305,7 +305,7 @@ namespace KSF_Surf.Views
             {
                 game = newGame;
                 mode = newMode;
-                list_index = 1;
+                listIndex = 1;
 
                 LoadingAnimation.IsRunning = true;
                 isLoading = true;

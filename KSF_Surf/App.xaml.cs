@@ -34,12 +34,10 @@ namespace KSF_Surf
 
         public static void ApplyTheme()
         {
-            ApplyDarkTheme(); // iOS bug where the title bar on the Live page doesn't show unless it begins in dark theme
+            //ApplyDarkTheme(); // iOS bug where the title bar on the Live page doesn't show unless it begins in dark theme
 
-            if (AppInfo.RequestedTheme == AppTheme.Light)
-            {
-                ApplyLightTheme();
-            }
+            if (AppInfo.RequestedTheme == AppTheme.Dark) ApplyDarkTheme();
+            else ApplyLightTheme();
         }
 
         public static void ApplyDarkTheme()

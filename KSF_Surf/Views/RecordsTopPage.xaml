@@ -8,6 +8,7 @@
              Title="Surf Top"
              x:Name="RecordsTopTab"  
              Style="{DynamicResource ContentPageStyle}">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
@@ -24,19 +25,19 @@
                      IsVisible="False">
             <!-- Surf Top -->
             <Label Text="Surf Top Points"
-                       Style="{DynamicResource HeaderLabel}"
-                       Padding="20,15,10,15"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Padding="20,15,10,15"/>
 
             <CollectionView x:Name="RecordsTopCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="RecordsTop_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="RecordsTop_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="RecordsTop_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="RecordsTop_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -63,11 +64,11 @@
                                    Grid.Row="0"
                                    HorizontalOptions="EndAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="1"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -76,18 +77,17 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
-
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
-                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                        AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
-                        Style="{DynamicResource LoadingStyle}"/>
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                           Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
 </ContentPage>

@@ -96,7 +96,7 @@
                        Margin="10,0,0,10"/>
 
                 <Grid Padding ="10"
-                    HorizontalOptions="FillAndExpand">
+                      HorizontalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>

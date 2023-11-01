@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // object used by "Records Set" calls
         private List<PlayerRecentRecordDatum> recordsSetData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -49,7 +49,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords()
         {
-            var recordsSetDatum = await playerViewModel.GetPlayerRecords(game, mode, PlayerRecordsTypeEnum.SET, playerType, playerValue, list_index);
+            var recordsSetDatum = await playerViewModel.GetPlayerRecords(game, mode, PlayerRecordsTypeEnum.SET, playerType, playerValue, listIndex);
             recordsSetData = recordsSetDatum?.data.recentRecords;
             if (recordsSetData is null) return;
 
@@ -78,10 +78,10 @@ namespace KSF_Surf.Views
                 recentRecordsSetCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, recordString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
 
-            if (list_index == 1) // no recently set records
+            if (listIndex == 1) // no recently set records
             {
                 RecentSetRecordsCollectionViewEmptyLabel.Text = "None! :(";
             }
@@ -106,8 +106,8 @@ namespace KSF_Surf.Views
         private async void RecentSetRecords_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

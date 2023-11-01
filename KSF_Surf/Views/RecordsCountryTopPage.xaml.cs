@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "SurfTop" call
         private List<CountryTopDatum> countryTopData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum defaultGame;
@@ -51,7 +51,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeCountryTop(bool clearPrev)
         {
-            var countryTopDatum = await recordsViewModel.GetCountryTop(game, mode, country, list_index);
+            var countryTopDatum = await recordsViewModel.GetCountryTop(game, mode, country, listIndex);
             countryTopData = countryTopDatum?.data;
             if (countryTopData is null) return;
 
@@ -67,13 +67,13 @@ namespace KSF_Surf.Views
         {
             foreach (CountryTopDatum datum in countryTopData)
             {
-                string nameString = list_index + ". " + datum.playerName;
+                string nameString = listIndex + ". " + datum.playerName;
                 string pointsString = StringFormatter.PointsString(datum.points);
 
                 recordsCountryTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     nameString, pointsString, datum.steamID));
 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -111,7 +111,7 @@ namespace KSF_Surf.Views
             if (selected == country) return;
 
             country = selected;
-            list_index = 1;
+            listIndex = 1;
 
             LoadingAnimation.IsRunning = true;
             isLoading = true;
@@ -125,8 +125,8 @@ namespace KSF_Surf.Views
         private async void CountryRecordsTop_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % RecordsViewModel.COUNTRY_TOP_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= RecordsViewModel.COUNTRY_TOP_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % RecordsViewModel.COUNTRY_TOP_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= RecordsViewModel.COUNTRY_TOP_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
@@ -170,7 +170,7 @@ namespace KSF_Surf.Views
             {
                 game = newGame;
                 mode = newMode;
-                list_index = 1;
+                listIndex = 1;
 
                 LoadingAnimation.IsRunning = true;
                 isLoading = true;

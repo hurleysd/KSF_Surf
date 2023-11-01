@@ -134,14 +134,14 @@ namespace KSF_Surf.Views
             TimesPlayedLabel.Text = StringFormatter.IntString(mapSettings.totalplaytimes);
             PlayTimeLabel.Text = StringFormatter.PlayTimeString(mapSettings.playtime, true);
         }
-
         private void LayoutPoints()
         {
             int fontsize = 16;
 
-            CompletionStack.Children.Add( new Label {
+            CompletionStack.Children.Add(new Label
+            {
                 Text = "Map",
-                Style = Resources["PointsStyle"] as Style,
+                Style = App.Current.Resources["PointsStyle"] as Style,
                 FontSize = fontsize
             });
 
@@ -154,9 +154,10 @@ namespace KSF_Surf.Views
 
             if (stageCount > 0)
             {
-                CompletionStack.Children.Add( new Label {
-                Text = "Stage",
-                Style = Resources["PointsStyle"] as Style
+                CompletionStack.Children.Add(new Label
+                {
+                    Text = "Stage",
+                    Style = App.Current.Resources["PointsStyle"] as Style
                 });
 
                 CompletionValueStack.Children.Add(new Label
@@ -169,9 +170,10 @@ namespace KSF_Surf.Views
 
             if (bonusCount > 0)
             {
-                CompletionStack.Children.Add(new Label {
+                CompletionStack.Children.Add(new Label
+                {
                     Text = "Bonus",
-                    Style = Resources["PointsStyle"] as Style,
+                    Style = App.Current.Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
@@ -189,9 +191,10 @@ namespace KSF_Surf.Views
             {
                 if (points == 0) continue;
 
-                TopGroupStack.Children.Add(new Label {
+                TopGroupStack.Children.Add(new Label
+                {
                     Text = (i != 1) ? "R" + i : "WR",
-                    Style = Resources["PointsStyle"] as Style,
+                    Style = App.Current.Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 
@@ -214,9 +217,10 @@ namespace KSF_Surf.Views
 
                 int groupEnd = 10 + pointsData.GroupRanks[i];
 
-                GroupStack.Children.Add(new Label {
+                GroupStack.Children.Add(new Label
+                {
                     Text = "G" + i + " (" + StringFormatter.PointsString(rank + 1) + "-" + StringFormatter.PointsString(groupEnd) + ")",
-                    Style = Resources["PointsStyle"] as Style,
+                    Style = App.Current.Resources["PointsStyle"] as Style,
                     FontSize = fontsize
                 });
 

@@ -39,6 +39,7 @@ namespace KSF_Surf.Views
         public PlayerPage()
         {
             playerViewModel = new PlayerViewModel();
+
             InitializeComponent();
 
             // Refresh command

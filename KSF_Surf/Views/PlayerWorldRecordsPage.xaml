@@ -22,12 +22,12 @@
             <StackLayout Orientation="Horizontal"
                          Padding="20,15,10,15">
                 <Label Text="World Records"
-                           Style="{DynamicResource HeaderLabel}"
-                           HorizontalOptions="StartAndExpand"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       HorizontalOptions="StartAndExpand"/>
 
                 <Label x:Name="WRTypeOptionLabel"
-                           Style="{StaticResource TypeLabelStyle}"
-                           HorizontalOptions="EndAndExpand">
+                       Style="{StaticResource TypeLabelStyle}"
+                       HorizontalOptions="EndAndExpand">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="WRTypeOptionLabel_Tapped"/>
                     </Label.GestureRecognizers>
@@ -35,15 +35,15 @@
             </StackLayout>
 
             <CollectionView x:Name="WorldRecordsCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="WorldRecords_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="WorldRecords_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="WorldRecords_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="WorldRecords_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -65,9 +65,9 @@
                                    Grid.Row="1"
                                    HorizontalOptions="StartAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="2"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="2"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -76,20 +76,18 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="WorldRecordsCollectionViewEmptyLabel"
-                        Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           Text="Could not reach KSF servers :("
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
-
-
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                            Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
 </ContentPage>

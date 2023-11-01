@@ -16,9 +16,9 @@ namespace KSF_Surf.Views
         private readonly GameEnum defaultGame;
 
         // objects for "KSFClan Servers"
-        private List<ServerDatum> css_serverData;
-        private List<ServerDatum> css100t_serverData;
-        private List<ServerDatum> csgo_serverData;
+        private List<ServerDatum> cssServerData;
+        private List<ServerDatum> css100tServerData;
+        private List<ServerDatum> csgoServerData;
 
         // Date of last refresh
         private DateTime lastRefresh = DateTime.Now;
@@ -74,11 +74,11 @@ namespace KSF_Surf.Views
             var css100t_ServerDatum = await liveViewModel.GetServers(GameEnum.CSS100T);
             var csgos_ServerDatum = await liveViewModel.GetServers(GameEnum.CSGO);
             
-            css_serverData = css_ServerDatum?.data;
-            css100t_serverData = css100t_ServerDatum?.data;
-            csgo_serverData = csgos_ServerDatum?.data;
+            cssServerData = css_ServerDatum?.data;
+            css100tServerData = css100t_ServerDatum?.data;
+            csgoServerData = csgos_ServerDatum?.data;
 
-            if (css_serverData is null || css100t_serverData is null || csgo_serverData is null) return;
+            if (cssServerData is null || css100tServerData is null || csgoServerData is null) return;
 
             if (order) OrderServers();
             ChangeServers();
@@ -125,8 +125,8 @@ namespace KSF_Surf.Views
             CSGOMapsStack.Children.Clear();
 
             int i = 1;
-            int len = css_serverData.Count;
-            foreach (ServerDatum datum in css_serverData)
+            int len = cssServerData.Count;
+            foreach (ServerDatum datum in cssServerData)
             {
                 if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase)
                    || datum.surftimer_servername.Equals("Map Contest", StringComparison.OrdinalIgnoreCase))
@@ -152,7 +152,7 @@ namespace KSF_Surf.Views
                 Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["Right2ColStyle"] as Style
+                    Style = App.Current.Resources["Right2ColStyle"] as Style
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
@@ -164,22 +164,21 @@ namespace KSF_Surf.Views
                 CSSMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
-
-                    Style = Resources["Right3ColStyle"] as Style
+                    Style = App.Current.Resources["Right3ColStyle"] as Style
                 });
 
                 if (++i < len)
                 {
                     CSSMapsStack.Children.Add(new BoxView
                     {
-                        Style = Resources["MapSeparatorStyle"] as Style
+                        Style = App.Current.Resources["MapSeparatorStyle"] as Style
                     });
                 }
             }
 
             i = 1;
-            len = css100t_serverData.Count;
-            foreach (ServerDatum datum in css100t_serverData)
+            len = css100tServerData.Count;
+            foreach (ServerDatum datum in css100tServerData)
             {
                 if (datum.surftimer_servername.IndexOf("test", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -204,7 +203,7 @@ namespace KSF_Surf.Views
                 Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["Right2ColStyle"] as Style
+                    Style = App.Current.Resources["Right2ColStyle"] as Style
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
@@ -216,22 +215,21 @@ namespace KSF_Surf.Views
                 CSS100TMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
-
-                    Style = Resources["Right3ColStyle"] as Style
+                    Style = App.Current.Resources["Right3ColStyle"] as Style
                 });
 
                 if (++i < len)
                 {
                     CSS100TMapsStack.Children.Add(new BoxView
                     {
-                        Style = Resources["MapSeparatorStyle"] as Style
+                        Style = App.Current.Resources["MapSeparatorStyle"] as Style
                     });
                 }
             }
 
             i = 1;
-            len = csgo_serverData.Count;
-            foreach (ServerDatum datum in csgo_serverData)
+            len = csgoServerData.Count;
+            foreach (ServerDatum datum in csgoServerData)
             {
                 if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
                 {
@@ -261,7 +259,7 @@ namespace KSF_Surf.Views
                 Label mapLabel = new Label
                 {
                     Text = datum.currentmap,
-                    Style = Resources["Right2ColStyle"] as Style
+                    Style = App.Current.Resources["Right2ColStyle"] as Style
                 };
                 var tapMapGestureRecognizer = new TapGestureRecognizer();
                 tapMapGestureRecognizer.Tapped += async (s, e) => {
@@ -273,15 +271,14 @@ namespace KSF_Surf.Views
                 CSGOMapsStack.Children.Add(new Label
                 {
                     Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
-
-                    Style = Resources["Right3ColStyle"] as Style
+                    Style = App.Current.Resources["Right3ColStyle"] as Style
                 });
 
                 if (++i < len)
                 {
                     CSGOMapsStack.Children.Add(new BoxView
                     {
-                        Style = Resources["MapSeparatorStyle"] as Style
+                        Style = App.Current.Resources["MapSeparatorStyle"] as Style
                     });
                 }
             }

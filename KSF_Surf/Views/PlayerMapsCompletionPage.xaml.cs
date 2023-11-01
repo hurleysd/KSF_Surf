@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "(In)Complete Maps" call
         private List<PlayerMapCompletionDatum> recordsData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -53,7 +53,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeCompletion()
         {
-            var completionDatum = await playerViewModel.GetPlayerMapsCompletion(game, mode, completionType, playerType, playerValue, list_index);
+            var completionDatum = await playerViewModel.GetPlayerMapsCompletion(game, mode, completionType, playerType, playerValue, listIndex);
             recordsData = completionDatum?.data.records;
             if (recordsData is null) return;
 
@@ -79,10 +79,10 @@ namespace KSF_Surf.Views
                 mapsCompletionCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapCompletionString, mapSummaryString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
 
-            if (list_index == 0) // no (in)complete maps
+            if (listIndex == 0) // no (in)complete maps
             {
                 MapsCompletionCollectionViewEmptyLabel.Text = "None ! "
                     + ((completionType == PlayerCompletionTypeEnum.COMPLETE) ? ":(" :  ":)");
@@ -108,8 +108,8 @@ namespace KSF_Surf.Views
         private async void MapsCompletion_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % PlayerViewModel.MAPS_COMPLETION_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= PlayerViewModel.MAPS_COMPLETION_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % PlayerViewModel.MAPS_COMPLETION_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= PlayerViewModel.MAPS_COMPLETION_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

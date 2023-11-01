@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // object used by "Records Broken" calls
         private List<PlayerRecentRecordDatum> recordsBrokenData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -49,7 +49,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords()
         {
-            var recordsBrokenDatum = await playerViewModel.GetPlayerRecords(game, mode, PlayerRecordsTypeEnum.BROKEN, playerType, playerValue, list_index);
+            var recordsBrokenDatum = await playerViewModel.GetPlayerRecords(game, mode, PlayerRecordsTypeEnum.BROKEN, playerType, playerValue, listIndex);
             recordsBrokenData = recordsBrokenDatum?.data.recentRecords;
             if (recordsBrokenData is null) return;
 
@@ -80,10 +80,10 @@ namespace KSF_Surf.Views
                 recentRecordsBrokenCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, recordString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
 
-            if (list_index == 1) // no recently broken records
+            if (listIndex == 1) // no recently broken records
             {
                 RecentBrokenRecordsCollectionViewEmptyLabel.Text = "None! :)";
             }
@@ -108,8 +108,8 @@ namespace KSF_Surf.Views
         private async void RecentBrokenRecords_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % PlayerViewModel.SETBROKEN_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= PlayerViewModel.SETBROKEN_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

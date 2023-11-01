@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
+using static Xamarin.Forms.Internals.Profile;
 
 
 namespace KSF_Surf.Views
@@ -17,8 +18,8 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // objects used in "Maps" call
-        private List<string> maps_list = new List<string>();
-        private List<DetailedMapDatum> detailed_mapData;
+        private List<string> mapsList = new List<string>();
+        private List<DetailedMapDatum> detailedMapData;
 
         // search filter vars used in API call used to minimize new calls
         private GameEnum currentGame = GameEnum.NONE;
@@ -34,7 +35,7 @@ namespace KSF_Surf.Views
             mapsViewModel = new MapsViewModel();
             defaultGame = PropertiesDict.GetGame();
 
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         // Loading KSF map list --------------------------------------------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ namespace KSF_Surf.Views
             // minTier options: 1-8
             // maxTier options: 1-8
 
-            maps_list = new List<string>();
+            mapsList = new List<string>();
 
             try
             {
@@ -55,12 +56,12 @@ namespace KSF_Surf.Views
                     if (dmro == null)
                     {
                         MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
-                        return maps_list;
+                        return mapsList;
                     }
                     MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
                     MapsTab.Title = "Maps [" + EnumToString.NameString(game) + "]";
 
-                    detailed_mapData = new List<DetailedMapDatum>(dmro.data);
+                    detailedMapData = new List<DetailedMapDatum>(dmro.data);
                     currentGame = game;
                     currentSort = sort;
                 }
@@ -69,7 +70,7 @@ namespace KSF_Surf.Views
                 currentMaxTier = maxTier;
                 currentMapType = mapType;
 
-                foreach (DetailedMapDatum datum in detailed_mapData)
+                foreach (DetailedMapDatum datum in detailedMapData)
                 {
                     int tier = int.Parse(datum.tier);
                     int type = int.Parse(datum.maptype);
@@ -78,14 +79,14 @@ namespace KSF_Surf.Views
                     else if (tier < minTier) continue;
                     else if (tier > maxTier) continue;
 
-                    maps_list.Add(datum.name);
+                    mapsList.Add(datum.name);
                 }
             }
             catch (FormatException)
             {
             }
 
-            return maps_list;
+            return mapsList;
         }
 
         #endregion
@@ -130,7 +131,7 @@ namespace KSF_Surf.Views
             else if (e.NewTextValue != null)
             {
                 var keyword = MapsSearchBar.Text;
-                var suggestions = maps_list.Where(m => m.Contains(keyword.ToLower()));
+                var suggestions = mapsList.Where(m => m.Contains(keyword.ToLower()));
                 ChangeDisplayList(suggestions.ToList());
             }
         }
@@ -142,8 +143,7 @@ namespace KSF_Surf.Views
 
         private void SearchBar_Unfocused(object sender, EventArgs e)
         {
-            
-            if (MapsSearchBar.Text == null || MapsSearchBar.Text == "") ChangeDisplayList(maps_list);
+            if (MapsSearchBar.Text == null || MapsSearchBar.Text == "") ChangeDisplayList(mapsList);
         }
 
         private async void Map_SelectionChanged(object sender, SelectionChangedEventArgs e)

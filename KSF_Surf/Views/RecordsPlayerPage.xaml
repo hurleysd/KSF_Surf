@@ -10,40 +10,31 @@
              Title="Player"
              x:Name="RecordPlayer"  
              Style="{DynamicResource ContentPageStyle}">
+
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="copy_icon.png"
                      Clicked="Copy_Pressed">
         </ToolbarItem>
     </ContentPage.ToolbarItems>
-    
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="ProfileLabelStyle" TargetType="Label">
-                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <RefreshView x:Name="PlayerRefreshView">
         <AbsoluteLayout>
             <ScrollView x:Name="RecordsPlayerPageScrollView"
-                    Orientation="Vertical"
-                    AbsoluteLayout.LayoutFlags="All"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    IsVisible="False">
+                        Orientation="Vertical"
+                        AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        IsVisible="False">
 
                 <StackLayout Padding="0"
-                         Spacing="0"
-                         Orientation="Vertical">
+                             Spacing="0"
+                             Orientation="Vertical">
 
                     <!-- Profile -->
                     <Frame Style="{StaticResource FrameStyle}"
                            Margin="10,15,10,20">
                         <Grid HorizontalOptions="FillAndExpand"
-                          BackgroundColor="{DynamicResource ViewBackgroundColor}"
-                          Padding="10">
+                              BackgroundColor="{DynamicResource ViewBackgroundColor}"
+                              Padding="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="107"/>
                                 <ColumnDefinition Width="*"/>
@@ -74,42 +65,42 @@
                             </Frame>
 
                             <Forms9Patch:Label x:Name ="PlayerNameLabel"
-                                           HorizontalOptions="FillAndExpand"
-                                           Style="{StaticResource ProfileLabelStyle}"
-                                           TextColor="{DynamicResource HeaderTextColor}"
-                                           FontSize="32"
-                                           FontAttributes="Bold"
-                                           Lines="1"
-                                           AutoFit="Width"
-                                           MinFontSize="14"
-                                           Grid.Column="1"
-                                           Grid.Row="0"/>
+                                               HorizontalOptions="FillAndExpand"
+                                               Style="{StaticResource ProfileLabelStyle}"
+                                               TextColor="{DynamicResource HeaderTextColor}"
+                                               FontSize="32"
+                                               FontAttributes="Bold"
+                                               Lines="1"
+                                               AutoFit="Width"
+                                               MinFontSize="14"
+                                               Grid.Column="1"
+                                               Grid.Row="0"/>
 
                             <Label x:Name ="PlayerCountryLabel"
-                               Style="{StaticResource ProfileLabelStyle}"
-                               TextColor="{DynamicResource GrayTextColor}"
-                               FontSize="18"
-                               Grid.Column="1"
-                               Grid.Row="1"/>
+                                   Style="{StaticResource ProfileLabelStyle}"
+                                   TextColor="{DynamicResource GrayTextColor}"
+                                   FontSize="18"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
 
                             <Label x:Name ="PlayerAttributesLabel"
-                               Style="{StaticResource ProfileLabelStyle}"
-                               TextColor="{DynamicResource HeaderTextColor}"
-                               FontSize="14"
-                               Grid.Column="1"
-                               Grid.Row="2"/>
+                                   Style="{StaticResource ProfileLabelStyle}"
+                                   TextColor="{DynamicResource HeaderTextColor}"
+                                   FontSize="14"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
                         </Grid>
                     </Frame>
 
                     <!-- Other pages -->
                     <Frame x:Name="WRsFrame"
-                       Style="{DynamicResource SelectableFrameStyle}"
-                       IsVisible="False">
+                           Style="{DynamicResource SelectableFrameStyle}"
+                           IsVisible="False">
                         <StackLayout x:Name="WRsButton"
-                         Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="World Records"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -119,10 +110,10 @@
                     </Frame>
                     <Frame Style="{DynamicResource SelectableFrameStyle}">
                         <StackLayout x:Name="RecentRecordsSetButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Recent Records Set"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -132,10 +123,10 @@
                     </Frame>
                     <Frame Style="{DynamicResource SelectableFrameStyle}">
                         <StackLayout x:Name="RecentRecordsBrokenButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Recent Records Lost"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -145,10 +136,10 @@
                     </Frame>
                     <Frame Style="{DynamicResource SelectableFrameStyle}">
                         <StackLayout x:Name="OldestRecordsButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Oldest Records"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -158,20 +149,20 @@
                     </Frame>
 
                     <StackLayout Padding="10,15,10,15"
-                             Orientation="Vertical">
+                                 Orientation="Vertical">
 
                         <!-- Info -->
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Info"
-                               Style="{DynamicResource HeaderLabel}"
-                               Margin="10,0,0,0"/>
+                                   Style="{DynamicResource HeaderLabel}"
+                                   Margin="10,0,0,0"/>
 
                             <Label x:Name="RankTitleLabel"
-                               FontSize="20"
-                               FontFamily="Bold"
-                               HorizontalOptions="EndAndExpand"
-                               VerticalOptions="End"
-                               Margin="0,0,10,0">
+                                   FontSize="20"
+                                   FontFamily="Bold"
+                                   HorizontalOptions="EndAndExpand"
+                                   VerticalOptions="End"
+                                   Margin="0,0,10,0">
                             </Label>
                         </StackLayout>
 
@@ -182,22 +173,22 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Rank" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Points" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Completion" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                        Grid.Column="1">
                                 <Label x:Name="RankLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="PointsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="CompletionLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -210,22 +201,22 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="WRs" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="WRCPs" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="WRBs" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="WRsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="WRCPsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="WRBsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -238,18 +229,18 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Last Seen" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="First Online" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="LastSeenLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="FirstOnlineLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -262,18 +253,18 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Surf Time" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Spec Time" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="SurfTimeLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="SpecTimeLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -281,8 +272,8 @@
 
                         <!-- Completion -->
                         <Label Text="Completion"
-                           Style="{DynamicResource HeaderLabel}"
-                           Margin="10,0,0,0"/>
+                               Style="{DynamicResource HeaderLabel}"
+                               Margin="10,0,0,0"/>
 
                         <Grid Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
@@ -291,23 +282,23 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Maps" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Stages"  
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Bonuses" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="MapsValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="StagesValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="BonusesValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -315,8 +306,8 @@
 
                         <!-- Points -->
                         <Label Text="Points"
-                           Style="{DynamicResource HeaderLabel}"
-                           Margin="10,0,0,0"/>
+                               Style="{DynamicResource HeaderLabel}"
+                               Margin="10,0,0,0"/>
 
                         <Grid Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
@@ -325,19 +316,19 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Top 10s" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Groups" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="Top10PtsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="GroupsPtsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -350,23 +341,23 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="0">
+                                         Grid.Column="0">
                                 <Label Text="Maps" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Stages" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Bonuses" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="MapsPtsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="StagesPtsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="BonusesPtsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
 
@@ -374,8 +365,8 @@
 
                         <!-- Groups -->
                         <Label Text="Groups"
-                           Style="{DynamicResource HeaderLabel}"
-                           Margin="10,0,0,0"/>
+                               Style="{DynamicResource HeaderLabel}"
+                               Margin="10,0,0,0"/>
 
                         <Grid Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
@@ -387,111 +378,108 @@
                             </Grid.ColumnDefinitions>
 
                             <StackLayout Orientation="Vertical" 
-                                    Grid.Column="0">
-
+                                        Grid.Column="0">
                                 <Label x:Name="R1GroupLabel"
-                                   Text="R1" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R1" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R2GroupLabel"
-                                   Text="R2" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R2" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R3GroupLabel"
-                                   Text="R3" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R3" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R4GroupLabel"
-                                   Text="R4" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R4" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R5GroupLabel"
-                                   Text="R5" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R5" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R6GroupLabel"
-                                   Text="R6" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R6" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R7GroupLabel"
-                                   Text="R7" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R7" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R8GroupLabel"
-                                   Text="R8" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R8" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R9GroupLabel"
-                                   Text="R9" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R9" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label x:Name="R10GroupLabel"
-                                   Text="R10" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Text="R10" 
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Top 10s" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
 
-
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="1">
+                                         Grid.Column="1">
                                 <Label x:Name="R1ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R2ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R3ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R4ValueLabel"  
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R5ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R6ValueLabel"  
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R7ValueLabel"  
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R8ValueLabel"  
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R9ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="R10ValueLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="Top10sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
-
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
 
                             <BoxView HorizontalOptions="Center"
-                                 WidthRequest="1"
-                                 Color="{DynamicResource ViewBackgroundColor}"
-                                 VerticalOptions="Fill"
-                                 Margin="0,10,0,10"
-                                 Grid.Column="2"/>
+                                     WidthRequest="1"
+                                     Color="{DynamicResource ViewBackgroundColor}"
+                                     VerticalOptions="Fill"
+                                     Margin="0,10,0,10"
+                                     Grid.Column="2"/>
 
                             <StackLayout Orientation="Vertical" 
                                      Grid.Column="3">
                                 <Label Text="G1" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                      Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="G2" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="G3" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="G4" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="G5" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="G6" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                                 <Label Text="Groups" 
-                                   Style ="{DynamicResource LeftColStyle}"/>
+                                       Style="{DynamicResource LeftColStyle}"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical" 
-                                     Grid.Column="4">
+                                         Grid.Column="4">
                                 <Label x:Name="G1sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="G2sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="G3sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="G4sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="G5sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="G6sLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                                 <Label x:Name="GroupsLabel" 
-                                   Style ="{DynamicResource RightColStyle}"/>
+                                       Style="{DynamicResource RightColStyle}"/>
                             </StackLayout>
                         </Grid>
                     </StackLayout>
@@ -499,10 +487,10 @@
                     <!-- Other pages -->
                     <Frame Style="{DynamicResource SelectableFrameStyle}">
                         <StackLayout x:Name="TierCompletionButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Completion By Tier"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -512,10 +500,10 @@
                     </Frame>
                     <Frame Style="{DynamicResource SelectableFrameStyle}">
                         <StackLayout x:Name="CompleteMapsButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Complete Maps"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -524,12 +512,12 @@
                         </StackLayout>
                     </Frame>
                     <Frame Style="{DynamicResource SelectableFrameStyle}"
-                       Margin="0,0,0,15">
+                           Margin="0,0,0,15">
                         <StackLayout x:Name="IncompleteMapsButton"
-                                 Style="{DynamicResource UntappedStackStyle}">
+                                     Style="{DynamicResource UntappedStackStyle}">
 
                             <Label Text="Incomplete Maps"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                                   Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 
                             <StackLayout.GestureRecognizers>
@@ -540,9 +528,9 @@
                 </StackLayout>
             </ScrollView>
             <ActivityIndicator x:Name="LoadingAnimation"
-                           AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
-                           Style="{DynamicResource LoadingStyle}"/>
+                               AbsoluteLayout.LayoutFlags="PositionProportional"
+                               AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                               Style="{DynamicResource LoadingStyle}"/>
         </AbsoluteLayout>
     </RefreshView>
 </ContentPage>

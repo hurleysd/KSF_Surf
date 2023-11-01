@@ -16,21 +16,21 @@
 
     <ScrollView Orientation="Vertical">
         <StackLayout Orientation="Vertical" 
-                 Padding="10,15,10,15">
+                     Padding="10,15,10,15">
 
             <!-- Player -->
             <StackLayout Orientation="Horizontal">
                 <Label Text="Player"
-                   Style="{DynamicResource HeaderLabel}"
-                   Margin="10,0,0,10"/>
+                       Style="{DynamicResource HeaderLabel}"
+                       Margin="10,0,0,10"/>
 
                 <Label x:Name="ResetLabel"
-                   Text="Reset"
-                   FontSize="20"
-                   TextColor="#fc3d39"
-                   HorizontalOptions="EndAndExpand"
-                   IsVisible="False"
-                   Padding="2">
+                       Text="Reset"
+                       FontSize="20"
+                       TextColor="#fc3d39"
+                       HorizontalOptions="EndAndExpand"
+                       IsVisible="False"
+                       Padding="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ResetLabel_Tapped"/>
                     </Label.GestureRecognizers>
@@ -38,8 +38,8 @@
             </StackLayout>
 
             <Grid Padding ="10"
-              HorizontalOptions="FillAndExpand"
-              RowSpacing="20">
+                  HorizontalOptions="FillAndExpand"
+                  RowSpacing="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="*"/>
@@ -51,62 +51,61 @@
                 </Grid.RowDefinitions>
 
                 <Label x:Name="PlayerMeLabel"
-                   Text="Me"
-                   FontSize="24"
-                   TextColor="{StaticResource UntappedTextColor}"
-                   HorizontalOptions="End"
-                   VerticalOptions="Center"
-                   Grid.Column="0"
-                   Grid.Row="0">
+                       Text="Me"
+                       FontSize="24"
+                       TextColor="{StaticResource UntappedTextColor}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       Grid.Column="0"
+                       Grid.Row="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="PlayerMeLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="PlayerMeIDLabel"
-                   TextColor="{DynamicResource HeaderTextColor}"
-                   VerticalOptions="Center"
-                   Grid.Column="1"
-                   Grid.Row="0">
-                </Label>
+                       TextColor="{DynamicResource HeaderTextColor}"
+                       VerticalOptions="Center"
+                       Grid.Column="1"
+                       Grid.Row="0"/>
 
                 <Label x:Name="PlayerRankLabel"
-                   Text="Rank"
-                   FontSize="24"
-                   TextColor="{StaticResource UntappedTextColor}"
-                   HorizontalOptions="End"
-                   VerticalOptions="Center"
-                   Grid.Column="0"
-                   Grid.Row="1">
+                       Text="Rank"
+                       FontSize="24"
+                       TextColor="{StaticResource UntappedTextColor}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       Grid.Column="0"
+                       Grid.Row="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="PlayerRankLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Entry x:Name="RankEntry"
-                   Style="{StaticResource RankEntryStyle}"
-                   Focused="RankEntry_Focused"
-                   Grid.Column="1"
-                   Grid.Row="1"/>
+                       Style="{StaticResource RankEntryStyle}"
+                       Focused="RankEntry_Focused"
+                       Grid.Column="1"
+                       Grid.Row="1"/>
 
                 <Label x:Name="PlayerSteamLabel"
-                   Text="Steam ID"
-                   FontSize="24"
-                   TextColor="{StaticResource UntappedTextColor}"
-                   HorizontalOptions="End"
-                   VerticalOptions="Center"
-                   Grid.Column="0"
-                   Grid.Row="2">
+                       Text="Steam ID"
+                       FontSize="24"
+                       TextColor="{StaticResource UntappedTextColor}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"
+                       Grid.Column="0"
+                       Grid.Row="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="PlayerSteamLabel_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Entry x:Name="SteamIdEntry"
-                   Style="{StaticResource SteamIDEntryStyle}"
-                   Focused="SteamIdEntry_Focused"
-                   Grid.Column="1"
-                   Grid.Row="2"/>
+                       Style="{StaticResource SteamIDEntryStyle}"
+                       Focused="SteamIdEntry_Focused"
+                       Grid.Column="1"
+                       Grid.Row="2"/>
 
             </Grid>
 
@@ -114,8 +113,8 @@
 
             <!-- Game -->
             <Label Text="Game"
-               Style="{DynamicResource HeaderLabel}"
-               Margin="10,0,0,10"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,0,0,10"/>
 
             <Grid Padding ="10"
               HorizontalOptions="FillAndExpand">
@@ -126,27 +125,27 @@
                 </Grid.ColumnDefinitions>
 
                 <Label x:Name="GameCSSLabel"
-                   Text="CS:S"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="0">
+                       Text="CS:S"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSSGameFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="GameCSS100TLabel"
-                   Text="CS:S 100T"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="1">
+                       Text="CS:S 100T"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSS100TGameFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="GameCSGOLabel"
-                   Text="CS:GO"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="2">
+                       Text="CS:GO"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSGOGameFilter_Tapped"/>
                     </Label.GestureRecognizers>
@@ -157,11 +156,11 @@
 
             <!-- Style -->
             <Label Text="Style"
-               Style="{DynamicResource HeaderLabel}"
-               Margin="10,0,0,10"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Margin="10,0,0,10"/>
 
             <Grid Padding ="10"
-              HorizontalOptions="FillAndExpand">
+                  HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -170,36 +169,36 @@
                 </Grid.ColumnDefinitions>
 
                 <Label x:Name="ModeFWLabel"
-                   Text="FW"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="0">
+                       Text="FW"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="FWModeFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="ModeHSWLabel"
-                   Text="HSW"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="1">
+                       Text="HSW"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="HSWModeFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="ModeSWLabel"
-                   Text="SW"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="2">
+                       Text="SW"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="2">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SWModeFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
 
                 <Label x:Name="ModeBWLabel"
-                   Text="BW"
-                   Style="{StaticResource FilterLabelStyle}"
-                   Grid.Column="3">
+                       Text="BW"
+                       Style="{StaticResource FilterLabelStyle}"
+                       Grid.Column="3">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BWModeFilter_Tapped"/>
                     </Label.GestureRecognizers>

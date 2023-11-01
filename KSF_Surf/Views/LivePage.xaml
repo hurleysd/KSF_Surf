@@ -9,30 +9,6 @@
              Title="KSF Surf Servers"
              x:Name="LiveTab"
              Style="{DynamicResource ContentPageStyle}">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key = "Right2ColStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="19" iOS="20" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-            <Style x:Key = "Right3ColStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-            <Style x:Key = "MapSeparatorStyle" TargetType="BoxView">
-                <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HeightRequest" Value="1"/>
-                <Setter Property="Margin" Value="0,0,10,0"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <RefreshView x:Name="LiveRefreshView">
     <AbsoluteLayout>
@@ -42,101 +18,91 @@
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     IsVisible="False">
                 <StackLayout Orientation="Vertical"
-                         Padding="0"
-                         Spacing="0">
+                             Padding="0"
+                             Spacing="0">
 
                     <StackLayout x:Name="LiveServersStack"
-                             Orientation="Vertical"
-                             Padding="10,15,10,15">
+                                 Orientation="Vertical"
+                                 Padding="10,15,10,15">
 
                         <!-- Servers -->
                         <Label x:Name ="TopGameLabel"
-                           Text="Counter-Strike: Source"
-                           Style="{DynamicResource HeaderLabel}"
-                           Margin="10,0,0,0"/>
+                               Text="Counter-Strike: Source"
+                               Style="{DynamicResource HeaderLabel}"
+                               Margin="10,0,0,0"/>
 
                         <Grid x:Name="CSSGrid"
-                          Style="{StaticResource ColumnGridStyle}">
+                              Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="115"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackLayout x:Name="CSSServerStack" 
-                                        Orientation="Vertical"
-                                        Grid.Column="0">
-                                <StackLayout.Spacing>
-                                    <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
-                                </StackLayout.Spacing>
-                            </StackLayout>
+                                         Orientation="Vertical"
+                                         Grid.Column="0"
+                                         Spacing="22"/>
 
                             <StackLayout x:Name="CSSMapsStack" 
-                                        Orientation="Vertical" 
-                                        Spacing="3"
-                                        Grid.Column="1"/>
+                                         Orientation="Vertical" 
+                                         Spacing="3"
+                                         Grid.Column="1"/>
                         </Grid>
 
                         <BoxView x:Name="CSSServerSeperator"
-                             Style="{DynamicResource MiniSeparatorStyle}"/>
+                                 Style="{DynamicResource MiniSeparatorStyle}"/>
 
                         <Grid x:Name="CSS100TGrid"
-                          Style="{StaticResource ColumnGridStyle}">
+                              Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="115"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackLayout x:Name="CSS100TServerStack" 
-                                        Orientation="Vertical" 
-                                        Grid.Column="0">
-                                <StackLayout.Spacing>
-                                    <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
-                                </StackLayout.Spacing>
-                            </StackLayout>
+                                         Orientation="Vertical" 
+                                         Grid.Column="0"
+                                         Spacing="22"/>
 
                             <StackLayout x:Name="CSS100TMapsStack" 
-                                        Orientation="Vertical"
-                                        Spacing="3"
-                                        Grid.Column="1"/>
-
+                                         Orientation="Vertical"
+                                         Spacing="3"
+                                         Grid.Column="1"/>
                         </Grid>
 
                         <BoxView x:Name="GameServerSeperator"
-                             Style="{DynamicResource MiniSeparatorStyle}"/>
+                                 Style="{DynamicResource MiniSeparatorStyle}"/>
 
                         <Label x:Name="BottomGameLabel"
-                           Text="Counter-Strike: GO"
-                           Style="{DynamicResource HeaderLabel}"
-                           Margin="10,10,0,0"/>
+                               Text="Counter-Strike: GO"
+                               Style="{DynamicResource HeaderLabel}"
+                               Margin="10,10,0,0"/>
 
                         <Grid x:Name="CSGOGrid"
-                            Style="{StaticResource ColumnGridStyle}">
+                              Style="{StaticResource ColumnGridStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="115"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackLayout x:Name="CSGOServerStack" 
-                                        Orientation="Vertical"
-                                        Grid.Column="0">
-                                <StackLayout.Spacing>
-                                    <OnPlatform x:TypeArguments="x:Double" Android="23.5" iOS="22" />
-                                </StackLayout.Spacing>
-                            </StackLayout>
+                                         Orientation="Vertical"
+                                         Grid.Column="0"
+                                         Spacing="22"/>
 
                             <StackLayout x:Name="CSGOMapsStack" 
-                                        Orientation="Vertical"
-                                        Spacing="3"
-                                        Grid.Column="1"/>
+                                         Orientation="Vertical"
+                                         Spacing="3"
+                                         Grid.Column="1"/>
                         </Grid>
 
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
             <ActivityIndicator x:Name="LoadingAnimation"
-                           AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
-                           Style="{DynamicResource LoadingStyle}"/>
+                               AbsoluteLayout.LayoutFlags="PositionProportional"
+                               AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                               Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
     </RefreshView>
 </ContentPage>

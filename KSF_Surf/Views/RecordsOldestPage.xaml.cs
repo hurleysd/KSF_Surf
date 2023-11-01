@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "Oldest Records" call
         private List<OldestRecordDatum> oldRecordData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum defaultGame;
@@ -51,7 +51,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords(bool clearPrev)
         {
-            var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, oldestType, mode, list_index);
+            var oldRecordDatum = await recordsViewModel.GetOldestRecords(game, oldestType, mode, listIndex);
             oldRecordData = oldRecordDatum?.data;
             if (oldRecordData is null) return;
 
@@ -67,7 +67,7 @@ namespace KSF_Surf.Views
         {
             foreach (OldestRecordDatum datum in oldRecordData)
             {
-                string rrString = list_index + ". " + datum.mapName;
+                string rrString = listIndex + ". " + datum.mapName;
                 if (datum.zoneID != null)
                 {
                     rrString += " " + StringFormatter.ZoneString(datum.zoneID, false, false);
@@ -87,7 +87,7 @@ namespace KSF_Surf.Views
                 recordsOldestCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     rrString, playerString, rrtimeString, datum.mapName));
                 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -128,7 +128,7 @@ namespace KSF_Surf.Views
                 default: return;
             }
 
-            list_index = 1;
+            listIndex = 1;
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
@@ -142,8 +142,8 @@ namespace KSF_Surf.Views
         private async void RecordsOldest_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % RecordsViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= RecordsViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % RecordsViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= RecordsViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true; 
             LoadingAnimation.IsRunning = true;
@@ -186,7 +186,7 @@ namespace KSF_Surf.Views
             {
                 game = newGame;
                 mode = newMode;
-                list_index = 1;
+                listIndex = 1;
 
                 LoadingAnimation.IsRunning = true;
                 isLoading = true;

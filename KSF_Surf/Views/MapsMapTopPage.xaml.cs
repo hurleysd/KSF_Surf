@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "SurfTop" call
         private List<TopDatum> topData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -27,10 +27,6 @@ namespace KSF_Surf.Views
 
         private int currentZone;
         private string currentZoneString;
-
-        private List<string> zonePickerList;
-        private int stageCount;
-        private int bonusCount;
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> mapsMapTopCollectionViewItemsSource { get; }
@@ -42,9 +38,6 @@ namespace KSF_Surf.Views
             this.map = map;
             currentMode = PropertiesDict.GetMode();
 
-            this.stageCount = stageCount;
-            this.bonusCount = bonusCount;
-            this.zonePickerList = zonePickerList;
             currentZone = 0;
             currentZoneString = "Main";
 
@@ -63,7 +56,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords(ModeEnum mode, int zone)
         {
-            int temp_list_index = list_index;
+            int temp_list_index = listIndex;
             if (mode != currentMode || zone != currentZone) temp_list_index = 1;
 
             var topDatum = await mapsViewModel.GetMapTop(game, map, mode, zone, temp_list_index);
@@ -76,7 +69,7 @@ namespace KSF_Surf.Views
 
             currentMode = mode;
             currentZone = zone;
-            list_index = temp_list_index;
+            listIndex = temp_list_index;
 
             if (temp_list_index == 1) mapsMapTopCollectionViewItemsSource.Clear();
             LayoutTop();
@@ -90,17 +83,17 @@ namespace KSF_Surf.Views
         {
             foreach (TopDatum datum in topData)
             {
-                string playerString = list_index + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.name;
+                string playerString = listIndex + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.name;
                 string timeString = "in " + StringFormatter.RankTimeString(datum.time);
                 string dateString = " (" + StringFormatter.KSFDateString(datum.date) + ")";
 
-                if (list_index != 1) timeString += " (+" + StringFormatter.RankTimeString(datum.wrDiff) + ")";
+                if (listIndex != 1) timeString += " (+" + StringFormatter.RankTimeString(datum.wrDiff) + ")";
                 else timeString += " (WR)";
 
                 mapsMapTopCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     playerString, timeString + dateString, datum.steamID));
 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -126,10 +119,7 @@ namespace KSF_Surf.Views
             string currentModeString = EnumToString.NameString(currentMode);
             foreach (string mode in EnumToString.ModeNames)
             {
-                if (mode != currentModeString)
-                {
-                    modes.Add(mode);
-                }
+                if (mode != currentModeString) modes.Add(mode);
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
@@ -190,8 +180,8 @@ namespace KSF_Surf.Views
         private async void MapsMapTop_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % MapsViewModel.TOP_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= MapsViewModel.TOP_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % MapsViewModel.TOP_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= MapsViewModel.TOP_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

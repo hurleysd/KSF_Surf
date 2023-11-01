@@ -20,19 +20,19 @@
 
             <!-- Recently Set -->
             <Label Text="Recent Records Set"
-                       Style="{DynamicResource HeaderLabel}"
-                       Padding="20,15,10,15"/>
+                   Style="{DynamicResource HeaderLabel}"
+                   Padding="20,15,10,15"/>
 
             <CollectionView x:Name="RecentSetRecordsCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="RecentSetRecords_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="RecentSetRecords_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="RecentSetRecords_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="RecentSetRecords_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -60,9 +60,9 @@
                                    Grid.Row="2"
                                    HorizontalOptions="StartAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="3"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="3"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -71,18 +71,18 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="RecentSetRecordsCollectionViewEmptyLabel"
-                        Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           Text="Could not reach KSF servers :("
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                            Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
 </ContentPage>

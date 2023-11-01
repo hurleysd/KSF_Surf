@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "SurfTop" call
         private List<TopCountryDatum> topCountriesData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum defaultGame;
@@ -49,7 +49,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeTopCountries(bool clearPrev)
         {
-            var topCountriesDatum = await recordsViewModel.GetTopCountries(game, mode, list_index);
+            var topCountriesDatum = await recordsViewModel.GetTopCountries(game, mode, listIndex);
             topCountriesData = topCountriesDatum?.data;
             if (topCountriesData is null) return;
 
@@ -64,12 +64,12 @@ namespace KSF_Surf.Views
         {
             foreach (TopCountryDatum datum in topCountriesData)
             {
-                string countryString = list_index + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.country;
+                string countryString = listIndex + ". " + StringFormatter.CountryEmoji(datum.country) + " " + datum.country;
                 string pointsString = StringFormatter.PointsString(datum.points);
 
                 recordsTopCountriesCollectionViewItemsSource.Add(new Tuple<string, string>(countryString, pointsString));
 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -92,8 +92,8 @@ namespace KSF_Surf.Views
         private async void RecordsTopCoutries_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % RecordsViewModel.TOP_COUNTRIES_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= RecordsViewModel.TOP_COUNTRIES_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % RecordsViewModel.TOP_COUNTRIES_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= RecordsViewModel.TOP_COUNTRIES_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
@@ -121,7 +121,7 @@ namespace KSF_Surf.Views
             {
                 game = newGame;
                 mode = newMode;
-                list_index = 1;
+                listIndex = 1;
 
                 LoadingAnimation.IsRunning = true;
                 isLoading = true;

@@ -24,19 +24,18 @@ namespace KSF_Surf.Views
         private ModeEnum mode = ModeEnum.NONE;
         private PlayerTypeEnum playerType = PlayerTypeEnum.STEAM_ID;
         private string playerValue = "";
-        private string playerSteamId;
-        private string playerRank;
+        private string playerSteamID;
         private PlayerWorldRecordsTypeEnum wrsType;
         private bool hasTop;
 
         // date of last refresh
         private DateTime lastRefresh;
 
-        public RecordsPlayerPage(GameEnum game, ModeEnum mode, string playerSteamId)
+        public RecordsPlayerPage(GameEnum game, ModeEnum mode, string playerSteamID)
         {
             this.game = game;
             this.mode = mode;
-            this.playerSteamId = playerSteamId;
+            this.playerSteamID = playerSteamID;
 
             playerViewModel = new PlayerViewModel();
 
@@ -81,14 +80,13 @@ namespace KSF_Surf.Views
             playerValue = newPlayerValue;
             game = newGame;
             mode = newMode;
-            playerSteamId = playerInfoData.basicInfo.steamID;
-            playerRank = playerInfoData.SurfRank;
+            playerSteamID = playerInfoData.basicInfo.steamID;
 
             string playerName = playerInfoData.basicInfo.name;
             if (playerName.Length > 18) playerName = playerName.Substring(0, 13) + "...";
             Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
 
-            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamId);
+            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
             playerSteamProfile = PlayerSteamDatum?.response.players[0];
 
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
@@ -365,7 +363,7 @@ namespace KSF_Surf.Views
             {
                 hasLoaded = true;
             
-                await ChangePlayerInfo(game, mode, playerType, playerSteamId);
+                await ChangePlayerInfo(game, mode, playerType, playerSteamID);
 
                 LoadingAnimation.IsRunning = false;
                 RecordsPlayerPageScrollView.IsVisible = true;
@@ -374,7 +372,7 @@ namespace KSF_Surf.Views
 
         private async void Copy_Pressed(object sender, EventArgs e)
         {
-            await Clipboard.SetTextAsync(playerSteamId);
+            await Clipboard.SetTextAsync(playerSteamID);
             await DisplayAlert("Steam ID copied to clipboard.", "", "OK");
         }
 

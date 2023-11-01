@@ -24,15 +24,15 @@
                        Padding="20,15,10,15"/>
 
             <CollectionView x:Name="MapsCompletionCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="MapsCompletion_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="MapsCompletion_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="MapsCompletion_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="MapsCompletion_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -54,9 +54,9 @@
                                    Grid.Row="1"
                                    HorizontalOptions="StartAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="2"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="2"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -65,19 +65,19 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="MapsCompletionCollectionViewEmptyLabel"
-                        Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           Text="Could not reach KSF servers :("
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
 
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                            Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
 </ContentPage>

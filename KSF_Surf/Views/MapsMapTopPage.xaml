@@ -8,16 +8,6 @@
              Title="Map Top"
              x:Name="MapTopTab"  
              Style="{DynamicResource ContentPageStyle}">
-    <!-- Label Styles -->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key = "TopStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="15"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <AbsoluteLayout>
         <StackLayout x:Name="MapsMapTopStack"
@@ -32,7 +22,7 @@
             <StackLayout Orientation="Horizontal"
                          Padding="20,15,10,15">
                 <Label Text="Map Top"
-                           Style="{DynamicResource HeaderLabel}"/>
+                       Style="{DynamicResource HeaderLabel}"/>
 
                 <Label x:Name="ZoneOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
@@ -51,21 +41,21 @@
                 </Label>
 
                 <Picker x:Name="ZonePicker"
-                            IsVisible="False"
-                            Unfocused="ZonePicker_Unfocused"/>
+                        IsVisible="False"
+                        Unfocused="ZonePicker_Unfocused"/>
 
             </StackLayout>
 
             <CollectionView x:Name="MapsMapTopCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="MapsMapTop_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="MapsMapTop_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="MapsMapTop_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="MapsMapTop_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -87,9 +77,9 @@
                                    Grid.Row="1"
                                    HorizontalOptions="StartAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="2"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="2"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -98,18 +88,18 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
 
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                            Style="{DynamicResource LoadingStyle}"/>
     </AbsoluteLayout>
 </ContentPage>

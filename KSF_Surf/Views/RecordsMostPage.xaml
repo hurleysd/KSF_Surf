@@ -8,6 +8,7 @@
              Title="Most by Type"
              x:Name="MostRecordsTab"  
              Style="{DynamicResource ContentPageStyle}">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">
@@ -27,7 +28,7 @@
             <StackLayout Orientation="Horizontal"
                          Padding="20,15,10,15">
                 <Label Text="Most"
-                           Style="{DynamicResource HeaderLabel}"/>
+                       Style="{DynamicResource HeaderLabel}"/>
 
                 <Label x:Name="MostTypeOptionLabel"
                            Style="{StaticResource TypeLabelStyle}"
@@ -37,20 +38,20 @@
                     </Label.GestureRecognizers>
                 </Label>
                 <Picker x:Name="MostTypePicker"
-                            IsVisible="False"
-                            Unfocused="MostTypePicker_Unfocused"/>
+                        IsVisible="False"
+                        Unfocused="MostTypePicker_Unfocused"/>
             </StackLayout>
 
             <CollectionView x:Name="RecordsMostCollectionView"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource SeparatorColor}"
-                        VerticalScrollBarVisibility="Default"
-                        ItemsSource="{Binding .}"
-                        RemainingItemsThreshold="2"
-                        RemainingItemsThresholdReached="RecordsMost_ThresholdReached"
-                        SelectionMode="Single"
-                        SelectionChanged="RecordsMost_SelectionChanged">
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="{DynamicResource SeparatorColor}"
+                            VerticalScrollBarVisibility="Default"
+                            ItemsSource="{Binding .}"
+                            RemainingItemsThreshold="2"
+                            RemainingItemsThresholdReached="RecordsMost_ThresholdReached"
+                            SelectionMode="Single"
+                            SelectionChanged="RecordsMost_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="15, 10, 0, 0">
@@ -77,11 +78,11 @@
                                    Grid.Row="0"
                                    HorizontalOptions="EndAndExpand"/>
                             <BoxView HorizontalOptions="FillAndExpand"
-                                    HeightRequest="1"
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Color="{DynamicResource ViewBackgroundColor}"/>
+                                     HeightRequest="1"
+                                     Grid.Row="1"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Color="{DynamicResource ViewBackgroundColor}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -90,18 +91,17 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label Text="Could not reach KSF servers :("
-                                   TextColor="{DynamicResource GrayTextColor}"
-                                   FontSize="20"
-                                   HorizontalOptions="Fill"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="20"/>
+                           TextColor="{DynamicResource GrayTextColor}"
+                           FontSize="20"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           Padding="20"/>
                 </CollectionView.EmptyView>
             </CollectionView>
-            
         </StackLayout>
         <ActivityIndicator x:Name="LoadingAnimation"
                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                           AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                            Style="{DynamicResource LoadingStyle}"/>
      </AbsoluteLayout>
 </ContentPage>

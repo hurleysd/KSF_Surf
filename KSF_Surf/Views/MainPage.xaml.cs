@@ -18,14 +18,8 @@ namespace KSF_Surf.Views
 
             if (CurrentPage is NavigationPage navpage)
             {
-                if (navpage.CurrentPage is MapsPage mapspage)
-                {
-                    await mapspage.OnChangedTabAppearing();
-                }
-                else if (navpage.CurrentPage is PlayerPage playerpage)
-                {
-                    await playerpage.OnChangedTabAppearing();
-                }
+                if (navpage.CurrentPage is MapsPage mapspage) await mapspage.OnChangedTabAppearing();
+                else if (navpage.CurrentPage is PlayerPage playerpage) await playerpage.OnChangedTabAppearing();
             }
         }
     }

@@ -18,7 +18,7 @@ namespace KSF_Surf.Views
 
         // objects used by "World Records" call
         private List<PlayerWorldRecordDatum> worldRecordsData;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -52,7 +52,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords(bool clearPrev)
         {
-            var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, wrsType, playerType, playerValue, list_index);
+            var worldRecordsDatum = await playerViewModel.GetPlayerWRs(game, mode, wrsType, playerType, playerValue, listIndex);
             worldRecordsData = worldRecordsDatum?.data.records;
             if (worldRecordsData is null) return;
 
@@ -78,11 +78,11 @@ namespace KSF_Surf.Views
                 worldRecordsCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapZoneString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
 
             // no world records
-            if (list_index == 1) WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
+            if (listIndex == 1) WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
         }
 
         #endregion
@@ -122,7 +122,7 @@ namespace KSF_Surf.Views
                 default: return;
             }
 
-            list_index = 1;
+            listIndex = 1;
 
             LoadingAnimation.IsRunning = true;
             isLoading = true;
@@ -136,8 +136,8 @@ namespace KSF_Surf.Views
         private async void WorldRecords_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % PlayerViewModel.WORLD_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= PlayerViewModel.WORLD_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % PlayerViewModel.WORLD_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= PlayerViewModel.WORLD_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

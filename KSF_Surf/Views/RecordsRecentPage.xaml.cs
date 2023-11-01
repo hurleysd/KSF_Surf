@@ -19,7 +19,7 @@ namespace KSF_Surf.Views
         // objects used by "Recent" call
         private List<RecentRecordDatum> recentRecordsData;
         private List<RecentRecord10Datum> recentRecords10Data;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum defaultGame;
@@ -54,7 +54,7 @@ namespace KSF_Surf.Views
         {
             if (recentRecordsType == RecentRecordsTypeEnum.TOP)
             {
-                var recentRecords10Datum = await recordsViewModel.GetRecentRecords10(game, mode, list_index);
+                var recentRecords10Datum = await recordsViewModel.GetRecentRecords10(game, mode, listIndex);
                 recentRecords10Data = recentRecords10Datum?.data;
                 if (recentRecords10Data is null) return;
 
@@ -64,7 +64,7 @@ namespace KSF_Surf.Views
             }
             else
             {
-                var recentRecordsDatum = await recordsViewModel.GetRecentRecords(game, recentRecordsType, mode, list_index);
+                var recentRecordsDatum = await recordsViewModel.GetRecentRecords(game, recentRecordsType, mode, listIndex);
                 recentRecordsData = recentRecordsDatum?.data;
                 if (recentRecordsData is null) return;
 
@@ -97,7 +97,7 @@ namespace KSF_Surf.Views
                 RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, playerServerString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -117,7 +117,7 @@ namespace KSF_Surf.Views
                 RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                    mapZoneString, playerServerString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
         }
 
@@ -157,7 +157,7 @@ namespace KSF_Surf.Views
                 default: return;
             }
 
-            list_index = 1;
+            listIndex = 1;
 
             LoadingAnimation.IsRunning = true;
             isLoading = true;
@@ -171,8 +171,8 @@ namespace KSF_Surf.Views
         private async void RecordsRecent_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % RecordsViewModel.RECENT_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= RecordsViewModel.RECENT_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % RecordsViewModel.RECENT_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= RecordsViewModel.RECENT_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
@@ -216,7 +216,7 @@ namespace KSF_Surf.Views
             {
                 game = newGame;
                 mode = newMode;
-                list_index = 1;
+                listIndex = 1;
 
                 isLoading = true;
                 LoadingAnimation.IsRunning = true;

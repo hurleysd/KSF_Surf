@@ -6,9 +6,11 @@
              mc:Ignorable="d"
              x:Class="KSF_Surf.App">
 
-    <!--Global Styles-->
+    <!-- Global resources -->
     <Application.Resources>
         <ResourceDictionary>
+
+            <!-- Colors -->
             <Color x:Key="ViewBackgroundColor">#1b1b1b</Color>
             <Color x:Key="GrayTextColor">#9e9e9e</Color>
             <Color x:Key="HeaderTextColor">WhiteSmoke</Color>
@@ -20,7 +22,7 @@
             <Color x:Key="BarBackgroundColor">#171717</Color>
             <Color x:Key="TabBackgroundColor">Black</Color>
 
-            <!-- Page Styles -->
+            <!-- Page styles -->
             <Style x:Key="TabbedPageStyle" TargetType="TabbedPage">
                 <Setter Property="BarBackgroundColor" Value="{DynamicResource TabBackgroundColor}"/>
                 <Setter Property="SelectedTabColor" Value="{DynamicResource TappedTextColor}"/>
@@ -34,7 +36,7 @@
                 <Setter Property="BackgroundColor" Value ="{DynamicResource AppBackgroundColor}"/>
             </Style>
 
-            <!-- Frame Styles -->
+            <!-- Frame styles -->
             <Style x:Key="FrameStyle" TargetType="Frame">
                 <Setter Property="CornerRadius" Value ="10"/>
                 <Setter Property="IsClippedToBounds" Value ="True"/>
@@ -51,43 +53,33 @@
                 <Setter Property="Padding" Value ="0"/>
             </Style>
 
-            <!-- ActivityIndicator Style -->
+            <!-- ActivityIndicator styles -->
             <Style x:Key="LoadingStyle" TargetType="ActivityIndicator">
                 <Setter Property="IsRunning" Value="True"/>
                 <Setter Property="Color" Value="{DynamicResource UntappedTextColor}"/>
                 <Setter Property="Scale" Value="1.45"/>
             </Style>
-            <Style x:Key="MoreLoadingStyle" TargetType="ActivityIndicator">
-                <Setter Property="IsRunning" Value="False"/>
-                <Setter Property="Color" Value="{DynamicResource HeaderTextColor}"/>
-                <Setter Property="Scale">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="0.75" iOS="1.15" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-            </Style>
 
-            <!-- StackLayout Styles -->
+            <!-- StackLayout styles -->
             <Style x:Key="UntappedStackStyle" TargetType="StackLayout">
                 <Setter Property="Padding" Value="20,15,20,15"/>
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
             </Style>
-            <Style x:Key = "TappedStackStyle" TargetType="StackLayout">
+            <Style x:Key="TappedStackStyle" TargetType="StackLayout">
                 <Setter Property="Padding" Value="20,15,20,15"/>
                 <Setter Property="Orientation" Value="Horizontal"/>
                 <Setter Property="BackgroundColor" Value="{DynamicResource UntappedTextColor}"/>
             </Style>
 
-            <!-- Grid Styles -->
+            <!-- Grid styles -->
             <Style x:Key="ColumnGridStyle" TargetType="Grid">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="20,0,0,0"/>
             </Style>
 
-             <!-- BoxView Styles -->
+            <!-- BoxView styles -->
             <Style x:Key="SeparatorStyle" TargetType="BoxView">
                 <Setter Property="BackgroundColor" Value="{DynamicResource BorderColor}"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
@@ -105,8 +97,14 @@
                 <Setter Property="HeightRequest" Value="1"/>
                 <Setter Property="Margin" Value="35,0,15,0"/>
             </Style>
+            <Style x:Key="MapSeparatorStyle" TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="{DynamicResource ViewBackgroundColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
 
-            <!-- Entry Styles -->
+            <!-- Entry styles -->
             <Style x:Key="SteamIDEntryStyle" TargetType="Entry">
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
                 <Setter Property="MaxLength" Value="20"/>
@@ -121,7 +119,7 @@
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
             </Style>
 
-            <!-- Label Styles -->
+            <!-- Label styles -->
             <Style x:Key="HeaderLabel" TargetType="Label">
                 <Setter Property="TextColor" Value ="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="FontSize" Value ="28"/>
@@ -139,76 +137,51 @@
                 <Setter Property="VerticalOptions" Value="End"/>
             </Style>
             <Style x:Key="LeftColStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="19" iOS="20" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key="RightColStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="19" iOS="20" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="20"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="HorizontalTextAlignment" Value="End"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
+            <Style x:Key="Right2ColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key="Right3ColStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
             <Style x:Key="GridLabelStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="14" iOS="15" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key="RRLabelStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="17" iOS="18" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key="RR2LabelStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="14" iOS="15" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key="TimeLabelStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="11" iOS="12" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
             </Style>
             <Style x:Key="Time2LabelStyle" TargetType="Label">
-                <Setter Property="FontSize">
-                    <Setter.Value>
-                        <OnPlatform x:TypeArguments="x:Double" Android="14" iOS="15" />
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
                 <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-            <Style x:Key="MoreLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="35"/>
-                <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
-                <Setter Property="Text" Value="&#43;"/>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="VerticalOptions" Value="Start"/>
             </Style>
             <Style x:Key="NewPageLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="20"/>
@@ -224,6 +197,30 @@
                 <Setter Property="Font" Value="25"/>
                 <Setter Property="TextColor" Value="{StaticResource TappedTextColor}"/>
             </Style>
+            <Style x:Key="PointsStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key="CreditLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+            </Style>
+            <Style x:Key="SmallCreditLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+            </Style>
+            <Style x:Key="TopStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+            <Style x:Key="ProfileLabelStyle" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="LineBreakMode" Value="NoWrap"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
     

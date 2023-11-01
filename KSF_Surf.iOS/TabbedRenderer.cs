@@ -1,12 +1,11 @@
 ﻿using System;
 using UIKit;
-
 using Xamarin.Forms;
 
 [assembly: ExportRenderer(typeof(TabbedPage), typeof(KSF_Surf.iOS.Renderers.TabbedRenderer))]
 namespace KSF_Surf.iOS.Renderers
 {
-    // custom tabbedpage renderer that removes the names underneath the icon in the tab bar
+    // Custom tabbedpage renderer that removes the names underneath the icon in the tab bar
     public class TabbedRenderer : Xamarin.Forms.Platform.iOS.TabbedRenderer
     {
         readonly nfloat imageYOffset = 7.0f;

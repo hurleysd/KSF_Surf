@@ -20,7 +20,7 @@ namespace KSF_Surf.Views
         // objects used by "Oldest Records" call
         private List<PlayerOldestRecordDatum> oldRecordData;
         private List<string> oldRecordsOptionStrings;
-        private int list_index = 1;
+        private int listIndex = 1;
 
         // variables for filters
         private readonly GameEnum game;
@@ -58,7 +58,7 @@ namespace KSF_Surf.Views
 
         private async Task ChangeRecords(bool clearPrev)
         {
-            var oldRecordDatum = await playerViewModel.GetPlayerOldestRecords(game, mode, oldestType, playerType, playerValue, list_index);
+            var oldRecordDatum = await playerViewModel.GetPlayerOldestRecords(game, mode, oldestType, playerType, playerValue, listIndex);
             oldRecordData = oldRecordDatum?.data.records;
             if (oldRecordData is null) return;
 
@@ -108,11 +108,11 @@ namespace KSF_Surf.Views
                 oldestRecordsCollectionViewItemsSource.Add(new Tuple<string, string, string>(
                     mapZoneString, rrtimeString, datum.mapName));
 
-                list_index++;
+                listIndex++;
             }
 
             // no records
-            if (list_index == 1) OldestRecordsCollectionViewEmptyLabel.Text = "None! :(";
+            if (listIndex == 1) OldestRecordsCollectionViewEmptyLabel.Text = "None! :(";
         }
 
 
@@ -170,7 +170,7 @@ namespace KSF_Surf.Views
             }
 
 
-            list_index = 1;
+            listIndex = 1;
 
             LoadingAnimation.IsRunning = true;
             isLoading = true;
@@ -184,8 +184,8 @@ namespace KSF_Surf.Views
         private async void OldestRecords_ThresholdReached(object sender, EventArgs e)
         {
             if (isLoading || !BaseViewModel.HasConnection()) return;
-            if (((list_index - 1) % PlayerViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
-            if (list_index >= PlayerViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
+            if (((listIndex - 1) % PlayerViewModel.OLDEST_RECORDS_QLIMIT) != 0) return; // didn't get full results
+            if (listIndex >= PlayerViewModel.OLDEST_RECORDS_CLIMIT) return; // at call limit
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;

@@ -8,6 +8,7 @@
              Title="Records"
              x:Name="RecordsTab"
              Style="{DynamicResource ContentPageStyle}">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
                      Clicked="Filter_Pressed">

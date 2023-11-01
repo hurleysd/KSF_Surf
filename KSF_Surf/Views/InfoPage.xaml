@@ -8,18 +8,6 @@
              Title="Legal and Credits"
              x:Name="InfoTab"
              Style="{DynamicResource ContentPageStyle}">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key = "CreditLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-            </Style>
-            <Style x:Key = "SmallCreditLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="TextColor" Value="{DynamicResource GrayTextColor}"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <ScrollView Orientation="Vertical">
         <StackLayout Padding="20,15,20,15" Spacing="3">
