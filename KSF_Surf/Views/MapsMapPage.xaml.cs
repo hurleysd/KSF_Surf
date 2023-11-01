@@ -229,7 +229,7 @@ namespace KSF_Surf.Views
                     Text = StringFormatter.PointsString(points),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
-                }); ;
+                });
 
                 rank = groupEnd;
             }

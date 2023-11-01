@@ -29,7 +29,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -61,7 +61,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -93,7 +93,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -125,7 +125,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -157,7 +157,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -189,7 +189,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -221,7 +221,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -253,7 +253,7 @@
 
                 <Grid Style="{StaticResource ColumnGridStyle}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
