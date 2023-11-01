@@ -34,10 +34,9 @@ namespace KSF_Surf
 
         public static void ApplyTheme()
         {
-            //ApplyDarkTheme(); // iOS bug where the title bar on the Live page doesn't show unless it begins in dark theme
-
-            if (AppInfo.RequestedTheme == AppTheme.Dark) ApplyDarkTheme();
-            else ApplyLightTheme();
+            // iOS bug where the title bar on LivePage is dark when starting in light theme
+            ApplyDarkTheme();
+            if (AppInfo.RequestedTheme == AppTheme.Light) ApplyLightTheme();
         }
 
         public static void ApplyDarkTheme()
@@ -66,8 +65,7 @@ namespace KSF_Surf
 
         private void SetCultureToUSEnglish()
         {
-            CultureInfo englishUSCulture = new CultureInfo("en-US");
-            CultureInfo.DefaultThreadCurrentCulture = englishUSCulture;
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
         }
 
         #endregion
