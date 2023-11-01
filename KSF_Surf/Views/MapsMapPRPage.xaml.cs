@@ -99,10 +99,7 @@ namespace KSF_Surf.Views
             string time = StringFormatter.RankTimeString(prInfoData.time) + " (WR";
             if (isR1)
             {
-                if (prInfoData.r2Diff is null || prInfoData.r2Diff == "0")
-                {
-                    time += " N/A";
-                }
+                if (prInfoData.r2Diff is null || prInfoData.r2Diff == "0") time += " N/A";
                 else time += "-" + StringFormatter.RankTimeString(prInfoData.r2Diff.Substring(1));
             }
             else time += "+" + StringFormatter.RankTimeString(prInfoData.wrDiff);

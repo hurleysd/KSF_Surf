@@ -71,14 +71,16 @@ namespace KSF_Surf.Views
                     });
                 }
 
-                ZoneRecordStack.Children.Add(new Label {
+                ZoneRecordStack.Children.Add(new Label
+                {
                     Text = StringFormatter.ZoneString(zonePR.zoneID, false, true),
                     Style = App.Current.Resources["HeaderLabel"] as Style,
                     Margin = new Thickness(10, 0, 0, 0)
                 });
 
                 // Info -----------------------------------------------------------------
-                Grid recordGrid = new Grid {
+                Grid recordGrid = new Grid
+                {
                     ColumnDefinitions = {
                         new ColumnDefinition { Width = 45 },
                         new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
@@ -96,7 +98,7 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = "Rank",
                             Style = App.Current.Resources["LeftColStyle"] as Style
-                        },
+                        }
                     }
                 }, 0, 0);
 
@@ -112,21 +114,15 @@ namespace KSF_Surf.Views
                             new Label {
                                 Text = "N/A",
                                 Style = App.Current.Resources["RightColStyle"] as Style
-                            },
+                            }
                         }
                     }, 1, 0);
                 }
                 else
                 {
                     string rank = zonePR.rank + "/" + zonePR.totalRanks;
-                    if (zonePR.rank == "1")
-                    {
-                        rank = "[WR] " + rank;
-                    }
-                    else if (int.Parse(zonePR.rank) <= 10)
-                    {
-                        rank = "[Top10] " + rank;
-                    }
+                    if (zonePR.rank == "1") rank = "[WR] " + rank;
+                    else if (int.Parse(zonePR.rank) <= 10) rank = "[Top10] " + rank;
 
                     recordGrid.Children.Add(new StackLayout
                     {
@@ -138,7 +134,7 @@ namespace KSF_Surf.Views
                             new Label {
                                 Text = rank,
                                 Style = App.Current.Resources["RightColStyle"] as Style
-                            },
+                            }
                         }
                     }, 1, 0);
                 }
@@ -179,7 +175,7 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = "End Vel",
                             Style = App.Current.Resources["LeftColStyle"] as Style
-                        },
+                        }
                     }
                 }, 0, 0);
 
@@ -197,7 +193,7 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = ((int)double.Parse(zonePR.endVel)) + units,
                             Style = App.Current.Resources["RightColStyle"] as Style
-                        },
+                        }
                     }
                 }, 1, 0);
 
@@ -224,7 +220,7 @@ namespace KSF_Surf.Views
                 Grid compGrid = new Grid
                 {
                     ColumnDefinitions = {
-                        new ColumnDefinition { Width = 114 },
+                        new ColumnDefinition { Width = 120 },
                         new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                     Style = App.Current.Resources["ColumnGridStyle"] as Style
@@ -240,8 +236,7 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = "Time in Zone",
                             Style = App.Current.Resources["LeftColStyle"] as Style
-                        },
-
+                        }
                     }
                 }, 0, 0);
 
@@ -255,7 +250,7 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = time,
                             Style = App.Current.Resources["RightColStyle"] as Style
-                        },
+                        }
                     }
                 }, 1, 0);
 

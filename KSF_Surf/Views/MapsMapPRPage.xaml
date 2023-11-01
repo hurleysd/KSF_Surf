@@ -184,7 +184,7 @@
 
                     <Grid Style="{StaticResource ColumnGridStyle}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="114"/>
+                            <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
