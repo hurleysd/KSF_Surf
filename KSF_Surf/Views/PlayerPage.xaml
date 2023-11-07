@@ -72,7 +72,7 @@
                                    Padding="0"
                                    Margin="2,2,2,2">
                                 <Image x:Name ="PlayerImage"
-                                       Source="failed_steam_profile.png"/>
+                                       Source="{Binding .}"/>
                             </Frame>
                         </Frame>
 
