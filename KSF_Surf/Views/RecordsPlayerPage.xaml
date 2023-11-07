@@ -60,7 +60,7 @@
                                        Padding="0"
                                        Margin="2,2,2,2">
                                     <Image x:Name ="PlayerImage"
-                                       Source="{Binding .}}"/>
+                                       Source="{Binding .}"/>
                                 </Frame>
                             </Frame>
 
