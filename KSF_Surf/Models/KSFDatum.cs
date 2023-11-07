@@ -746,7 +746,7 @@ namespace KSF_Surf.Models
         public string dateNow { get; set; }
         public string surfTime { get; set; }
         public string count { get; set; }               // map/stage/bonus
-        public string wrdiff { get; set; }              // top10
+        public string wrDiff { get; set; }              // top10
         public string r2Diff { get; set; }              // wr/wrcp/wrb/top10
     }
 

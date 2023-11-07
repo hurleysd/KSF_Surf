@@ -62,7 +62,6 @@ namespace KSF_Surf.Views
             oldRecordData = oldRecordDatum?.data.records;
             if (oldRecordData is null) return;
 
-            
             if (clearPrev) oldestRecordsCollectionViewItemsSource.Clear();
             LayoutRecords();
             ORTypeOptionLabel.Text = "Type: " + EnumToString.NameString(oldestType);
@@ -76,15 +75,15 @@ namespace KSF_Surf.Views
             {
                 string mapZoneString = datum.mapName;
                 if (datum.zoneID != null) mapZoneString += " " + StringFormatter.ZoneString(datum.zoneID, false, false);
-                
+
                 string rrtimeString = "";
                 string rrdiffString = "";
                 if (oldestType == PlayerOldestRecordsTypeEnum.TOP10)
                 {
                     rrtimeString += "[R" + datum.rank + "] ";
 
-                    if (datum.wrdiff == "0") rrdiffString += " (WR)";
-                    else rrdiffString += " (WR+" + StringFormatter.RankTimeString(datum.wrdiff) + ")";
+                    if (datum.wrDiff == "0") rrdiffString += " (WR)";
+                    else rrdiffString += " (WR+" + StringFormatter.RankTimeString(datum.wrDiff) + ")";
                 }
                 else if (oldestType == PlayerOldestRecordsTypeEnum.MAP)
                 {

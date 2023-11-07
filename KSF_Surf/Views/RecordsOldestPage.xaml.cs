@@ -113,10 +113,7 @@ namespace KSF_Surf.Views
             string currentTypeString = EnumToString.NameString(oldestType);
             foreach (string type in EnumToString.OldestRecordsTypeNames)
             {
-                if (type != currentTypeString)
-                {
-                    types.Add(type);
-                }
+                if (type != currentTypeString) types.Add(type);
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());

@@ -35,7 +35,7 @@
                             SelectionChanged="MapsCompletion_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
