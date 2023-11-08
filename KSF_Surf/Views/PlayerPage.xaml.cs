@@ -88,12 +88,20 @@ namespace KSF_Surf.Views
             if (playerName.Length > 18) playerName = playerName.Substring(0, 15) + "...";
             Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
 
-            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
-            playerSteamProfile = PlayerSteamDatum?.response.players[0];
-
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();
             LayoutPlayerProfile();
+        }
+
+        private async Task ChangePlayerImage()
+        {
+            PlayerImage.Source = "";
+
+            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
+            playerSteamProfile = PlayerSteamDatum?.response.players[0];
+
+            if (playerSteamProfile is null) return;
+            PlayerImage.Source = playerSteamProfile.avatarfull;
         }
 
 
@@ -101,9 +109,6 @@ namespace KSF_Surf.Views
 
         private void LayoutPlayerProfile()
         {
-            if (playerSteamProfile is null) PlayerImage.Source = "failed_steam_profile.png";
-            else PlayerImage.Source = playerSteamProfile.avatarfull;
-
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
             PlayerCountryLabel.Text = StringFormatter.CountryEmoji(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 
@@ -370,6 +375,9 @@ namespace KSF_Surf.Views
 
                 LoadingAnimation.IsRunning = false;
                 PlayerPageScrollView.IsVisible = true;
+
+                await ChangePlayerImage();
+                PlayerImageLoadingAnimation.IsRunning = false;
             }
         }
 
@@ -391,6 +399,10 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = true;
                 await ChangePlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
                 LoadingAnimation.IsRunning = false;
+
+                PlayerImageLoadingAnimation.IsRunning = true;
+                await ChangePlayerImage();
+                PlayerImageLoadingAnimation.IsRunning = false;
             }
             else await DisplayNoConnectionAlert();
 

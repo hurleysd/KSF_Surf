@@ -86,12 +86,20 @@ namespace KSF_Surf.Views
             if (playerName.Length > 18) playerName = playerName.Substring(0, 15) + "...";
             Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
 
-            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
-            playerSteamProfile = PlayerSteamDatum?.response.players[0];
-
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();
             LayoutPlayerProfile();
+        }
+
+        private async Task ChangePlayerImage()
+        {
+            PlayerImage.Source = "";
+
+            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
+            playerSteamProfile = PlayerSteamDatum?.response.players[0];
+
+            if (playerSteamProfile is null) return;
+            PlayerImage.Source = playerSteamProfile.avatarfull;
         }
 
 
@@ -367,6 +375,9 @@ namespace KSF_Surf.Views
 
                 LoadingAnimation.IsRunning = false;
                 RecordsPlayerPageScrollView.IsVisible = true;
+
+                await ChangePlayerImage();
+                PlayerImageLoadingAnimation.IsRunning = false;
             }
         }
 

@@ -59,8 +59,15 @@
                                        HasShadow="False"
                                        Padding="0"
                                        Margin="2,2,2,2">
-                                    <Image x:Name ="PlayerImage"
-                                       Source="{Binding .}"/>
+                                    <AbsoluteLayout>
+                                        <Image x:Name ="PlayerImage"
+                                           AbsoluteLayout.LayoutFlags="All"
+                                           AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                                        <ActivityIndicator x:Name="PlayerImageLoadingAnimation"
+                                                       AbsoluteLayout.LayoutFlags="PositionProportional"
+                                                       AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                                                       Style="{DynamicResource SmallLoadingStyle}"/>
+                                    </AbsoluteLayout>
                                 </Frame>
                             </Frame>
 

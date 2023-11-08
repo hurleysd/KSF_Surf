@@ -59,6 +59,11 @@
                 <Setter Property="Color" Value="{DynamicResource UntappedTextColor}"/>
                 <Setter Property="Scale" Value="1.45"/>
             </Style>
+            <Style x:Key="SmallLoadingStyle" TargetType="ActivityIndicator">
+                <Setter Property="IsRunning" Value="True"/>
+                <Setter Property="Color" Value="{DynamicResource UntappedTextColor}"/>
+                <Setter Property="Scale" Value="0.8"/>
+            </Style>
 
             <!-- StackLayout styles -->
             <Style x:Key="UntappedStackStyle" TargetType="StackLayout">
