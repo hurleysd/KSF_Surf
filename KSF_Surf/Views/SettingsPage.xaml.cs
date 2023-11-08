@@ -34,7 +34,7 @@ namespace KSF_Surf.Views
 
             ChangeGameFilter(currentGame);
             ChangeModeFilter(currentMode);
-            SteamIdEntry.Text = playerSteamID;
+            SteamIDEntry.Text = playerSteamID;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -95,10 +95,10 @@ namespace KSF_Surf.Views
         {
             if (BaseViewModel.HasConnection())
             {
-                if (playerSteamID != SteamIdEntry.Text)
+                if (playerSteamID != SteamIDEntry.Text)
                 {
                     // Check new Steam ID is valid
-                    var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIdEntry.Text);
+                    var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIDEntry.Text);
                     if (steamProfileDatum is null || steamProfileDatum?.response.players.Count == 0)
                     {
                         await DisplayAlert("Could not find player profile!", "Invalid SteamID.", "OK");
@@ -106,7 +106,7 @@ namespace KSF_Surf.Views
                     }
                 }
 
-                await PropertiesDict.SetAll(SteamIdEntry.Text, game, mode);
+                await PropertiesDict.SetAll(SteamIDEntry.Text, game, mode);
                 await Navigation.PopAsync();
             }
             else await DisplayAlert("Could not connect to Steam!", "Please connect to the Internet.", "OK"); 

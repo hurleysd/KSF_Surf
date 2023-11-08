@@ -54,7 +54,7 @@ namespace KSF_Surf.Views
             RankEntry.Text = playerRank;
 
             playerSteamID = currentPlayerSteamID;
-            SteamIdEntry.Text = playerSteamID;
+            SteamIDEntry.Text = playerSteamID;
         }
 
         // UI -------------------------------------------------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ namespace KSF_Surf.Views
         {
             string playerValue = meSteamID;
             if (playerType == PlayerTypeEnum.RANK) playerValue = RankEntry.Text;
-            else if (playerType == PlayerTypeEnum.STEAM_ID) playerValue = SteamIdEntry.Text;
+            else if (playerType == PlayerTypeEnum.STEAM_ID) playerValue = SteamIDEntry.Text;
 
             FilterApplier(game, mode, playerType, playerValue);
             await Navigation.PopAsync();
@@ -173,7 +173,7 @@ namespace KSF_Surf.Views
         private void BWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.BW);
 
         private void RankEntry_Focused(object sender, FocusEventArgs e) => ChangePlayerFilter(PlayerTypeEnum.RANK);
-        private void SteamIdEntry_Focused(object sender, FocusEventArgs e) => ChangePlayerFilter(PlayerTypeEnum.STEAM_ID);
+        private void SteamIDEntry_Focused(object sender, FocusEventArgs e) => ChangePlayerFilter(PlayerTypeEnum.STEAM_ID);
 
         private void ResetLabel_Tapped(object sender, EventArgs e)
         {

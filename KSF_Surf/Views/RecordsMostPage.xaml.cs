@@ -279,11 +279,11 @@ namespace KSF_Surf.Views
             RecordsMostCollectionView.SelectedItem = null;
 
             string linkValue = selection.Item3;
-            bool linkIsSteamId = linkValue.StartsWith("STEAM");
+            bool linkIsSteamID = linkValue.StartsWith("STEAM");
 
             if (BaseViewModel.HasConnection())
             {
-                if (linkIsSteamId) await Navigation.PushAsync(new RecordsPlayerPage(game, mode, linkValue));
+                if (linkIsSteamID) await Navigation.PushAsync(new RecordsPlayerPage(game, mode, linkValue));
                 else await Navigation.PushAsync(new MapsMapPage(linkValue, game));
             }
             else await DisplayNoConnectionAlert();

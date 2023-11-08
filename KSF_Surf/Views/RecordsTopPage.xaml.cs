@@ -111,16 +111,13 @@ namespace KSF_Surf.Views
             Tuple<string, string, string> selectedPlayer = (Tuple<string, string, string>)RecordsTopCollectionView.SelectedItem;
             RecordsTopCollectionView.SelectedItem = null;
 
-            string playerSteamId = selectedPlayer.Item3;
+            string playerSteamID = selectedPlayer.Item3;
 
             if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamId));
+                await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamID));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
@@ -129,10 +126,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
@@ -152,10 +146,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
             }
-            else
-            {
-                await DisplayNoConnectionAlert();
-            }
+            else await DisplayNoConnectionAlert();
         }
 
         private async Task DisplayNoConnectionAlert()

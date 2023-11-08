@@ -83,7 +83,7 @@ namespace KSF_Surf.Views
             playerSteamID = playerInfoData.basicInfo.steamID;
 
             string playerName = playerInfoData.basicInfo.name;
-            if (playerName.Length > 18) playerName = playerName.Substring(0, 13) + "...";
+            if (playerName.Length > 18) playerName = playerName.Substring(0, 15) + "...";
             Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
 
             var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);

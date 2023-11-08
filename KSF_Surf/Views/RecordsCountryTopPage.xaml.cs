@@ -144,11 +144,11 @@ namespace KSF_Surf.Views
             Tuple<string, string, string> selectedPlayer = (Tuple<string, string, string>)RecordsCountryTopCollectionView.SelectedItem;
             RecordsCountryTopCollectionView.SelectedItem = null;
 
-            string playerSteamId = selectedPlayer.Item3;
+            string playerSteamID = selectedPlayer.Item3;
 
             if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamId));
+                await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamID));
             }
             else await DisplayNoConnectionAlert();
         }

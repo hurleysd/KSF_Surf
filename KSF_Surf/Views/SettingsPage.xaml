@@ -39,7 +39,7 @@
                            Grid.Column="0">
                     </Label>
 
-                    <Entry x:Name="SteamIdEntry"
+                    <Entry x:Name="SteamIDEntry"
                            Style="{StaticResource SteamIDEntryStyle}"
                            Grid.Column="1"/>
 

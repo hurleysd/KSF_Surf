@@ -101,9 +101,9 @@
                     </Label.GestureRecognizers>
                 </Label>
 
-                <Entry x:Name="SteamIdEntry"
+                <Entry x:Name="SteamIDEntry"
                        Style="{StaticResource SteamIDEntryStyle}"
-                       Focused="SteamIdEntry_Focused"
+                       Focused="SteamIDEntry_Focused"
                        Grid.Column="1"
                        Grid.Row="2"/>
 

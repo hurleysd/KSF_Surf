@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace KSF_Surf.Views
 {
@@ -32,9 +31,9 @@ namespace KSF_Surf.Views
         private string playerRank;
         private readonly string meSteamID = PropertiesDict.GetSteamID();
 
-        public MapsMapPRPage(string title, GameEnum game, string map, bool hasZones, bool hasStages)
+        public MapsMapPRPage(string mapsMapTitle, GameEnum game, string map, bool hasZones, bool hasStages)
         {
-            mapsMapTitle = title;
+            this.mapsMapTitle = mapsMapTitle;
             this.game = game;
             this.map = map;
             this.hasZones = hasZones;
@@ -165,7 +164,7 @@ namespace KSF_Surf.Views
             
             PRStack.IsVisible = false;
             NoPRLabel.IsVisible = true;
-            NoPRLabel.Text = "No " + EnumToString.NameString(currentMode) + " personal record found :(";
+            NoPRLabel.Text = "No personal record found";
         }
 
         private void DisplayPR()
