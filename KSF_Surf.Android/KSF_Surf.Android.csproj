@@ -259,9 +259,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\failed_steam_profile.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\copy_icon.png" />
   </ItemGroup>
   <ItemGroup>

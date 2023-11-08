@@ -256,9 +256,6 @@
     <BundleResource Include="Resources\ramp_alpha_inverted.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\failed_steam_profile.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\copy_icon.png" />
   </ItemGroup>
   <ItemGroup>
