@@ -240,7 +240,6 @@
                 </StackLayout>
 
                 <Label x:Name="NoPRLabel"
-                       Text="No personal record found :("
                        TextColor="{DynamicResource GrayTextColor}"
                        FontSize="20"
                        HorizontalOptions="Center"

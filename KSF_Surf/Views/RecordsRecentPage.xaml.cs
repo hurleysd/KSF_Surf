@@ -29,7 +29,7 @@ namespace KSF_Surf.Views
         private RecentRecordsTypeEnum recentRecordsType;
 
         // collection view
-        public ObservableCollection<Tuple<string, string, string, string>> RecordsRecentCollectionViewItemsSource { get; }
+        public ObservableCollection<Tuple<string, string, string, string>> recordsRecentCollectionViewItemsSource { get; }
                 = new ObservableCollection<Tuple<string, string, string, string>>();
 
         public RecordsRecentPage(GameEnum game, ModeEnum mode, GameEnum defaultGame, ModeEnum defaultMode)
@@ -44,7 +44,7 @@ namespace KSF_Surf.Views
 
             InitializeComponent();
             Title =  "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
-            RecordsRecentCollectionView.ItemsSource = RecordsRecentCollectionViewItemsSource;
+            RecordsRecentCollectionView.ItemsSource = recordsRecentCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ namespace KSF_Surf.Views
                 recentRecords10Data = recentRecords10Datum?.data;
                 if (recentRecords10Data is null) return;
 
-                if (clearPrev) RecordsRecentCollectionViewItemsSource.Clear();
+                if (clearPrev) recordsRecentCollectionViewItemsSource.Clear();
                 RRTypeOptionLabel.Text = "Type: Top10";
                 LayoutRecentRecords10();
             }
@@ -68,7 +68,7 @@ namespace KSF_Surf.Views
                 recentRecordsData = recentRecordsDatum?.data;
                 if (recentRecordsData is null) return;
 
-                if (clearPrev) RecordsRecentCollectionViewItemsSource.Clear();
+                if (clearPrev) recordsRecentCollectionViewItemsSource.Clear();
                 RRTypeOptionLabel.Text = "Type: " + EnumToString.NameString(recentRecordsType);
                 LayoutRecentRecords(EnumToString.NameString(recentRecordsType));
             }
@@ -94,7 +94,7 @@ namespace KSF_Surf.Views
                 else rrtimeString += "now WR+" + StringFormatter.RankTimeString(datum.wrDiff);
                 rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
-                RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
+                recordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                     mapZoneString, playerServerString, rrtimeString, datum.mapName));
 
                 listIndex++;
@@ -114,7 +114,7 @@ namespace KSF_Surf.Views
                 else rrtimeString += "WR+" + StringFormatter.RankTimeString(datum.wrDiff);
                 rrtimeString += ") (" + StringFormatter.LastOnlineString(datum.date) + ")";
 
-                RecordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
+                recordsRecentCollectionViewItemsSource.Add(new Tuple<string, string, string, string>(
                    mapZoneString, playerServerString, rrtimeString, datum.mapName));
 
                 listIndex++;

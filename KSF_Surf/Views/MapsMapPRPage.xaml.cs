@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KSF_Surf.Views
 {
@@ -62,7 +63,7 @@ namespace KSF_Surf.Views
             prInfoData = prInfoDatum?.data;
             if (prInfoData is null || prInfoData.basicInfo is null)
             {
-                hidePR();
+                HidePR();
                 await DisplayAlert("Could not find player profile!", "Invalid SteamID or rank.", "OK");
                 return;
             }
@@ -76,10 +77,10 @@ namespace KSF_Surf.Views
 
             if (prInfoData.time is null || prInfoData.time == "0") // no main completion
             {
-                hidePR();
+                HidePR();
                 return;
             }
-            displayPR();
+            DisplayPR();
 
             playerRank = prInfoData.rank.ToString();
             LayoutPRInfo();
@@ -155,7 +156,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void hidePR()
+        private void HidePR()
         {
             playerRank = "";
             CPROption.IsVisible = false;
@@ -164,9 +165,10 @@ namespace KSF_Surf.Views
             
             PRStack.IsVisible = false;
             NoPRLabel.IsVisible = true;
+            NoPRLabel.Text = "No " + EnumToString.NameString(currentMode) + " personal record found :(";
         }
 
-        private void displayPR()
+        private void DisplayPR()
         {
             CPROption.IsVisible = true;
             if (hasStages) CCPOption.IsVisible = true;

@@ -87,7 +87,7 @@
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
-                    <Label Text="Could not reach KSF servers :("
+                    <Label Text="No completions found"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

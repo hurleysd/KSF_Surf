@@ -30,7 +30,7 @@ namespace KSF_Surf.Views
 
         // collection view
         public ObservableCollection<Tuple<string, string, string>> mapsMapTopCollectionViewItemsSource { get; }
-                = new ObservableCollection<Tuple<string, string, string>>();
+            = new ObservableCollection<Tuple<string, string, string>>();
 
         public MapsMapTopPage(string title, GameEnum game, string map, int stageCount, int bonusCount, List<string> zonePickerList)
         {
@@ -39,7 +39,7 @@ namespace KSF_Surf.Views
             currentMode = PropertiesDict.GetMode();
 
             currentZone = 0;
-            currentZoneString = "Main";
+            currentZoneString = StringFormatter.ZoneString(currentZone.ToString(), true, false); // starting on Main
 
             mapsViewModel = new MapsViewModel();
             
@@ -54,27 +54,17 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangeRecords(ModeEnum mode, int zone)
+        private async Task ChangeRecords(bool clearPrev)
         {
-            int temp_list_index = listIndex;
-            if (mode != currentMode || zone != currentZone) temp_list_index = 1;
-
-            var topDatum = await mapsViewModel.GetMapTop(game, map, mode, zone, temp_list_index);
-            topData = topDatum?.data;
-            if (topData is null)
-            {
-                await DisplayAlert("No " + EnumToString.NameString(mode) + " zone completions.", "Be the first!", "OK");
-                return;
-            };
-
-            currentMode = mode;
-            currentZone = zone;
-            listIndex = temp_list_index;
-
-            if (temp_list_index == 1) mapsMapTopCollectionViewItemsSource.Clear();
-            LayoutTop();
+            if (clearPrev) mapsMapTopCollectionViewItemsSource.Clear();
             StyleOptionLabel.Text = "Style: " + EnumToString.NameString(currentMode);
             ZoneOptionLabel.Text = "Zone: " + currentZoneString;
+
+            var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone, listIndex);
+            topData = topDatum?.data;
+            if (topData is null) return;
+
+            LayoutTop();
         }
 
         // Displaying Changes ---------------------------------------------------------------------------------
@@ -106,7 +96,7 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangeRecords(currentMode, currentZone);
+                await ChangeRecords(false);
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapTopStack.IsVisible = true;
@@ -123,22 +113,21 @@ namespace KSF_Surf.Views
             }
 
             string newStyle = await DisplayActionSheet("Choose a different style", "Cancel", null, modes.ToArray());
-            ModeEnum newMode = ModeEnum.NONE;
             switch (newStyle)
             {
-                case "HSW": newMode = ModeEnum.HSW; break;
-                case "SW": newMode = ModeEnum.SW; break;
-                case "BW": newMode = ModeEnum.BW; break;
-                case "FW": newMode = ModeEnum.FW; break;
+                case "HSW": currentMode = ModeEnum.HSW; break;
+                case "SW": currentMode = ModeEnum.SW; break;
+                case "BW": currentMode = ModeEnum.BW; break;
+                case "FW": currentMode = ModeEnum.FW; break;
                 default: return;
             }
 
-            // don't reset list index yet
+            listIndex = 1;
 
             isLoading = true;
             LoadingAnimation.IsRunning = true;
 
-            await ChangeRecords(newMode, currentZone);
+            await ChangeRecords(true);
 
             LoadingAnimation.IsRunning = false;
             isLoading = false;
@@ -153,7 +142,7 @@ namespace KSF_Surf.Views
         private async void ZonePicker_Unfocused(object sender, FocusEventArgs e)
         {
             string selected = (string)ZonePicker.SelectedItem;
-            if (selected == currentZoneString)return;
+            if (selected == currentZoneString) return;
 
             int newZoneNum = -1;
             switch (selected[0])
@@ -165,12 +154,14 @@ namespace KSF_Surf.Views
 
             if (newZoneNum != -1)
             {
-                // don't reset list index yet
+                currentZone = newZoneNum;
+                currentZoneString = selected;
+                listIndex = 1;
 
                 isLoading = true;
                 LoadingAnimation.IsRunning = true;
 
-                await ChangeRecords(currentMode, newZoneNum);
+                await ChangeRecords(true);
 
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
@@ -186,7 +177,7 @@ namespace KSF_Surf.Views
             isLoading = true;
             LoadingAnimation.IsRunning = true;
 
-            await ChangeRecords(currentMode, currentZone);
+            await ChangeRecords(false);
 
             LoadingAnimation.IsRunning = false;
             isLoading = false;
@@ -200,11 +191,11 @@ namespace KSF_Surf.Views
                 (Tuple<string, string, string>)MapsMapTopCollectionView.SelectedItem;
             MapsMapTopCollectionView.SelectedItem = null;
 
-            string playerSteamId = selectedPlayer.Item3;
+            string playerSteamID = selectedPlayer.Item3;
 
             if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new RecordsPlayerPage(game, currentMode, playerSteamId));
+                await Navigation.PushAsync(new RecordsPlayerPage(game, currentMode, playerSteamID));
             }
             else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }

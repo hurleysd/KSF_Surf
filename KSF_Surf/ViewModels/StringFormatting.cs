@@ -78,6 +78,13 @@ namespace KSF_Surf.ViewModels
             "BW"
         };
 
+        public static readonly string[] ModeFullNames = {
+            "Forwards",
+            "Half-Sideways",
+            "Sideways",
+            "Backwards"
+        };
+
         public static string APIString(ModeEnum mode)
         {
             string modeString = "";
@@ -101,6 +108,20 @@ namespace KSF_Surf.ViewModels
                 case ModeEnum.HSW: modeString = ModeNames[1]; break;
                 case ModeEnum.SW: modeString = ModeNames[2]; break;
                 case ModeEnum.BW: modeString = ModeNames[3]; break;
+                default: break;
+            }
+            return modeString;
+        }
+
+        public static string FullNameString(ModeEnum mode)
+        {
+            string modeString = "";
+            switch (mode)
+            {
+                case ModeEnum.FW: modeString = ModeFullNames[0]; break;
+                case ModeEnum.HSW: modeString = ModeFullNames[1]; break;
+                case ModeEnum.SW: modeString = ModeFullNames[2]; break;
+                case ModeEnum.BW: modeString = ModeFullNames[3]; break;
                 default: break;
             }
             return modeString;
