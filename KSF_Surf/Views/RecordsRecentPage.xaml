@@ -67,6 +67,7 @@
                                    HorizontalOptions="StartAndExpand"/>
                             <Label Text="{Binding Item2}"
                                    Style="{DynamicResource RR2LabelStyle}"
+                                   LineBreakMode="WordWrap"
                                    HorizontalTextAlignment="Start"
                                    Grid.Row="1"
                                    HorizontalOptions="StartAndExpand"/>
