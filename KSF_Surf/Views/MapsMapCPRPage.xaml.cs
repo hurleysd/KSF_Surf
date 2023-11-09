@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 using SkiaSharp;
 using Microcharts;
 using KSF_Surf.ViewModels;
@@ -206,15 +207,17 @@ namespace KSF_Surf.Views
                 i++;
             }
 
+            // chart background won't react to live theme changes
+            bool hasLightBackground = (DeviceInfo.Platform == DevicePlatform.iOS && AppInfo.RequestedTheme == AppTheme.Light);
             CPRChart.Chart = new LineChart { 
                 Entries = chartEntries,
                 MaxValue = maxTimeDiff,
                 MinValue = minTimeDiff,
                 LineMode = LineMode.Straight,
-                BackgroundColor = SKColors.Gray,
+                BackgroundColor = hasLightBackground ? SKColor.Parse("#e8e8e8") : SKColor.Parse("#171717"),
                 Margin = 20,
                 LabelTextSize = 32,
-                LabelColor = SKColors.White,
+                LabelColor = hasLightBackground ? SKColors.Black : SKColors.White,
                 LabelOrientation = Orientation.Horizontal,
                 ValueLabelOrientation = Orientation.Horizontal,
                 PointSize = 15

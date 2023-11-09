@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
-
 using Xamarin.Essentials;
 using Xamarin.Forms;
-
 using KSF_Surf.Views;
 
 namespace KSF_Surf
