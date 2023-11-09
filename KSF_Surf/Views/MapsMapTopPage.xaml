@@ -24,26 +24,19 @@
                 <Label Text="Map Top"
                        Style="{DynamicResource HeaderLabel}"/>
 
-                <Label x:Name="ZoneOptionLabel"
-                           Style="{StaticResource TypeLabelStyle}"
-                           HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ZoneOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Button x:Name="ZoneOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Clicked="ZoneOptionButton_Clicked"/>
 
-                <Label x:Name="StyleOptionLabel"
-                           Style="{StaticResource TypeLabelStyle}"
-                           HorizontalOptions="End">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="StyleOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Button x:Name="StyleOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="End"
+                        Clicked="StyleOptionButton_Clicked"/>
 
                 <Picker x:Name="ZonePicker"
                         IsVisible="False"
                         Unfocused="ZonePicker_Unfocused"/>
-
             </StackLayout>
 
             <CollectionView x:Name="MapsMapTopCollectionView"
@@ -58,7 +51,7 @@
                             SelectionChanged="MapsMapTop_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -87,7 +80,8 @@
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
-                    <Label Text="No completions found"
+                    <Label x:Name="MapsMapTopCollectionViewEmptyLabel"
+                           Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

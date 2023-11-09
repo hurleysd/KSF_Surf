@@ -11,8 +11,7 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <AbsoluteLayout>
@@ -30,13 +29,12 @@
                 <Label Text="Most"
                        Style="{DynamicResource HeaderLabel}"/>
 
-                <Label x:Name="MostTypeOptionLabel"
-                           Style="{StaticResource TypeLabelStyle}"
-                           HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="MostTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Button x:Name="MostTypeOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        WidthRequest="135"
+                        Clicked="MostTypeOptionButton_Clicked"/>
+
                 <Picker x:Name="MostTypePicker"
                         IsVisible="False"
                         Unfocused="MostTypePicker_Unfocused"/>
@@ -54,7 +52,7 @@
                             SelectionChanged="RecordsMost_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="100"/>
@@ -90,7 +88,7 @@
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
-                    <Label Text="Could not reach KSF servers :("
+                    <Label Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

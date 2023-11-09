@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:Forms9Patch="clr-namespace:Forms9Patch;assembly=Forms9Patch"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.RecordsPlayerPage"
@@ -13,8 +12,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="copy_icon.png"
-                     Clicked="Copy_Pressed">
-        </ToolbarItem>
+                     Clicked="Copy_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <RefreshView x:Name="PlayerRefreshView">

@@ -45,7 +45,7 @@ namespace KSF_Surf.Views
             CCPDetails = ccpDatum?.data.CCP;
             if (CCPDetails is null || CCPDetails.Count < 1) return;
 
-            WRPlayer.Text = "PRCP vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
+            WRPlayer.Text = "CCP vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
             LayoutPRDetails();
         }
 

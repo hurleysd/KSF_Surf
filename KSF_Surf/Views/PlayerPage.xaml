@@ -10,13 +10,12 @@
              Title="Player"
              x:Name="PlayerTab"  
              Style="{DynamicResource ContentPageStyle}">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="settings_icon.png"
-                     Clicked="Settings_Pressed">
-        </ToolbarItem>
+                     Clicked="Settings_Pressed"/>
         <ToolbarItem IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>

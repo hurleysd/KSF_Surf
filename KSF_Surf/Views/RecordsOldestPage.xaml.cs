@@ -57,7 +57,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsOldestCollectionViewItemsSource.Clear();
             LayoutRecords();
-            ORTypeOptionLabel.Text = "Type: " + EnumToString.NameString(oldestType);
+            ORTypeOptionButton.Text = EnumToString.NameString(oldestType);
             Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
@@ -107,7 +107,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void ORTypeOptionLabel_Tapped(object sender, EventArgs e)
+        private async void ORTypeOptionButton_Clicked(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
             string currentTypeString = EnumToString.NameString(oldestType);

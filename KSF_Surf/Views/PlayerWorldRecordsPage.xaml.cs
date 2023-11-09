@@ -58,7 +58,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) worldRecordsCollectionViewItemsSource.Clear();
             LayoutRecords();
-            WRTypeOptionLabel.Text = "Type: " + EnumToString.NameString(wrsType);
+            WRTypeOptionButton.Text = EnumToString.NameString(wrsType);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace KSF_Surf.Views
             }
 
             // no world records
-            if (listIndex == 1) WorldRecordsCollectionViewEmptyLabel.Text = "None! :(";
+            if (listIndex == 1) WorldRecordsCollectionViewEmptyLabel.Text = "No records found";
         }
 
         #endregion
@@ -101,16 +101,13 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void WRTypeOptionLabel_Tapped(object sender, EventArgs e)
+        private async void WRTypeOptionButton_Clicked(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
             string currentTypeString = EnumToString.NameString(wrsType);
             foreach (string type in EnumToString.WorldRecordsTypeNames)
             {
-                if (type != currentTypeString)
-                {
-                    types.Add(type);
-                }
+                if (type != currentTypeString) types.Add(type);
             }
 
             string newTypeString = await DisplayActionSheet("Choose a different type", "Cancel", null, types.ToArray());

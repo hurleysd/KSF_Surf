@@ -55,7 +55,7 @@ namespace KSF_Surf.Views
                     DetailedMapsRoot dmro = await mapsViewModel.GetDetailedMapsList(game, sort);
                     if (dmro == null)
                     {
-                        MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers :(";
+                        MapsCollectionEmptyViewLabel.Text = "Could not reach KSF servers";
                         return mapsList;
                     }
                     MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";

@@ -124,6 +124,21 @@
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
             </Style>
 
+            <!-- Button styles -->
+            <Style x:Key="CollectionOptionButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HeightRequest" Value="36"/>
+                <Setter Property="WidthRequest" Value="70"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource BarBackgroundColor}"/>
+                <Setter Property="BorderColor" Value="{DynamicResource UntappedTextColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource TappedTextColor}"/>
+                <Setter Property="TextTransform" Value="None"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Padding" Value="3,3,3,3"/>
+            </Style>
+
             <!-- Label styles -->
             <Style x:Key="HeaderLabel" TargetType="Label">
                 <Setter Property="TextColor" Value ="{DynamicResource HeaderTextColor}"/>

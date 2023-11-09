@@ -8,10 +8,10 @@
              Title="Maps"
              x:Name="MapsTab"
              Style="{DynamicResource ContentPageStyle}">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <!-- Search Bar -->

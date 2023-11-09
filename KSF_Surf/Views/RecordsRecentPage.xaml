@@ -11,8 +11,7 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <AbsoluteLayout>
@@ -30,13 +29,11 @@
                 <Label Text="Recent"
                        Style="{DynamicResource HeaderLabel}"
                        HorizontalOptions="StartAndExpand"/>
-                <Label x:Name="RRTypeOptionLabel"
-                       Style="{StaticResource TypeLabelStyle}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RRTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+
+                <Button x:Name="RRTypeOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Clicked="RRTypeOptionButton_Clicked"/>
             </StackLayout>
 
             <CollectionView x:Name="RecordsRecentCollectionView"
@@ -51,7 +48,7 @@
                             SelectionChanged="RecordsRecent_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -87,7 +84,7 @@
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
-                    <Label Text="Could not reach KSF servers :("
+                    <Label Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

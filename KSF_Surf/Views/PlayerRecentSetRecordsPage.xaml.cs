@@ -78,7 +78,7 @@ namespace KSF_Surf.Views
 
             if (listIndex == 1) // no recently set records
             {
-                RecentSetRecordsCollectionViewEmptyLabel.Text = "None! :(";
+                RecentSetRecordsCollectionViewEmptyLabel.Text = "No records found";
             }
         }
 

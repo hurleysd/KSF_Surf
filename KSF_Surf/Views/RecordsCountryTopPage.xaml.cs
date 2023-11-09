@@ -57,7 +57,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsCountryTopCollectionViewItemsSource.Clear();
             LayoutCountryTop();
-            CountryOptionLabel.Text = "Country: " + StringFormatter.CountryEmoji(country);
+            CountryOptionButton.Text = StringFormatter.CountryEmoji(country);
             Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
@@ -89,7 +89,7 @@ namespace KSF_Surf.Views
                 country = await recordsViewModel.GetTopCountry(game, mode);
                 if (country is null || country == "")
                 {
-                    country = StringFormatter.CountryTopCountries[58]; // USA
+                    country = StringFormatter.CountryTopCountries[60]; // USA
                 }
 
                 await ChangeCountryTop(false);
@@ -99,7 +99,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void CountryOptionLabel_Tapped(object sender, EventArgs e)
+        private void CountryOptionButton_Clicked(object sender, EventArgs e)
         {
             CountryPicker.SelectedItem = country;
             CountryPicker.Focus();

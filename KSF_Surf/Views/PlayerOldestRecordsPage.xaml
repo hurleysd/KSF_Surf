@@ -25,13 +25,10 @@
                        Style="{DynamicResource HeaderLabel}"
                        HorizontalOptions="StartAndExpand"/>
 
-                <Label x:Name="ORTypeOptionLabel"
-                       Style="{StaticResource TypeLabelStyle}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Button x:Name="ORTypeOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Clicked="ORTypeOptionButton_Clicked"/>
             </StackLayout>
 
             <CollectionView x:Name="OldestRecordsCollectionView"
@@ -46,7 +43,7 @@
                             SelectionChanged="OldestRecords_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -76,7 +73,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="OldestRecordsCollectionViewEmptyLabel"
-                           Text="Could not reach KSF servers :("
+                           Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

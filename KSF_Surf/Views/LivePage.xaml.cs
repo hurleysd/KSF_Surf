@@ -62,9 +62,9 @@ namespace KSF_Surf.Views
             if (BaseViewModel.HasConnection()) await LoadServers(true);
             else
             {
-                bool tryAgain = await DisplayAlert("Could not connect to KSF servers :(", "Would you like to retry?", "Retry", "Cancel");
+                bool tryAgain = await DisplayAlert("Could not reach KSF servers", "Would you like to retry?", "Retry", "Cancel");
                 if (tryAgain) await LayoutDesign();
-                else System.Environment.Exit(0); // exit the app (no WIFI)
+                else System.Environment.Exit(0); // exit the app (no internet)
             }
         }
 

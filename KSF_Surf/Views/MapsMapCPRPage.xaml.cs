@@ -48,7 +48,7 @@ namespace KSF_Surf.Views
 
             mapType = (MapTypeEnum)int.Parse(cprDatum.data.mapType);
 
-            WRPlayer.Text = "PR vs " + StringFormatter.CountryEmoji(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
+            WRPlayer.Text = "CPR vs " + StringFormatter.CountryEmoji(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
             LayoutPRDetails();
         }
 

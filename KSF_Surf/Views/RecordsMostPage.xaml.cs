@@ -178,7 +178,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsMostCollectionViewItemsSource.Clear();
             LayoutMostByType(players, values, links);
-            MostTypeOptionLabel.Text = "Type: " + EnumToString.NameString(mostType);
+            MostTypeOptionButton.Text = EnumToString.NameString(mostType);
             Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
         }
 
@@ -208,7 +208,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private void MostTypeOptionLabel_Tapped(object sender, EventArgs e)
+        private void MostTypeOptionButton_Clicked(object sender, EventArgs e)
         {
             MostTypePicker.SelectedItem = mostTypeString;
             MostTypePicker.Focus();

@@ -35,7 +35,7 @@
                             SelectionChanged="RecentSetRecords_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -72,7 +72,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="RecentSetRecordsCollectionViewEmptyLabel"
-                           Text="Could not reach KSF servers :("
+                           Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

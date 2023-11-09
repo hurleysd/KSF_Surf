@@ -65,7 +65,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
                     <Label x:Name="MapsCompletionCollectionViewEmptyLabel"
-                           Text="Could not reach KSF servers :("
+                           Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

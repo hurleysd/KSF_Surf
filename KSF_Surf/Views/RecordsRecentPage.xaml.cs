@@ -59,7 +59,7 @@ namespace KSF_Surf.Views
                 if (recentRecords10Data is null) return;
 
                 if (clearPrev) recordsRecentCollectionViewItemsSource.Clear();
-                RRTypeOptionLabel.Text = "Type: Top10";
+                RRTypeOptionButton.Text = EnumToString.NameString(recentRecordsType);
                 LayoutRecentRecords10();
             }
             else
@@ -69,8 +69,8 @@ namespace KSF_Surf.Views
                 if (recentRecordsData is null) return;
 
                 if (clearPrev) recordsRecentCollectionViewItemsSource.Clear();
-                RRTypeOptionLabel.Text = "Type: " + EnumToString.NameString(recentRecordsType);
-                LayoutRecentRecords(EnumToString.NameString(recentRecordsType));
+                RRTypeOptionButton.Text = EnumToString.NameString(recentRecordsType);
+                LayoutRecentRecords();
             }
 
             Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
@@ -78,7 +78,7 @@ namespace KSF_Surf.Views
 
         // Displaying Changes -------------------------------------------------------------------------------
 
-        private void LayoutRecentRecords(string typeString)
+        private void LayoutRecentRecords()
         {
             foreach (RecentRecordDatum datum in recentRecordsData)
             {
@@ -137,7 +137,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void RRTypeOptionLabel_Tapped(object sender, EventArgs e)
+        private async void RRTypeOptionButton_Clicked(object sender, EventArgs e)
         {
             List<string> types = new List<string>();
             string currentTypeString = EnumToString.NameString(recentRecordsType);

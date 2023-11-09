@@ -47,8 +47,6 @@ namespace KSF_Surf.Views
             Title = title;
             ZonePicker.ItemsSource = zonePickerList;
             MapsMapTopCollectionView.ItemsSource = mapsMapTopCollectionViewItemsSource;
-            StyleOptionLabel.Text = "Style: " + EnumToString.NameString(currentMode);
-            ZoneOptionLabel.Text = "Zone: " + currentZoneString;
         }
 
         // UI -----------------------------------------------------------------------------------------------
@@ -57,8 +55,8 @@ namespace KSF_Surf.Views
         private async Task ChangeRecords(bool clearPrev)
         {
             if (clearPrev) mapsMapTopCollectionViewItemsSource.Clear();
-            StyleOptionLabel.Text = "Style: " + EnumToString.NameString(currentMode);
-            ZoneOptionLabel.Text = "Zone: " + currentZoneString;
+            StyleOptionButton.Text = EnumToString.NameString(currentMode);
+            ZoneOptionButton.Text = currentZoneString;
 
             var topDatum = await mapsViewModel.GetMapTop(game, map, currentMode, currentZone, listIndex);
             topData = topDatum?.data;
@@ -85,6 +83,9 @@ namespace KSF_Surf.Views
 
                 listIndex++;
             }
+
+            // no records
+            if (listIndex == 1) MapsMapTopCollectionViewEmptyLabel.Text = "No records found";
         }
 
         #endregion
@@ -103,7 +104,7 @@ namespace KSF_Surf.Views
             }
         }
 
-        private async void StyleOptionLabel_Tapped(object sender, EventArgs e)
+        private async void StyleOptionButton_Clicked(object sender, EventArgs e)
         {
             List<string> modes = new List<string>();
             string currentModeString = EnumToString.NameString(currentMode);
@@ -133,7 +134,7 @@ namespace KSF_Surf.Views
             isLoading = false;
         }
 
-        private void ZoneOptionLabel_Tapped(object sender, EventArgs e)
+        private void ZoneOptionButton_Clicked(object sender, EventArgs e)
         {
             ZonePicker.SelectedItem = currentZoneString;
             ZonePicker.Focus();

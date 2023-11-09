@@ -11,8 +11,7 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="filter_icon.png"
-                     Clicked="Filter_Pressed">
-        </ToolbarItem>
+                     Clicked="Filter_Pressed"/>
     </ContentPage.ToolbarItems>
 
     <AbsoluteLayout>
@@ -31,13 +30,10 @@
                        Style="{DynamicResource HeaderLabel}"
                        HorizontalOptions="StartAndExpand"/>
 
-                <Label x:Name="ORTypeOptionLabel"
-                       Style="{StaticResource TypeLabelStyle}"
-                       HorizontalOptions="EndAndExpand">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="ORTypeOptionLabel_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Button x:Name="ORTypeOptionButton"
+                        Style="{DynamicResource CollectionOptionButtonStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Clicked="ORTypeOptionButton_Clicked"/>
             </StackLayout>
 
             <CollectionView x:Name="RecordsOldestCollectionView"
@@ -52,7 +48,7 @@
                             SelectionChanged="RecordsOldest_SelectionChanged">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="15, 10, 0, 0">
+                        <Grid Padding="15,10,0,0">
                             <Grid.ColumnDefinitions>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -87,7 +83,7 @@
                     <LinearItemsLayout Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.EmptyView>
-                    <Label Text="Could not reach KSF servers :("
+                    <Label Text="Could not reach KSF servers"
                            TextColor="{DynamicResource GrayTextColor}"
                            FontSize="20"
                            HorizontalOptions="Fill"

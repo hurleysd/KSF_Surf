@@ -82,11 +82,8 @@ namespace KSF_Surf.Views
                 listIndex++;
             }
 
-            if (listIndex == 0) // no (in)complete maps
-            {
-                MapsCompletionCollectionViewEmptyLabel.Text = "None ! "
-                    + ((completionType == PlayerCompletionTypeEnum.COMPLETE) ? ":(" :  ":)");
-            }
+            // no (in)complete maps
+            if (listIndex == 1) MapsCompletionCollectionViewEmptyLabel.Text = "No records found";
         }
 
         #endregion
