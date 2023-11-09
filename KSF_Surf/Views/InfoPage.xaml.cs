@@ -29,7 +29,9 @@ namespace KSF_Surf.Views
                 "MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER " +
                 "IN AN ACTION OF CONTRACT,TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
 
+            SkiaSharpLabel.Text = "Forms9Patch\n\nThe MIT License (MIT)\n\nCopyright(c) 2015-2016 Xamarin, Inc.\nCopyright(c) 2017-2018 Microsoft Corporation\n\nAll rights reserved.\n\n" + MITcontent;
             Forms9PatchLabel.Text = "Forms9Patch\n\nThe MIT License (MIT)\n\nCopyright(c) 42nd Parallel\n\nAll rights reserved.\n\n" + MITcontent;
+            MicrochartsLabel.Text = "Microcharts.Forms\n\nThe MIT License (MIT)\n\nCopyright(c) Aloïs Deniel, Ed Lomonaco\n\nAll rights reserved.\n\n" + MITcontent;
             NETStandardLibraryLabel.Text = ".NET Runtime\n\nThe MIT License (MIT)\n\nCopyright(c) .NET Foundation and Contributors\n\nAll rights reserved.\n\n" + MITcontent;
             RestSharpLabel.Text = "Restsharp\n\nCopyright 2009-2021 John Sheehan, Andrew Young, Alexey Zimarev and RestSharp community\n\nSPDX - License - Identifier: Apache - 2.0";
             XamarinAndroidXCore.Text = "Xamarin.AndroidX.Core\n\nThe MIT License (MIT)\n\nCopyright(c) .NET Foundation Contributors\n\n" + MITcontent;

@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Forms9Patch="clr-namespace:Forms9Patch;assembly=Forms9Patch"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              mc:Ignorable="d"
              x:Class="KSF_Surf.Views.MapsMapCPRPage"
              Title="Comparing PR to WR"
@@ -29,10 +30,14 @@
                                    MinFontSize="14"
                                    Margin="20,15,20,0"/>
                 <!-- CPR -->
+                <Frame Style="{DynamicResource ChartFrameStyle}"
+                       Margin="15,10,15,15">
+                    <microcharts:ChartView x:Name="CPRChart"/>
+                </Frame>
+
                 <StackLayout x:Name="CPRStack"
                              Padding="10,0,10,30"
                              Orientation="Vertical"/>
-
             </StackLayout>
         </ScrollView>
         <ActivityIndicator x:Name="LoadingAnimation"

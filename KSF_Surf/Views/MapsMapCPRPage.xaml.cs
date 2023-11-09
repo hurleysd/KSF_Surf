@@ -2,8 +2,11 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using SkiaSharp;
+using Microcharts;
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using System;
 
 namespace KSF_Surf.Views
 {
@@ -12,7 +15,6 @@ namespace KSF_Surf.Views
     {
         private readonly MapsViewModel mapsViewModel;
         private bool hasLoaded = false;
-        private readonly int GRIDFONT = 18;
 
         // objects used by "Compare to World Record" call
         private List<MapComparePersonalRecordDetails> CPRDetails;
@@ -40,7 +42,7 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangePRDetails()
+        private async Task ChangeCPRDetails()
         {
             var cprDatum = await mapsViewModel.GetMapCPR(game, mode, map, PlayerTypeEnum.STEAM_ID, playerSteamID);
             CPRDetails = cprDatum?.data.CPR;
@@ -49,13 +51,15 @@ namespace KSF_Surf.Views
             mapType = (MapTypeEnum)int.Parse(cprDatum.data.mapType);
 
             WRPlayer.Text = "CPR vs " + StringFormatter.CountryEmoji(cprDatum.data.basicInfoWR.country) + " " + cprDatum.data.basicInfoWR.name;
-            LayoutPRDetails();
+            LayoutCPRDetails();
+            LayoutCPRChart();
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
-        private void LayoutPRDetails()
+        private void LayoutCPRDetails()
         {
+            int fontsize = 18;
             string units = " u/s";
             int i = 0;
 
@@ -86,16 +90,16 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = StringFormatter.RankTimeString(zoneCPR.playerTime),
-                            Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT,
-                            IsVisible = i != 0
-                        },
-                        new Label {
                             Text = playerVel + units,
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT
+                            FontSize = fontsize
                         },
+                        new Label {
+                            Text = StringFormatter.RankTimeString(zoneCPR.playerTime),
+                            Style = App.Current.Resources["LeftColStyle"] as Style,
+                            FontSize = fontsize,
+                            IsVisible = i != 0
+                        }
                     }
                 }, 0, 0);
 
@@ -103,16 +107,16 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = StringFormatter.RankTimeString(zoneCPR.WRTime),
-                            Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT,
-                            IsVisible = i != 0
-                        },
-                        new Label {
                             Text = wrVel + units,
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT
+                            FontSize = fontsize
                         },
+                        new Label {
+                            Text = StringFormatter.RankTimeString(zoneCPR.WRTime),
+                            Style = App.Current.Resources["LeftColStyle"] as Style,
+                            FontSize = fontsize,
+                            IsVisible = i != 0
+                        }
                     }
                 }, 1, 0);
 
@@ -128,16 +132,16 @@ namespace KSF_Surf.Views
                 {
                     Children = {
                         new Label {
-                            Text = "(" + timePrefix + StringFormatter.RankTimeString(zoneCPR.timeDiff) + ")",
-                            Style = App.Current.Resources["RightColStyle"] as Style,
-                            FontSize = GRIDFONT,
-                            IsVisible = i != 0
-                        },
-                        new Label {
                             Text = "[" + velPrefix + diffVel + units + "]",
                             Style = App.Current.Resources["RightColStyle"] as Style,
-                            FontSize = GRIDFONT
+                            FontSize = fontsize
                         },
+                        new Label {
+                            Text = "(" + timePrefix + StringFormatter.RankTimeString(zoneCPR.timeDiff) + ")",
+                            Style = App.Current.Resources["RightColStyle"] as Style,
+                            FontSize = fontsize,
+                            IsVisible = i != 0
+                        }
                     }
                 }, 2, 0);
 
@@ -153,6 +157,70 @@ namespace KSF_Surf.Views
             }               
         }
 
+        private void LayoutCPRChart()
+        {
+            // parse out time diffs for colors
+            List<float> timeDiffs = new List<float>();
+            float maxTimeDiff = float.MinValue;
+            float minTimeDiff = float.MaxValue;
+
+            foreach (MapComparePersonalRecordDetails zoneCPR in CPRDetails)
+            {
+                float timeDiff = float.Parse(zoneCPR.timeDiff);
+                timeDiffs.Add(timeDiff);
+
+                if (timeDiff >= maxTimeDiff) maxTimeDiff = timeDiff;
+                if (timeDiff <= minTimeDiff) minTimeDiff = timeDiff;
+            }
+
+            List<ChartEntry> chartEntries = new List<ChartEntry>();
+
+            int i = 0;
+            foreach (MapComparePersonalRecordDetails zoneCPR in CPRDetails)
+            {
+                byte rColorDiff = 0;
+                byte gColorDiff = 0;
+                byte bColorDiff = 0;
+
+                if (timeDiffs[i] > 0) // gradient to red
+                {
+                    byte gbColorDiff = (byte)((int)(timeDiffs[i] / maxTimeDiff * 255));
+                    gColorDiff = gbColorDiff;
+                    bColorDiff = gbColorDiff;
+                }
+                else if (timeDiffs[i] < 0) // gradient to green
+                {
+                    byte rbColorDiff = (byte)((int)(timeDiffs[i] / minTimeDiff * 255));
+                    rColorDiff = rbColorDiff;
+                    bColorDiff = rbColorDiff;
+                }
+
+                ChartEntry entry = new ChartEntry(timeDiffs[i])
+                {
+                    Color = new SKColor((byte)(255 - rColorDiff), (byte)(255 - gColorDiff), (byte)(255 - bColorDiff)),
+                    Label = StringFormatter.ZoneChartString(zoneCPR.zoneID, mapType, RecordComparisonTypeEnum.CPR),
+                    ValueLabel = " " // if value label is empty, label won't show for some reason 
+                };
+
+                chartEntries.Add(entry);
+                i++;
+            }
+
+            CPRChart.Chart = new LineChart { 
+                Entries = chartEntries,
+                MaxValue = maxTimeDiff,
+                MinValue = minTimeDiff,
+                LineMode = LineMode.Straight,
+                BackgroundColor = SKColors.Gray,
+                Margin = 20,
+                LabelTextSize = 32,
+                LabelColor = SKColors.White,
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+                PointSize = 15
+            };
+        }
+
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
         #region events
@@ -162,7 +230,7 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangePRDetails();
+                await ChangeCPRDetails();
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapCPRScrollView.IsVisible = true;

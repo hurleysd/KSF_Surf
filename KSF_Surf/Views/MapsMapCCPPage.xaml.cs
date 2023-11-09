@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using SkiaSharp;
+using Microcharts;
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
 
@@ -12,7 +14,6 @@ namespace KSF_Surf.Views
     {
         private readonly MapsViewModel mapsViewModel;
         private bool hasLoaded = false;
-        private readonly int GRIDFONT = 18;
 
         // objects used by "Compare to World Record by Checkpoints" call
         private List<MapComapreCheckPointsDetails> CCPDetails;
@@ -39,20 +40,22 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
-        private async Task ChangePRDetails()
+        private async Task ChangeCCPDetails()
         {
             var ccpDatum = await mapsViewModel.GetMapCCP(game, mode, map, PlayerTypeEnum.STEAM_ID, playerSteamID);
             CCPDetails = ccpDatum?.data.CCP;
             if (CCPDetails is null || CCPDetails.Count < 1) return;
 
             WRPlayer.Text = "CCP vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
-            LayoutPRDetails();
+            LayoutCCPDetails();
+            LayoutCCPChart();
         }
 
         // Displaying Changes -------------------------------------------------------------------------------
 
-        private void LayoutPRDetails()
+        private void LayoutCCPDetails()
         {
+            int fontsize = 18;
             string units = " u/s";
             int i = 0;
 
@@ -85,13 +88,13 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = StringFormatter.RankTimeString(zoneCCP.cpTimePlayer),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT,
+                            FontSize = fontsize,
                         },
                         new Label {
                             Text = playerVel + units,
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT
-                        },
+                            FontSize = fontsize
+                        }
                     }
                 }, 0, 0);
 
@@ -101,13 +104,13 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = StringFormatter.RankTimeString(zoneCCP.cpTimeWR),
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT,
+                            FontSize = fontsize,
                         },
                         new Label {
                             Text = wrVel + units,
                             Style = App.Current.Resources["LeftColStyle"] as Style,
-                            FontSize = GRIDFONT
-                        },
+                            FontSize = fontsize
+                        }
                     }
                 }, 1, 0);
 
@@ -131,13 +134,13 @@ namespace KSF_Surf.Views
                         new Label {
                             Text = "(" + timePrefix + timeString + ")",
                             Style = App.Current.Resources["RightColStyle"] as Style,
-                            FontSize = GRIDFONT
+                            FontSize = fontsize
                         },
                         new Label {
                             Text = "[" + velPrefix + diffVel + units + "]",
                             Style = App.Current.Resources["RightColStyle"] as Style,
-                            FontSize = GRIDFONT
-                        },
+                            FontSize = fontsize
+                        }
                     }
                 }, 2, 0);
 
@@ -153,6 +156,72 @@ namespace KSF_Surf.Views
             }     
         }
 
+        private void LayoutCCPChart()
+        {
+            // parse out time diffs for colors
+            List<float> timeDiffs = new List<float>();
+            float maxTimeDiff = float.MinValue;
+            float minTimeDiff = float.MaxValue;
+
+            foreach (MapComapreCheckPointsDetails zoneCCP in CCPDetails)
+            {
+                float playerTime = float.Parse(zoneCCP.cpTimePlayer);
+                float wrTime = float.Parse(zoneCCP.cpTimeWR);
+                float timeDiff = playerTime - wrTime;
+                timeDiffs.Add(timeDiff);
+
+                if (timeDiff >= maxTimeDiff) maxTimeDiff = timeDiff;
+                if (timeDiff <= minTimeDiff) minTimeDiff = timeDiff;
+            }
+
+            List<ChartEntry> chartEntries = new List<ChartEntry>();
+
+            int i = 0;
+            foreach (MapComapreCheckPointsDetails zoneCCP in CCPDetails)
+            {
+                byte rColorDiff = 0;
+                byte gColorDiff = 0;
+                byte bColorDiff = 0;
+
+                if (timeDiffs[i] > 0) // gradient to red
+                {
+                    byte gbColorDiff = (byte)((int)(timeDiffs[i] / maxTimeDiff * 255));
+                    gColorDiff = gbColorDiff;
+                    bColorDiff = gbColorDiff;
+                }
+                else if (timeDiffs[i] < 0) // gradient to green
+                {
+                    byte rbColorDiff = (byte)((int)(timeDiffs[i] / minTimeDiff * 255));
+                    rColorDiff = rbColorDiff;
+                    bColorDiff = rbColorDiff;
+                }
+
+                ChartEntry entry = new ChartEntry(timeDiffs[i])
+                {
+                    Color = new SKColor((byte)(255 - rColorDiff), (byte)(255 - gColorDiff), (byte)(255 - bColorDiff)),
+                    Label = StringFormatter.ZoneChartString(zoneCCP.zoneID, MapTypeEnum.STAGED, RecordComparisonTypeEnum.CCP),
+                    ValueLabel = " " // if value label is empty, label won't show for some reason 
+                };
+
+                chartEntries.Add(entry);
+                i++;
+            }
+
+            CCPChart.Chart = new LineChart {
+                Entries = chartEntries,
+                MaxValue = maxTimeDiff,
+                MinValue = minTimeDiff,
+                LineMode = LineMode.Straight,
+                BackgroundColor = SKColors.Gray,
+                Margin = 20,
+                LabelTextSize = 32,
+                LabelColor = SKColors.White,
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+                PointSize = 15
+            };
+        }
+
         #endregion
         // Event Handlers ----------------------------------------------------------------------------------
         #region events
@@ -162,7 +231,7 @@ namespace KSF_Surf.Views
             if (!hasLoaded)
             {
                 hasLoaded = true;
-                await ChangePRDetails();
+                await ChangeCCPDetails();
 
                 LoadingAnimation.IsRunning = false;
                 MapsMapCCPScrollView.IsVisible = true;

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.6" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2612" />  

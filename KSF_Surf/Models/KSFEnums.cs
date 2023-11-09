@@ -101,4 +101,10 @@
         STAGE,
         BONUS
     }
+
+    public enum RecordComparisonTypeEnum
+    {
+        CPR,
+        CCP
+    }
 }

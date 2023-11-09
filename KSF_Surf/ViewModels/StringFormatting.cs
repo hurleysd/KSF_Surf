@@ -473,6 +473,29 @@ namespace KSF_Surf.ViewModels
             return zoneString;
         }
 
+        public static string ZoneChartString(string z, MapTypeEnum mapType, RecordComparisonTypeEnum compType)
+        {
+            int zone = int.Parse(z);
+            string zoneString = "";
+
+            if (z == "0")
+            {
+                if (compType == RecordComparisonTypeEnum.CPR) zoneString = "E"; // end
+                else if (compType == RecordComparisonTypeEnum.CCP) zoneString = "M"; // main
+            }
+            else
+            {
+                if (mapType == MapTypeEnum.STAGED) zoneString = "S" + zone;
+                else if (mapType == MapTypeEnum.LINEAR)
+                {
+                    if (zone == 1) zoneString = "S"; // start
+                    else zoneString = "CP" + (zone - 1);
+                }
+            }
+
+            return zoneString;
+        }
+
         // RANKS ------------------------------------------------------------------------------
 
         public static readonly string[] RankTitles = { 

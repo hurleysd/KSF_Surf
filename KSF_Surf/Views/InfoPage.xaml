@@ -40,7 +40,19 @@
 
             <BoxView Style="{DynamicResource SeparatorStyle}"/>
 
+            <Label x:Name="SkiaSharpLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
             <Label x:Name="Forms9PatchLabel"
+                   Style="{DynamicResource SmallCreditLabelStyle}"
+                   Margin="0,5,0,5"/>
+
+            <BoxView Style="{DynamicResource SeparatorStyle}"/>
+
+            <Label x:Name="MicrochartsLabel"
                    Style="{DynamicResource SmallCreditLabelStyle}"
                    Margin="0,5,0,5"/>
 
