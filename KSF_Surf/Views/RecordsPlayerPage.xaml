@@ -44,18 +44,12 @@
                             </Grid.RowDefinitions>
 
                             <Frame x:Name="PlayerImageFrame"
-                                   CornerRadius="5"
-                                   IsClippedToBounds="True"
-                                   HasShadow="False"
-                                   Padding="0"
+                                   Style="{StaticResource PlayerImageFrameStyle}"
                                    Grid.RowSpan="3"
                                    Grid.Column="0"
                                    Grid.Row="0"
                                    Margin="5,5,10,5">
-                                <Frame CornerRadius="5"
-                                       IsClippedToBounds="True"
-                                       HasShadow="False"
-                                       Padding="0"
+                                <Frame Style="{StaticResource PlayerImageFrameStyle}"
                                        Margin="2,2,2,2">
                                     <AbsoluteLayout>
                                         <Image x:Name ="PlayerImage"
