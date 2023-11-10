@@ -11,7 +11,6 @@ namespace KSF_Surf.Views
     public partial class MapsMapPRDetailsPage : ContentPage
     {
         private readonly MapsViewModel mapsViewModel;
-        private readonly string mapsMapTitle;
         private bool hasLoaded = false;
 
         // objects used by "Personal Zone Records" call
@@ -24,9 +23,8 @@ namespace KSF_Surf.Views
         
         private string playerSteamID;
 
-        public MapsMapPRDetailsPage(string title, GameEnum game, ModeEnum mode,ModeEnum defaultMode, string map, string playerSteamID)
+        public MapsMapPRDetailsPage(string title, GameEnum game, ModeEnum mode, ModeEnum defaultMode, string map, string playerSteamID)
         {
-            mapsMapTitle = title;
             this.game = game;
             this.mode = (mode == ModeEnum.NONE)? defaultMode : mode;
             this.map = map;

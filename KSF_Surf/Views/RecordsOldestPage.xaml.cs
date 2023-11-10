@@ -42,12 +42,19 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+            ChangeTitle(game, mode);
             RecordsOldestCollectionView.ItemsSource = recordsOldestCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
+
+        private void ChangeTitle(GameEnum game, ModeEnum mode)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " Records";
+        }
 
         private async Task ChangeRecords(bool clearPrev)
         {
@@ -58,7 +65,7 @@ namespace KSF_Surf.Views
             if (clearPrev) recordsOldestCollectionViewItemsSource.Clear();
             LayoutRecords();
             ORTypeOptionButton.Text = EnumToString.NameString(oldestType);
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+            ChangeTitle(game, mode);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

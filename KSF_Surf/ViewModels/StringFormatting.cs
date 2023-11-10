@@ -31,7 +31,7 @@ namespace KSF_Surf.ViewModels
             switch (game)
             {
                 case GameEnum.CSS: gameString = "CSS"; break;
-                case GameEnum.CSS100T: gameString = "CSS100T"; break;
+                case GameEnum.CSS100T: gameString = "100T"; break;
                 case GameEnum.CSGO: gameString = "CSGO"; break;
                 default: break;
             }

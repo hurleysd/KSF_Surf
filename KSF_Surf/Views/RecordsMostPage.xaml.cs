@@ -50,13 +50,20 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+            ChangeTitle(game, mode);
             MostTypePicker.ItemsSource = EnumToString.MostTypeNames;
             RecordsMostCollectionView.ItemsSource = recordsMostCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
+
+        private void ChangeTitle(GameEnum game, ModeEnum mode)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " Records";
+        }
 
         private async Task ChangeMostByType(bool clearPrev)
         {
@@ -179,7 +186,7 @@ namespace KSF_Surf.Views
             if (clearPrev) recordsMostCollectionViewItemsSource.Clear();
             LayoutMostByType(players, values, links);
             MostTypeOptionButton.Text = EnumToString.NameString(mostType);
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+            ChangeTitle(game, mode);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

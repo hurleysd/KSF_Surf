@@ -24,9 +24,20 @@ namespace KSF_Surf.Views
             mode = defaultMode;
 
             InitializeComponent();
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+            ChangeTitle(game, mode);
         }
 
+        // UI -----------------------------------------------------------------------------------------------
+        #region UI
+
+        private void ChangeTitle(GameEnum game, ModeEnum mode)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " Records";
+        }
+
+        #endregion
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
         #region events
 
@@ -39,7 +50,8 @@ namespace KSF_Surf.Views
         {
             game = newGame;
             mode = newMode;
-            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
+
+            ChangeTitle(game, mode);
         }
 
         private async void RecentRecords_Tapped(object sender, EventArgs e)

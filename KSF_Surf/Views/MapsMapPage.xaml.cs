@@ -265,7 +265,7 @@ namespace KSF_Surf.Views
 
             if (BaseViewModel.HasConnection())
             {
-                await Navigation.PushAsync(new MapsMapPRPage(Title, game, map, 
+                await Navigation.PushAsync(new MapsMapPRPage(game, map, 
                     (stageCount + bonusCount > 0), (mapType == MapTypeEnum.STAGED)));
             }
             else await ViewsCommon.DisplayNoConnectionAlert(this);

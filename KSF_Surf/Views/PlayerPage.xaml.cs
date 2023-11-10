@@ -67,6 +67,13 @@ namespace KSF_Surf.Views
         // UI -----------------------------------------------------------------------------------------------
         #region UI
 
+        private void ChangeTitle(GameEnum game, ModeEnum mode, string playerName)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " " + playerName;
+        }
+
         private async Task ChangePlayerInfo(GameEnum newGame, ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
             var playerInfoDatum = await playerViewModel.GetPlayerInfo(newGame, newMode, newPlayerType, newPlayerValue);
@@ -84,7 +91,7 @@ namespace KSF_Surf.Views
             playerSteamID = playerInfoData.basicInfo.steamID;
             playerRank = playerInfoData.SurfRank;
 
-            Title = " [" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] " + playerInfoData.basicInfo.name;
+            ChangeTitle(game, mode, playerInfoData.basicInfo.name);
 
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();

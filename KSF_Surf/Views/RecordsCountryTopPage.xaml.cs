@@ -41,13 +41,20 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            ChangeTitle(game, mode);
             CountryPicker.ItemsSource = StringFormatter.CountryTopCountries;
             RecordsCountryTopCollectionView.ItemsSource = recordsCountryTopCollectionViewItemsSource;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
+
+        private void ChangeTitle(GameEnum game, ModeEnum mode)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " Records";
+        }
 
         private async Task ChangeCountryTop(bool clearPrev)
         {
@@ -58,7 +65,7 @@ namespace KSF_Surf.Views
             if (clearPrev) recordsCountryTopCollectionViewItemsSource.Clear();
             LayoutCountryTop();
             CountryOptionButton.Text = StringFormatter.CountryEmoji(country);
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            ChangeTitle(game, mode);
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

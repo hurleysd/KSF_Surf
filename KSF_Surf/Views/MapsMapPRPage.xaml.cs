@@ -11,7 +11,6 @@ namespace KSF_Surf.Views
     public partial class MapsMapPRPage : ContentPage
     {
         private readonly MapsViewModel mapsViewModel;
-        private readonly string mapsMapTitle;
         private bool hasLoaded = false;
 
         // objects used by "Personal Record" call
@@ -31,9 +30,8 @@ namespace KSF_Surf.Views
         private string playerRank;
         private readonly string meSteamID = PropertiesDict.GetSteamID();
 
-        public MapsMapPRPage(string mapsMapTitle, GameEnum game, string map, bool hasZones, bool hasStages)
+        public MapsMapPRPage(GameEnum game, string map, bool hasZones, bool hasStages)
         {
-            this.mapsMapTitle = mapsMapTitle;
             this.game = game;
             this.map = map;
             this.hasZones = hasZones;
@@ -46,13 +44,20 @@ namespace KSF_Surf.Views
             mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
-            Title = mapsMapTitle.Replace("]", "," + EnumToString.NameString(defaultMode) + "]");
+            ChangeTitle(game, defaultMode, map);
             if (!hasZones) ZoneRecordsOption.IsVisible = false;
             if (!hasStages) CCPOption.IsVisible = false;
         }
 
         // UI -----------------------------------------------------------------------------------------------
         #region UI
+
+        private void ChangeTitle(GameEnum game, ModeEnum mode, string map)
+        {
+            Title = "[" + EnumToString.NameString(game) + "]";
+            if (mode != ModeEnum.FW) Title += "[" + EnumToString.NameString(mode) + "]";
+            Title += " " + map;
+        }
 
         private async Task ChangePR(ModeEnum newMode, PlayerTypeEnum newPlayerType, string newPlayerValue)
         {
@@ -71,7 +76,7 @@ namespace KSF_Surf.Views
             playerType = newPlayerType;
             playerValue = newPlayerValue;
             playerSteamID = prInfoData.basicInfo.steamID;
-            Title = mapsMapTitle.Replace("]", "," + EnumToString.NameString(currentMode) + "]");
+            ChangeTitle(game, currentMode, map);
             PRTitleLabel.Text = StringFormatter.CountryEmoji(prInfoData.basicInfo.country) + " " + prInfoData.basicInfo.name;
 
             if (prInfoData.time is null || prInfoData.time == "0") // no main completion
