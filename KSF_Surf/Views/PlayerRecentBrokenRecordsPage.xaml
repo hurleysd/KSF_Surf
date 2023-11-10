@@ -22,7 +22,9 @@
             <Label Text="Recent Records Lost"
                    Style="{DynamicResource HeaderLabel}"
                    Padding="20,15,10,15"/>
-            
+
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecentBrokenRecordsCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

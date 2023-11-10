@@ -53,7 +53,7 @@
                 <StackLayout x:Name="CountryTopButton"
                              Style="{DynamicResource UntappedStackStyle}">
                     <Label Text="Country Top"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                           Style="{DynamicResource NewPageLabelStyle}"/>
                     <Label Style="{DynamicResource RightArrowStyle}"/>
 
                     <StackLayout.GestureRecognizers>
@@ -79,7 +79,7 @@
                 <StackLayout x:Name="MostButton"
                              Style="{DynamicResource UntappedStackStyle}">
                     <Label Text="Most By Type"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                           Style="{DynamicResource NewPageLabelStyle}"/>
                     <Label Style="{DynamicResource RightArrowStyle}"/>
 
                     <StackLayout.GestureRecognizers>
@@ -93,7 +93,7 @@
                 <StackLayout x:Name="OldestRecordsButton"
                              Style="{DynamicResource UntappedStackStyle}">
                     <Label Text="Oldest Records"
-                               Style="{DynamicResource NewPageLabelStyle}"/>
+                           Style="{DynamicResource NewPageLabelStyle}"/>
                     <Label Style="{DynamicResource RightArrowStyle}"/>
 
                     <StackLayout.GestureRecognizers>

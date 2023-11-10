@@ -33,9 +33,7 @@
                        Focused="SearchBar_Focused"
                        Unfocused="SearchBar_Unfocused"/>
 
-            <BoxView Color="{DynamicResource ViewBackgroundColor}"
-                     HeightRequest="1"
-                     HorizontalOptions="Fill"/>
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
 
             <!-- Maps List -->
             <CollectionView x:Name="MapsCollectionView"

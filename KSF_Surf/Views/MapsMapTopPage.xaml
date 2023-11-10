@@ -39,6 +39,8 @@
                         Unfocused="ZonePicker_Unfocused"/>
             </StackLayout>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="MapsMapTopCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

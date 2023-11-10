@@ -40,6 +40,8 @@
                         Unfocused="MostTypePicker_Unfocused"/>
             </StackLayout>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecordsMostCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

@@ -27,6 +27,8 @@
                    Style="{DynamicResource HeaderLabel}"
                    Padding="20,15,10,15"/>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecordsTopCountriesCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

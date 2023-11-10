@@ -36,6 +36,8 @@
                         Clicked="RRTypeOptionButton_Clicked"/>
             </StackLayout>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecordsRecentCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

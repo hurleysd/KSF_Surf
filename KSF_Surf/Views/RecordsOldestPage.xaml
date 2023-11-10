@@ -36,6 +36,8 @@
                         Clicked="ORTypeOptionButton_Clicked"/>
             </StackLayout>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecordsOldestCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"

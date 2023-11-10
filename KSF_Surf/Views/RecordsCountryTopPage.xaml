@@ -39,6 +39,8 @@
                         Unfocused="CountryPicker_Unfocused"/>
             </StackLayout>
 
+            <BoxView Style="{DynamicResource CollectionHeaderSeparatorStyle}"/>
+
             <CollectionView x:Name="RecordsCountryTopCollectionView"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"
