@@ -4,7 +4,7 @@ using KSF_Surf.Models;
 
 namespace KSF_Surf.ViewModels
 {
-    internal class PropertiesDict
+    internal static class PropertiesDict
     {
         internal static string GetUserAgent()
         {

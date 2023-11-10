@@ -7,12 +7,12 @@ namespace KSF_Surf.ViewModels
     // Enum to string -------------------------------------------------------------------------
     #region enumtostring
 
-    public static class EnumToString
+    internal static class EnumToString
     {
 
         // GAME -----------------------------------------------------------------------------
 
-        public static string APIString(GameEnum game)
+        internal static string APIString(GameEnum game)
         {
             string gameString = "";
             switch (game)
@@ -25,7 +25,7 @@ namespace KSF_Surf.ViewModels
             return gameString;
         }
 
-        public static string NameString(GameEnum game)
+        internal static string NameString(GameEnum game)
         {
             string gameString = "";
             switch (game)
@@ -40,7 +40,7 @@ namespace KSF_Surf.ViewModels
 
         // SORT -----------------------------------------------------------------------------
 
-        public static string APIString(SortEnum sort)
+        internal static string APIString(SortEnum sort)
         {
             string sortString = "";
             switch (sort)
@@ -57,7 +57,7 @@ namespace KSF_Surf.ViewModels
 
         // MAP TYPE ---------------------------------------------------------------------------
 
-        public static string NameString(MapTypeEnum type)
+        internal static string NameString(MapTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -71,21 +71,21 @@ namespace KSF_Surf.ViewModels
 
         // MODE -------------------------------------------------------------------------------
 
-        public static readonly string[] ModeNames = { 
+        internal static readonly string[] ModeNames = { 
             "FW",
             "HSW",
             "SW",
             "BW"
         };
 
-        public static readonly string[] ModeFullNames = {
+        internal static readonly string[] ModeFullNames = {
             "Forwards",
             "Half-Sideways",
             "Sideways",
             "Backwards"
         };
 
-        public static string APIString(ModeEnum mode)
+        internal static string APIString(ModeEnum mode)
         {
             string modeString = "";
             switch (mode)
@@ -99,7 +99,7 @@ namespace KSF_Surf.ViewModels
             return modeString;
         }
 
-        public static string NameString(ModeEnum mode)
+        internal static string NameString(ModeEnum mode)
         {
             string modeString = "";
             switch (mode)
@@ -113,7 +113,7 @@ namespace KSF_Surf.ViewModels
             return modeString;
         }
 
-        public static string FullNameString(ModeEnum mode)
+        internal static string FullNameString(ModeEnum mode)
         {
             string modeString = "";
             switch (mode)
@@ -129,7 +129,7 @@ namespace KSF_Surf.ViewModels
 
         // RECENT RECORDS TYPE ----------------------------------------------------------------
 
-        public static readonly string[] RecentRecordsTypeNames = { 
+        internal static readonly string[] RecentRecordsTypeNames = { 
             "Map",
             "Top10",
             "Stage",
@@ -137,7 +137,7 @@ namespace KSF_Surf.ViewModels
             "All WRs"
         };
 
-        public static string APIString(RecentRecordsTypeEnum type)
+        internal static string APIString(RecentRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -152,7 +152,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(RecentRecordsTypeEnum type)
+        internal static string NameString(RecentRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -169,7 +169,7 @@ namespace KSF_Surf.ViewModels
 
         // MOST TYPE --------------------------------------------------------------------------
 
-        public static readonly string[] MostTypeNames = new string[] {
+        internal static readonly string[] MostTypeNames = new string[] {
             "Completion",
             "Current WRs",
             "Current WRCPs",
@@ -187,7 +187,7 @@ namespace KSF_Surf.ViewModels
             "Play Time Month"
         };
 
-        public static string APIString(MostTypeEnum type)
+        internal static string APIString(MostTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -212,7 +212,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(MostTypeEnum type)
+        internal static string NameString(MostTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -239,13 +239,13 @@ namespace KSF_Surf.ViewModels
 
         // OLDEST RECORDS TYPE ----------------------------------------------------------------
 
-        public static readonly string[] OldestRecordsTypeNames = { 
+        internal static readonly string[] OldestRecordsTypeNames = { 
             "Map",
             "Stage",
             "Bonus"
         };
 
-        public static string APIString(OldestRecordsTypeEnum type)
+        internal static string APIString(OldestRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -258,7 +258,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(OldestRecordsTypeEnum type)
+        internal static string NameString(OldestRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -273,7 +273,7 @@ namespace KSF_Surf.ViewModels
 
         // PLAYER TYPE ------------------------------------------------------------------------
 
-        public static string APIString(PlayerTypeEnum type)
+        internal static string APIString(PlayerTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -288,7 +288,7 @@ namespace KSF_Surf.ViewModels
 
         // PLAYER RECORDS TYPE ----------------------------------------------------------------
 
-        public static string APIString(PlayerRecordsTypeEnum type)
+        internal static string APIString(PlayerRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -302,10 +302,10 @@ namespace KSF_Surf.ViewModels
 
         // PLAYER WORLD RECORDS TYPE ----------------------------------------------------------
 
-        public static readonly string[] WorldRecordsTypeAPIs = { "wr", "wrcp", "wrb" };
-        public static readonly string[] WorldRecordsTypeNames = { "WR", "WRCP", "WRB" };
+        internal static readonly string[] WorldRecordsTypeAPIs = { "wr", "wrcp", "wrb" };
+        internal static readonly string[] WorldRecordsTypeNames = { "WR", "WRCP", "WRB" };
 
-        public static string APIString(PlayerWorldRecordsTypeEnum type)
+        internal static string APIString(PlayerWorldRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -318,7 +318,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(PlayerWorldRecordsTypeEnum type)
+        internal static string NameString(PlayerWorldRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -333,7 +333,7 @@ namespace KSF_Surf.ViewModels
 
         // PLAYER COMPLETION TYPE -------------------------------------------------------------
 
-        public static string APIString(PlayerCompletionTypeEnum type)
+        internal static string APIString(PlayerCompletionTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -346,7 +346,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(PlayerCompletionTypeEnum type)
+        internal static string NameString(PlayerCompletionTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -360,7 +360,7 @@ namespace KSF_Surf.ViewModels
 
         // PLAYER OLDEST RECORDS TYPE ---------------------------------------------------------
 
-        public static readonly string[] PlayerOldestRecordsTypeNames = {
+        internal static readonly string[] PlayerOldestRecordsTypeNames = {
             "WR",
             "WRCP",
             "WRB",
@@ -370,7 +370,7 @@ namespace KSF_Surf.ViewModels
             "Bonus"
         };
 
-        public static string APIString(PlayerOldestRecordsTypeEnum type)
+        internal static string APIString(PlayerOldestRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -387,7 +387,7 @@ namespace KSF_Surf.ViewModels
             return typeString;
         }
 
-        public static string NameString(PlayerOldestRecordsTypeEnum type)
+        internal static string NameString(PlayerOldestRecordsTypeEnum type)
         {
             string typeString = "";
             switch (type)
@@ -409,12 +409,12 @@ namespace KSF_Surf.ViewModels
     // Formatting -----------------------------------------------------------------------------
     #region formatting
 
-    public static class StringFormatter
+    internal static class StringFormatter
     {
 
         // STEAM ID ---------------------------------------------------------------------------
 
-        public static string Steam32to64(string steam32)
+        internal static string Steam32to64(string steam32)
         {
             string[] steam32Split = steam32.Split(':');
             if (steam32Split.Length != 3) return "";
@@ -436,7 +436,7 @@ namespace KSF_Surf.ViewModels
 
         // ZONES ------------------------------------------------------------------------------
 
-        public static string ZoneString(string z, bool includeMain, bool fullName)
+        internal static string ZoneString(string z, bool includeMain, bool fullName)
         {
             int zone = int.Parse(z);
             string zoneString = "";
@@ -459,7 +459,7 @@ namespace KSF_Surf.ViewModels
             return zoneString;
         }
 
-        public static string CPRZoneString(string z, MapTypeEnum mapType)
+        internal static string CPRZoneString(string z, MapTypeEnum mapType)
         {
             int zone = int.Parse(z);
             string zoneString = "";
@@ -473,7 +473,7 @@ namespace KSF_Surf.ViewModels
             return zoneString;
         }
 
-        public static string ZoneChartString(string z, MapTypeEnum mapType, RecordComparisonTypeEnum compType)
+        internal static string ZoneChartString(string z, MapTypeEnum mapType, RecordComparisonTypeEnum compType)
         {
             int zone = int.Parse(z);
             string zoneString = "";
@@ -496,7 +496,7 @@ namespace KSF_Surf.ViewModels
 
         // RANKS ------------------------------------------------------------------------------
 
-        public static readonly string[] RankTitles = { 
+        internal static readonly string[] RankTitles = { 
             "MASTER",
             "ELITE",
             "VETERAN",
@@ -515,7 +515,7 @@ namespace KSF_Surf.ViewModels
             "ROOKIE"
         };
 
-        public static readonly Color[] RankColors = {
+        internal static readonly Color[] RankColors = {
             Color.Magenta,
             Color.HotPink,
             Color.Red,
@@ -534,7 +534,7 @@ namespace KSF_Surf.ViewModels
             Color.Gray
         };
 
-        public static string RankTitleString(string rankString, string pointsString)
+        internal static string RankTitleString(string rankString, string pointsString)
         {
             int rank = int.Parse(rankString);
             double points = double.Parse(pointsString);
@@ -562,7 +562,7 @@ namespace KSF_Surf.ViewModels
 
         // COMPLETION PERCENT -----------------------------------------------------------------
     
-        public static string CompletionPercentString(string completeString, string totalString)
+        internal static string CompletionPercentString(string completeString, string totalString)
         {
             int complete = int.Parse(completeString);
             int total = int.Parse(totalString);
@@ -573,7 +573,7 @@ namespace KSF_Surf.ViewModels
 
         // TIME -------------------------------------------------------------------------------
 
-        public static string PlayTimeString(string secondsString, bool abbreviate)
+        internal static string PlayTimeString(string secondsString, bool abbreviate)
         {
             TimeSpan time = TimeSpan.FromSeconds(double.Parse(secondsString));
 
@@ -595,7 +595,7 @@ namespace KSF_Surf.ViewModels
             else return String.Format("{0:#0}m {1:#0}s", time.Minutes, time.Seconds);
         }
 
-        public static string RankTimeString(string secondsString)
+        internal static string RankTimeString(string secondsString)
         {
             if (secondsString == "") return "0.000";
 
@@ -604,9 +604,9 @@ namespace KSF_Surf.ViewModels
             else return String.Format("{0:#0}.{1:000}", time.Seconds, time.Milliseconds);
         }
 
-        public static readonly DateTime KSFStartDate = new DateTime(1970, 1, 1);
+        internal static readonly DateTime KSFStartDate = new DateTime(1970, 1, 1);
 
-        public static string KSFDateString(string secondsString)
+        internal static string KSFDateString(string secondsString)
         {
             if (secondsString == "0") return "Before July 2012";
 
@@ -614,7 +614,7 @@ namespace KSF_Surf.ViewModels
             return String.Format("{0} {1}, {2}", date.ToString("MMM"), date.Day, date.Year);
         }
 
-        public static string LastOnlineString(string secondsString)
+        internal static string LastOnlineString(string secondsString)
         {
             if (secondsString == "0") return "Before July 2012";
 
@@ -625,24 +625,24 @@ namespace KSF_Surf.ViewModels
 
         // POINTS -----------------------------------------------------------------------------
 
-        public static string PointsString(string pointsString)
+        internal static string PointsString(string pointsString)
         {
             return ((int)double.Parse(pointsString)).ToString("N0");
         }
 
-        public static string PointsString(double points)
+        internal static string PointsString(double points)
         {
             return ((int)points).ToString("N0");
         }
 
-        public static string IntString(string numString)
+        internal static string IntString(string numString)
         {
             return int.Parse(numString).ToString("N0");
         }
 
         // COUNTRIES --------------------------------------------------------------------------
 
-        public static readonly string[] CountryTopCountries = {
+        internal static readonly string[] CountryTopCountries = {
             "Argentina", "Australia", "Austria",
             "Belarus", "Belgium", "Brazil", "Bulgaria",
             "Canada", "Chile", "China", "Colombia", "Croatia", "Czech Republic", "Czechia",
@@ -664,7 +664,7 @@ namespace KSF_Surf.ViewModels
             "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay"
         };
 
-        public static string CountryEmoji(string country)
+        internal static string CountryEmoji(string country)
         {
             string emoji;
             switch (country)
