@@ -64,6 +64,7 @@
 
             <Label x:Name="PlayerMeIDLabel"
                    TextColor="{DynamicResource HeaderTextColor}"
+                   FontSize="20"
                    VerticalOptions="Center"
                    Grid.Column="1"
                    Grid.Row="0">

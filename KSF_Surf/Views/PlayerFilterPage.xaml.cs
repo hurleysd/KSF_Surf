@@ -48,7 +48,7 @@ namespace KSF_Surf.Views
             ChangeModeFilter(currentMode);
             ChangePlayerFilter(currentPlayerType);
 
-            PlayerMeIDLabel.Text = "  " + meSteamID;
+            PlayerMeIDLabel.Text = " " + meSteamID;
 
             playerRank = currentPlayerRank;
             RankEntry.Text = playerRank;

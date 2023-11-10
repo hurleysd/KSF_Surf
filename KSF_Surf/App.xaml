@@ -136,6 +136,7 @@
                 <Setter Property="MaxLength" Value="20"/>
                 <Setter Property="HorizontalOptions" Value="Fill"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="FontSize" Value="20"/>
             </Style>
             <Style x:Key="RankEntryStyle" TargetType="Entry">
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
@@ -143,6 +144,7 @@
                 <Setter Property="MaxLength" Value="7"/>
                 <Setter Property="HorizontalOptions" Value="Fill"/>
                 <Setter Property="TextColor" Value="{DynamicResource HeaderTextColor}"/>
+                <Setter Property="FontSize" Value="20"/>
             </Style>
 
             <!-- Button styles -->
