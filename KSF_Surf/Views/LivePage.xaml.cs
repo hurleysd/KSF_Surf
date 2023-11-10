@@ -47,7 +47,7 @@ namespace KSF_Surf.Views
                             lastRefresh = DateTime.Now;
                         }
                     }
-                    else await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
+                    else await ViewsCommon.DisplayNoConnectionAlert(this);
                 }
 
                 LiveRefreshView.IsRefreshing = false;
@@ -62,7 +62,7 @@ namespace KSF_Surf.Views
             if (BaseViewModel.HasConnection()) await LoadServers(true);
             else
             {
-                bool tryAgain = await DisplayAlert("Could not reach KSF servers", "Would you like to retry?", "Retry", "Cancel");
+                bool tryAgain = await DisplayAlert("Could not connect to KSF!", "Would you like to retry?", "Retry", "Cancel");
                 if (tryAgain) await LayoutDesign();
                 else System.Environment.Exit(0); // exit the app (no internet)
             }
@@ -302,7 +302,7 @@ namespace KSF_Surf.Views
                     else App.Current.Properties["steamid"] = BaseViewModel.DEFAULT_ME_STEAM_ID;
                     _ = App.Current.SavePropertiesAsync(); // NO AWAIT
 
-                    bool setMeSteamID = await DisplayAlert("Your Steam ID has not been set.", "Would you like to set it?", "Yes", "No");
+                    bool setMeSteamID = await DisplayAlert("Your Steam ID has not been set", "Would you like to set it?", "Yes", "No");
                     if (setMeSteamID) await Navigation.PushAsync(new SettingsPage());
                 }
 

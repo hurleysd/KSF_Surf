@@ -63,7 +63,7 @@ namespace KSF_Surf.Views
             if (prInfoData is null || prInfoData.basicInfo is null)
             {
                 HidePR();
-                await DisplayAlert("Could not find player profile!", "Invalid SteamID or rank.", "OK");
+                await ViewsCommon.DisplayProfileFailureAlert(this, true);
                 return;
             }
 
@@ -202,7 +202,7 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsMapPRFilterPage(ApplyFilters, currentMode, playerType, 
                     playerSteamID, playerRank, defaultMode, meSteamID));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             await MapsMapPRScrollView.ScrollToAsync(0, 0, true);
         }
@@ -223,7 +223,7 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsMapPRDetailsPage(Title,
                     game, currentMode, defaultMode, map, playerSteamID));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -237,7 +237,7 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsMapCPRPage(Title,
                     game, currentMode, map, playerSteamID));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             CPRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -250,14 +250,9 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsMapCCPPage(Title,
                     game, currentMode, map, playerSteamID));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
  
             CCPButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

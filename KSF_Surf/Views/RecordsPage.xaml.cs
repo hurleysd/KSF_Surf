@@ -50,7 +50,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsRecentPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             RecentRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -63,7 +63,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsTopPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             SurfTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -76,7 +76,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsCountryTopPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             CountryTopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -89,7 +89,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsTopCountriesPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             TopCountriesButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -102,7 +102,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsMostPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             MostButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -115,14 +115,9 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsOldestPage(game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
     }
 

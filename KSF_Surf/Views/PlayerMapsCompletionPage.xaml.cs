@@ -131,7 +131,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new MapsMapPage(mapName, game));
             }
-            else await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         #endregion

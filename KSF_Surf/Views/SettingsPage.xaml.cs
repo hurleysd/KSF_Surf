@@ -101,7 +101,7 @@ namespace KSF_Surf.Views
                     var steamProfileDatum = await playerViewModel.GetPlayerSteamProfile(SteamIDEntry.Text);
                     if (steamProfileDatum is null || steamProfileDatum?.response.players.Count == 0)
                     {
-                        await DisplayAlert("Could not find player profile!", "Invalid SteamID.", "OK");
+                        await ViewsCommon.DisplayProfileFailureAlert(this, false);
                         return;
                     }
                 }
@@ -109,7 +109,7 @@ namespace KSF_Surf.Views
                 await PropertiesDict.SetAll(SteamIDEntry.Text, game, mode);
                 await Navigation.PopAsync();
             }
-            else await DisplayAlert("Could not connect to Steam!", "Please connect to the Internet.", "OK"); 
+            else await ViewsCommon.DisplayNoSteamConnectionAlert(this);
         }
 
         private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS);
@@ -139,7 +139,7 @@ namespace KSF_Surf.Views
                 Uri link = new Uri("https://paypal.me/ksfmobiledev");
                 if (await Launcher.CanOpenAsync(link)) await Launcher.OpenAsync(link);
             }
-            else await DisplayAlert("Could not open web page", "Please connect to the Internet.", "OK");
+            else await ViewsCommon.DisplayNoWebConnectionAlert(this);
 
             DonateButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }

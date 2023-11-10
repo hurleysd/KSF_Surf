@@ -117,7 +117,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsPlayerPage(game, mode, playerSteamID));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         private async void Filter_Pressed(object sender, EventArgs e)
@@ -126,7 +126,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new RecordsFilterPage(ApplyFilters, game, mode, defaultGame, defaultMode));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         internal async void ApplyFilters(GameEnum newGame, ModeEnum newMode)
@@ -146,12 +146,7 @@ namespace KSF_Surf.Views
                 LoadingAnimation.IsRunning = false;
                 isLoading = false;
             }
-            else await DisplayNoConnectionAlert();
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         #endregion

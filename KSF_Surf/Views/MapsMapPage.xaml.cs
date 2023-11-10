@@ -254,7 +254,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new MapsMapTopPage(Title, game, map, stageCount, bonusCount, zonePickerList));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             TopButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -268,14 +268,9 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsMapPRPage(Title, game, map, 
                     (stageCount + bonusCount > 0), (mapType == MapTypeEnum.STAGED)));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             PRButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
     }
 

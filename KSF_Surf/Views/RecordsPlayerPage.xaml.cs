@@ -56,7 +56,7 @@ namespace KSF_Surf.Views
                             lastRefresh = DateTime.Now;
                         }
                     }
-                    else await DisplayAlert("Unable to refresh", "Please connect to the Internet.", "OK");
+                    else await ViewsCommon.DisplayNoConnectionAlert(this);
                 }
 
                 PlayerRefreshView.IsRefreshing = false;
@@ -72,7 +72,7 @@ namespace KSF_Surf.Views
             playerInfoData = playerInfoDatum?.data;
             if (playerInfoData is null || playerInfoData.basicInfo is null)
             {
-                await DisplayAlert("Could not find player profile!", "Invalid SteamID", "OK");
+                await ViewsCommon.DisplayProfileFailureAlert(this, false);
                 return;
             }
 
@@ -379,7 +379,7 @@ namespace KSF_Surf.Views
         private async void Copy_Pressed(object sender, EventArgs e)
         {
             await Clipboard.SetTextAsync(playerSteamID);
-            await DisplayAlert("Steam ID copied to clipboard.", "", "OK");
+            await DisplayAlert("Steam ID copied to clipboard", "", "OK");
         }
 
         private async void RecentRecordsSet_Tapped(object sender, EventArgs e)
@@ -390,7 +390,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new PlayerRecentSetRecordsPage(Title, game, mode, playerType, playerValue));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             RecentRecordsSetButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -403,7 +403,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new PlayerRecentBrokenRecordsPage(Title, game, mode, playerType, playerValue));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             RecentRecordsBrokenButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -416,7 +416,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new PlayerOldestRecordsPage(Title, game, mode, playerType, playerValue, wrsType, hasTop));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             OldestRecordsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -429,7 +429,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new PlayerWorldRecordsPage(Title, game, mode, playerType, playerValue, wrsType));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             WRsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -442,7 +442,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new PlayerCompletionPage(Title, game, mode, playerType, playerValue));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             TierCompletionButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -456,7 +456,7 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, PlayerCompletionTypeEnum.COMPLETE,
                     playerType, playerValue));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             CompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
         }
@@ -470,14 +470,9 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new PlayerMapsCompletionPage(Title, game, mode, PlayerCompletionTypeEnum.INCOMPLETE,
                     playerType, playerValue));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
 
             IncompleteMapsButton.Style = App.Current.Resources["UntappedStackStyle"] as Style;
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion

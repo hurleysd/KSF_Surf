@@ -119,7 +119,7 @@ namespace KSF_Surf.Views
                 await Navigation.PushAsync(new MapsFilterPage(ApplyFilters,
                     currentGame, currentSort, currentMinTier, currentMaxTier, currentMapType, defaultGame));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
@@ -157,7 +157,7 @@ namespace KSF_Surf.Views
             {
                 await Navigation.PushAsync(new MapsMapPage(selectedMap, currentGame));
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         internal async void ApplyFilters(GameEnum game, SortEnum sort, int minTier, int maxTier, MapTypeEnum mapType)
@@ -172,7 +172,7 @@ namespace KSF_Surf.Views
 
                 MapsCollectionView.ScrollTo(0);
             }
-            else await DisplayNoConnectionAlert();
+            else await ViewsCommon.DisplayNoConnectionAlert(this);
         }
 
         private void ChangeDisplayList(List<string> list)
@@ -185,11 +185,6 @@ namespace KSF_Surf.Views
             LoadingAnimation.IsRunning = true;
             ChangeDisplayList(await LoadMaps(defaultGame, SortEnum.NAME, currentMinTier, currentMaxTier, currentMapType)); // initial load of maps
             LoadingAnimation.IsRunning = false;
-        }
-
-        private async Task DisplayNoConnectionAlert()
-        {
-            await DisplayAlert("Could not connect to KSF!", "Please connect to the Internet.", "OK");
         }
 
         #endregion
