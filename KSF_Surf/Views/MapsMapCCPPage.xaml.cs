@@ -47,7 +47,8 @@ namespace KSF_Surf.Views
             CCPDetails = ccpDatum?.data.CCP;
             if (CCPDetails is null || CCPDetails.Count < 1) return;
 
-            WRPlayer.Text = "CCP vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
+            PlayersLabel.Text = "CCP " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfo.country) + " " + ccpDatum.data.basicInfo.name 
+                + " vs " + StringFormatter.CountryEmoji(ccpDatum.data.basicInfoWR.country) + " " + ccpDatum.data.basicInfoWR.name;
             LayoutCCPDetails();
             LayoutCCPChart();
         }

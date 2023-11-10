@@ -20,7 +20,8 @@
             <StackLayout Orientation="Vertical"
                          Padding="0"
                          Spacing="0">
-                <Forms9Patch:Label x:Name="WRPlayer" 
+
+                <Forms9Patch:Label x:Name="PlayersLabel" 
                                    Style="{DynamicResource HeaderLabel}"
                                    FontSize="32"
                                    HorizontalOptions="FillAndExpand"
