@@ -40,10 +40,7 @@ namespace KSF_Surf.Views
 
             InitializeComponent();
 
-            if (currentMode == ModeEnum.NONE)
-            {
-                currentMode = defaultMode;
-            }
+            if (currentMode == ModeEnum.NONE) currentMode = defaultMode;
             ChangeModeFilter(currentMode);
             ChangePlayerFilter(currentPlayerType);
 
