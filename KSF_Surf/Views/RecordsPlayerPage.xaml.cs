@@ -116,8 +116,8 @@ namespace KSF_Surf.Views
             PlayerCountryLabel.Text = StringFormatter.CountryEmoji(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 
             List<string> attributes = new List<string>();
-            if (playerInfoData.banStatus) attributes.Add("BANNED");
-            if (playerInfoData.muteStatus) attributes.Add("MUTED");
+            if (playerInfoData.banStatus.ToString() != "False") attributes.Add("BANNED");
+            if (playerInfoData.muteStatus.ToString() != "False") attributes.Add("MUTED");
             if (playerInfoData.KSFStatus != null) attributes.Add("KSF");
             if (playerInfoData.vipStatus != null) attributes.Add("VIP");
             if (playerInfoData.adminStatus != null) attributes.Add("Admin");

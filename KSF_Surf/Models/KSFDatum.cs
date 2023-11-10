@@ -622,8 +622,8 @@ namespace KSF_Surf.Models
 
     public class PlayerInfoDatum
     {
-        public bool banStatus { get; set; }
-        public bool muteStatus { get; set; }
+        public object banStatus { get; set; }           // false or structure
+        public object muteStatus { get; set; }          // false or structure
         public BasicInfoDatum basicInfo { get; set; }
         
         public string KSFStatus { get; set; }           // "member" or null
