@@ -24,7 +24,7 @@ namespace KSF_Surf.Views
             mode = defaultMode;
 
             InitializeComponent();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
         }
 
         // Event Handlers --------------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ namespace KSF_Surf.Views
         {
             game = newGame;
             mode = newMode;
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
         }
 
         private async void RecentRecords_Tapped(object sender, EventArgs e)

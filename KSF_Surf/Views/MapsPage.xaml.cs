@@ -59,7 +59,7 @@ namespace KSF_Surf.Views
                         return mapsList;
                     }
                     MapsCollectionEmptyViewLabel.Text = "No maps matched your filter";
-                    MapsTab.Title = "Maps [" + EnumToString.NameString(game) + "]";
+                    Title = "[" + EnumToString.NameString(game) + "] Maps";
 
                     detailedMapData = new List<DetailedMapDatum>(dmro.data);
                     currentGame = game;

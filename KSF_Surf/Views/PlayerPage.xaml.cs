@@ -84,9 +84,7 @@ namespace KSF_Surf.Views
             playerSteamID = playerInfoData.basicInfo.steamID;
             playerRank = playerInfoData.SurfRank;
 
-            string playerName = playerInfoData.basicInfo.name;
-            if (playerName.Length > 18) playerName = playerName.Substring(0, 15) + "...";
-            Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = " [" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] " + playerInfoData.basicInfo.name;
 
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();

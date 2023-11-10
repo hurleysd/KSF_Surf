@@ -49,9 +49,7 @@ namespace KSF_Surf.Views
 
         private async Task LoadMapInfo()
         {
-            string mapName = map;
-            if (mapName.Length > 20) mapName = mapName.Substring(0, 17) + "...";
-            MapsMap.Title = mapName + " [" + EnumToString.NameString(game) + "]";
+            Title = "[" + EnumToString.NameString(game) + "] " + map;
 
             // running query and assigning to map information objects
             var mapInfoDatum = await mapsViewModel.GetMapInfo(game, map);
@@ -200,7 +198,7 @@ namespace KSF_Surf.Views
                     Text = StringFormatter.PointsString(points),
                     Style = App.Current.Resources["RightColStyle"] as Style,
                     FontSize = fontsize
-                }); ;
+                });
 
                 i++;
             }
@@ -267,11 +265,7 @@ namespace KSF_Surf.Views
 
             if (BaseViewModel.HasConnection())
             {
-                string mapName = map;
-                if (mapName.Length > 16) mapName = mapName.Substring(0, 13) + "...";
-                string prPageTitle = mapName + " [" + EnumToString.NameString(game) + ",";
-
-                await Navigation.PushAsync(new MapsMapPRPage(prPageTitle, game, map, 
+                await Navigation.PushAsync(new MapsMapPRPage(Title, game, map, 
                     (stageCount + bonusCount > 0), (mapType == MapTypeEnum.STAGED)));
             }
             else await DisplayNoConnectionAlert();

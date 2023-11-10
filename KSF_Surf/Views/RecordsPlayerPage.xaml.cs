@@ -82,9 +82,7 @@ namespace KSF_Surf.Views
             mode = newMode;
             playerSteamID = playerInfoData.basicInfo.steamID;
 
-            string playerName = playerInfoData.basicInfo.name;
-            if (playerName.Length > 18) playerName = playerName.Substring(0, 15) + "...";
-            Title = playerName + " [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = " [" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] " + playerInfoData.basicInfo.name;
 
             wrsType = PlayerWorldRecordsTypeEnum.NONE;
             LayoutPlayerInfo();
@@ -107,9 +105,6 @@ namespace KSF_Surf.Views
 
         private void LayoutPlayerProfile()
         {
-            if (playerSteamProfile is null) PlayerImage.Source = "failed_steam_profile.png";
-            else PlayerImage.Source = playerSteamProfile.avatarfull;
-
             PlayerNameLabel.Text = playerInfoData.basicInfo.name;
             PlayerCountryLabel.Text = StringFormatter.CountryEmoji(playerInfoData.basicInfo.country) + " " + playerInfoData.basicInfo.country;
 

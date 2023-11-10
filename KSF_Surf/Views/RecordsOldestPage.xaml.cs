@@ -42,7 +42,7 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
             RecordsOldestCollectionView.ItemsSource = recordsOldestCollectionViewItemsSource;
         }
 
@@ -58,7 +58,7 @@ namespace KSF_Surf.Views
             if (clearPrev) recordsOldestCollectionViewItemsSource.Clear();
             LayoutRecords();
             ORTypeOptionButton.Text = EnumToString.NameString(oldestType);
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

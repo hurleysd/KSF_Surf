@@ -30,9 +30,9 @@ namespace KSF_Surf.ViewModels
             string gameString = "";
             switch (game)
             {
-                case GameEnum.CSS: gameString = "CS:S"; break;
-                case GameEnum.CSS100T: gameString = "CS:S 100T"; break;
-                case GameEnum.CSGO: gameString = "CS:GO"; break;
+                case GameEnum.CSS: gameString = "CSS"; break;
+                case GameEnum.CSS100T: gameString = "CSS100T"; break;
+                case GameEnum.CSGO: gameString = "CSGO"; break;
                 default: break;
             }
             return gameString;
@@ -478,20 +478,18 @@ namespace KSF_Surf.ViewModels
             int zone = int.Parse(z);
             string zoneString = "";
 
-            if (z == "0")
+            if (zone == 0)
             {
                 if (compType == RecordComparisonTypeEnum.CPR) zoneString = "E"; // end
                 else if (compType == RecordComparisonTypeEnum.CCP) zoneString = "M"; // main
             }
-            else
+            else if (zone == 1)
             {
-                if (mapType == MapTypeEnum.STAGED) zoneString = "S" + zone;
-                else if (mapType == MapTypeEnum.LINEAR)
-                {
-                    if (zone == 1) zoneString = "S"; // start
-                    else zoneString = "CP" + (zone - 1);
-                }
+                if (compType == RecordComparisonTypeEnum.CPR) zoneString = "S"; // start
+                else if (compType == RecordComparisonTypeEnum.CCP) zoneString = "S1";
             }
+            else if (mapType == MapTypeEnum.STAGED) zoneString = "S" + zone;
+            else if (mapType == MapTypeEnum.LINEAR) zoneString = "CP" + (zone - 1);
 
             return zoneString;
         }

@@ -46,7 +46,7 @@ namespace KSF_Surf.Views
             mapsViewModel = new MapsViewModel();
 
             InitializeComponent();
-            Title = mapsMapTitle + " " + EnumToString.NameString(defaultMode) + "]";
+            Title = mapsMapTitle.Replace("]", "," + EnumToString.NameString(defaultMode) + "]");
             if (!hasZones) ZoneRecordsOption.IsVisible = false;
             if (!hasStages) CCPOption.IsVisible = false;
         }
@@ -71,7 +71,7 @@ namespace KSF_Surf.Views
             playerType = newPlayerType;
             playerValue = newPlayerValue;
             playerSteamID = prInfoData.basicInfo.steamID;
-            Title = mapsMapTitle + " " + EnumToString.NameString(currentMode) + "]";
+            Title = mapsMapTitle.Replace("]", "," + EnumToString.NameString(currentMode) + "]");
             PRTitleLabel.Text = StringFormatter.CountryEmoji(prInfoData.basicInfo.country) + " " + prInfoData.basicInfo.name;
 
             if (prInfoData.time is null || prInfoData.time == "0") // no main completion

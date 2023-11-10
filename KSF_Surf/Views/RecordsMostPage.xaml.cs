@@ -50,7 +50,7 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
             MostTypePicker.ItemsSource = EnumToString.MostTypeNames;
             RecordsMostCollectionView.ItemsSource = recordsMostCollectionViewItemsSource;
         }
@@ -179,7 +179,7 @@ namespace KSF_Surf.Views
             if (clearPrev) recordsMostCollectionViewItemsSource.Clear();
             LayoutMostByType(players, values, links);
             MostTypeOptionButton.Text = EnumToString.NameString(mostType);
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

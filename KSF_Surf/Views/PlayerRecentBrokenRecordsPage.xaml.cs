@@ -81,10 +81,8 @@ namespace KSF_Surf.Views
                 listIndex++;
             }
 
-            if (listIndex == 1) // no recently broken records
-            {
-                RecentBrokenRecordsCollectionViewEmptyLabel.Text = "None! :)";
-            }
+            // no recently broken records
+            if (listIndex == 1)  RecentBrokenRecordsCollectionViewEmptyLabel.Text = "No records found";
         }
 
         #endregion

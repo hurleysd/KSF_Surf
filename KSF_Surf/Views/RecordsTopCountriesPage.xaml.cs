@@ -40,7 +40,7 @@ namespace KSF_Surf.Views
             recordsViewModel = new RecordsViewModel();
 
             InitializeComponent();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
             RecordsTopCountriesCollectionView.ItemsSource = recordsTopCountriesCollectionViewItemsSource;
         }
 
@@ -55,7 +55,7 @@ namespace KSF_Surf.Views
 
             if (clearPrev) recordsTopCountriesCollectionViewItemsSource.Clear();
             LayoutTopCountries();
-            Title = "Records [" + EnumToString.NameString(game) + ", " + EnumToString.NameString(mode) + "]";
+            Title = "[" + EnumToString.NameString(game) + "," + EnumToString.NameString(mode) + "] Records";
         }
 
         // Displaying Changes -------------------------------------------------------------------------------

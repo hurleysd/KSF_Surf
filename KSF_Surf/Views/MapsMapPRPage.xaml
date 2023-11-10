@@ -64,7 +64,7 @@
                         <StackLayout x:Name="CCPButton"
                                      Style="{DynamicResource UntappedStackStyle}">
 
-                            <Label Text="Compare to WR by Checkpoints"
+                            <Label Text="Compare to WR Checkpoints"
                                    Style="{DynamicResource NewPageLabelStyle}"/>
                             <Label Style="{DynamicResource RightArrowStyle}"/>
 

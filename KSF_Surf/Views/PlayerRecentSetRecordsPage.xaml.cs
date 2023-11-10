@@ -76,10 +76,8 @@ namespace KSF_Surf.Views
                 listIndex++;
             }
 
-            if (listIndex == 1) // no recently set records
-            {
-                RecentSetRecordsCollectionViewEmptyLabel.Text = "No records found";
-            }
+            // no recently set records
+            if (listIndex == 1) RecentSetRecordsCollectionViewEmptyLabel.Text = "No records found";
         }
 
         #endregion
