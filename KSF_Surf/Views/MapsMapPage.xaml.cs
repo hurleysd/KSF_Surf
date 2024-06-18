@@ -6,7 +6,6 @@ using Xamarin.Forms;
 using KSF_Surf.Models;
 using KSF_Surf.ViewModels;
 
-
 namespace KSF_Surf.Views
 {
     [DesignTimeVisible(false)]
