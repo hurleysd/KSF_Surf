@@ -18,7 +18,6 @@ namespace KSF_Surf.Views
         // objects for "KSFClan Servers"
         private List<ServerDatum> cssServerData;
         private List<ServerDatum> css100tServerData;
-        private List<ServerDatum> csgoServerData;
 
         // Date of last refresh
         private DateTime lastRefresh = DateTime.Now;
@@ -72,13 +71,11 @@ namespace KSF_Surf.Views
         {
             var css_ServerDatum = await liveViewModel.GetServers(GameEnum.CSS);
             var css100t_ServerDatum = await liveViewModel.GetServers(GameEnum.CSS100T);
-            var csgos_ServerDatum = await liveViewModel.GetServers(GameEnum.CSGO);
             
             cssServerData = css_ServerDatum?.data;
             css100tServerData = css100t_ServerDatum?.data;
-            csgoServerData = csgos_ServerDatum?.data;
 
-            if (cssServerData is null || css100tServerData is null || csgoServerData is null) return;
+            if (cssServerData is null || css100tServerData is null) return;
 
             if (order) OrderServers();
             ChangeServers();
@@ -86,32 +83,20 @@ namespace KSF_Surf.Views
 
         private void OrderServers()
         {
-            if (defaultGame != GameEnum.CSS)
+            LiveServersStack.Children.Clear();
+            LiveServersStack.Children.Add(TopGameLabel);
+
+            if (defaultGame == GameEnum.CSS)
             {
-                LiveServersStack.Children.Clear();
-                LiveServersStack.Children.Add(TopGameLabel);
-
-                if (defaultGame == GameEnum.CSGO)
-                {
-                    TopGameLabel.Text = "Counter-Strike: GO";
-                    BottomGameLabel.Text = "Counter-Strike: Source";
-
-                    LiveServersStack.Children.Add(CSGOGrid);
-                    LiveServersStack.Children.Add(GameServerSeperator);
-                    LiveServersStack.Children.Add(BottomGameLabel);
-                    LiveServersStack.Children.Add(CSSGrid);
-                    LiveServersStack.Children.Add(CSSServerSeperator);
-                    LiveServersStack.Children.Add(CSS100TGrid);
-                }
-                else // CSS100T default game
-                {
-                    LiveServersStack.Children.Add(CSS100TGrid);
-                    LiveServersStack.Children.Add(CSSServerSeperator);
-                    LiveServersStack.Children.Add(CSSGrid);
-                    LiveServersStack.Children.Add(GameServerSeperator);
-                    LiveServersStack.Children.Add(BottomGameLabel);
-                    LiveServersStack.Children.Add(CSGOGrid);
-                }
+                LiveServersStack.Children.Add(CSSGrid);
+                LiveServersStack.Children.Add(CSSServerSeperator);
+                LiveServersStack.Children.Add(CSS100TGrid);
+            }
+            else // CSS100T default game
+            {
+                LiveServersStack.Children.Add(CSS100TGrid);
+                LiveServersStack.Children.Add(CSSServerSeperator);
+                LiveServersStack.Children.Add(CSSGrid);
             }
         }
 
@@ -121,8 +106,6 @@ namespace KSF_Surf.Views
             CSSMapsStack.Children.Clear();
             CSS100TServerStack.Children.Clear();
             CSS100TMapsStack.Children.Clear();
-            CSGOServerStack.Children.Clear();
-            CSGOMapsStack.Children.Clear();
 
             int i = 1;
             int len = cssServerData.Count;
@@ -221,62 +204,6 @@ namespace KSF_Surf.Views
                 if (++i < len)
                 {
                     CSS100TMapsStack.Children.Add(new BoxView
-                    {
-                        Style = App.Current.Resources["MapSeparatorStyle"] as Style
-                    });
-                }
-            }
-
-            i = 1;
-            len = csgoServerData.Count;
-            foreach (ServerDatum datum in csgoServerData)
-            {
-                if (datum.surftimer_servername.Equals("test", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (i == len - 1)
-                    {
-                        CSGOMapsStack.Children.RemoveAt(CSGOMapsStack.Children.Count - 1); // remove separator added at the end of the previous map label
-                        break;
-                    }
-                    else
-                    {
-                        --len;
-                        continue;
-                    }
-                }
-
-                if (datum.surftimer_servername == "EasySurf Europe")
-                {
-                    datum.surftimer_servername = "EasySurf EU";
-                }
-
-                CSGOServerStack.Children.Add(new Label
-                {
-                    Text = datum.surftimer_servername,
-                    Style = App.Current.Resources["LeftColStyle"] as Style
-                });
-
-                Label mapLabel = new Label
-                {
-                    Text = datum.currentmap,
-                    Style = App.Current.Resources["Right2ColStyle"] as Style
-                };
-                var tapMapGestureRecognizer = new TapGestureRecognizer();
-                tapMapGestureRecognizer.Tapped += async (s, e) => {
-                    await Navigation.PushAsync(new MapsMapPage(datum.currentmap, GameEnum.CSGO));
-                };
-                mapLabel.GestureRecognizers.Add(tapMapGestureRecognizer);
-                CSGOMapsStack.Children.Add(mapLabel);
-
-                CSGOMapsStack.Children.Add(new Label
-                {
-                    Text = datum.playersonline + " players, " + StringFormatter.PlayTimeString(datum.timeleft, true) + " left",
-                    Style = App.Current.Resources["Right3ColStyle"] as Style
-                });
-
-                if (++i < len)
-                {
-                    CSGOMapsStack.Children.Add(new BoxView
                     {
                         Style = App.Current.Resources["MapSeparatorStyle"] as Style
                     });

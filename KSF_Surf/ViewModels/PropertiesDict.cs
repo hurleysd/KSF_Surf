@@ -51,7 +51,6 @@ namespace KSF_Surf.ViewModels
                 {
                     case "css": game = GameEnum.CSS; break;
                     case "css100t": game = GameEnum.CSS100T; break;
-                    case "csgo": game = GameEnum.CSGO; break;
                     default: goto case "css";
                 }
             }

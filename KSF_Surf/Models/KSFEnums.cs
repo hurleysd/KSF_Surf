@@ -4,8 +4,7 @@
     {
         NONE,
         CSS,
-        CSS100T,
-        CSGO
+        CSS100T
     }
 
     public enum SortEnum

@@ -82,38 +82,6 @@
                                          Grid.Column="1"/>
                         </Grid>
 
-                        <BoxView x:Name="GameServerSeperator"
-                                 Style="{DynamicResource MiniSeparatorStyle}"/>
-
-                        <Label x:Name="BottomGameLabel"
-                               Text="Counter-Strike: GO"
-                               Style="{DynamicResource HeaderLabel}"
-                               Margin="10,10,0,0"/>
-
-                        <Grid x:Name="CSGOGrid"
-                              Style="{StaticResource ColumnGridStyle}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="115"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackLayout x:Name="CSGOServerStack" 
-                                         Orientation="Vertical"
-                                         Grid.Column="0">
-                                <StackLayout.Spacing>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="Android">23.5</On>
-                                        <On Platform="iOS">22</On>
-                                    </OnPlatform>
-                                </StackLayout.Spacing>
-                            </StackLayout>
-
-                            <StackLayout x:Name="CSGOMapsStack" 
-                                         Orientation="Vertical"
-                                         Spacing="3"
-                                         Grid.Column="1"/>
-                        </Grid>
-
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

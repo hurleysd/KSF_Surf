@@ -19,7 +19,6 @@ namespace KSF_Surf.ViewModels
             {
                 case GameEnum.CSS: gameString = "css"; break;
                 case GameEnum.CSS100T: gameString = "css100t"; break;
-                case GameEnum.CSGO: gameString = "csgo"; break;
                 default: break;
             }
             return gameString;
@@ -32,7 +31,6 @@ namespace KSF_Surf.ViewModels
             {
                 case GameEnum.CSS: gameString = "CSS"; break;
                 case GameEnum.CSS100T: gameString = "100T"; break;
-                case GameEnum.CSGO: gameString = "CSGO"; break;
                 default: break;
             }
             return gameString;

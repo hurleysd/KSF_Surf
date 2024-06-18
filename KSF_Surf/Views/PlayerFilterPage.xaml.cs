@@ -94,7 +94,6 @@ namespace KSF_Surf.Views
             {
                 case GameEnum.CSS: GameCSSLabel.TextColor = untappedTextColor; break;
                 case GameEnum.CSS100T: GameCSS100TLabel.TextColor = untappedTextColor; break;
-                case GameEnum.CSGO: GameCSGOLabel.TextColor = untappedTextColor; break;
                 default: break;
             }
 
@@ -102,7 +101,6 @@ namespace KSF_Surf.Views
             {
                 case GameEnum.CSS: GameCSSLabel.TextColor = tappedTextColor; break;
                 case GameEnum.CSS100T: GameCSS100TLabel.TextColor = tappedTextColor; break;
-                case GameEnum.CSGO:GameCSGOLabel.TextColor = tappedTextColor; break;
             }
 
             resetGame = (newGame != defaultGame);
@@ -165,7 +163,6 @@ namespace KSF_Surf.Views
 
         private void CSSGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS);
         private void CSS100TGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSS100T);
-        private void CSGOGameFilter_Tapped(object sender, EventArgs e) => ChangeGameFilter(GameEnum.CSGO);
 
         private void FWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.FW);
         private void HSWModeFilter_Tapped(object sender, EventArgs e) => ChangeModeFilter(ModeEnum.HSW);

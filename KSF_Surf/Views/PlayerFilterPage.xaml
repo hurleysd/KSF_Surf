@@ -121,7 +121,6 @@
               HorizontalOptions="FillAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -140,15 +139,6 @@
                        Grid.Column="1">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CSS100TGameFilter_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
-
-                <Label x:Name="GameCSGOLabel"
-                       Text="CS:GO"
-                       Style="{StaticResource FilterLabelStyle}"
-                       Grid.Column="2">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CSGOGameFilter_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
