@@ -69,10 +69,33 @@ namespace KSF_Surf.Views
                 if (datum.completedZones is null) datum.completedZones = "0";
                 string mapCompletionString = datum.mapName + " (" + datum.completedZones + "/" + datum.totalZones + ")";
 
-
                 MapTypeEnum mapType = (MapTypeEnum)int.Parse(datum.mapType);
-                string cptypeString = (mapType == MapTypeEnum.LINEAR) ? "CPs" : "Stages";
-                string rrinfoString = datum.cp_count + " " + cptypeString + ", " + datum.b_count + " Bonus";
+                string cptypeString = "";
+                string rrinfoString = "";
+
+                // Sam / Untouch adjusted CP count display to not include the end zone
+                if (mapType == MapTypeEnum.LINEAR)
+                {
+                    cptypeString = "CPs";
+
+                    try
+                    {
+                        int adjustedCPCount = Int32.Parse(datum.cp_count) - 1;
+                        rrinfoString = adjustedCPCount.ToString();
+                    }
+                    catch (FormatException)
+                    {
+                        rrinfoString = datum.cp_count;
+                    }
+
+                    rrinfoString += " " + cptypeString + ", " + datum.b_count + " Bonus";
+                }
+                else if (mapType == MapTypeEnum.STAGED)
+                {
+                    cptypeString = "Stages";
+                    rrinfoString = datum.cp_count + " " + cptypeString + ", " + datum.b_count + " Bonus";
+                }
+
                 if (datum.b_count != "1") rrinfoString += "es";
                 string mapSummaryString = "Tier " + datum.tier + " " + EnumToString.NameString(mapType) + " - " + rrinfoString;
 

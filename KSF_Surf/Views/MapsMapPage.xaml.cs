@@ -87,12 +87,29 @@ namespace KSF_Surf.Views
         {    
             switch (mapType)
             {
-                case MapTypeEnum.LINEAR: MapTypeLabel.Text = "CPs"; break;
-                case MapTypeEnum.STAGED: MapTypeLabel.Text = "Stages"; break;
+                case MapTypeEnum.LINEAR: 
+                    MapTypeLabel.Text = "CPs";
+
+                    // Sam / Untouch adjusted CP count display to not include the end zone
+                    try
+                    {
+                        int adjustedCPCount = Int32.Parse(mapSettings.cp_count) - 1;
+                        CheckpointsLabel.Text = adjustedCPCount.ToString();
+                    }
+                    catch (FormatException)
+                    {
+                        CheckpointsLabel.Text = mapSettings.cp_count;
+                    }
+
+                    break;
+
+                case MapTypeEnum.STAGED: 
+                    MapTypeLabel.Text = "Stages";
+                    CheckpointsLabel.Text = mapSettings.cp_count;
+                    break;
             }
             
             TierLabel.Text = mapSettings.tier;
-            CheckpointsLabel.Text = mapSettings.cp_count;
             BonusesLabel.Text = mapSettings.b_count;
         }
 
