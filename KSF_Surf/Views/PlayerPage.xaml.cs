@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using KSF_Surf.ViewModels;
 using KSF_Surf.Models;
+using P42.Utils;
 
 namespace KSF_Surf.Views
 {
@@ -28,7 +29,7 @@ namespace KSF_Surf.Views
         private string meSteamID = PropertiesDict.GetSteamID();
         private PlayerTypeEnum playerType = PlayerTypeEnum.NONE;
         private string playerValue = "";
-        private string playerSteamID;
+        private string playerSteamID = "";
         private string playerRank;
         private PlayerWorldRecordsTypeEnum wrsType;
         private bool hasTop;
@@ -102,9 +103,10 @@ namespace KSF_Surf.Views
         {
             PlayerImage.Source = "";
 
-            var PlayerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
-            playerSteamProfile = PlayerSteamDatum?.response.players[0];
-
+            var playerSteamDatum = await playerViewModel.GetPlayerSteamProfile(playerSteamID);
+            var playerSteamResponse = playerSteamDatum?.response;
+            if (playerSteamResponse is null || playerSteamResponse.players.IsNullOrEmpty()) return;
+            var playerSteamProfile = playerSteamResponse.players[0];
             if (playerSteamProfile is null) return;
             PlayerImage.Source = playerSteamProfile.avatarfull;
         }

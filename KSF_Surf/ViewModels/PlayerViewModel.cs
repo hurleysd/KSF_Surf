@@ -2,6 +2,7 @@
 using System.Text.Json;
 using RestSharp;
 using KSF_Surf.Models;
+using System;
 
 namespace KSF_Surf.ViewModels
 {
@@ -161,7 +162,7 @@ namespace KSF_Surf.ViewModels
             {
                 Method = Method.Get,
                 RequestFormat = DataFormat.Json
-            }.AddHeader("x-auth-token", Precondition.KSF);
+            };
 
             RestResponse response = await SteamClient.ExecuteAsync(request);
             if (response.StatusCode == System.Net.HttpStatusCode.OK) return JsonSerializer.Deserialize<SteamProfilesRoot>(response.Content);
