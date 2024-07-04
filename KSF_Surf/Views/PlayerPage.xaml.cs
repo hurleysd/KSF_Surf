@@ -16,7 +16,6 @@ namespace KSF_Surf.Views
         private bool hasLoaded = false;
 
         // object used by "Info" call
-        private SteamProfileDatum playerSteamProfile;
         private PlayerInfoDatum playerInfoData;
 
         // variables for current filters
